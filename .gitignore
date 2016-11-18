@@ -1,0 +1,11 @@
+# Intellij IDEA files
+.idea/
+*.iml
+
+# Maven
+target/
+
+# Logger
+logback/
+log/
+log1/
