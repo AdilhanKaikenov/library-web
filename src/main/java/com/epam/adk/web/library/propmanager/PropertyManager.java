@@ -25,9 +25,11 @@ public class PropertyManager {
     }
 
     public static String getProperty(String propertyFileName, String key) {
+        log.debug("Entering getProperty() method, arguments: propertyFileName = {}, key = {}", propertyFileName, key);
         if (instance == null) {
             synchronized (PropertyManager.class) {
                 if (instance == null) {
+                    log.debug("Initializing instance of PropertyManager.");
                     instance = new PropertyManager();
                 }
             }
@@ -38,6 +40,7 @@ public class PropertyManager {
 
     private static void load(String propertyFileName) {
         try (InputStream inputStream = PropertyManager.class.getClassLoader().getResourceAsStream(propertyFileName)) {
+            log.debug("'{}' file loading...", propertyFileName);
             properties.load(inputStream);
         } catch (IOException e) {
             log.error("Error: Failed to load properties file '{}'. Check the file name.: {}", propertyFileName, e);
