@@ -39,23 +39,19 @@ public final class ConnectionPool {
     public ConnectionPool() {
         log.debug("In constructor ConnectionPool.");
         try {
-            try {
-                log.debug("Creating connection pool.");
-                log.debug("Database driver: {}", H2_DRIVER);
-                Class.forName(H2_DRIVER);
-                freeConnections = new ArrayBlockingQueue<>(MAX_POOL_SIZE, true);
-                for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
-                    Connection connection = newConnection();
-                    freeConnections.add(connection);
-                    log.debug("Connection #{} - {}", i, connection);
-                }
-            } catch (ClassNotFoundException e) {
-                log.error("Error: Driver class not found error: {}", e);
-            } catch (SQLException e) {
-                log.error("Error: Get connection from database failed. Called newConnection() method failed: {}", e);
+            log.debug("Creating connection pool.");
+            log.debug("Database driver: {}", H2_DRIVER);
+            Class.forName(H2_DRIVER);
+            freeConnections = new ArrayBlockingQueue<>(MAX_POOL_SIZE, true);
+            for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
+                Connection connection = newConnection();
+                freeConnections.add(connection);
+                log.debug("Connection #{} - {}", i, connection);
             }
-        } catch (PropertyManagerException e) {
-            log.error("Error: Loading properties from properties file failed. Called initPoolConfigurations() method failed: {}", e);
+        } catch (ClassNotFoundException e) {
+            log.error("Error: Driver class not found error: {}", e);
+        } catch (SQLException e) {
+            log.error("Error: Get connection from database failed. Called newConnection() method failed: {}", e);
         }
     }
 
