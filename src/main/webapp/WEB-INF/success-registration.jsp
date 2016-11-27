@@ -1,5 +1,11 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="ftm" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<t:page title="Success Registration">
+<ftm:setBundle basename="i18n"/>
+<ftm:setLocale value="ru_RU" scope="session"/>
+
+<t:page title="registration.page">
     Congratulations!!!
 </t:page>

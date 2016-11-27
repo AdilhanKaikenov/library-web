@@ -4,20 +4,27 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@attribute name="title" type="java.lang.String" required="true" %>
 
+<ftm:setBundle basename="i18n"/>
+<ftm:setLocale value="ru_RU" scope="session"/>
+
 <html>
 <head>
     <title>
-        ${title}
+        <ftm:message key="${title}"/>
     </title>
     <link rel="stylesheet" type="text/css" href="<c:url value="/css/page-style.css"/>" media="all">
-    <link rel="stylesheet" type="text/css" href="<c:url value="/css/navigation.css"/>" media="all">
-    <link rel="stylesheet" type="text/css" href="<c:url value="/css/style.css"/>" media="all">
 </head>
 <body>
 <div class="wrapper">
     <%--HEADER--%>
     <div class="header">
         <%--Content body--%>
+        <div>
+            <a href="${pageContext.request.contextPath}/do/?action=show-page&page=welcome" class="library-icon">Library</a>
+        </div>
+        <div class="authorization-form-blog">
+            <t:authorization/>
+        </div>
     </div>
     <%--HORIZONTAL BAR--%>
     <div class="horizontal-bar">
@@ -31,6 +38,7 @@
         <div class="sidebar">
             <div class="inner-sidebar">
                 <%--Content body--%>
+
             </div>
         </div>
         <%--CONTENT--%>

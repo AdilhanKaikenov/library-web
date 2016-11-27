@@ -19,7 +19,8 @@
     display: block;
 }
 .header {
-    background: #3d3c66;
+    border-radius: 50px;
+    background: #C75C5C;
     height: 200px;
     margin-bottom: 10px;
 }
@@ -33,12 +34,14 @@
     margin-bottom: 10px;
 }
 .inner-horizontal-bar{
-    background: #3d3c66;
+    border-radius: 10px;
+    background: #E0E0D1;
     height: 60px;
     padding: 10px;
 }
 .inner-content {
-    background: #3d3c66;
+    border: solid;
+    background: #77B3D4;
     min-height: 600px;
     padding: 10px;
 }
@@ -48,11 +51,57 @@
     padding-right: 10px;
 }
 .inner-sidebar {
-    background: #3d3c66;
+    border-radius: 20px;
+    background: #E0995E;
     min-height: 600px;
 }
 .footer {
-    background: #3d3c66;
-    height: 200px;
+    border-radius: 50px;
+    background: #C75C5C;
+    height: 100px;
     margin-top: 10px;
+}
+
+.registration-form-blog{
+    width: 65%;
+    min-height: 150px;
+    float: left;
+}
+
+.authorization-form-blog{
+    position: relative;
+    float: right;
+    top: 50px;
+    right: 125px;
+}
+
+.error-message-blog{
+    width: 30%;
+    min-height: 250px;
+    margin-left: 70%;
+}
+
+.home-icon{
+    background: url("../css/images/home.png") no-repeat center;
+    height: 48px;
+    width: 48px;
+    display: block;
+    padding-bottom: 10px;
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.library-icon{
+    background: url("../css/images/library.png") no-repeat center;
+    float: left;
+    height: 128px;
+    width: 128px;
+    display: block;
+    position: relative;
+    top: 30px;
+    left: 60px;
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
 }

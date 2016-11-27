@@ -21,13 +21,13 @@ public class RegistrationFormValidator {
     private static final String EMAIL_FORM = validatorProperties.get("email.form");
     private static final String DIGIT_FORM = validatorProperties.get("digit.form");
     private static final String ADDRESS_FORM = validatorProperties.get("address.form");
-    private static final int LOGIN_MIN_LENGTH = 5;
-    private static final int LOGIN_MAX_LENGTH = 10;
-    private static final int PASSWORD_MIN_LENGTH = 5;
-    private static final int PASSWORD_MAX_LENGTH = 15;
-    private static final int MOB_PHONE_LENGTH = 11;
-    private static final int FIELD_MIN_LENGTH = 2;
-    private static final int FIELD_MAX_LENGTH = 20;
+    private static final int LOGIN_MIN_LENGTH = Integer.parseInt(validatorProperties.get("login.min.length"));
+    private static final int LOGIN_MAX_LENGTH = Integer.parseInt(validatorProperties.get("login.max.length"));
+    private static final int PASSWORD_MIN_LENGTH = Integer.parseInt(validatorProperties.get("password.min.length"));
+    private static final int PASSWORD_MAX_LENGTH = Integer.parseInt(validatorProperties.get("password.max.length"));
+    private static final int MOB_PHONE_LENGTH = Integer.parseInt(validatorProperties.get("mobphone.length"));
+    private static final int FIELD_MIN_LENGTH = Integer.parseInt(validatorProperties.get("field.min.length"));
+    private static final int FIELD_MAX_LENGTH = Integer.parseInt(validatorProperties.get("field.max.length"));
 
     private Validator validator = new Validator();
 

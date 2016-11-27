@@ -6,8 +6,8 @@
 <ftm:setBundle basename="i18n"/>
 <ftm:setLocale value="ru_RU" scope="session"/>
 
-<t:page title="Registration">
-    <h1 align="center">Registration new user</h1>
+<t:page title="registration.page">
+    <h1 align="center"><ftm:message key="registration.page"/></h1>
     <div class="registration-form-blog" align="right">
         <form action="${pageContext.request.contextPath}/do/" method="post">
             <table>
@@ -17,7 +17,7 @@
                         <ftm:message key="register.enter.login.field"/>
                     </td>
                     <td>
-                        <input type="text" name="login" value="${param.login}">
+                        <input type="text" name="login" value="${param.login}" placeholder="Login123">
                     </td>
                 </tr>
                 <tr>
@@ -33,7 +33,7 @@
                         <ftm:message key="register.enter.email.field"/>
                     </td>
                     <td>
-                        <input type="text" name="email" value="${param.email}">
+                        <input type="text" name="email" value="${param.email}" placeholder="email@epam.com">
                     </td>
                 </tr>
                 <tr>
@@ -41,7 +41,7 @@
                         <ftm:message key="register.enter.firstname.field"/>
                     </td>
                     <td>
-                        <input type="text" name="firstname" value="${param.firstname}">
+                        <input type="text" name="firstname" value="${param.firstname}" placeholder="Adilhan">
                     </td>
                 </tr>
                 <tr>
@@ -49,7 +49,7 @@
                         <ftm:message key="register.enter.surname.field"/>
                     </td>
                     <td>
-                        <input type="text" name="surname" value="${param.surname}">
+                        <input type="text" name="surname" value="${param.surname}" placeholder="Kaikenov">
                     </td>
                 </tr>
                 <tr>
@@ -58,7 +58,7 @@
 
                     </td>
                     <td>
-                        <input type="text" name="patronymic" value="${param.patronymic}">
+                        <input type="text" name="patronymic" value="${param.patronymic}" placeholder="Dayletkhanovich">
                     </td>
                 </tr>
                 <tr>
@@ -75,7 +75,7 @@
                         <ftm:message key="register.enter.address.field"/>
                     </td>
                     <td>
-                        <input type="text" name="address" value="${param.address}">
+                        <input type="text" name="address" value="${param.address}" placeholder="Abaya street 21\2">
                     </td>
                 </tr>
                 <tr>
@@ -83,7 +83,7 @@
                         <ftm:message key="register.enter.mobphone.field"/>
                     </td>
                     <td>
-                        <input type="text" name="mobilePhone" value="${param.mobilePhone}">
+                        <input type="text" name="mobilePhone" value="${param.mobilePhone}" placeholder="87771112233">
                     </td>
                 </tr>
                 <table>
@@ -91,7 +91,7 @@
                         <td>
                             <br>
                             <button type="submit"
-                                    onclick="return confirm('<ftm:message key="confirm.message"/>')">Sign up</button>
+                                    onclick="return confirm('<ftm:message key="confirm.message"/>')"><ftm:message key="button.sign.up"/></button>
                         </td>
                     </tr>
                 </table>
