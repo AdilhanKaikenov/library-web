@@ -10,6 +10,8 @@
         ${title}
     </title>
     <link rel="stylesheet" type="text/css" href="<c:url value="/css/page-style.css"/>" media="all">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/navigation.css"/>" media="all">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/style.css"/>" media="all">
 </head>
 <body>
 <div class="wrapper">
@@ -21,6 +23,7 @@
     <div class="horizontal-bar">
         <div class="inner-horizontal-bar">
             <%--Content body--%>
+            <t:navigation/>
         </div>
     </div>
     <div class="row">

@@ -1,0 +1,11 @@
+.registration-form-blog{
+     width: 65%;
+     min-height: 150px;
+     float: left;
+ }
+
+.error-message-blog{
+    width: 30%;
+    min-height: 250px;
+    margin-left: 70%;
+}

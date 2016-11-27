@@ -6,9 +6,9 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Displays page.
  *
- * Created by Kaikenov Adilhan on 23.12.2015
+ * ShowPageAction class created on 27.11.2016
  *
- * @author Kaikenov Adilhan on 23.12.2015
+ * @author Kaikenov Adilhan
  */
 public class ShowPageAction implements Action {
 
