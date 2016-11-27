@@ -21,6 +21,7 @@ public class RegistrationFormValidator {
     private static final String LATIN_FORM = validatorProperties.get("latin.form");
     private static final String EMAIL_FORM = validatorProperties.get("email.form");
     private static final String DIGIT_FORM = validatorProperties.get("digit.form");
+    private static final String ADDRESS_FORM = validatorProperties.get("address.form");
     private static final int LOGIN_MIN_LENGTH = 5;
     private static final int LOGIN_MAX_LENGTH = 10;
     private static final int PASSWORD_MIN_LENGTH = 5;
@@ -58,12 +59,11 @@ public class RegistrationFormValidator {
                 validator.isLengthValid(surname, FIELD_MIN_LENGTH, FIELD_MAX_LENGTH) &&
                 validator.isLengthValid(patronymic, FIELD_MIN_LENGTH, FIELD_MAX_LENGTH);
 
-        boolean addressRegexValid = validator.isRegexValid(address, CORRECT_FORM);
+        boolean addressRegexValid = validator.isRegexValid(address, ADDRESS_FORM);
         boolean addressLengthValid = validator.isLengthValid(address, FIELD_MIN_LENGTH, FIELD_MAX_LENGTH);
 
         boolean mobilePhoneValid = validator.isRegexValid(mobilePhone, DIGIT_FORM) &&
                 validator.isLengthValid(mobilePhone, MOB_PHONE_LENGTH, MOB_PHONE_LENGTH);
-
 
         if (!loginRegexValid) {
             request.setAttribute("loginFormError", "login.form.incorrect");
