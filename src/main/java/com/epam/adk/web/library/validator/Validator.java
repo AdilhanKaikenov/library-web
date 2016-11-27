@@ -1,8 +1,5 @@
 package com.epam.adk.web.library.validator;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,8 +9,6 @@ import java.util.regex.Pattern;
  * @author Kaikenov Adilhan
  */
 public class Validator {
-
-    private static final Logger log = LoggerFactory.getLogger(Validator.class);
 
     private Pattern pattern;
 

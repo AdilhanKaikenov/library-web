@@ -14,7 +14,6 @@ import java.util.Map;
  */
 public class RegistrationFormValidator {
 
-    private static final Logger log = LoggerFactory.getLogger(RegistrationFormValidator.class);
     private static final Map<String, String> validatorProperties = PropertiesManager.getInstance().getPropertyValues("validator.properties");
 
     private static final String CORRECT_FORM = validatorProperties.get("correct.form");
@@ -33,7 +32,6 @@ public class RegistrationFormValidator {
     private Validator validator = new Validator();
 
     public boolean isInvalid(HttpServletRequest request) {
-
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         String email = request.getParameter("email");
