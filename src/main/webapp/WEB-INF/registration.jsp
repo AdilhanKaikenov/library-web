@@ -1,9 +1,10 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="ftm" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<ftm:setBundle basename="messages"/>
-<ftm:setLocale value="en_US" scope="session"/>
+<ftm:setBundle basename="i18n"/>
+<ftm:setLocale value="ru_RU" scope="session"/>
 
 <t:page title="Registration">
     <h1 align="center">Registration new user</h1>
@@ -13,7 +14,7 @@
                 <input type="hidden" name="action" value="registration">
                 <tr>
                     <td>
-                        Enter your login:
+                        <ftm:message key="register.enter.login.field"/>
                     </td>
                     <td>
                         <input type="text" name="login" value="${param.login}">
@@ -21,15 +22,15 @@
                 </tr>
                 <tr>
                     <td>
-                        Enter your password:
+                        <ftm:message key="register.enter.password.field"/>
                     </td>
                     <td>
-                        <input type="text" name="password" value="${param.password}">
+                        <input type="password" name="password" value="${param.password}">
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        Enter your email:
+                        <ftm:message key="register.enter.email.field"/>
                     </td>
                     <td>
                         <input type="text" name="email" value="${param.email}">
@@ -37,7 +38,7 @@
                 </tr>
                 <tr>
                     <td>
-                        Enter your firstname:
+                        <ftm:message key="register.enter.firstname.field"/>
                     </td>
                     <td>
                         <input type="text" name="firstname" value="${param.firstname}">
@@ -45,7 +46,7 @@
                 </tr>
                 <tr>
                     <td>
-                        Enter your surname:
+                        <ftm:message key="register.enter.surname.field"/>
                     </td>
                     <td>
                         <input type="text" name="surname" value="${param.surname}">
@@ -53,7 +54,8 @@
                 </tr>
                 <tr>
                     <td>
-                        Enter your patronymic:
+                        <ftm:message key="register.enter.patronymic.field"/>
+
                     </td>
                     <td>
                         <input type="text" name="patronymic" value="${param.patronymic}">
@@ -61,16 +63,16 @@
                 </tr>
                 <tr>
                     <td>
-                        Choose the gender:
+                        <ftm:message key="register.enter.gender.field"/>
                     </td>
                     <td>
-                        <i><input type="radio" name="gender" value="Male" checked="checked">Male</i>
-                        <i><input type="radio" name="gender" value="Female">Female</i>
+                        <i><input type="radio" name="gender" value="Male" checked="checked"><ftm:message key="gender.male"/></i>
+                        <i><input type="radio" name="gender" value="Female"><ftm:message key="gender.female"/></i>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        Enter your address:
+                        <ftm:message key="register.enter.address.field"/>
                     </td>
                     <td>
                         <input type="text" name="address" value="${param.address}">
@@ -78,7 +80,7 @@
                 </tr>
                 <tr>
                     <td>
-                        Enter your mobile phone number:
+                        <ftm:message key="register.enter.mobphone.field"/>
                     </td>
                     <td>
                         <input type="text" name="mobilePhone" value="${param.mobilePhone}">
@@ -88,7 +90,8 @@
                     <tr>
                         <td>
                             <br>
-                            <button type="submit">Sign up</button>
+                            <button type="submit"
+                                    onclick="return confirm('<ftm:message key="confirm.message"/>')">Sign up</button>
                         </td>
                     </tr>
                 </table>
@@ -126,5 +129,14 @@
         <td><c:if test="${not empty mobilePhoneFormError}">
             <li>
             <ftm:message key="mobileNumber.form.incorrect"/></c:if></td>
+        <td><c:if test="${not empty loginExist}">
+            <li>
+            <ftm:message key="login.exist.message"/></c:if></td>
+        <td><c:if test="${not empty emailExist}">
+            <li>
+            <ftm:message key="email.exist.message"/></c:if></td>
+        <td><c:if test="${not empty mobilePhoneExist}">
+            <li>
+            <ftm:message key="mobphone.exist.message"/></c:if></td>
     </div>
 </t:page>

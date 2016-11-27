@@ -1,5 +1,6 @@
 package com.epam.adk.web.library.dao;
 
+import com.epam.adk.web.library.dao.jdbc.JdbcDaoFactory;
 import com.epam.adk.web.library.dbcp.ConnectionPool;
 import com.epam.adk.web.library.exception.ConnectionPoolException;
 import com.epam.adk.web.library.exception.DaoException;
@@ -20,6 +21,9 @@ import java.text.MessageFormat;
 public abstract class DaoFactory {
 
     private static final Logger log = LoggerFactory.getLogger(DaoFactory.class);
+
+    public static final Class JDBC = JdbcDaoFactory.class;
+
     private static ConnectionPool connectionPool = ConnectionPool.getInstance();
     private static Connection connection;
 
