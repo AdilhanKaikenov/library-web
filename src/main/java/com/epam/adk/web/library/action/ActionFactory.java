@@ -22,6 +22,7 @@ public class ActionFactory {
         log.debug("Entering constructor ActionFactory class");
         actions = new HashMap<>();
         actions.put("registration", new RegistrationAction());
+        actions.put("authorization", new AuthorizationAction());
         actions.put("show-page", new ShowPageAction());
         log.debug("SIZE {}", actions.size());
     }

@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <ftm:setBundle basename="i18n"/>
-<ftm:setLocale value="ru_RU" scope="session"/>
+<ftm:setLocale value="ru_RU" scope="request"/>
 
 <t:page title="registration.page">
     <h1 align="center"><ftm:message key="registration.page"/></h1>
@@ -13,77 +13,45 @@
             <table>
                 <input type="hidden" name="action" value="registration">
                 <tr>
-                    <td>
-                        <ftm:message key="register.enter.login.field"/>
-                    </td>
-                    <td>
-                        <input type="text" name="login" value="${param.login}" placeholder="Login123">
+                    <td><ftm:message key="register.enter.login.field"/></td>
+                    <td><input type="text" name="login" value="${param.login}" placeholder="Login123"></td>
+                </tr>
+                <tr>
+                    <td><ftm:message key="register.enter.password.field"/></td>
+                    <td><input type="password" name="password" value="${param.password}"></td>
+                </tr>
+                <tr>
+                    <td><ftm:message key="register.enter.email.field"/></td>
+                    <td><input type="text" name="email" value="${param.email}" placeholder="email@epam.com"></td>
+                </tr>
+                <tr>
+                    <td><ftm:message key="register.enter.firstname.field"/></td>
+                    <td><input type="text" name="firstname" value="${param.firstname}" placeholder="Adilhan"></td>
+                </tr>
+                <tr>
+                    <td><ftm:message key="register.enter.surname.field"/></td>
+                    <td><input type="text" name="surname" value="${param.surname}" placeholder="Kaikenov"></td>
+                </tr>
+                <tr>
+                    <td><ftm:message key="register.enter.patronymic.field"/></td>
+                    <td><input type="text" name="patronymic" value="${param.patronymic}" placeholder="Dayletkhanovich">
                     </td>
                 </tr>
                 <tr>
+                    <td><ftm:message key="register.enter.gender.field"/></td>
                     <td>
-                        <ftm:message key="register.enter.password.field"/>
-                    </td>
-                    <td>
-                        <input type="password" name="password" value="${param.password}">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <ftm:message key="register.enter.email.field"/>
-                    </td>
-                    <td>
-                        <input type="text" name="email" value="${param.email}" placeholder="email@epam.com">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <ftm:message key="register.enter.firstname.field"/>
-                    </td>
-                    <td>
-                        <input type="text" name="firstname" value="${param.firstname}" placeholder="Adilhan">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <ftm:message key="register.enter.surname.field"/>
-                    </td>
-                    <td>
-                        <input type="text" name="surname" value="${param.surname}" placeholder="Kaikenov">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <ftm:message key="register.enter.patronymic.field"/>
-
-                    </td>
-                    <td>
-                        <input type="text" name="patronymic" value="${param.patronymic}" placeholder="Dayletkhanovich">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <ftm:message key="register.enter.gender.field"/>
-                    </td>
-                    <td>
-                        <i><input type="radio" name="gender" value="Male" checked="checked"><ftm:message key="gender.male"/></i>
+                        <i><input type="radio" name="gender" value="Male" checked="checked"><ftm:message
+                                key="gender.male"/></i>
                         <i><input type="radio" name="gender" value="Female"><ftm:message key="gender.female"/></i>
                     </td>
                 </tr>
                 <tr>
-                    <td>
-                        <ftm:message key="register.enter.address.field"/>
-                    </td>
-                    <td>
-                        <input type="text" name="address" value="${param.address}" placeholder="Abaya street 21\2">
-                    </td>
+                    <td><ftm:message key="register.enter.address.field"/></td>
+                    <td><input type="text" name="address" value="${param.address}" placeholder="Abaya street 21\2"></td>
                 </tr>
                 <tr>
-                    <td>
-                        <ftm:message key="register.enter.mobphone.field"/>
-                    </td>
-                    <td>
-                        <input type="text" name="mobilePhone" value="${param.mobilePhone}" placeholder="87771112233">
+                    <td><ftm:message key="register.enter.mobphone.field"/></td>
+                    <td><input type="text" name="mobilePhone" value="${param.mobilePhone}" placeholder="87771112233">
                     </td>
                 </tr>
                 <table>
@@ -91,7 +59,8 @@
                         <td>
                             <br>
                             <button type="submit"
-                                    onclick="return confirm('<ftm:message key="confirm.message"/>')"><ftm:message key="button.sign.up"/></button>
+                                    onclick="return confirm('<ftm:message key="confirm.message"/>')"><ftm:message
+                                    key="button.sign.up"/></button>
                         </td>
                     </tr>
                 </table>
@@ -129,14 +98,8 @@
         <td><c:if test="${not empty mobilePhoneFormError}">
             <li>
             <ftm:message key="mobileNumber.form.incorrect"/></c:if></td>
-        <td><c:if test="${not empty loginExist}">
+        <td><c:if test="${not empty userExist}">
             <li>
-            <ftm:message key="login.exist.message"/></c:if></td>
-        <td><c:if test="${not empty emailExist}">
-            <li>
-            <ftm:message key="email.exist.message"/></c:if></td>
-        <td><c:if test="${not empty mobilePhoneExist}">
-            <li>
-            <ftm:message key="mobphone.exist.message"/></c:if></td>
+            <ftm:message key="user.exist.message"/></c:if></td>
     </div>
 </t:page>

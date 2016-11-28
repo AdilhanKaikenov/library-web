@@ -1,5 +1,7 @@
 package com.epam.adk.web.library.action;
 
+import com.epam.adk.web.library.exception.ActionException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,6 +13,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 public interface Action {
 
-    String execute(HttpServletRequest request, HttpServletResponse response);
+    String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException;
 
 }

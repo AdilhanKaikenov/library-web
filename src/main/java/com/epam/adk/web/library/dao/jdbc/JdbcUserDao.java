@@ -24,11 +24,8 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     private static final String USER_CREATE_QUERY = "INSERT INTO USER (LOGIN, PASSWORD, EMAIL, FIRSTNAME, SURNAME, " +
             "PATRONYMIC, GENDER, ADDRESS, MOBILE_PHONE, ROLE, STATUS) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
-    private Connection connection;
-
     public JdbcUserDao(Connection connection) {
         super(connection);
-        this.connection = connection;
     }
 
     @Override
@@ -53,7 +50,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
                     "Error: JdbcUserDao class setFieldsInCreatePreparedStatement() method. " +
                             "I can not set fields into statement. {0}", e));
         }
-        log.debug("Exit JdbcUserDao class, setFieldsInCreatePreparedStatement() method");
+        log.debug("Leaving JdbcUserDao class, setFieldsInCreatePreparedStatement() method");
         return preparedStatement;
     }
 

@@ -71,14 +71,16 @@
 .authorization-form-blog{
     position: relative;
     float: right;
-    top: 50px;
-    right: 125px;
+    top: 45px;
+    right: 275px;
 }
 
 .error-message-blog{
     width: 30%;
     min-height: 250px;
     margin-left: 70%;
+    position: relative;
+    right: 40px;
 }
 
 .home-icon{

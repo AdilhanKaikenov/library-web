@@ -2,6 +2,7 @@ package com.epam.adk.web.library.servlet;
 
 import com.epam.adk.web.library.action.Action;
 import com.epam.adk.web.library.action.ActionFactory;
+import com.epam.adk.web.library.exception.ActionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +21,13 @@ public class FrontControllerServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(FrontControllerServlet.class);
     private static final String REDIRECT_PREFIX = "redirect:";
-    private static final ActionFactory factory = ActionFactory.getInstance();
+    private static ActionFactory factory;
+
+    @Override
+    public void init() throws ServletException {
+        factory = ActionFactory.getInstance();
+        log.debug("Start initialization servlet.");
+    }
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -29,7 +36,13 @@ public class FrontControllerServlet extends HttpServlet {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
-        String view = action.execute(request, response);
+        String view;
+        try {
+            view = action.execute(request, response);
+        } catch (ActionException e) {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return;
+        }
         proceedTo(request, response, view);
     }
 

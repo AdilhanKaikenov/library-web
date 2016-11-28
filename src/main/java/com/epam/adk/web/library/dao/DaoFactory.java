@@ -1,6 +1,5 @@
 package com.epam.adk.web.library.dao;
 
-import com.epam.adk.web.library.dao.jdbc.JdbcDaoFactory;
 import com.epam.adk.web.library.dbcp.ConnectionPool;
 import com.epam.adk.web.library.exception.ConnectionPoolException;
 import com.epam.adk.web.library.exception.DaoException;
@@ -18,11 +17,9 @@ import java.text.MessageFormat;
  *
  * @author Kaikenov Adilhan
  */
-public abstract class DaoFactory {
+public abstract class DaoFactory implements AutoCloseable {
 
     private static final Logger log = LoggerFactory.getLogger(DaoFactory.class);
-
-    public static final Class JDBC = JdbcDaoFactory.class;
 
     private static ConnectionPool connectionPool = ConnectionPool.getInstance();
     private static Connection connection;
@@ -34,7 +31,7 @@ public abstract class DaoFactory {
             log.debug("DaoFactory class, get Connection: {}", connection);
             Constructor<T> constructor = clazz.getConstructor(Connection.class);
             T instance = constructor.newInstance(connection);
-            log.debug("DaoFactory class, newInstance() method successfully completed. Factory: {}", instance.getClass().getSimpleName());
+            log.debug("Leaving DaoFactory class, newInstance() method successfully completed. Factory: {}", instance.getClass().getSimpleName());
             return instance;
         } catch (NoSuchMethodException e) {
             throw new DaoException(MessageFormat.format("No such method. Called getConstructor() method failed: {0}", e));
@@ -81,9 +78,15 @@ public abstract class DaoFactory {
     /**
      * Return connection back to pool of connections.
      */
-    public void closeTransaction() {
+    public void closeTransaction() throws SQLException {
         if (connection != null) {
+            connection.setAutoCommit(true);
             connectionPool.returnConnection(connection);
         }
+    }
+
+    @Override
+    public void close() throws SQLException {
+        closeTransaction();
     }
 }

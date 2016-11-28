@@ -1,8 +1,6 @@
 package com.epam.adk.web.library.validator;
 
 import com.epam.adk.web.library.propmanager.PropertiesManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -12,22 +10,22 @@ import java.util.Map;
  *
  * @author Kaikenov Adilhan
  */
-public class RegistrationFormValidator {
+public class RegistrationFormValidator implements FormValidation {
 
-    private static final Map<String, String> validatorProperties = PropertiesManager.getInstance().getPropertyValues("validator.properties");
+    private static final Map<String, String> PROPERTIES = PropertiesManager.getInstance().getPropertyValues("validator.properties");
 
-    private static final String CORRECT_FORM = validatorProperties.get("correct.form");
-    private static final String LATIN_FORM = validatorProperties.get("latin.form");
-    private static final String EMAIL_FORM = validatorProperties.get("email.form");
-    private static final String DIGIT_FORM = validatorProperties.get("digit.form");
-    private static final String ADDRESS_FORM = validatorProperties.get("address.form");
-    private static final int LOGIN_MIN_LENGTH = Integer.parseInt(validatorProperties.get("login.min.length"));
-    private static final int LOGIN_MAX_LENGTH = Integer.parseInt(validatorProperties.get("login.max.length"));
-    private static final int PASSWORD_MIN_LENGTH = Integer.parseInt(validatorProperties.get("password.min.length"));
-    private static final int PASSWORD_MAX_LENGTH = Integer.parseInt(validatorProperties.get("password.max.length"));
-    private static final int MOB_PHONE_LENGTH = Integer.parseInt(validatorProperties.get("mobphone.length"));
-    private static final int FIELD_MIN_LENGTH = Integer.parseInt(validatorProperties.get("field.min.length"));
-    private static final int FIELD_MAX_LENGTH = Integer.parseInt(validatorProperties.get("field.max.length"));
+    private static final String CORRECT_FORM = PROPERTIES.get("correct.form");
+    private static final String LATIN_FORM = PROPERTIES.get("latin.form");
+    private static final String EMAIL_FORM = PROPERTIES.get("email.form");
+    private static final String DIGIT_FORM = PROPERTIES.get("digit.form");
+    private static final String ADDRESS_FORM = PROPERTIES.get("address.form");
+    private static final int LOGIN_MIN_LENGTH = Integer.parseInt(PROPERTIES.get("login.min.length"));
+    private static final int LOGIN_MAX_LENGTH = Integer.parseInt(PROPERTIES.get("login.max.length"));
+    private static final int PASSWORD_MIN_LENGTH = Integer.parseInt(PROPERTIES.get("password.min.length"));
+    private static final int PASSWORD_MAX_LENGTH = Integer.parseInt(PROPERTIES.get("password.max.length"));
+    private static final int MOB_PHONE_LENGTH = Integer.parseInt(PROPERTIES.get("mobphone.length"));
+    private static final int FIELD_MIN_LENGTH = Integer.parseInt(PROPERTIES.get("field.min.length"));
+    private static final int FIELD_MAX_LENGTH = Integer.parseInt(PROPERTIES.get("field.max.length"));
 
     private Validator validator = new Validator();
 

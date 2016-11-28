@@ -16,8 +16,6 @@ public interface Dao<T extends BaseEntity> {
 
     T read(int id) throws DaoException;
 
-    int countParameter(String columnName, String parameter) throws DaoException;
-
     T update(T entity) throws DaoException;
 
     void delete(T entity) throws DaoException;

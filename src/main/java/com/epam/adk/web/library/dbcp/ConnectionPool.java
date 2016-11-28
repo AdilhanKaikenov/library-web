@@ -1,7 +1,6 @@
 package com.epam.adk.web.library.dbcp;
 
 import com.epam.adk.web.library.exception.ConnectionPoolException;
-import com.epam.adk.web.library.exception.PropertyManagerException;
 import com.epam.adk.web.library.propmanager.DataBasePropertyManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +36,7 @@ public final class ConnectionPool {
     private final Lock lock = new ReentrantLock();
 
     public ConnectionPool() {
-        log.debug("In constructor ConnectionPool.");
+        log.debug("Entering constructor ConnectionPool.");
         try {
             log.debug("Creating connection pool.");
             log.debug("Database driver: {}", H2_DRIVER);
@@ -81,6 +80,7 @@ public final class ConnectionPool {
      * @return free connection.
      */
     public Connection getConnection() throws ConnectionPoolException {
+        log.debug("Entering ConnectionPool class getConnection() method.");
         Connection connection;
         lock.lock();
         try {
@@ -92,7 +92,6 @@ public final class ConnectionPool {
                 connection = newConnection();
                 freeConnections.add(connection);
             }
-
         } catch (InterruptedException e) {
             log.error("Error: getConnection() method. Called poll() method failed: {}", e);
             throw new ConnectionPoolException(MessageFormat.format(
@@ -104,12 +103,13 @@ public final class ConnectionPool {
         } finally {
             lock.unlock();
         }
+        log.debug("Leaving ConnectionPool class getConnection() method.");
         return connection;
     }
 
     public void returnConnection(Connection connection) {
         if (connection != null && freeConnections.size() < MAX_POOL_SIZE) {
-            log.debug("returnConnection() method, return '{}' back.", connection);
+            log.debug("ConnectionPool class, returnConnection() method, return '{}' back.", connection);
             freeConnections.add(connection);
         }
     }

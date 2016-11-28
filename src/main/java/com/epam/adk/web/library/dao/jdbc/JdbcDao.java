@@ -25,23 +25,31 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         this.connection = connection;
     }
 
+    protected Connection getConnection() {
+        return connection;
+    }
+
     @Override
     public T create(T entity) throws DaoException {
         log.debug("Entering JdbcDao class, create() method.");
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(getCreateQuery());
+            preparedStatement = connection.prepareStatement(getCreateQuery());
             preparedStatement = setFieldsInCreatePreparedStatement(preparedStatement, entity);
             preparedStatement.execute();
-            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-            Integer id = getID(generatedKeys);
+            resultSet = preparedStatement.getGeneratedKeys();
+            Integer id = getID(resultSet);
             if (id != null) {
                 entity.setId(id);
             }
-            preparedStatement.close();
         } catch (SQLException e) {
             log.error("Error: JdbcDao class, create() method. {}", e);
             throw new DaoException(MessageFormat.format("Error: JdbcDao class, create() method. {0}", e));
+        } finally {
+            close(preparedStatement, resultSet);
         }
+        log.debug("Leaving JdbcDao class, create() method.");
         log.debug("New entity successfully created, type = {}, id = {}", entity.getClass().getSimpleName(), entity.getId());
         return entity;
     }
@@ -58,7 +66,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             throw new DaoException(MessageFormat.format(
                     "I can not get the ID from generatedKeys, JdbcDao class, getID() method. {0}", e));
         }
-        log.debug("JdbcDao class getID() method result = {}", id);
+        log.debug("Leaving JdbcDao class getID() method result = {}", id);
         return id;
     }
 
@@ -67,26 +75,6 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     protected abstract String getCreateQuery();
 
     protected abstract String getTableName();
-
-    @Override
-    public int countParameter(String columnName, String parameter) throws DaoException {
-        log.debug("Entering countParameter() method, arguments: columnName = {}, parameter = {}", columnName, parameter);
-        String query = "SELECT COUNT('" + columnName + "') FROM PUBLIC." + getTableName() + " WHERE " + columnName + " = '" + parameter + "'";
-        int count = 0;
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-            if (resultSet.next()) {
-                count = resultSet.getInt(1);
-                log.debug("JdbcDao class countParameter() result = {}", count);
-            }
-        } catch (SQLException e) {
-            log.error("Error: Can not count '{}' parameter. JdbcDao class countParameter() method: {}", parameter, e);
-            throw new DaoException(MessageFormat.format(
-                    "Error: Can not count {0} parameter. JdbcDao class countParameter() method: {1}", parameter, e));
-        }
-        return count;
-    }
 
     @Override
     public T read(int id) throws DaoException {
@@ -100,6 +88,27 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
     @Override
     public void delete(T entity) throws DaoException {
+    }
+
+    protected void close(PreparedStatement preparedStatement, ResultSet resultSet) throws DaoException {
+        if (preparedStatement != null) {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                log.error("Error: JdbcDao class, close() method. Can not close preparedStatement. {}", e);
+                throw new DaoException(MessageFormat.format(
+                        "Error: JdbcDao class, close() method. Can not close preparedStatement. {0}", e));
+            }
+        }
+        if (resultSet != null) {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                log.error("Error: JdbcDao class, close() method. Can not close resultSet. {}", e);
+                throw new DaoException(MessageFormat.format(
+                        "Error: JdbcDao class, close() method. Can not close resultSet. {0}", e));
+            }
+        }
     }
 }
 

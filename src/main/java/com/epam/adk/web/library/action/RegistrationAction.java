@@ -1,5 +1,6 @@
 package com.epam.adk.web.library.action;
 
+import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.User;
 import com.epam.adk.web.library.model.enums.Gender;
 import com.epam.adk.web.library.model.enums.Role;
@@ -37,7 +38,7 @@ public class RegistrationAction implements Action {
         RegistrationFormValidator formValidator = new RegistrationFormValidator();
         boolean isFormInvalid = formValidator.isInvalid(request);
         log.debug("Registration form validation = {}", isFormInvalid);
-        if (isFormInvalid){
+        if (isFormInvalid) {
             return "registration";
         }
 
@@ -56,28 +57,14 @@ public class RegistrationAction implements Action {
 
         UserService userService = new UserService();
 
-        boolean isLoginExist = userService.isExist("login", login);
-        boolean isEmailExist = userService.isExist("email", email);
-        boolean isMobilePhoneExist = userService.isExist("mobile_phone", mobilePhone);
-
-        log.debug("isLoginExist = {}, isEmailExist = {}, isMobilePhoneExist = {}", isLoginExist, isEmailExist, isMobilePhoneExist);
-
-        if (isLoginExist){
-            request.setAttribute("loginExist", "login.exist.message");
+        User registeredUser;
+        try {
+            registeredUser = userService.registerUser(user);
+        } catch (ServiceException e) {
+            request.setAttribute("userExist", "user.exist.message");
             return "registration";
         }
-        if (isEmailExist){
-            request.setAttribute("emailExist", "email.exist.message");
-            return "registration";
-        }
-        if (isMobilePhoneExist){
-            request.setAttribute("mobilePhoneExist", "mobphone.exist.message");
-            return "registration";
-        }
-
-        User registeredUser = userService.registerUser(user);
         log.debug("New User successfully registered User: id = {}, login = {}", registeredUser.getId(), registeredUser.getLogin());
-
         return "redirect:success-registration";
     }
 }

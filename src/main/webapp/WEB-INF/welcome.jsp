@@ -3,7 +3,7 @@
 <%@ taglib prefix="ftm" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <ftm:setBundle basename="i18n"/>
-<ftm:setLocale value="ru_RU" scope="session"/>
+<ftm:setLocale value="ru_RU" scope="request"/>
 <t:page title="welcome.page">
 
 </t:page>
