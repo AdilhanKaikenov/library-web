@@ -1,7 +1,7 @@
 package com.epam.adk.web.library.dbcp;
 
 import com.epam.adk.web.library.exception.ConnectionPoolException;
-import com.epam.adk.web.library.propmanager.DataBasePropertyManager;
+import com.epam.adk.web.library.propmanager.PropertiesManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.text.MessageFormat;
+import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -23,14 +24,15 @@ import java.util.concurrent.locks.ReentrantLock;
 public final class ConnectionPool {
 
     private static final Logger log = LoggerFactory.getLogger(ConnectionPool.class);
+    private static final Map<String, String> dbProperties = PropertiesManager.getInstance().getPropertyValues("h2db.properties");
 
-    private static String JDBC_URL = DataBasePropertyManager.getProperty("jdbc.url");
-    private static String H2_DRIVER = DataBasePropertyManager.getProperty("h2.driver");
-    private static String DB_LOGIN = DataBasePropertyManager.getProperty("db.login");
-    private static String DB_PASSWORD = DataBasePropertyManager.getProperty("db.password");
-    private static int DEFAULT_POOL_SIZE = Integer.parseInt(DataBasePropertyManager.getProperty("default.pool.size"));
-    private static int MAX_POOL_SIZE = Integer.parseInt(DataBasePropertyManager.getProperty("max.pool.size"));
-    private static long TIMEOUT = Long.parseLong(DataBasePropertyManager.getProperty("timeout.milliseconds"));
+    private static String JDBC_URL = dbProperties.get("jdbc.url");
+    private static String H2_DRIVER = dbProperties.get("h2.driver");
+    private static String DB_LOGIN = dbProperties.get("db.login");
+    private static String DB_PASSWORD = dbProperties.get("db.password");
+    private static int DEFAULT_POOL_SIZE = Integer.parseInt(dbProperties.get("default.pool.size"));
+    private static int MAX_POOL_SIZE = Integer.parseInt(dbProperties.get("max.pool.size"));
+    private static long TIMEOUT = Long.parseLong(dbProperties.get("timeout.milliseconds"));
 
     private BlockingQueue<Connection> freeConnections = null;
     private final Lock lock = new ReentrantLock();

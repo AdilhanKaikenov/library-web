@@ -7,7 +7,25 @@ package com.epam.adk.web.library.model.enums;
  */
 public enum  Role {
 
-    ADMIN,
-    USER
+    ADMIN("Admin"),
+    USER("User");
 
+    private String value;
+
+    Role(String value) {
+        this.value = value;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public static Role from(String value){
+        for (Role role : Role.values()){
+            if (value != null && role.getValue().equalsIgnoreCase(value)){
+                return role;
+            }
+        }
+        throw new IllegalArgumentException();
+    }
 }

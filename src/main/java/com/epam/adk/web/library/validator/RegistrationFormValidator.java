@@ -62,34 +62,34 @@ public class RegistrationFormValidator implements FormValidation {
                 validator.isLengthValid(mobilePhone, MOB_PHONE_LENGTH, MOB_PHONE_LENGTH);
 
         if (!loginRegexValid) {
-            request.setAttribute("loginFormError", "login.form.incorrect");
+            request.setAttribute("loginFormIncorrect", "login.form.incorrect");
         }
         if (!loginLengthValid) {
-            request.setAttribute("loginLengthError", "login.length.incorrect");
+            request.setAttribute("loginLengthIncorrect", "login.length.incorrect");
         }
         if (!passwordRegexValid) {
-            request.setAttribute("passwordFormError", "password.form.incorrect");
+            request.setAttribute("passwordFormIncorrect", "password.form.incorrect");
         }
         if (!passwordLengthValid) {
-            request.setAttribute("passwordLengthError", "password.length.incorrect");
+            request.setAttribute("passwordLengthIncorrect", "password.length.incorrect");
         }
         if (!emailRegexValid) {
-            request.setAttribute("emailFormError", "email.form.incorrect");
+            request.setAttribute("emailFormIncorrect", "email.form.incorrect");
         }
         if (!fullNameRegexValid) {
-            request.setAttribute("fullNameFormError", "fullName.form.incorrect");
+            request.setAttribute("fullNameFormIncorrect", "fullName.form.incorrect");
         }
         if (!fullNameLengthValid) {
-            request.setAttribute("fullNameLengthError", "fullName.length.incorrect");
+            request.setAttribute("fullNameLengthIncorrect", "fullName.length.incorrect");
         }
         if (!addressRegexValid) {
-            request.setAttribute("addressFormError", "address.form.incorrect");
+            request.setAttribute("addressFormIncorrect", "address.form.incorrect");
         }
         if (!addressLengthValid) {
-            request.setAttribute("addressLengthError", "address.length.incorrect");
+            request.setAttribute("addressLengthIncorrect", "address.length.incorrect");
         }
         if (!mobilePhoneValid) {
-            request.setAttribute("mobilePhoneFormError", "mobileNumber.form.incorrect");
+            request.setAttribute("mobilePhoneFormIncorrect", "mobileNumber.form.incorrect");
         }
 
         return !(loginRegexValid && loginLengthValid &&

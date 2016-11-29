@@ -16,6 +16,8 @@ public interface Dao<T extends BaseEntity> {
 
     T read(int id) throws DaoException;
 
+    T read(T entity) throws DaoException;
+
     T update(T entity) throws DaoException;
 
     void delete(T entity) throws DaoException;

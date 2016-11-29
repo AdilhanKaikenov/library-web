@@ -72,7 +72,7 @@
     position: relative;
     float: right;
     top: 45px;
-    right: 275px;
+    right: 40px;
 }
 
 .error-message-blog{
@@ -80,7 +80,7 @@
     min-height: 250px;
     margin-left: 70%;
     position: relative;
-    right: 40px;
+    right: 65px;
 }
 
 .home-icon{
@@ -106,4 +106,34 @@
     text-indent: 100%;
     white-space: nowrap;
     overflow: hidden;
+}
+
+.auth-error-content {
+    border: solid;
+    background: #77B3D4;
+    min-height: 500px;
+    padding: 10px;
+    width: 50%;
+    position: relative;
+    left: 25%;
+    top: 15%;
+}
+
+.inner-auth-error-message {
+    padding: 15px;
+    min-height: 150px;
+    border: solid;
+    background: lightpink;
+}
+
+.inner-auth-error-content {
+    position: relative;
+    top: 30px;
+    left: 35%;
+}
+
+.footer-message{
+    position: relative;
+    top: 35px;
+    left: 800px;
 }

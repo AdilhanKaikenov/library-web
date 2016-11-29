@@ -37,7 +37,7 @@ public class RegistrationAction implements Action {
 
         RegistrationFormValidator formValidator = new RegistrationFormValidator();
         boolean isFormInvalid = formValidator.isInvalid(request);
-        log.debug("Registration form validation = {}", isFormInvalid);
+        log.debug("Registration form validation, invalid= {}", isFormInvalid);
         if (isFormInvalid) {
             return "registration";
         }

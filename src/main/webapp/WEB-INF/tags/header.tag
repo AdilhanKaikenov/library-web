@@ -6,10 +6,12 @@
 <ftm:setBundle basename="i18n"/>
 <ftm:setLocale value="ru_RU" scope="request"/>
 
-<div class="horizontal-bar">
-    <div class="inner-horizontal-bar">
-        <div>
-            <a href="${pageContext.request.contextPath}/do/?action=show-page&page=welcome" class="home-icon">Home</a>
-        </div>
+<div class="header">
+    <div>
+        <a href="${pageContext.request.contextPath}/do/?action=show-page&page=welcome"
+           class="library-icon">Library</a>
+    </div>
+    <div class="authorization-form-blog">
+        <t:authorization/>
     </div>
 </div>

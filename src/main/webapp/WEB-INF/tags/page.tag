@@ -16,32 +16,20 @@
 </head>
 <body>
 <div class="wrapper">
-    <div class="header">
-        <div>
-            <a href="${pageContext.request.contextPath}/do/?action=show-page&page=welcome"
-               class="library-icon">Library</a>
-        </div>
-        <div class="authorization-form-blog">
-            <t:authorization/>
-        </div>
-    </div>
-    <div class="horizontal-bar">
-        <div class="inner-horizontal-bar">
-            <t:navigation/>
+    <t:header/>
+    <t:navigation/>
+</div>
+<div class="row">
+    <t:sidebar/>
+    <div class="content">
+        <div class="inner-content">
+            <jsp:doBody/>
         </div>
     </div>
-    <div class="row">
-        <div class="sidebar">
-            <div class="inner-sidebar">
-            </div>
-        </div>
-        <div class="content">
-            <div class="inner-content">
-                <jsp:doBody/>
-            </div>
-        </div>
-    </div>
-    <div class="footer">
+</div>
+<div class="footer">
+    <div class="footer-message">
+        <h2>Library System created by Kaikenov Adilhan</h2>
     </div>
 </div>
 </body>

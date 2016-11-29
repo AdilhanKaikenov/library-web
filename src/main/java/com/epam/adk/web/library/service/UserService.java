@@ -3,6 +3,7 @@ package com.epam.adk.web.library.service;
 import com.epam.adk.web.library.dao.DaoFactory;
 import com.epam.adk.web.library.dao.UserDao;
 import com.epam.adk.web.library.dao.jdbc.JdbcDaoFactory;
+import com.epam.adk.web.library.exception.DaoException;
 import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.User;
 import org.slf4j.Logger;
@@ -39,10 +40,36 @@ public class UserService {
                 throw new ServiceException(MessageFormat.format(
                         "Error: UserService class, registerUser() method. Error transaction: {0}", e));
             }
-        } catch (Exception e) {
+        } catch (SQLException | DaoException e) {
             throw new ServiceException(MessageFormat.format("Error: UserService class, registerUser() method.", e));
         }
         log.debug("Exit UserService class registerUser() method.");
         return registeredUser;
+    }
+
+    public User authorizeUser(User user) throws ServiceException {
+        log.debug("Entering UserService class authorizeUser() method, user login = {}", user.getLogin());
+        User authorizedUser;
+        try(JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+            try {
+                jdbcDaoFactory.beginTransaction();
+                UserDao userDao = jdbcDaoFactory.userDao();
+                authorizedUser = userDao.read(user);
+                jdbcDaoFactory.endTransaction();
+            } catch (SQLException e) {
+                try {
+                    jdbcDaoFactory.rollbackTransaction();
+                } catch (SQLException e1) {
+                    throw new ServiceException(MessageFormat.format(
+                            "Error: UserService class, authorizeUser() method. Can not rollback transaction: {0}", e1));
+                }
+                throw new ServiceException(MessageFormat.format(
+                        "Error: UserService class, authorizeUser() method. Error transaction: {0}", e));
+            }
+        } catch (SQLException | DaoException e) {
+            throw new ServiceException(MessageFormat.format("Error: UserService class, authorizeUser() method.", e));
+        }
+        log.debug("Exit UserService class authorizeUser() method.");
+        return authorizedUser;
     }
 }

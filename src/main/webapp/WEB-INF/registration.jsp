@@ -68,34 +68,34 @@
         </form>
     </div>
     <div class="error-message-blog">
-        <td><c:if test="${not empty loginFormError}">
+        <td><c:if test="${not empty loginFormIncorrect}">
             <li>
             <ftm:message key="login.form.incorrect"/></c:if></td>
-        <td><c:if test="${not empty loginLengthError}">
+        <td><c:if test="${not empty loginLengthIncorrect}">
             <li>
             <ftm:message key="login.length.incorrect"/></c:if></td>
-        <td><c:if test="${not empty passwordFormError}">
+        <td><c:if test="${not empty passwordFormIncorrect}">
             <li>
             <ftm:message key="password.form.incorrect"/></c:if></td>
-        <td><c:if test="${not empty passwordLengthError}">
+        <td><c:if test="${not empty passwordLengthIncorrect}">
             <li>
             <ftm:message key="password.length.incorrect"/></c:if></td>
-        <td><c:if test="${not empty emailFormError}">
+        <td><c:if test="${not empty emailFormIncorrect}">
             <li>
             <ftm:message key="email.form.incorrect"/></c:if></td>
-        <td><c:if test="${not empty fullNameFormError}">
+        <td><c:if test="${not empty fullNameFormIncorrect}">
             <li>
             <ftm:message key="fullName.form.incorrect"/></c:if></td>
-        <td><c:if test="${not empty fullNameLengthError}">
+        <td><c:if test="${not empty fullNameLengthIncorrect}">
             <li>
             <ftm:message key="fullName.length.incorrect"/></c:if></td>
-        <td><c:if test="${not empty addressFormError}">
+        <td><c:if test="${not empty addressFormIncorrect}">
             <li>
             <ftm:message key="address.form.incorrect"/></c:if></td>
-        <td><c:if test="${not empty addressLengthError}">
+        <td><c:if test="${not empty addressLengthIncorrect}">
             <li>
             <ftm:message key="address.length.incorrect"/></c:if></td>
-        <td><c:if test="${not empty mobilePhoneFormError}">
+        <td><c:if test="${not empty mobilePhoneFormIncorrect}">
             <li>
             <ftm:message key="mobileNumber.form.incorrect"/></c:if></td>
         <td><c:if test="${not empty userExist}">
