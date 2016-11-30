@@ -21,7 +21,7 @@ public abstract class DaoFactory implements AutoCloseable {
 
     private static final Logger log = LoggerFactory.getLogger(DaoFactory.class);
 
-    private static ConnectionPool connectionPool = ConnectionPool.getInstance();
+    private static ConnectionPool connectionPool;
     private static Connection connection;
 
     public static <T extends DaoFactory> T newInstance(Class<T> clazz) throws DaoException {
@@ -42,6 +42,10 @@ public abstract class DaoFactory implements AutoCloseable {
         } catch (ConnectionPoolException e) {
             throw new DaoException(MessageFormat.format("Error in DaoFactory class, getConnection() method failed: {0}", e));
         }
+    }
+
+    public static void setConnectionPool(ConnectionPool connectionPool) {
+        DaoFactory.connectionPool = connectionPool;
     }
 
     public abstract UserDao userDao();

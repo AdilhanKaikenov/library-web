@@ -37,8 +37,10 @@ public final class ConnectionPool {
     private BlockingQueue<Connection> freeConnections = null;
     private final Lock lock = new ReentrantLock();
 
-    public ConnectionPool() {
-        log.debug("Entering constructor ConnectionPool.");
+    private ConnectionPool() {
+    }
+
+    public void init() throws ConnectionPoolException {
         try {
             log.debug("Creating connection pool.");
             log.debug("Database driver: {}", H2_DRIVER);
@@ -51,8 +53,12 @@ public final class ConnectionPool {
             }
         } catch (ClassNotFoundException e) {
             log.error("Error: Driver class not found error: {}", e);
+            throw new ConnectionPoolException(MessageFormat.format(
+                    "Error: Driver class not found error: {}", e));
         } catch (SQLException e) {
             log.error("Error: Get connection from database failed. Called newConnection() method failed: {}", e);
+            throw new ConnectionPoolException(
+                    "Error: Get connection from database failed. Called newConnection() method failed: {}", e);
         }
     }
 
@@ -118,5 +124,18 @@ public final class ConnectionPool {
 
     public int freeConnectionsNumber() {
         return freeConnections.size();
+    }
+
+    public void shutDown() throws ConnectionPoolException {
+
+        for (Connection connection : freeConnections){
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                throw new ConnectionPoolException("Can not close connection", e);
+            }
+        }
+        freeConnections.clear();
+        log.debug("ConnectionPool class, shutDown() method, Pool successfully closed. Pool size = {}.", freeConnectionsNumber());
     }
 }
