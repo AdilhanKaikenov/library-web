@@ -18,19 +18,22 @@ import java.util.concurrent.TimeUnit;
 public class ConnectionPoolTest {
 
     private static final Logger log = LoggerFactory.getLogger(ConnectionPoolTest.class);
+    private static final int TIME_MILLIS = 5000;
+    private static final int TIMEOUT_MINUTES = 5;
+    private static final int N_THREADS = 15;
 
     public static void main(String[] args) throws InterruptedException {
 
         final int NUMBERS_OF_THREAD = 45;
 
-        final ExecutorService service = Executors.newFixedThreadPool(15);
+        final ExecutorService service = Executors.newFixedThreadPool(N_THREADS);
         for (int i = 0; i < NUMBERS_OF_THREAD; i++) {
             service.execute(() -> {
                 try {
                     Connection connection = ConnectionPool.getInstance().getConnection();
                     log.debug("ConnectionPoolTest Connection {}", connection);
 
-                    Thread.sleep(5000);
+                    Thread.sleep(TIME_MILLIS);
 
                     ConnectionPool.getInstance().returnConnection(connection);
 
@@ -43,7 +46,7 @@ public class ConnectionPoolTest {
         }
 
         service.shutdown();
-        service.awaitTermination(5, TimeUnit.MINUTES);
+        service.awaitTermination(TIMEOUT_MINUTES, TimeUnit.MINUTES);
         log.debug("ConnectionPool SIZE: {}", ConnectionPool.getInstance().freeConnectionsNumber());
 
     }

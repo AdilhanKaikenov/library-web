@@ -4,7 +4,6 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <ftm:setBundle basename="i18n"/>
-<ftm:setLocale value="ru_RU" scope="request"/>
 
 <div class="sidebar">
     <div class="inner-sidebar">

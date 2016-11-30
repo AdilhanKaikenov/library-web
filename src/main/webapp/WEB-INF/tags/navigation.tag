@@ -4,12 +4,14 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <ftm:setBundle basename="i18n"/>
-<ftm:setLocale value="ru_RU" scope="request"/>
 
 <div class="horizontal-bar">
     <div class="inner-horizontal-bar">
         <div>
             <a href="${pageContext.request.contextPath}/do/?action=show-page&page=welcome" class="home-icon">Home</a>
+        </div>
+        <div class="select-locale-navigation-section">
+            <t:select-locale/>
         </div>
     </div>
 </div>

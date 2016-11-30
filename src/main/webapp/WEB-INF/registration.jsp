@@ -4,11 +4,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <ftm:setBundle basename="i18n"/>
-<ftm:setLocale value="ru_RU" scope="request"/>
 
 <t:page title="registration.page">
     <h1 align="center"><ftm:message key="registration.page"/></h1>
-    <div class="registration-form-blog" align="right">
+    <div class="registration-form-section" align="right">
         <form action="${pageContext.request.contextPath}/do/" method="post">
             <table>
                 <input type="hidden" name="action" value="registration">
@@ -59,7 +58,7 @@
                         <td>
                             <br>
                             <button type="submit"
-                                    onclick="return confirm('<ftm:message key="confirm.message"/>')"><ftm:message
+                                    onclick="return confirm('<ftm:message key="confirm.message"/>')" class="bottom"><ftm:message
                                     key="button.sign.up"/></button>
                         </td>
                     </tr>
@@ -67,7 +66,7 @@
             </table>
         </form>
     </div>
-    <div class="error-message-blog">
+    <div class="register-error-message-section">
         <td><c:if test="${not empty loginFormIncorrect}">
             <li>
             <ftm:message key="login.form.incorrect"/></c:if></td>

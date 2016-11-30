@@ -5,7 +5,6 @@
 <%@attribute name="title" type="java.lang.String" required="true" %>
 
 <ftm:setBundle basename="i18n"/>
-<ftm:setLocale value="ru_RU" scope="request"/>
 
 <html>
 <head>

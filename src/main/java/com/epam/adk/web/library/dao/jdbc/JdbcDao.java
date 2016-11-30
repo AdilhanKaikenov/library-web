@@ -18,6 +18,7 @@ import java.text.MessageFormat;
 public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
     private static final Logger log = LoggerFactory.getLogger(JdbcDao.class);
+    private static final int FIRST_COLUMN_INDEX = 1;
 
     private Connection connection;
 
@@ -92,7 +93,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         Integer id = null;
         try {
             while (generatedKeys.next()) {
-                id = generatedKeys.getInt(1);
+                id = generatedKeys.getInt(FIRST_COLUMN_INDEX);
             }
         } catch (SQLException e) {
             log.error("I can not get the ID from generatedKeys, JdbcDao class, getID() method. {}", e);

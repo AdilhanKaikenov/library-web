@@ -21,6 +21,7 @@ public class FrontControllerServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(FrontControllerServlet.class);
     private static final String REDIRECT_PREFIX = "redirect:";
+    private static final String ACTION_PARAMETER = "action";
     private static ActionFactory factory;
 
     @Override
@@ -69,6 +70,6 @@ public class FrontControllerServlet extends HttpServlet {
      * @return String
      */
     private String getActionName(HttpServletRequest request) {
-        return request.getParameter("action");
+        return request.getParameter(ACTION_PARAMETER);
     }
 }

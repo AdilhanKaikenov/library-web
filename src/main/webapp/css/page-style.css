@@ -62,22 +62,25 @@
     margin-top: 10px;
 }
 
-.registration-form-blog{
+.registration-form-section {
     width: 65%;
     min-height: 150px;
     float: left;
 }
 
-.authorization-form-blog{
+.authorization-form-section {
     position: relative;
     float: right;
     top: 45px;
     right: 40px;
 }
 
-.error-message-blog{
+.register-error-message-section {
     width: 30%;
     min-height: 250px;
+    padding: 15px;
+    border: solid;
+    background: lightpink;
     margin-left: 70%;
     position: relative;
     right: 65px;
@@ -119,7 +122,7 @@
     top: 15%;
 }
 
-.inner-auth-error-message {
+.inner-auth-error-message-section {
     padding: 15px;
     min-height: 150px;
     border: solid;
@@ -136,4 +139,32 @@
     position: relative;
     top: 35px;
     left: 800px;
+}
+
+.bottom {
+    border: 1px solid #333;
+    display: inline-block;
+    padding: 5px 15px;
+    text-decoration: none;
+    color: #293a8b;
+    border-radius: 8px;
+    -webkit-transition: -webkit-transform 1s;
+    -webkit-box-shadow: 8px;
+    -o-box-shadow: 8px;
+    -moz-box-shadow: 8px;
+}
+
+.bottom:hover {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(to bottom, #fcfff4, #e9e9ce);
+    color: #a00;
+    /*-webkit-transform:rotate(1deg);*/
+}
+
+.select-locale-navigation-section {
+    float: right;
+    position: relative;
+    bottom: 42px;
+    right: 25px;
+    height: 0%;
 }

@@ -23,8 +23,9 @@ public class ActionFactory {
         actions = new HashMap<>();
         actions.put("registration", new RegistrationAction());
         actions.put("authorization", new AuthorizationAction());
+        actions.put("set-locale", new SelectLocaleAction());
         actions.put("show-page", new ShowPageAction());
-        log.debug("SIZE {}", actions.size());
+        log.debug("Action Factory class, actions SIZE {}", actions.size());
     }
 
     public static ActionFactory getInstance(){

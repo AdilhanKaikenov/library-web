@@ -4,7 +4,6 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <ftm:setBundle basename="i18n"/>
-<ftm:setLocale value="ru_RU" scope="request"/>
 
 <form action="${pageContext.request.contextPath}/do/" method="post">
     <table>
@@ -23,7 +22,7 @@
     </table>
     <table>
         <tr>
-            <td><br><button type="submit"><ftm:message key="button.sign.in"/></button></td>
+            <td><br><button type="submit" class="bottom"><ftm:message key="button.sign.in"/></button></td>
         </tr>
     </table>
 </form>

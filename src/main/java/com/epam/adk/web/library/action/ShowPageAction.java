@@ -12,13 +12,12 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ShowPageAction implements Action {
 
-    public ShowPageAction() {
-    }
+    private static final String PAGE_PARAMETER = "page";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response)
             throws RuntimeException {
 
-        return request.getParameter("page");
+        return request.getParameter(PAGE_PARAMETER);
     }
 }

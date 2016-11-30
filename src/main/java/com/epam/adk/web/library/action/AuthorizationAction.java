@@ -11,10 +11,17 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.text.MessageFormat;
 
+/**
+ * AuthorizationAction class created on 28.11.2016
+ *
+ * @author Kaikenov Adilhan
+ */
 public class AuthorizationAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(AuthorizationAction.class);
+    private static final String USER = "user";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -47,10 +54,10 @@ public class AuthorizationAction implements Action {
             }
             log.debug("User '{}' successfully authorized", user.getLogin());
         } catch (ServiceException e) {
-            throw new ActionException("");
+            throw new ActionException(MessageFormat.format("Error: Can not authorize User: {0}", e));
         }
 
-        session.setAttribute("user", user);
+        session.setAttribute(USER, user);
 
         return "redirect:welcome";
     }
