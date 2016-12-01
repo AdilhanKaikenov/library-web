@@ -8,7 +8,7 @@
 <div class="horizontal-bar">
     <div class="inner-horizontal-bar">
         <div>
-            <a href="${pageContext.request.contextPath}/do/?action=show-page&page=welcome" class="home-icon">Home</a>
+            <a href="${pageContext.request.contextPath}/do/?action=welcome" class="home-icon">Home</a>
         </div>
         <div class="select-locale-navigation-section">
             <t:select-locale/>

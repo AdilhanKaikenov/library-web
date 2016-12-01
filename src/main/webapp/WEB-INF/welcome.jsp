@@ -7,4 +7,24 @@
 
 <t:page title="welcome.page">
 
+    <%--@elvariable id="books" type="java.util.List"--%>
+    <c:forEach items="${books}" var="book">
+        <%--@elvariable id="book" type="com.epam.adk.web.library.model.Book"--%>
+        <div class="book-section">
+            <div class="book-image-section">
+                <img src="${pageContext.request.contextPath}/image/?image=${book.cover}">
+            </div>
+            <div class="book-title-section">
+                <h1><br>${book.title}</h1>
+            </div>
+            <div class="book-info-section">
+                <br>Authors: ${book.authors}
+                <br>Genre: ${book.genre.value}
+                <c:if test="${book.publishYear != null}">
+                    <br>The year of publishing: ${book.publishYear}
+                </c:if>
+            </div>
+        </div>
+    </c:forEach>
+
 </t:page>

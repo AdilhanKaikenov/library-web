@@ -68,7 +68,8 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(getReadAllQuery());
-            result.addAll(createListFrom(resultSet));
+            List<T> list = createListFrom(resultSet);
+            result.addAll(list);
         } catch (SQLException e) {
             log.error("");
         }
@@ -79,7 +80,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         log.debug("Entering JdbcDao class, createListFrom() method");
         List<T> result = new ArrayList<>();
         try {
-            while (resultSet.next()){
+            while (!resultSet.isLast()){
                 result.add(createFrom(resultSet));
             }
         } catch (SQLException e) {
@@ -97,6 +98,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
     @Override
     public T read(T entity) throws DaoException {
+        log.debug("Entering JdbcDao class, read() method");
         T result = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -111,6 +113,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         } finally {
             close(preparedStatement, resultSet);
         }
+        log.debug("Leaving JdbcDao class, read() method. Entity id = {}", entity.getId());
         return result;
     }
 

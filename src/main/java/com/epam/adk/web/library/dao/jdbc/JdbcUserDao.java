@@ -56,6 +56,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
             preparedStatement.setString(9, entity.getMobilePhone());
             preparedStatement.setInt(10, entity.getRole().ordinal());
             preparedStatement.setBoolean(11, true);
+            log.debug("Leaving JdbcUserDao class, setFieldsInCreatePreparedStatement() method.");
         } catch (SQLException e) {
             log.error("Error: JdbcUserDao class setFieldsInCreatePreparedStatement() method. " +
                     "I can not set fields into statement. {}", e);
@@ -63,7 +64,6 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
                     "Error: JdbcUserDao class setFieldsInCreatePreparedStatement() method. " +
                             "I can not set fields into statement. {0}", e));
         }
-        log.debug("Leaving JdbcUserDao class, setFieldsInCreatePreparedStatement() method");
         return preparedStatement;
     }
 
@@ -72,9 +72,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
         log.debug("Entering JdbcUserDao class, createFrom() method");
         User user = null;
         try {
-            int row = resultSet.getRow();
-            log.debug("ResultSet size = {}", row);
-            if (row != 0) {
+            if (resultSet.next()) {
                 user = new User();
                 log.debug("Creating user from resultSet");
                 user.setId(resultSet.getInt("ID"));
@@ -105,9 +103,11 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     @Override
     protected PreparedStatement setFieldsInReadByEntityPreparedStatement(PreparedStatement preparedStatement, User entity) throws DaoException {
         log.debug("Entering JdbcUserDao class, setFieldsInReadByEntityPreparedStatement() method. User = {}", entity.getLogin());
+        System.out.println(entity.getPassword());
         try {
             preparedStatement.setString(1, entity.getLogin());
             preparedStatement.setString(2, entity.getPassword());
+            log.debug("Leaving JdbcUserDao class, setFieldsInReadByEntityPreparedStatement() method");
         } catch (SQLException e) {
             log.error("Error: JdbcUserDao class setFieldsInReadByEntityPreparedStatement() method. " +
                     "I can not set fields into statement. {}", e);
@@ -115,7 +115,6 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
                     "Error: JdbcUserDao class setFieldsInReadByEntityPreparedStatement() method. " +
                             "I can not set fields into statement. {0}", e));
         }
-        log.debug("Leaving JdbcUserDao class, setFieldsInReadByEntityPreparedStatement() method");
         return preparedStatement;
     }
 

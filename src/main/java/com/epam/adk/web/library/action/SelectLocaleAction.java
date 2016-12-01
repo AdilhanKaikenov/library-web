@@ -30,7 +30,7 @@ public class SelectLocaleAction implements Action {
         String referer = request.getHeader("referer");
 
         if (referer.contains(SELECT_LOCALE_PATH_INFO)){
-            return "redirect:welcome";
+            return "welcome";
         }
 
         if (referer.contains(ACTION_PARAMETER)) {
@@ -38,6 +38,6 @@ public class SelectLocaleAction implements Action {
             log.debug("PAY ATTENTION: Current page '{}'", currentPage);
             return "redirect:" + currentPage;
         }
-        return "redirect:welcome";
+        return "welcome";
     }
 }

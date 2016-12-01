@@ -6,5 +6,5 @@
 <ftm:setBundle basename="i18n"/>
 
 <t:page title="welcome.page">
-    <c:redirect url="/do/?action=show-page&page=welcome"/>
+    <c:redirect url="/do/?action=welcome"/>
 </t:page>

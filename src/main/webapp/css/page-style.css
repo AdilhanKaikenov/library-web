@@ -1,6 +1,11 @@
 * {
     box-sizing: border-box;
 }
+
+body {
+    /*background-image: url("../css/images/background.jpg") ;*/
+    background: #77b3d4;
+}
 .row:after {
     visibility: hidden;
     display: block;
@@ -9,6 +14,7 @@
     clear: both;
     height: 0;
 }
+
 .row {
     display: inline-block;
 }
@@ -20,50 +26,65 @@
 }
 .header {
     border-radius: 50px;
-    background: #C75C5C;
+    background: #e0e0d1;
     height: 200px;
     margin-bottom: 10px;
+    border: solid;
 }
 .content {
-    width: 80%;
+    width: 50%;
     float: left;
+    position: relative;
+    left: 240px
 }
+
+.inner-content {
+    border: solid;
+    background: #bbbaae;
+    min-height: 2200px;
+    padding: 10px;
+}
+
 .horizontal-bar{
     float: right;
-    width: 80%;
+    width: 60%;
     margin-bottom: 10px;
+    position: relative;
+    right: 400px;
 }
 .inner-horizontal-bar{
     border-radius: 10px;
-    background: #E0E0D1;
+    background: #e0995e;
     height: 60px;
     padding: 10px;
-}
-.inner-content {
     border: solid;
-    background: #77B3D4;
-    min-height: 600px;
-    padding: 10px;
 }
+
 .sidebar {
     width: 20%;
     float: left;
     padding-right: 10px;
+    position: relative;
+    top: 70px;
+    left: 240px;
+
 }
 .inner-sidebar {
     border-radius: 20px;
-    background: #E0995E;
+    border: solid;
+    background: #c75c5c;
     min-height: 670px;
 }
 .footer {
     border-radius: 50px;
-    background: #C75C5C;
+    border: solid;
+    background: #e0e0d1;
     height: 100px;
     margin-top: 10px;
 }
 
 .registration-form-section {
-    width: 65%;
+    width: 45%;
     min-height: 150px;
     float: left;
 }
@@ -76,20 +97,20 @@
 }
 
 .register-error-message-section {
-    width: 30%;
+    width: 50%;
     min-height: 250px;
     padding: 15px;
     border: solid;
     background: lightpink;
     margin-left: 70%;
     position: relative;
-    right: 65px;
+    right: 200px;
 }
 
 .home-icon{
     background: url("../css/images/home.png") no-repeat center;
-    height: 48px;
-    width: 48px;
+    height: 40px;
+    width: 60px;
     display: block;
     padding-bottom: 10px;
     text-indent: 100%;
@@ -113,7 +134,7 @@
 
 .auth-error-content {
     border: solid;
-    background: #77B3D4;
+    background: #bbbaae;
     min-height: 500px;
     padding: 10px;
     width: 50%;
@@ -137,7 +158,7 @@
 
 .footer-message{
     position: relative;
-    top: 35px;
+    top: 15px;
     left: 800px;
 }
 
@@ -166,4 +187,37 @@
     bottom: 42px;
     right: 25px;
     height: 0%;
+}
+
+.book-section {
+    border: solid;
+    width: 428px;
+    float: left;
+    padding: 15px;
+    height: 400px;
+    margin: 15px;
+    background: moccasin;
+}
+
+.book-section:hover {
+    background: antiquewhite;
+}
+
+.book-image-section {
+    float: left;
+    margin: 10px;
+}
+
+.book-title-section {
+    position: relative;
+    float: right;
+    top: -35px;
+    width: 230px;
+    height: 280px;
+}
+
+.book-info-section {
+    float: left;
+    position: relative;
+    bottom: 45px;
 }

@@ -1,5 +1,7 @@
 package com.epam.adk.web.library.action;
 
+import com.epam.adk.web.library.exception.ActionException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,7 +18,7 @@ public class ShowPageAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response)
-            throws RuntimeException {
+            throws ActionException {
 
         return request.getParameter(PAGE_PARAMETER);
     }

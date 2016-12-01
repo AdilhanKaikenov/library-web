@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * ImageServlet class created on 1.12.2016
+ * ImageServlet class created on 01.12.2016
  *
  * @author Kaikenov Adilhan
  */
@@ -52,7 +52,7 @@ public class ImageServlet extends HttpServlet {
         String format = image.substring(image.indexOf(".") + 1);
         String contentType = contentTypes.get(format);
 
-        log.debug("ImageServlet class, doGet() method: format = {}, contentType = {}", format, contentType);
+        log.trace("ImageServlet class, doGet() method: format = {}, contentType = {}", format, contentType);
 
         if (contentType != null){
             response.setContentType(contentType);

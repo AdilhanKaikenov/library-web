@@ -24,6 +24,7 @@ public class ActionFactory {
         actions.put("registration", new RegistrationAction());
         actions.put("authorization", new AuthorizationAction());
         actions.put("set-locale", new SelectLocaleAction());
+        actions.put("welcome", new ShowWelcomeAction());
         actions.put("show-page", new ShowPageAction());
         log.debug("Action Factory class, actions SIZE {}", actions.size());
     }

@@ -7,7 +7,7 @@
 
 <div class="header">
     <div>
-        <a href="${pageContext.request.contextPath}/do/?action=show-page&page=welcome"
+        <a href="${pageContext.request.contextPath}/do/?action=welcome"
            class="library-icon">Library</a>
     </div>
     <div class="authorization-form-section">
