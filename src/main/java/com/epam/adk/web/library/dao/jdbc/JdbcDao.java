@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Abstract class JdbcDao created on 23.11.2016
@@ -59,6 +61,39 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     public T read(int id) throws DaoException {
         return null;
     }
+
+    @Override
+    public List<T> readAll() throws DaoException {
+        List<T> result = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(getReadAllQuery());
+            result.addAll(createListFrom(resultSet));
+        } catch (SQLException e) {
+            log.error("");
+        }
+        return result;
+    }
+
+    protected List<T> createListFrom(ResultSet resultSet) throws DaoException {
+        log.debug("Entering JdbcDao class, createListFrom() method");
+        List<T> result = new ArrayList<>();
+        try {
+            while (resultSet.next()){
+                result.add(createFrom(resultSet));
+            }
+        } catch (SQLException e) {
+            log.error("Error: JdbcDao class createListFrom() method. " +
+                    "I can not create List of entity from resultSet. {}", e);
+            throw new DaoException(MessageFormat.format(
+                    "Error: JdbcDao class createListFrom() method. " +
+                            "I can not create List of entity from resultSet. {0}", e));
+        }
+        log.debug("Leaving JdbcDao class, createListFrom() method. Amount of result = {}", result.size());
+        return result;
+    }
+
+    protected abstract String getReadAllQuery();
 
     @Override
     public T read(T entity) throws DaoException {

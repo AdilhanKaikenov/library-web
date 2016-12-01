@@ -30,9 +30,15 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
             "USER.SURNAME, USER.PATRONYMIC, GENDER.GENDER_TYPE AS GENDER, USER.ADDRESS, USER.MOBILE_PHONE, ROLE.ROLE_TYPE AS ROLE, USER.STATUS FROM USER " +
             "INNER JOIN ROLE ON USER.ROLE = ROLE.ID " +
             "INNER JOIN GENDER ON USER.GENDER = GENDER.ID WHERE LOGIN = ? AND PASSWORD = ?";
+    private static final String SELECT_ALL_FROM_USER = "SELECT * FROM USER";
 
     public JdbcUserDao(Connection connection) {
         super(connection);
+    }
+
+    @Override
+    protected String getReadAllQuery() {
+        return SELECT_ALL_FROM_USER;
     }
 
     @Override
@@ -66,7 +72,9 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
         log.debug("Entering JdbcUserDao class, createFrom() method");
         User user = null;
         try {
-            while (resultSet.next()) {
+            int row = resultSet.getRow();
+            log.debug("ResultSet size = {}", row);
+            if (row != 0) {
                 user = new User();
                 log.debug("Creating user from resultSet");
                 user.setId(resultSet.getInt("ID"));
@@ -81,7 +89,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
                 user.setMobilePhone(resultSet.getString("MOBILE_PHONE"));
                 user.setRole(Role.from(resultSet.getString("ROLE")));
                 user.setStatus(resultSet.getBoolean("STATUS"));
-                log.debug("User successfully created in createFrom() method");
+                log.debug("User successfully created in createFrom() method. User id = {}", user.getId());
             }
         } catch (SQLException e) {
             log.error("Error: JdbcUserDao class createFrom() method. " +
@@ -90,7 +98,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
                     "Error: JdbcUserDao class createFrom() method. " +
                             "I can not create user from resultSet. {0}", e));
         }
-        log.debug("Leaving JdbcUserDao class, createFrom() method");
+        log.debug("Leaving JdbcUserDao class, createFrom() method.");
         return user;
     }
 

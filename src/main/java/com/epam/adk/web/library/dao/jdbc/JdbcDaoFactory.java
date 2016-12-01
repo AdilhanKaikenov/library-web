@@ -1,5 +1,6 @@
 package com.epam.adk.web.library.dao.jdbc;
 
+import com.epam.adk.web.library.dao.BookDao;
 import com.epam.adk.web.library.dao.DaoFactory;
 import com.epam.adk.web.library.dao.UserDao;
 import org.slf4j.Logger;
@@ -24,5 +25,10 @@ public class JdbcDaoFactory extends DaoFactory {
     @Override
     public UserDao userDao() {
         return new JdbcUserDao(connection);
+    }
+
+    @Override
+    public BookDao bookDao() {
+        return new JdbcBookDao(connection);
     }
 }

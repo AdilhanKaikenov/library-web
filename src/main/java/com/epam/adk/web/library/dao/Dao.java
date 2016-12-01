@@ -3,7 +3,7 @@ package com.epam.adk.web.library.dao;
 import com.epam.adk.web.library.exception.DaoException;
 import com.epam.adk.web.library.model.BaseEntity;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * Interface Dao created on 23.11.2016
@@ -17,6 +17,8 @@ public interface Dao<T extends BaseEntity> {
     T read(int id) throws DaoException;
 
     T read(T entity) throws DaoException;
+
+    List<T> readAll() throws DaoException;
 
     T update(T entity) throws DaoException;
 

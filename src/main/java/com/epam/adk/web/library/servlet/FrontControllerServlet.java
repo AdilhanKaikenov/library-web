@@ -22,18 +22,24 @@ public class FrontControllerServlet extends HttpServlet {
     private static final Logger log = LoggerFactory.getLogger(FrontControllerServlet.class);
     private static final String REDIRECT_PREFIX = "redirect:";
     private static final String ACTION_PARAMETER = "action";
+    private static final String WEB_INF = "/WEB-INF/";
+    private static final String JSP_FORMAT = ".jsp";
+    private static final String SERVLET_CONTEXT = "/do";
+    private static final String PATH_INFO = "/?action=show-page&page=";
     private static ActionFactory factory;
 
     @Override
     public void init() throws ServletException {
         factory = ActionFactory.getInstance();
-        log.debug("Start initialization servlet.");
+        log.debug("Start FrontControllerServlet initialization servlet.");
     }
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         Action action = factory.getAction(getActionName(request));
         if (action == null) {
+            log.error("Error: FrontControllerServlet class, service() method: action = NULL");
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
@@ -49,18 +55,19 @@ public class FrontControllerServlet extends HttpServlet {
 
     private void proceedTo(HttpServletRequest request, HttpServletResponse response, String view) throws IOException, ServletException {
         if (view == null){
+            log.error("Error: FrontControllerServlet class, proceedTo() method: view = NULL");
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
         if (view.contains(REDIRECT_PREFIX)){
             response.sendRedirect(getRedirectURL(request, view));
         } else {
-            request.getRequestDispatcher("/WEB-INF/" + view + ".jsp").forward(request, response);
+            request.getRequestDispatcher(WEB_INF + view + JSP_FORMAT).forward(request, response);
         }
     }
 
     private String getRedirectURL(HttpServletRequest request, String view) {
-        return request.getContextPath() + "/do/?action=show-page&page=" + view.substring(REDIRECT_PREFIX.length());
+        return request.getContextPath() + SERVLET_CONTEXT + PATH_INFO + view.substring(REDIRECT_PREFIX.length());
     }
 
     /**

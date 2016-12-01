@@ -23,7 +23,7 @@ public class RegistrationFormValidator implements FormValidation {
     private static final int LOGIN_MAX_LENGTH = Integer.parseInt(PROPERTIES.get("login.max.length"));
     private static final int PASSWORD_MIN_LENGTH = Integer.parseInt(PROPERTIES.get("password.min.length"));
     private static final int PASSWORD_MAX_LENGTH = Integer.parseInt(PROPERTIES.get("password.max.length"));
-    private static final int MOB_PHONE_LENGTH = Integer.parseInt(PROPERTIES.get("mobphone.length"));
+    private static final int MOB_PHONE_LENGTH = Integer.parseInt(PROPERTIES.get("mob.phone.length"));
     private static final int FIELD_MIN_LENGTH = Integer.parseInt(PROPERTIES.get("field.min.length"));
     private static final int FIELD_MAX_LENGTH = Integer.parseInt(PROPERTIES.get("field.max.length"));
 
