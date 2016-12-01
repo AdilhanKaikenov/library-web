@@ -1,21 +1,18 @@
 package com.epam.adk.web.library.action;
 
-import com.epam.adk.web.library.dao.BookDao;
-import com.epam.adk.web.library.dao.DaoFactory;
-import com.epam.adk.web.library.dao.jdbc.JdbcDaoFactory;
 import com.epam.adk.web.library.exception.ActionException;
-import com.epam.adk.web.library.exception.DaoException;
+import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.Book;
+import com.epam.adk.web.library.service.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
- * TODO: add comment
+ * ShowWelcomeAction class created on 01.12.2016
  *
  * @author Kaikenov Adilhan
  */
@@ -25,21 +22,15 @@ public class ShowWelcomeAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
+        log.debug("The show welcome page action started execute.");
+        BookService bookService = new BookService();
 
-        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)){
-            try {
-                jdbcDaoFactory.beginTransaction();
-                BookDao bookDao = jdbcDaoFactory.bookDao();
-                List<Book> books = bookDao.readAll();
-                request.getSession().setAttribute("books", books);
-                jdbcDaoFactory.endTransaction();
-            } catch (SQLException e){
-                jdbcDaoFactory.rollbackTransaction();
-            }
-        } catch (SQLException | DaoException e) {
-            e.printStackTrace();
+        try {
+            List<Book> books = bookService.getAllBooks();
+            request.setAttribute("books", books);
+        } catch (ServiceException e) {
+            throw new ActionException("Error: ShowWelcomeAction class, execute() method.", e);
         }
-
         return "welcome";
     }
 }

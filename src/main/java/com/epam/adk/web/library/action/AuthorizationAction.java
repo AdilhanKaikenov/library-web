@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.text.MessageFormat;
 
 /**
  * AuthorizationAction class created on 28.11.2016
@@ -54,7 +53,7 @@ public class AuthorizationAction implements Action {
             }
             log.debug("User '{}' successfully authorized", user.getLogin());
         } catch (ServiceException e) {
-            throw new ActionException(MessageFormat.format("Error: Can not authorize User: {0}", e));
+            throw new ActionException("Error: AuthorizationAction class. Can not authorize User:", e);
         }
 
         session.setAttribute(USER, user);

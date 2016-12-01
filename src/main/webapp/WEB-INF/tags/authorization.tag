@@ -17,7 +17,7 @@
             <td><input type="password" name="authPassword" value="${param.authPassword}"></td>
         </tr>
         <tr>
-            <td><a href="${pageContext.request.contextPath}/do/?action=show-page&page=registration"><ftm:message key="registration.page"/></a></td>
+            <td><a href="${pageContext.request.contextPath}/do/?action=registration"><ftm:message key="registration.page"/></a></td>
         </tr>
     </table>
     <table>

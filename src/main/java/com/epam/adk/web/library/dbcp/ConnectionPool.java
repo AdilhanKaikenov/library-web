@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.text.MessageFormat;
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -53,12 +52,10 @@ public final class ConnectionPool {
             }
         } catch (ClassNotFoundException e) {
             log.error("Error: Driver class not found error: {}", e);
-            throw new ConnectionPoolException(MessageFormat.format(
-                    "Error: Driver class not found error: {}", e));
+            throw new ConnectionPoolException("Error: Driver class not found error:", e);
         } catch (SQLException e) {
             log.error("Error: Get connection from database failed. Called newConnection() method failed: {}", e);
-            throw new ConnectionPoolException(
-                    "Error: Get connection from database failed. Called newConnection() method failed: {}", e);
+            throw new ConnectionPoolException("Error: Get connection from database failed. Called newConnection() method failed:", e);
         }
     }
 
@@ -102,12 +99,10 @@ public final class ConnectionPool {
             }
         } catch (InterruptedException e) {
             log.error("Error: getConnection() method. Called poll() method failed: {}", e);
-            throw new ConnectionPoolException(MessageFormat.format(
-                    "Error: getConnection() method. Called poll() method failed: {}", e));
+            throw new ConnectionPoolException("Error: getConnection() method. Called poll() method failed:", e);
         } catch (SQLException e) {
             log.error("Error: getConnection() method, get connection from database failed. Called newConnection() method failed: {}", e);
-            throw new ConnectionPoolException(MessageFormat.format(
-                    "Error: getConnection() method, get connection from database failed. Called newConnection() method failed: {0}", e));
+            throw new ConnectionPoolException("Error: getConnection() method, get connection from database failed. Called newConnection() method failed:", e);
         } finally {
             lock.unlock();
         }
@@ -132,7 +127,7 @@ public final class ConnectionPool {
             try {
                 connection.close();
             } catch (SQLException e) {
-                throw new ConnectionPoolException("Can not close connection", e);
+                throw new ConnectionPoolException("Error: ConnectionPool class, shutDown() method. Can not close connection", e);
             }
         }
         freeConnections.clear();

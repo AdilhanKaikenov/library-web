@@ -26,6 +26,6 @@ public enum Gender {
                 return gender;
             }
         }
-        throw new IllegalArgumentException();
+        throw new IllegalArgumentException("Error: Gender enum class, from() method: illegal argument.");
     }
 }

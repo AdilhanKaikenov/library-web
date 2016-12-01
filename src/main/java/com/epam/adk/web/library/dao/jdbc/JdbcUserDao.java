@@ -12,7 +12,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.MessageFormat;
 
 /**
  * JdbcUserDao class created on 23.11.2016
@@ -58,11 +57,8 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
             preparedStatement.setBoolean(11, true);
             log.debug("Leaving JdbcUserDao class, setFieldsInCreatePreparedStatement() method.");
         } catch (SQLException e) {
-            log.error("Error: JdbcUserDao class setFieldsInCreatePreparedStatement() method. " +
-                    "I can not set fields into statement. {}", e);
-            throw new DaoException(MessageFormat.format(
-                    "Error: JdbcUserDao class setFieldsInCreatePreparedStatement() method. " +
-                            "I can not set fields into statement. {0}", e));
+            log.error("Error: JdbcUserDao class setFieldsInCreatePreparedStatement() method. I can not set fields into statement. {}", e);
+            throw new DaoException("Error: JdbcUserDao class setFieldsInCreatePreparedStatement() method. I can not set fields into statement.", e);
         }
         return preparedStatement;
     }
@@ -90,11 +86,8 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
                 log.debug("User successfully created in createFrom() method. User id = {}", user.getId());
             }
         } catch (SQLException e) {
-            log.error("Error: JdbcUserDao class createFrom() method. " +
-                    "I can not create user from resultSet. {}", e);
-            throw new DaoException(MessageFormat.format(
-                    "Error: JdbcUserDao class createFrom() method. " +
-                            "I can not create user from resultSet. {0}", e));
+            log.error("Error: JdbcUserDao class createFrom() method. I can not create user from resultSet. {}", e);
+            throw new DaoException("Error: JdbcUserDao class createFrom() method. I can not create user from resultSet.", e);
         }
         log.debug("Leaving JdbcUserDao class, createFrom() method.");
         return user;
@@ -103,17 +96,13 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     @Override
     protected PreparedStatement setFieldsInReadByEntityPreparedStatement(PreparedStatement preparedStatement, User entity) throws DaoException {
         log.debug("Entering JdbcUserDao class, setFieldsInReadByEntityPreparedStatement() method. User = {}", entity.getLogin());
-        System.out.println(entity.getPassword());
         try {
             preparedStatement.setString(1, entity.getLogin());
             preparedStatement.setString(2, entity.getPassword());
             log.debug("Leaving JdbcUserDao class, setFieldsInReadByEntityPreparedStatement() method");
         } catch (SQLException e) {
-            log.error("Error: JdbcUserDao class setFieldsInReadByEntityPreparedStatement() method. " +
-                    "I can not set fields into statement. {}", e);
-            throw new DaoException(MessageFormat.format(
-                    "Error: JdbcUserDao class setFieldsInReadByEntityPreparedStatement() method. " +
-                            "I can not set fields into statement. {0}", e));
+            log.error("Error: JdbcUserDao class setFieldsInReadByEntityPreparedStatement() method. I can not set fields into statement. {}", e);
+            throw new DaoException("Error: JdbcUserDao class setFieldsInReadByEntityPreparedStatement() method. I can not set fields into statement.", e);
         }
         return preparedStatement;
     }

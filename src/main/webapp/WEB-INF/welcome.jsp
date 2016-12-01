@@ -18,10 +18,10 @@
                 <h1><br>${book.title}</h1>
             </div>
             <div class="book-info-section">
-                <br>Authors: ${book.authors}
-                <br>Genre: ${book.genre.value}
+                <br><ftm:message key="book.section.authors.field"/> ${book.authors}
+                <br><ftm:message key="book.section.genre.field"/> ${book.genre.value}
                 <c:if test="${book.publishYear != null}">
-                    <br>The year of publishing: ${book.publishYear}
+                    <br><ftm:message key="book.section.publish.year.field"/> ${book.publishYear}
                 </c:if>
             </div>
         </div>

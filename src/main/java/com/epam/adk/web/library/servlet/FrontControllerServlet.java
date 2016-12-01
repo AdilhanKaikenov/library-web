@@ -25,7 +25,7 @@ public class FrontControllerServlet extends HttpServlet {
     private static final String WEB_INF = "/WEB-INF/";
     private static final String JSP_FORMAT = ".jsp";
     private static final String SERVLET_CONTEXT = "/do";
-    private static final String PATH_INFO = "/?action=show-page&page=";
+    private static final String PATH_INFO = "/?action=";
     private static ActionFactory factory;
 
     @Override
@@ -77,6 +77,6 @@ public class FrontControllerServlet extends HttpServlet {
      * @return String
      */
     private String getActionName(HttpServletRequest request) {
-        return request.getParameter(ACTION_PARAMETER);
+        return request.getMethod() + "/" + request.getParameter(ACTION_PARAMETER);
     }
 }

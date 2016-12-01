@@ -11,7 +11,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.MessageFormat;
 import java.time.Year;
 
 /**
@@ -56,11 +55,8 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
                 log.debug("Book successfully created in createFrom() method. Book id = {}", book.getId());
             }
         } catch (SQLException e) {
-            log.error("Error: JdbcBookDao class createFrom() method. " +
-                    "I can not create book from resultSet. {}", e);
-            throw new DaoException(MessageFormat.format(
-                    "Error: JdbcBookDao class createFrom() method. " +
-                            "I can not create book from resultSet. {0}", e));
+            log.error("Error: JdbcBookDao class createFrom() method. I can not create book from resultSet. {}", e);
+            throw new DaoException("Error: JdbcBookDao class createFrom() method. I can not create book from resultSet.", e);
         }
         log.debug("Leaving JdbcBookDao class, createFrom() method.");
         return book;

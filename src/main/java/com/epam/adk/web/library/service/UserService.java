@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
-import java.text.MessageFormat;
 
 /**
  * UserService class created on 27.11.2016
@@ -29,47 +28,37 @@ public class UserService {
                 jdbcDaoFactory.beginTransaction();
                 UserDao userDao = jdbcDaoFactory.userDao();
                 registeredUser = userDao.create(user);
+                log.debug("Registered user login: {}", registeredUser.getLogin());
                 jdbcDaoFactory.endTransaction();
             } catch (SQLException e) {
-                try {
-                    jdbcDaoFactory.rollbackTransaction();
-                } catch (SQLException e1) {
-                    throw new ServiceException(MessageFormat.format(
-                            "Error: UserService class, registerUser() method. Can not rollback transaction: {0}", e1));
-                }
-                throw new ServiceException(MessageFormat.format(
-                        "Error: UserService class, registerUser() method. Error transaction: {0}", e));
+                jdbcDaoFactory.rollbackTransaction();
+                throw new ServiceException("Error: UserService class, registerUser() method. TRANSACTION error:", e);
             }
         } catch (SQLException | DaoException e) {
-            throw new ServiceException(MessageFormat.format("Error: UserService class, registerUser() method.", e));
+            throw new ServiceException("Error: UserService class, registerUser() method.", e);
         }
-        log.debug("Exit UserService class registerUser() method.");
+        log.debug("Leaving UserService class registerUser() method.");
         return registeredUser;
     }
 
     public User authorizeUser(User user) throws ServiceException {
         log.debug("Entering UserService class authorizeUser() method, user login = {}", user.getLogin());
         User authorizedUser;
-        try(JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
             try {
                 jdbcDaoFactory.beginTransaction();
                 UserDao userDao = jdbcDaoFactory.userDao();
                 authorizedUser = userDao.read(user);
+                log.debug("Authorized user login: {}", authorizedUser.getLogin());
                 jdbcDaoFactory.endTransaction();
             } catch (SQLException e) {
-                try {
-                    jdbcDaoFactory.rollbackTransaction();
-                } catch (SQLException e1) {
-                    throw new ServiceException(MessageFormat.format(
-                            "Error: UserService class, authorizeUser() method. Can not rollback transaction: {0}", e1));
-                }
-                throw new ServiceException(MessageFormat.format(
-                        "Error: UserService class, authorizeUser() method. Error transaction: {0}", e));
+                jdbcDaoFactory.rollbackTransaction();
+                throw new ServiceException("Error: UserService class, authorizeUser() method. TRANSACTION error:", e);
             }
         } catch (SQLException | DaoException e) {
-            throw new ServiceException(MessageFormat.format("Error: UserService class, authorizeUser() method.", e));
+            throw new ServiceException("Error: UserService class, authorizeUser() method.", e);
         }
-        log.debug("Exit UserService class authorizeUser() method.");
+        log.debug("Leaving UserService class authorizeUser() method.");
         return authorizedUser;
     }
 }

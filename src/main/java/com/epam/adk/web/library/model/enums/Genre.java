@@ -29,6 +29,6 @@ public enum  Genre {
                 return genre;
             }
         }
-        throw new IllegalArgumentException();
+        throw new IllegalArgumentException("Error: Genre enum class, from() method: illegal argument.");
     }
 }

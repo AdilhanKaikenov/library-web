@@ -21,11 +21,14 @@ public class ActionFactory {
     private ActionFactory() {
         log.debug("Entering constructor ActionFactory class");
         actions = new HashMap<>();
-        actions.put("registration", new RegistrationAction());
-        actions.put("authorization", new AuthorizationAction());
-        actions.put("set-locale", new SelectLocaleAction());
-        actions.put("welcome", new ShowWelcomeAction());
-        actions.put("show-page", new ShowPageAction());
+        actions.put("POST/registration", new RegistrationAction());
+        actions.put("GET/registration", new ShowPageAction("registration"));
+        actions.put("POST/authorization", new AuthorizationAction());
+        actions.put("GET/authorization", new AuthorizationAction());
+        actions.put("GET/set-locale", new SelectLocaleAction());
+        actions.put("GET/welcome", new ShowWelcomeAction());
+        actions.put("GET/success-registration", new ShowPageAction("success-registration"));
+        actions.put("GET/authorization-error", new ShowPageAction("authorization-error"));
         log.debug("Action Factory class, actions SIZE {}", actions.size());
     }
 

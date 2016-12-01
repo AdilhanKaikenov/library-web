@@ -26,6 +26,6 @@ public enum  Role {
                 return role;
             }
         }
-        throw new IllegalArgumentException();
+        throw new IllegalArgumentException("Error: Role enum class, from() method: illegal argument.");
     }
 }

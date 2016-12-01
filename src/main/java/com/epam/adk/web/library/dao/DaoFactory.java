@@ -10,7 +10,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.text.MessageFormat;
 
 /**
  * Abstract class DaoFactory created on 23.11.2016
@@ -34,13 +33,13 @@ public abstract class DaoFactory implements AutoCloseable {
             log.debug("Leaving DaoFactory class, newInstance() method successfully completed. Factory: {}", instance.getClass().getSimpleName());
             return instance;
         } catch (NoSuchMethodException e) {
-            throw new DaoException(MessageFormat.format("No such method. Called getConstructor() method failed: {0}", e));
+            throw new DaoException("No such method. Called getConstructor() method failed:", e);
         } catch (InstantiationException e) {
-            throw new DaoException(MessageFormat.format("Instantiation Exception. Called newInstance() method failed: {0}", e));
+            throw new DaoException("Instantiation Exception. Called newInstance() method failed:", e);
         } catch (IllegalAccessException | InvocationTargetException e) {
-            throw new DaoException(MessageFormat.format("Error in DaoFactory class, newInstance() method failed: {0}", e));
+            throw new DaoException("Error in DaoFactory class, newInstance() method failed:", e);
         } catch (ConnectionPoolException e) {
-            throw new DaoException(MessageFormat.format("Error in DaoFactory class, getConnection() method failed: {0}", e));
+            throw new DaoException("Error in DaoFactory class, getConnection() method failed:", e);
         }
     }
 
