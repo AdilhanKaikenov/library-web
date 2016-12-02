@@ -30,6 +30,7 @@ public class AuthorizationAction implements Action {
 
         String login = request.getParameter("authLogin");
         String password = request.getParameter("authPassword");
+        log.debug("AuthorizationAction class: login from request = {}", login);
 
         AuthorizationFormValidator formValidator = new AuthorizationFormValidator();
         boolean isFormInvalid = formValidator.isInvalid(request);
@@ -46,9 +47,13 @@ public class AuthorizationAction implements Action {
         UserService userService = new UserService();
 
         try {
-            user = userService.authorizeUser(user);
+            user = userService.authorize(user);
             if (user == null) {
                 request.setAttribute("authorizationError", "auth.error");
+                return "authorization-error";
+            }
+            if (!user.isStatus()) {
+                request.setAttribute("inactiveStatus", "user.profile.inactive");
                 return "authorization-error";
             }
             log.debug("User '{}' successfully authorized", user.getLogin());

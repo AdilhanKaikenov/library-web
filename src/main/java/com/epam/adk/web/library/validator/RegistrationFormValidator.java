@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class RegistrationFormValidator implements FormValidation {
 
-    private static final Map<String, String> PROPERTIES = PropertiesManager.getInstance().getPropertyValues("validator.properties");
+    private static final Map<String, String> PROPERTIES = PropertiesManager.getInstance().getPropertiesAsMap("validator.properties");
 
     private static final String CORRECT_FORM = PROPERTIES.get("correct.form");
     private static final String LATIN_FORM = PROPERTIES.get("latin.form");

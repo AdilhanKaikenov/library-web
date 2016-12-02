@@ -59,7 +59,7 @@ public class RegistrationAction implements Action {
 
         User registeredUser;
         try {
-            registeredUser = userService.registerUser(user);
+            registeredUser = userService.register(user);
         } catch (ServiceException e) {
             request.setAttribute("userExist", "user.exist.message");
             return "registration";

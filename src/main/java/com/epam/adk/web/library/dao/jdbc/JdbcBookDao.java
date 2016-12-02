@@ -25,6 +25,7 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     private static final String TABLE_NAME = "Book";
     private static final String SELECT_ALL_FROM_BOOK = "SELECT BOOK.ID, BOOK.TITLE, BOOK.COVER, BOOK.AUTHORS, BOOK.PUBLISH_YEAR, " +
             "GENRE.GENRE_TYPE AS GENRE, BOOK.DESCRIPTION, BOOK.TOTAL_AMOUNT, BOOK.AVAILABLE_AMOUNT FROM BOOK INNER JOIN GENRE ON BOOK.GENRE = GENRE.ID";
+    private static final String BOOK_CREATE_QUERY = "INSERT INTO PUBLIC.BOOK (TITLE, COVER, AUTHORS, PUBLISH_YEAR, GENRE, DESCRIPTION, TOTAL_AMOUNT, AVAILABLE_AMOUNT) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     public JdbcBookDao(Connection connection) {
         super(connection);
@@ -69,7 +70,7 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
 
     @Override
     protected String getCreateQuery() {
-        return null;
+        return BOOK_CREATE_QUERY;
     }
 
     @Override

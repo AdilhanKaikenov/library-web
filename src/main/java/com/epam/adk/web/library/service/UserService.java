@@ -20,45 +20,46 @@ public class UserService {
 
     private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
-    public User registerUser(User user) throws ServiceException {
-        log.debug("Entering UserService class registerUser() method, user login = {}", user.getLogin());
+    public User register(User user) throws ServiceException {
+        log.debug("Entering UserService class register() method, user login = {}", user.getLogin());
         User registeredUser;
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
             try {
                 jdbcDaoFactory.beginTransaction();
                 UserDao userDao = jdbcDaoFactory.userDao();
                 registeredUser = userDao.create(user);
-                log.debug("Registered user login: {}", registeredUser.getLogin());
                 jdbcDaoFactory.endTransaction();
             } catch (SQLException e) {
                 jdbcDaoFactory.rollbackTransaction();
-                throw new ServiceException("Error: UserService class, registerUser() method. TRANSACTION error:", e);
+                throw new ServiceException("Error: UserService class, register() method. TRANSACTION error:", e);
             }
         } catch (SQLException | DaoException e) {
-            throw new ServiceException("Error: UserService class, registerUser() method.", e);
+            throw new ServiceException("Error: UserService class, register() method.", e);
         }
-        log.debug("Leaving UserService class registerUser() method.");
+        log.debug("Leaving UserService class register() method.");
         return registeredUser;
     }
 
-    public User authorizeUser(User user) throws ServiceException {
-        log.debug("Entering UserService class authorizeUser() method, user login = {}", user.getLogin());
+    public User authorize(User user) throws ServiceException {
+        log.debug("Entering UserService class authorize() method, user login = {}", user.getLogin());
         User authorizedUser;
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
             try {
                 jdbcDaoFactory.beginTransaction();
                 UserDao userDao = jdbcDaoFactory.userDao();
                 authorizedUser = userDao.read(user);
-                log.debug("Authorized user login: {}", authorizedUser.getLogin());
+                if (authorizedUser != null) {
+                    log.debug("Authorized user login: {}", authorizedUser.getLogin());
+                }
                 jdbcDaoFactory.endTransaction();
             } catch (SQLException e) {
                 jdbcDaoFactory.rollbackTransaction();
-                throw new ServiceException("Error: UserService class, authorizeUser() method. TRANSACTION error:", e);
+                throw new ServiceException("Error: UserService class, authorize() method. TRANSACTION error:", e);
             }
         } catch (SQLException | DaoException e) {
-            throw new ServiceException("Error: UserService class, authorizeUser() method.", e);
+            throw new ServiceException("Error: UserService class, authorize() method.", e);
         }
-        log.debug("Leaving UserService class authorizeUser() method.");
+        log.debug("Leaving UserService class authorize() method.");
         return authorizedUser;
     }
 }

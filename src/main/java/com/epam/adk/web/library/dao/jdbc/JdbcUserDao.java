@@ -24,7 +24,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
 
     private static final String TABLE_NAME = "USER";
     private static final String USER_CREATE_QUERY = "INSERT INTO USER (LOGIN, PASSWORD, EMAIL, FIRSTNAME, SURNAME, " +
-            "PATRONYMIC, GENDER, ADDRESS, MOBILE_PHONE, ROLE, STATUS) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            "PATRONYMIC, GENDER, ADDRESS, MOBILE_PHONE, ROLE, STATUS) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String SELECT_BY_LOGIN_PASSWORD = "SELECT USER.ID, USER.LOGIN, USER.PASSWORD, USER.EMAIL, USER.FIRSTNAME, " +
             "USER.SURNAME, USER.PATRONYMIC, GENDER.GENDER_TYPE AS GENDER, USER.ADDRESS, USER.MOBILE_PHONE, ROLE.ROLE_TYPE AS ROLE, USER.STATUS FROM USER " +
             "INNER JOIN ROLE ON USER.ROLE = ROLE.ID " +

@@ -3,8 +3,8 @@
 }
 
 body {
-    /*background-image: url("../css/images/background.jpg") ;*/
-    background: #77b3d4;
+    background-image: url("../css/images/background.jpg") ;
+    /*background: #77b3d4;*/
 }
 .row:after {
     visibility: hidden;
@@ -206,6 +206,7 @@ body {
 .book-image-section {
     float: left;
     margin: 10px;
+    margin-bottom: 60px;
 }
 
 .book-title-section {
@@ -217,7 +218,7 @@ body {
 }
 
 .book-info-section {
-    float: left;
     position: relative;
-    bottom: 45px;
+    bottom: 30px;
+    float: left;
 }

@@ -59,7 +59,7 @@ public class PropertiesManager {
      *
      * @return values from properties
      */
-    public Map<String, String> getPropertyValues(String fileName) {
+    public Map<String, String> getPropertiesAsMap(String fileName) {
         load(fileName);
         Enumeration<?> enumeration = properties.propertyNames();
         while (enumeration.hasMoreElements()) {
@@ -68,6 +68,18 @@ public class PropertiesManager {
             propertiesMap.put(key, value);
         }
         return propertiesMap;
+    }
+
+    public Collection<String> getAllValues(String fileName) {
+        load(fileName);
+        List<String> values = new ArrayList<>();
+        Enumeration<?> enumeration = properties.propertyNames();
+        while (enumeration.hasMoreElements()) {
+            String key = (String) enumeration.nextElement();
+            String value = properties.getProperty(key);
+            values.add((value));
+        }
+        return values;
     }
 
     /**

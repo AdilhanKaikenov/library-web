@@ -10,7 +10,10 @@
         <a href="${pageContext.request.contextPath}/do/?action=welcome"
            class="library-icon">Library</a>
     </div>
-    <div class="authorization-form-section">
-        <t:authorization/>
-    </div>
+    <%--@elvariable id="user" type="com.epam.adk.web.library.model.User"--%>
+    <c:if test="${empty user.role}">
+        <div class="authorization-form-section">
+            <t:authorization/>
+        </div>
+    </c:if>
 </div>

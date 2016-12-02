@@ -23,7 +23,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public final class ConnectionPool {
 
     private static final Logger log = LoggerFactory.getLogger(ConnectionPool.class);
-    private static final Map<String, String> dbProperties = PropertiesManager.getInstance().getPropertyValues("h2db.properties");
+    private static final Map<String, String> dbProperties = PropertiesManager.getInstance().getPropertiesAsMap("h2db.properties");
 
     private static String JDBC_URL = dbProperties.get("jdbc.url");
     private static String H2_DRIVER = dbProperties.get("h2.driver");
