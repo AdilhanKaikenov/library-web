@@ -47,6 +47,6 @@ public class CommentAction implements Action {
             throw new ActionException("Error: CommentAction class, execute() method. Called CommentService class, writeComment() failed.", e);
         }
 
-        return "redirect:book-about&&id=" + bookId;
+        return "redirect:about-book&&id=" + bookId;
     }
 }

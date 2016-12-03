@@ -35,6 +35,6 @@ public class BookAboutAction implements Action {
             throw new ActionException("Error: BookAboutAction class, execute() method. Can not give info about book:", e);
         }
 
-        return "book";
+        return "about-book";
     }
 }

@@ -5,7 +5,7 @@
 
 <ftm:setBundle basename="i18n"/>
 
-<t:page title="book.page">
+<t:page title="category.page">
 
     <%--@elvariable id="genreBooks" type="java.util.List"--%>
     <c:forEach items="${genreBooks}" var="book">

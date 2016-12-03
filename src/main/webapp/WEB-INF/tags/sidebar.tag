@@ -7,12 +7,12 @@
 
 <div class="sidebar" align="center">
     <div class="inner-sidebar">
-        <h3>Genres</h3>
+        <h3><ftm:message key="genres.header"/></h3>
         <hr>
-        <a href="${pageContext.request.contextPath}/do/?action=category&genre=0" class="sidebar-category-link-style">Documental literature</a>
-        <br><a href="${pageContext.request.contextPath}/do/?action=category&genre=1" class="sidebar-category-link-style">Detectives and thrillers</a>
-        <br><a href="${pageContext.request.contextPath}/do/?action=category&genre=2" class="sidebar-category-link-style">Computers and Internet</a>
-        <br><a href="${pageContext.request.contextPath}/do/?action=category&genre=3" class="sidebar-category-link-style">Poetry</a>
-        <br><a href="${pageContext.request.contextPath}/do/?action=category&genre=4" class="sidebar-category-link-style">Science and education</a>
+        <a href="${pageContext.request.contextPath}/do/?action=category&genre=0" class="sidebar-category-link-style"><ftm:message key="docum.litra.genre"/></a>
+        <br><a href="${pageContext.request.contextPath}/do/?action=category&genre=1" class="sidebar-category-link-style"><ftm:message key="detective.thriller.genre"/> </a>
+        <br><a href="${pageContext.request.contextPath}/do/?action=category&genre=2" class="sidebar-category-link-style"><ftm:message key="comp.internet.genre"/> </a>
+        <br><a href="${pageContext.request.contextPath}/do/?action=category&genre=3" class="sidebar-category-link-style"><ftm:message key="poetry.genre"/> </a>
+        <br><a href="${pageContext.request.contextPath}/do/?action=category&genre=4" class="sidebar-category-link-style"><ftm:message key="science.education.genre"/> </a>
     </div>
 </div>

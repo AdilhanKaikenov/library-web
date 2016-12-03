@@ -2,7 +2,8 @@
 <%@ taglib prefix="ftm" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
-<%@attribute name="title" type="java.lang.String" required="true" %>
+<%@attribute name="title" type="java.lang.String" required="false" %>
+<%@attribute name="optionalTitle" type="java.lang.String" required="false" %>
 
 <ftm:setBundle basename="i18n"/>
 
@@ -10,6 +11,7 @@
 <head>
     <title>
         <ftm:message key="${title}"/>
+        ${optionalTitle}
     </title>
     <link rel="stylesheet" type="text/css" href="../css/page-style.css" media="all">
 </head>

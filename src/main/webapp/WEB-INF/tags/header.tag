@@ -18,7 +18,7 @@
     </div>
     <div class="user-header-section">
         <c:if test="${not empty user}">
-            <i>Вы вошли как: ${user.login} (${user.role.value}) </i>
+            <i><ftm:message key="log.in.info.field"/> ${user.login} (${user.role.value}) </i>
             <br>
             <br>
             <a href="${pageContext.request.contextPath}/do/?action=" class="link-style">Profile</a>

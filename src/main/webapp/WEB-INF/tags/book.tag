@@ -21,6 +21,6 @@
         </c:if>
     </div>
     <div class="book-links-section">
-        <a href="${pageContext.request.contextPath}/do/?action=book-about&id=${book.id}" class="link-style">About</a>
+        <a href="${pageContext.request.contextPath}/do/?action=about-book&id=${book.id}" class="link-style"><ftm:message key="about.book"/></a>
     </div>
 </div>

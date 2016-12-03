@@ -23,9 +23,9 @@ public class PropertiesManager {
     private static Properties properties;
 
     /**
-     * Method to get an instance of this class
+     * Method to get an instance of this class.
      *
-     * @return instance of PropertiesManager
+     * @return instance of PropertiesManager.
      */
     public static PropertiesManager getInstance() {
         if (instance == null) {
@@ -39,9 +39,9 @@ public class PropertiesManager {
     }
 
     /**
-     * Method for reading resources on its name
+     * Method for reading resources on its name.
      *
-     * @param propertyFileName name of properties
+     * @param propertyFileName name of properties.
      */
     private void load(String propertyFileName) {
         try (InputStream inputStream = PropertiesManager.class.getClassLoader().getResourceAsStream(propertyFileName)) {
@@ -55,9 +55,10 @@ public class PropertiesManager {
     }
 
     /**
-     * Method to get all the values of the properties file
+     * Method to get all the values of the properties file as Map.
      *
-     * @return values from properties
+     * @param fileName properties file name.
+     * @return values from properties.
      */
     public Map<String, String> getPropertiesAsMap(String fileName) {
         load(fileName);
@@ -70,6 +71,12 @@ public class PropertiesManager {
         return propertiesMap;
     }
 
+    /**
+     * Method to get all the values of the properties file as Collection.
+     *
+     * @param fileName properties file name.
+     * @return values from properties.
+     */
     public Collection<String> getAllValues(String fileName) {
         load(fileName);
         List<String> values = new ArrayList<>();
@@ -83,10 +90,10 @@ public class PropertiesManager {
     }
 
     /**
-     * Method to get the property key
+     * Method to get the property key.
      *
-     * @param key property key
-     * @return property value
+     * @param key property key.
+     * @return property value.
      */
     public String get(String key) {
         return propertiesMap.get(key);
