@@ -106,7 +106,6 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             preparedStatement = connection.prepareStatement(getReadByEntityQuery());
             preparedStatement = setFieldsInReadByEntityPreparedStatement(preparedStatement, entity);
             resultSet = preparedStatement.executeQuery();
-            System.out.println("1");
             result = createFrom(resultSet);
         } catch (SQLException e) {
             log.error("Error: JdbcDao class, read() method. I can not read by entity: {}", e);

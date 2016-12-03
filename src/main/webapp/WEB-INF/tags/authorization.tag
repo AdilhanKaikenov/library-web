@@ -20,9 +20,7 @@
             <td><a href="${pageContext.request.contextPath}/do/?action=registration"><ftm:message key="registration.page"/></a></td>
         </tr>
     </table>
-    <table>
-        <tr>
-            <td><br><button type="submit" class="bottom"><ftm:message key="button.sign.in"/></button></td>
+        <tr align="center">
+            <td colspan="2"><br><button type="submit" class="bottom"><ftm:message key="button.sign.in"/></button></td>
         </tr>
-    </table>
 </form>

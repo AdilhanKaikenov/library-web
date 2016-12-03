@@ -4,8 +4,8 @@
 
 body {
     background-image: url("../css/images/background.jpg") ;
-    /*background: #77b3d4;*/
 }
+
 .row:after {
     visibility: hidden;
     display: block;
@@ -84,7 +84,7 @@ body {
 }
 
 .registration-form-section {
-    width: 45%;
+    width: 100%;
     min-height: 150px;
     float: left;
 }
