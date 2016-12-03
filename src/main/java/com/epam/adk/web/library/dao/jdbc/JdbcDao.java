@@ -85,7 +85,6 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         return preparedStatement;
     }
 
-
     @Override
     public List<T> readAll() throws DaoException {
         log.debug("Entering JdbcDao class, readAll() method");
@@ -116,7 +115,6 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         log.debug("Leaving JdbcDao class, createListFrom() method.");
         return result;
     }
-
 
     @Override
     public T read(T entity) throws DaoException {

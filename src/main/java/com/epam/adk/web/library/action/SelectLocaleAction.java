@@ -19,6 +19,8 @@ public class SelectLocaleAction implements Action {
     private static final String REGION_PARAMETER = "region";
     private static final String SELECT_LOCALE_PATH_INFO = "/?action=set-locale&region=";
     private static final String ACTION_PARAMETER = "action";
+    private static final String REDIRECT_PREFIX = "redirect:";
+    private static final String REDIRECT_WELCOME_PAGE = "redirect:welcome";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -30,14 +32,14 @@ public class SelectLocaleAction implements Action {
         String referer = request.getHeader("referer");
 
         if (referer.contains(SELECT_LOCALE_PATH_INFO)){
-            return "redirect:welcome";
+            return REDIRECT_WELCOME_PAGE;
         }
 
         if (referer.contains(ACTION_PARAMETER)) {
             String currentPage = referer.substring(referer.indexOf("=") + 1);
             log.debug("PAY ATTENTION: Current page '{}'", currentPage);
-            return "redirect:" + currentPage;
+            return REDIRECT_PREFIX + currentPage;
         }
-        return "redirect:welcome";
+        return REDIRECT_WELCOME_PAGE;
     }
 }

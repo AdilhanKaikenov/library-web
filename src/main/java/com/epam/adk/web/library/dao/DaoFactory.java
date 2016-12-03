@@ -51,6 +51,8 @@ public abstract class DaoFactory implements AutoCloseable {
 
     public abstract BookDao bookDao();
 
+    public abstract CommentDao commentDao();
+
     /**
      * Start transaction.
      *

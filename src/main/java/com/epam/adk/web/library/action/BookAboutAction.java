@@ -18,21 +18,21 @@ import javax.servlet.http.HttpServletResponse;
 public class BookAboutAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(BookAboutAction.class);
+    private static final String BOOK_ID_PARAMETER = "id";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
         log.debug("The book about action started execute.");
 
-        int id = Integer.parseInt(request.getParameter("id"));
+        int id = Integer.parseInt(request.getParameter(BOOK_ID_PARAMETER));
 
         BookService bookService = new BookService();
 
         try {
             Book book = bookService.getBookById(id);
-
             request.setAttribute("book", book);
         } catch (ServiceException e) {
-            throw new ActionException("Error: BookAboutAction class, execute() method.", e);
+            throw new ActionException("Error: BookAboutAction class, execute() method. Can not give info about book:", e);
         }
 
         return "book";

@@ -27,12 +27,14 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     private static final String SELECT_ALL = "SELECT BOOK.ID, BOOK.TITLE, BOOK.COVER, BOOK.AUTHORS, BOOK.PUBLISH_YEAR, " +
             "GENRE.GENRE_TYPE AS GENRE, BOOK.DESCRIPTION, BOOK.TOTAL_AMOUNT, BOOK.AVAILABLE_AMOUNT FROM BOOK " +
             "INNER JOIN GENRE ON BOOK.GENRE = GENRE.ID";
-    private static final String BOOK_CREATE_QUERY = "INSERT INTO PUBLIC.BOOK (TITLE, COVER, AUTHORS, PUBLISH_YEAR, GENRE, " +
+    private static final String CREATE_QUERY = "INSERT INTO PUBLIC.BOOK (TITLE, COVER, AUTHORS, PUBLISH_YEAR, GENRE, " +
             "DESCRIPTION, TOTAL_AMOUNT, AVAILABLE_AMOUNT) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String SELECT_BY_ID = "SELECT BOOK.ID, BOOK.TITLE, BOOK.COVER, BOOK.AUTHORS, BOOK.PUBLISH_YEAR," +
             "GENRE.GENRE_TYPE AS GENRE, BOOK.DESCRIPTION, BOOK.TOTAL_AMOUNT, BOOK.AVAILABLE_AMOUNT FROM BOOK " +
             "INNER JOIN GENRE ON BOOK.GENRE = GENRE.ID WHERE PUBLIC.BOOK.ID = ?";
-    private static final String SELECT_ALL_BY_GENRE = "SELECT BOOK.ID, BOOK.TITLE, BOOK.COVER, BOOK.AUTHORS, BOOK.PUBLISH_YEAR, GENRE.GENRE_TYPE AS GENRE, BOOK.DESCRIPTION, BOOK.TOTAL_AMOUNT, BOOK.AVAILABLE_AMOUNT FROM BOOK INNER JOIN GENRE ON BOOK.GENRE = GENRE.ID WHERE PUBLIC.GENRE.ID = ?";
+    private static final String SELECT_ALL_BY_GENRE = "SELECT BOOK.ID, BOOK.TITLE, BOOK.COVER, BOOK.AUTHORS, BOOK.PUBLISH_YEAR, " +
+            "GENRE.GENRE_TYPE AS GENRE, BOOK.DESCRIPTION, BOOK.TOTAL_AMOUNT, BOOK.AVAILABLE_AMOUNT FROM BOOK INNER JOIN GENRE ON " +
+            "BOOK.GENRE = GENRE.ID WHERE PUBLIC.GENRE.ID = ?";
 
     public JdbcBookDao(Connection connection) {
         super(connection);
@@ -77,6 +79,7 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
 
     @Override
     public List<Book> getAllByGenreId(int id) throws DaoException {
+        log.debug("Entering JdbcBookDao class, getAllByGenreId() method. Book ID = {}", id);
         List<Book> result = null;
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
@@ -86,10 +89,12 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
             resultSet = preparedStatement.executeQuery();
             result = createListFrom(resultSet);
         } catch (SQLException e) {
-            throw new DaoException("");
+            log.error("Error: JdbcBookDao class getAllByGenreId() method. I can not get all books. {}", e);
+            throw new DaoException("Error: JdbcBookDao class getAllByGenreId() method. I can not get all books.", e);
         } finally {
             close(preparedStatement, resultSet);
         }
+        log.debug("Leaving JdbcBookDao class, getAllByGenreId() method.");
         return result;
     }
 
@@ -100,7 +105,7 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
 
     @Override
     protected String getCreateQuery() {
-        return BOOK_CREATE_QUERY;
+        return CREATE_QUERY;
     }
 
     @Override

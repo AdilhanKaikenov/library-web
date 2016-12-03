@@ -19,12 +19,13 @@ import java.util.List;
 public class CategoryAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(CategoryAction.class);
+    private static final String GENRE_PARAMETER = "genre";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
         log.debug("The category action started execute.");
 
-        int genreID = Integer.parseInt(request.getParameter("genre"));
+        int genreID = Integer.parseInt(request.getParameter(GENRE_PARAMETER));
 
         BookService bookService = new BookService();
 

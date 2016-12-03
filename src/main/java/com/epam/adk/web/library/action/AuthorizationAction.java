@@ -21,6 +21,8 @@ public class AuthorizationAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(AuthorizationAction.class);
     private static final String USER = "user";
+    private static final String AUTH_LOGIN_PARAMETER = "authLogin";
+    private static final String AUTH_PASSWORD_PARAMETER = "authPassword";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -28,8 +30,8 @@ public class AuthorizationAction implements Action {
 
         HttpSession session = request.getSession();
 
-        String login = request.getParameter("authLogin");
-        String password = request.getParameter("authPassword");
+        String login = request.getParameter(AUTH_LOGIN_PARAMETER);
+        String password = request.getParameter(AUTH_PASSWORD_PARAMETER);
         log.debug("AuthorizationAction class: login from request = {}", login);
 
         AuthorizationFormValidator formValidator = new AuthorizationFormValidator();

@@ -11,16 +11,13 @@
     <t:book book="${book}"/>
 
     <div class="book-description-section">
-
         <p align="justify">${book.description}</p>
-
     </div>
-
     <div class="book-comment-section">
         <form action="${pageContext.request.contextPath}/do/" method="post">
             <input type="hidden" name="action" value="comment">
-            <input type="hidden" name="id" value="${book.id}">
-            <textarea type="text" name="comment" cols="125" rows="5" maxlength="1000"></textarea>
+            <input type="hidden" name="bookId" value="${book.id}">
+            <textarea type="text" name="comment" cols="125" rows="5" minlength="30" maxlength="1000" required autofocus></textarea>
             <br><button type="submit">Comment</button>
         </form>
     </div>

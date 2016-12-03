@@ -2,6 +2,8 @@ DROP TABLE IF EXISTS USER;
 DROP TABLE IF EXISTS ROLE;
 DROP TABLE IF EXISTS GENDER;
 DROP TABLE IF EXISTS BOOK;
+DROP TABLE IF EXISTS GENRE;
+DROP TABLE IF EXISTS COMMENT;
 
 CREATE TABLE PUBLIC.USER
 (
@@ -90,3 +92,13 @@ INSERT INTO PUBLIC.BOOK (TITLE, COVER, AUTHORS, PUBLISH_YEAR, GENRE, DESCRIPTION
   ('Five unsolved problems of science', 'cover9.jpg', 'Arthur Wiggins, Charles Wynne', 2014, 4, 'American scientists Arthur Wiggins and Charles Wynn just detailed and humorous talk about the major problems of science, the solution of which scientists around the world are fighting. Astronomy. Why the universe is expanding, but the rate of expansion is increasing? Physics. Why do some particles have mass while others - not? Chemistry. What chemical reactions atoms are pushed to the formation of the first living beings? Biology. What is the total device and destination proteome? Geology. Is it possible to accurate long-term weather forecast? The authors introduce the events that put these issues, discuss the existing theories, including string theory, the chaos, the human genome and protein folding, allow readers to take part in the reflections on the ideas proposed. The book tells the story of the biggest problems of astronomy, physics, chemistry, biology and geology, on which scientists are now working. The authors consider the opening that led to these problems, are familiar with the work on their solution and discuss new theories, including string theory, the chaos, the human genome and protein folding. For a wide range of readers. Pictures Sidney Harris', 10, 10),
   ('Physics at every step', 'cover10.jpg', 'Yakov Perelman', 2010, 4, 'One of the best benefits of classical physics. Interesting stories, instructive experiments, interesting facts will teach the inquisitive reader to notice the simplest physical phenomena and understand their nature.', 10, 10)
 ;
+
+CREATE TABLE PUBLIC.COMMENT
+(
+  id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  USER_ID INT NOT NULL,
+  BOOK_ID INT NOT NULL,
+  DATE DATETIME NOT NULL,
+  TEXT VARCHAR(1000) NOT NULL
+);
+CREATE UNIQUE INDEX "COMMENT_id_uindex" ON PUBLIC.COMMENT (id);
