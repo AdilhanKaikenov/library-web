@@ -9,11 +9,18 @@
     <div>
         <a href="${pageContext.request.contextPath}/do/?action=welcome"
            class="library-icon">Library</a>
+        <%--@elvariable id="user" type="com.epam.adk.web.library.model.User"--%>
     </div>
-    <%--@elvariable id="user" type="com.epam.adk.web.library.model.User"--%>
-    <c:if test="${empty user.role}">
-        <div class="authorization-form-section">
+    <div class="authorization-form-section">
+        <c:if test="${empty user.role}">
             <t:authorization/>
-        </div>
-    </c:if>
+        </c:if>
+    </div>
+    <div class="user-header-section">
+        <c:if test="${not empty user}">
+            <button class="button"><a href="${pageContext.request.contextPath}/do/?action=">Profile</a></button>
+            <button class="button"><a href="${pageContext.request.contextPath}/do/?action=logout">Logout</a></button>
+        </c:if>
+    </div>
+</div>
 </div>

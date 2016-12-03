@@ -42,4 +42,24 @@ public class BookService {
         return result;
     }
 
+    public Book getBookById(int id) throws ServiceException {
+        log.debug("Entering BookService class getBookById() method. Id = {}", id);
+        Book book = null;
+        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+            try {
+                jdbcDaoFactory.beginTransaction();
+                BookDao bookDao = jdbcDaoFactory.bookDao();
+                book = bookDao.read(id);
+                jdbcDaoFactory.endTransaction();
+            } catch (SQLException e){
+                jdbcDaoFactory.rollbackTransaction();
+                throw new ServiceException("Error: BookService class, getBookById() method. TRANSACTION error :", e);
+            }
+        } catch (SQLException | DaoException e) {
+            throw new ServiceException("Error: BookService class, getBookById() method.", e);
+        }
+        log.debug("Leaving BookService class getBookById() method.");
+        return book;
+    }
+
 }

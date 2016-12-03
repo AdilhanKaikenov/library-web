@@ -6,6 +6,10 @@ body {
     background-image: url("../css/images/background.jpg") ;
 }
 
+p {
+    text-indent: 25px;
+}
+
 .row:after {
     visibility: hidden;
     display: block;
@@ -162,7 +166,7 @@ body {
     left: 800px;
 }
 
-.bottom {
+.button {
     border: 1px solid #333;
     display: inline-block;
     padding: 5px 15px;
@@ -175,7 +179,7 @@ body {
     -moz-box-shadow: 8px;
 }
 
-.bottom:hover {
+.button:hover {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
     background: linear-gradient(to bottom, #fcfff4, #e9e9ce);
     color: #a00;
@@ -221,4 +225,25 @@ body {
     position: relative;
     bottom: 30px;
     float: left;
+}
+
+.user-header-section {
+    float: right;
+    position: relative;
+    top: 80px;
+    right: 110px;
+}
+
+.book-links-section {
+    float: right;
+    position: relative;
+    right: 10px;
+    top: 60px;
+}
+
+.book-description-section {
+    position: relative;
+    top: 425px;
+    right: 458px;
+    width: 150%;
 }

@@ -94,7 +94,7 @@
                         <td colspan="2">
                             <br>
                             <button type="submit"
-                                    onclick="return confirm('<ftm:message key="confirm.message"/>')" class="bottom"><ftm:message
+                                    onclick="return confirm('<ftm:message key="confirm.message"/>')" class="button"><ftm:message
                                     key="button.sign.up"/></button>
                         </td>
                     </tr>

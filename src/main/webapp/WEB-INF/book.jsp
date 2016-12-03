@@ -5,12 +5,18 @@
 
 <ftm:setBundle basename="i18n"/>
 
-<t:page title="welcome.page">
+<t:page title="book.page">
 
-    <%--@elvariable id="books" type="java.util.List"--%>
-    <c:forEach items="${books}" var="book">
-        <%--@elvariable id="book" type="com.epam.adk.web.library.model.Book"--%>
-        <t:book book="${book}"/>
-    </c:forEach>
+    <div>
+
+    <%--@elvariable id="book" type="com.epam.adk.web.library.model.Book"--%>
+    <t:book book="${book}"/>
+    </div>
+
+    <div class="book-description-section">
+
+        <p align="justify">${book.description}</p>
+
+    </div>
 
 </t:page>

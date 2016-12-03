@@ -34,7 +34,7 @@ public class SelectLocaleAction implements Action {
         }
 
         if (referer.contains(ACTION_PARAMETER)) {
-            String currentPage = referer.substring(referer.lastIndexOf("=") + 1);
+            String currentPage = referer.substring(referer.indexOf("=") + 1);
             log.debug("PAY ATTENTION: Current page '{}'", currentPage);
             return "redirect:" + currentPage;
         }

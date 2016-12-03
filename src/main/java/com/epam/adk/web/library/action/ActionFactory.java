@@ -29,6 +29,8 @@ public class ActionFactory {
         actions.put("GET/welcome", new ShowWelcomeAction());
         actions.put("GET/success-registration", new ShowPageAction("success-registration"));
         actions.put("GET/authorization-error", new ShowPageAction("authorization-error"));
+        actions.put("GET/logout", new LogoutAction());
+        actions.put("GET/book-about", new BookAboutAction());
         log.debug("Action Factory class, actions SIZE {}", actions.size());
     }
 

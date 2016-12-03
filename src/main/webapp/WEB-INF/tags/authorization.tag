@@ -21,6 +21,6 @@
         </tr>
     </table>
         <tr align="center">
-            <td colspan="2"><br><button type="submit" class="bottom"><ftm:message key="button.sign.in"/></button></td>
+            <td colspan="2"><br><button type="submit" class="button"><ftm:message key="button.sign.in"/></button></td>
         </tr>
 </form>

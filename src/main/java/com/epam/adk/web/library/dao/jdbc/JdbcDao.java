@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +47,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             }
         } catch (SQLException e) {
             log.error("Error: JdbcDao class, create() method. {}", e);
-            throw new DaoException(MessageFormat.format("Error: JdbcDao class, create() method. {0}", e));
+            throw new DaoException("Error: JdbcDao class, create() method.", e);
         } finally {
             close(preparedStatement, resultSet);
         }
@@ -59,20 +58,48 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
     @Override
     public T read(int id) throws DaoException {
-        return null;
+        log.debug("Entering JdbcDao class, read(id) method");
+        T result = null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(getReadByIdQuery());
+            preparedStatement = setFieldInReadByIdPreparedStatement(preparedStatement, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            result = createFrom(resultSet);
+        } catch (SQLException e) {
+            log.error("Error: JdbcDao class read(id) method. I can not read entity by id from resultSet. {}", e);
+            throw new DaoException("Error: JdbcDao class read(id) method. I can not read entity by id from resultSet.", e);
+        }
+        log.debug("Leaving JdbcDao class, read(id) method.");
+        return result;
     }
+
+    protected PreparedStatement setFieldInReadByIdPreparedStatement(PreparedStatement preparedStatement, int id) throws DaoException{
+        log.debug("Entering JdbcDao class, setFieldInReadByIdPreparedStatement() method. ID = {}", id);
+        try {
+            preparedStatement.setInt(1, id);
+            log.debug("Leaving JdbcDao class, setFieldInReadByIdPreparedStatement() method.");
+        } catch (SQLException e) {
+            log.error("Error: JdbcDao class setFieldInReadByIdPreparedStatement() method. I can not set field into statement. {}", e);
+            throw new DaoException("Error: JdbcDao class setFieldInReadByIdPreparedStatement() method. I can not set field into statement.", e);
+        }
+        return preparedStatement;
+    }
+
+    protected abstract String getReadByIdQuery();
 
     @Override
     public List<T> readAll() throws DaoException {
+        log.debug("Entering JdbcDao class, readAll() method");
         List<T> result = new ArrayList<>();
-        try {
-            Statement statement = connection.createStatement();
+        try (Statement statement = connection.createStatement()){
             ResultSet resultSet = statement.executeQuery(getReadAllQuery());
             List<T> list = createListFrom(resultSet);
             result.addAll(list);
         } catch (SQLException e) {
-            log.error("");
+            log.error("Error: JdbcDao class readAll() method. I can not read all entity from resultSet. {}", e);
+            throw new DaoException("Error: JdbcDao class readAll() method. I can not read all entity from resultSet.", e);
         }
+        log.debug("Leaving JdbcDao class, readAll() method. Amount of result = {}", result.size());
         return result;
     }
 
@@ -84,13 +111,10 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
                 result.add(createFrom(resultSet));
             }
         } catch (SQLException e) {
-            log.error("Error: JdbcDao class createListFrom() method. " +
-                    "I can not create List of entity from resultSet. {}", e);
-            throw new DaoException(MessageFormat.format(
-                    "Error: JdbcDao class createListFrom() method. " +
-                            "I can not create List of entity from resultSet. {0}", e));
+            log.error("Error: JdbcDao class createListFrom() method. I can not create List of entity from resultSet. {}", e);
+            throw new DaoException("Error: JdbcDao class createListFrom() method. I can not create List of entity from resultSet.", e);
         }
-        log.debug("Leaving JdbcDao class, createListFrom() method. Amount of result = {}", result.size());
+        log.debug("Leaving JdbcDao class, createListFrom() method.");
         return result;
     }
 
@@ -109,7 +133,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             result = createFrom(resultSet);
         } catch (SQLException e) {
             log.error("Error: JdbcDao class, read() method. I can not read by entity: {}", e);
-            throw new DaoException(MessageFormat.format("Error: JdbcDao class, read() method. I can not read by entity: {0}", e));
+            throw new DaoException("Error: JdbcDao class, read() method. I can not read by entity:", e);
         } finally {
             close(preparedStatement, resultSet);
         }
@@ -135,8 +159,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             }
         } catch (SQLException e) {
             log.error("I can not get the ID from generatedKeys, JdbcDao class, getID() method. {}", e);
-            throw new DaoException(MessageFormat.format(
-                    "I can not get the ID from generatedKeys, JdbcDao class, getID() method. {0}", e));
+            throw new DaoException("I can not get the ID from generatedKeys, JdbcDao class, getID() method.", e);
         }
         log.debug("Leaving JdbcDao class getID() method result = {}", id);
         return id;
@@ -148,8 +171,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
                 preparedStatement.close();
             } catch (SQLException e) {
                 log.error("Error: JdbcDao class, close() method. Can not close preparedStatement. {}", e);
-                throw new DaoException(MessageFormat.format(
-                        "Error: JdbcDao class, close() method. Can not close preparedStatement. {0}", e));
+                throw new DaoException("Error: JdbcDao class, close() method. Can not close preparedStatement.", e);
             }
         }
         if (resultSet != null) {
@@ -157,8 +179,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
                 resultSet.close();
             } catch (SQLException e) {
                 log.error("Error: JdbcDao class, close() method. Can not close resultSet. {}", e);
-                throw new DaoException(MessageFormat.format(
-                        "Error: JdbcDao class, close() method. Can not close resultSet. {0}", e));
+                throw new DaoException("Error: JdbcDao class, close() method. Can not close resultSet.", e);
             }
         }
     }

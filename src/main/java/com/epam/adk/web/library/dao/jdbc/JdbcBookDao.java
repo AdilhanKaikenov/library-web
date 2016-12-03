@@ -23,17 +23,27 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     private static final Logger log = LoggerFactory.getLogger(JdbcBookDao.class);
 
     private static final String TABLE_NAME = "Book";
-    private static final String SELECT_ALL_FROM_BOOK = "SELECT BOOK.ID, BOOK.TITLE, BOOK.COVER, BOOK.AUTHORS, BOOK.PUBLISH_YEAR, " +
-            "GENRE.GENRE_TYPE AS GENRE, BOOK.DESCRIPTION, BOOK.TOTAL_AMOUNT, BOOK.AVAILABLE_AMOUNT FROM BOOK INNER JOIN GENRE ON BOOK.GENRE = GENRE.ID";
-    private static final String BOOK_CREATE_QUERY = "INSERT INTO PUBLIC.BOOK (TITLE, COVER, AUTHORS, PUBLISH_YEAR, GENRE, DESCRIPTION, TOTAL_AMOUNT, AVAILABLE_AMOUNT) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String SELECT_ALL = "SELECT BOOK.ID, BOOK.TITLE, BOOK.COVER, BOOK.AUTHORS, BOOK.PUBLISH_YEAR, " +
+            "GENRE.GENRE_TYPE AS GENRE, BOOK.DESCRIPTION, BOOK.TOTAL_AMOUNT, BOOK.AVAILABLE_AMOUNT FROM BOOK " +
+            "INNER JOIN GENRE ON BOOK.GENRE = GENRE.ID";
+    private static final String BOOK_CREATE_QUERY = "INSERT INTO PUBLIC.BOOK (TITLE, COVER, AUTHORS, PUBLISH_YEAR, GENRE, " +
+            "DESCRIPTION, TOTAL_AMOUNT, AVAILABLE_AMOUNT) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String SELECT_BY_ID = "SELECT BOOK.ID, BOOK.TITLE, BOOK.COVER, BOOK.AUTHORS, BOOK.PUBLISH_YEAR," +
+            "GENRE.GENRE_TYPE AS GENRE, BOOK.DESCRIPTION, BOOK.TOTAL_AMOUNT, BOOK.AVAILABLE_AMOUNT FROM BOOK " +
+            "INNER JOIN GENRE ON BOOK.GENRE = GENRE.ID WHERE PUBLIC.BOOK.ID = ?";
 
     public JdbcBookDao(Connection connection) {
         super(connection);
     }
 
     @Override
+    protected String getReadByIdQuery() {
+        return SELECT_BY_ID;
+    }
+
+    @Override
     protected String getReadAllQuery() {
-        return SELECT_ALL_FROM_BOOK;
+        return SELECT_ALL;
     }
 
     @Override
