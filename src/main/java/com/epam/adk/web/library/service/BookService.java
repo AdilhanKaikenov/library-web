@@ -62,4 +62,25 @@ public class BookService {
         return book;
     }
 
+    public List<Book> getAllByGenre(int id) throws ServiceException {
+        log.debug("Entering BookService class getAllByGenre() method. Genre Id = {}", id);
+        List<Book> result;
+        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+            try {
+                jdbcDaoFactory.beginTransaction();
+                BookDao bookDao = jdbcDaoFactory.bookDao();
+                result = bookDao.getAllByGenreId(id);
+                jdbcDaoFactory.endTransaction();
+            } catch (SQLException e) {
+                jdbcDaoFactory.rollbackTransaction();
+                throw new ServiceException("Error: BookService class, getAllByGenre() method. TRANSACTION error :", e);
+            }
+        } catch (SQLException | DaoException e) {
+            throw new ServiceException("Error: BookService class, getAllByGenre() method.", e);
+        }
+        log.debug("Leaving BookService class getAllByGenre() method. Result size = {}", result.size());
+        return result;
+    }
+
+
 }

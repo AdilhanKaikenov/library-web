@@ -1,4 +1,4 @@
-<%@tag body-content="empty" %>
+<%@tag body-content="empty" pageEncoding="UTF-8" %>
 <%@ taglib prefix="ftm" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
@@ -21,6 +21,6 @@
         </c:if>
     </div>
     <div class="book-links-section">
-        <button class="button"><a href="${pageContext.request.contextPath}/do/?action=book-about&id=${book.id}">About</a></button>
+        <a href="${pageContext.request.contextPath}/do/?action=book-about&id=${book.id}" class="link-style">About</a>
     </div>
 </div>

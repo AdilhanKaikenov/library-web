@@ -7,11 +7,8 @@
 
 <t:page title="book.page">
 
-    <div>
-
     <%--@elvariable id="book" type="com.epam.adk.web.library.model.Book"--%>
     <t:book book="${book}"/>
-    </div>
 
     <div class="book-description-section">
 
@@ -19,4 +16,12 @@
 
     </div>
 
+    <div class="book-comment-section">
+        <form action="${pageContext.request.contextPath}/do/" method="post">
+            <input type="hidden" name="action" value="comment">
+            <input type="hidden" name="id" value="${book.id}">
+            <textarea type="text" name="comment" cols="125" rows="5" maxlength="1000"></textarea>
+            <br><button type="submit">Comment</button>
+        </form>
+    </div>
 </t:page>

@@ -1,4 +1,4 @@
-<%@tag body-content="empty" %>
+<%@tag body-content="empty" pageEncoding="UTF-8" %>
 <%@ taglib prefix="ftm" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
@@ -18,9 +18,12 @@
     </div>
     <div class="user-header-section">
         <c:if test="${not empty user}">
-            <button class="button"><a href="${pageContext.request.contextPath}/do/?action=">Profile</a></button>
-            <button class="button"><a href="${pageContext.request.contextPath}/do/?action=logout">Logout</a></button>
-        </c:if>
+            <i>Вы вошли как: ${user.login} (${user.role.value}) </i>
+            <br>
+            <br>
+            <a href="${pageContext.request.contextPath}/do/?action=" class="link-style">Profile</a>
+            <a href="${pageContext.request.contextPath}/do/?action=logout" class="link-style">Logout</a>
+            </c:if>
     </div>
 </div>
 </div>

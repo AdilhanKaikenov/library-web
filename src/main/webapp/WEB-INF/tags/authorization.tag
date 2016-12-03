@@ -1,4 +1,4 @@
-<%@tag body-content="empty" %>
+<%@tag body-content="empty" pageEncoding="UTF-8"%>
 <%@ taglib prefix="ftm" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
@@ -21,6 +21,6 @@
         </tr>
     </table>
         <tr align="center">
-            <td colspan="2"><br><button type="submit" class="button"><ftm:message key="button.sign.in"/></button></td>
+            <td colspan="2"><br><button type="submit" class="link-style"><ftm:message key="button.sign.in"/></button></td>
         </tr>
 </form>

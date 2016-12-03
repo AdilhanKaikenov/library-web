@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Year;
+import java.util.List;
 
 /**
  * JdbcBookDao class created on 1.12.2016
@@ -31,6 +32,7 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     private static final String SELECT_BY_ID = "SELECT BOOK.ID, BOOK.TITLE, BOOK.COVER, BOOK.AUTHORS, BOOK.PUBLISH_YEAR," +
             "GENRE.GENRE_TYPE AS GENRE, BOOK.DESCRIPTION, BOOK.TOTAL_AMOUNT, BOOK.AVAILABLE_AMOUNT FROM BOOK " +
             "INNER JOIN GENRE ON BOOK.GENRE = GENRE.ID WHERE PUBLIC.BOOK.ID = ?";
+    private static final String SELECT_ALL_BY_GENRE = "SELECT BOOK.ID, BOOK.TITLE, BOOK.COVER, BOOK.AUTHORS, BOOK.PUBLISH_YEAR, GENRE.GENRE_TYPE AS GENRE, BOOK.DESCRIPTION, BOOK.TOTAL_AMOUNT, BOOK.AVAILABLE_AMOUNT FROM BOOK INNER JOIN GENRE ON BOOK.GENRE = GENRE.ID WHERE PUBLIC.GENRE.ID = ?";
 
     public JdbcBookDao(Connection connection) {
         super(connection);
@@ -74,6 +76,24 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     }
 
     @Override
+    public List<Book> getAllByGenreId(int id) throws DaoException {
+        List<Book> result = null;
+        ResultSet resultSet = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = getConnection().prepareStatement(SELECT_ALL_BY_GENRE);
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+            result = createListFrom(resultSet);
+        } catch (SQLException e) {
+            throw new DaoException("");
+        } finally {
+            close(preparedStatement, resultSet);
+        }
+        return result;
+    }
+
+    @Override
     protected String getTableName() {
         return TABLE_NAME;
     }
@@ -97,4 +117,5 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     protected PreparedStatement setFieldsInReadByEntityPreparedStatement(PreparedStatement preparedStatement, Book entity) throws DaoException {
         return null;
     }
+
 }

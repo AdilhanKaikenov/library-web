@@ -85,7 +85,6 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         return preparedStatement;
     }
 
-    protected abstract String getReadByIdQuery();
 
     @Override
     public List<T> readAll() throws DaoException {
@@ -118,7 +117,6 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         return result;
     }
 
-    protected abstract String getReadAllQuery();
 
     @Override
     public T read(T entity) throws DaoException {
@@ -183,6 +181,10 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             }
         }
     }
+
+    protected abstract String getReadByIdQuery();
+
+    protected abstract String getReadAllQuery();
 
     protected abstract T createFrom(ResultSet resultSet) throws DaoException;
 
