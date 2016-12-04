@@ -254,11 +254,36 @@ hr {
     width: 150%;
 }
 
-.book-comment-section {
+.book-submit-comment-form-section {
     float: initial;
     position: relative;
     top: 175px;
     left: 10px;
+}
+
+.book-comments-section {
+    position: relative;
+    float: left;
+    top: 190px;
+    background: #dddddd;
+    padding: 15px;
+    width: 920px;
+}
+
+.comment-sender-info-section {
+
+}
+
+.comment-text-section {
+
+}
+
+.send-comment-requirement-section {
+    position: relative;
+    top: 165px;
+    left: 10px;
+    width: 76%;
+    float: left;
 }
 
 .sidebar-category-link-style {

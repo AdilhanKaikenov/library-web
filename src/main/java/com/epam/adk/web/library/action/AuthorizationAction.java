@@ -50,17 +50,14 @@ public class AuthorizationAction implements Action {
 
         try {
             user = userService.authorize(user);
-            if (user == null) {
-                request.setAttribute("authorizationError", "auth.error");
-                return "authorization-error";
-            }
             if (!user.isStatus()) {
                 request.setAttribute("inactiveStatus", "user.profile.inactive");
                 return "authorization-error";
             }
             log.debug("User '{}' successfully authorized", user.getLogin());
         } catch (ServiceException e) {
-            throw new ActionException("Error: AuthorizationAction class. Can not authorize User:", e);
+            request.setAttribute("authorizationError", "auth.error");
+            return "authorization-error";
         }
 
         session.setAttribute(USER, user);

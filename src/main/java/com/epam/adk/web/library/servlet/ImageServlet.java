@@ -20,7 +20,7 @@ import java.util.Map;
  *
  * @author Kaikenov Adilhan
  */
-public class ImageServlet extends HttpServlet {
+public final class ImageServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(ImageServlet.class);
     private static final String IMAGE_PARAMETER = "image";

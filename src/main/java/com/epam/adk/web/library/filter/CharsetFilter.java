@@ -12,7 +12,7 @@ import java.io.IOException;
  * @author Kaikenov Adilhan
  * @see Filter
  */
-public class CharsetFilter implements Filter {
+public final class CharsetFilter implements Filter {
 
     private static final Logger log = LoggerFactory.getLogger(CharsetFilter.class);
     private static final String ENCODING = "UTF-8";

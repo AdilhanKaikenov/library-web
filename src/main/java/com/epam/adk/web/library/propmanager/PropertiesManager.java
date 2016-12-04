@@ -14,7 +14,7 @@ import java.util.*;
  *
  * @author Kaikenov Adilhan
  */
-public class PropertiesManager {
+public final class PropertiesManager {
 
     private static final Logger log = LoggerFactory.getLogger(PropertiesManager.class);
 

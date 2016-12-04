@@ -14,7 +14,7 @@ import javax.servlet.ServletContextListener;
  *
  * @author Kaikenov Adilhan
  */
-public class ConnectionPoolListener implements ServletContextListener {
+public final class ConnectionPoolListener implements ServletContextListener {
 
     private static final Logger log = LoggerFactory.getLogger(ConnectionPoolListener.class);
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();

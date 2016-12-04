@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Kaikenov Adilhan
  */
-public class ConnectionPoolTest {
+public final class ConnectionPoolTest {
 
     private static final Logger log = LoggerFactory.getLogger(ConnectionPoolTest.class);
     private static final int TIME_MILLIS = 5000;

@@ -44,7 +44,7 @@ public class BookService {
 
     public Book getBookById(int id) throws ServiceException {
         log.debug("Entering BookService class getBookById() method. Id = {}", id);
-        Book book = null;
+        Book book;
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
             try {
                 jdbcDaoFactory.beginTransaction();

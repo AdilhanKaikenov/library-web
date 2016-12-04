@@ -14,14 +14,40 @@
         <p align="justify">${book.description}</p>
         <hr>
     </div>
-    <div class="book-comment-section">
-        <form action="${pageContext.request.contextPath}/do/" method="post">
-            <input type="hidden" name="action" value="comment">
-            <input type="hidden" name="bookId" value="${book.id}">
-            <textarea type="text" name="comment" cols="125" rows="5" minlength="30" maxlength="1000" required
-                      autofocus></textarea>
-            <br>
-            <button type="submit" class="link-style"><ftm:message key="leave.comment.button"/></button>
-        </form>
+
+    <%--@elvariable id="user" type="com.epam.adk.web.library.model.User"--%>
+    <div class="book-submit-comment-form-section">
+        <c:if test="${not empty user}">
+            <form action="${pageContext.request.contextPath}/do/" method="post">
+                <input type="hidden" name="action" value="comment">
+                <input type="hidden" name="bookId" value="${book.id}">
+                <textarea type="text" name="comment" cols="125" rows="5" minlength="30" maxlength="1000" required
+                          autofocus wrap="soft"></textarea>
+                <br>
+                <button type="submit" class="link-style"><ftm:message key="leave.comment.button"/></button>
+            </form>
+        </c:if>
     </div>
+    <div class="send-comment-requirement-section">
+        <c:if test="${empty user}">
+            <ftm:message key="anon.send.comment.requirement.message"/>
+        </c:if>
+    </div>
+
+    <%--@elvariable id="bookComments" type="java.util.List"--%>
+    <c:if test="${not empty bookComments}">
+        <div class="book-comments-section">
+            <c:forEach items="${bookComments}" var="comment">
+                <%--@elvariable id="comment" type="com.epam.adk.web.library.model.Comment"--%>
+                <div class="comment-sender-info-section">
+                    <h4>${comment.userFirstname} ${comment.userSurname} (${comment.userLogin})
+                        <br>Date: ${comment.date}</h4>
+                </div>
+                <div class="comment-text-section">
+                    <p>${comment.text}
+                    <hr>
+                </div>
+            </c:forEach>
+        </div>
+    </c:if>
 </t:page>

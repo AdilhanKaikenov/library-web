@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Year;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,22 +42,12 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     }
 
     @Override
-    protected String getReadByIdQuery() {
-        return SELECT_BY_ID;
-    }
-
-    @Override
-    protected String getReadAllQuery() {
-        return SELECT_ALL;
-    }
-
-    @Override
-    protected Book createFrom(ResultSet resultSet) throws DaoException {
-        log.debug("Entering JdbcBookDao class, createFrom() method");
-        Book book = null;
+    protected List<Book> createListFrom(ResultSet resultSet) throws DaoException {
+        log.debug("Entering JdbcBookDao class, createListFrom() method");
+        List<Book> result = new ArrayList<>();
         try {
-            if (resultSet.next()) {
-                book = new Book();
+            while (resultSet.next()) {
+                Book book = new Book();
                 log.debug("Creating book from resultSet");
                 book.setId(resultSet.getInt("ID"));
                 book.setTitle(resultSet.getString("TITLE"));
@@ -68,19 +59,20 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
                 book.setTotalAmount(resultSet.getInt("TOTAL_AMOUNT"));
                 book.setAvailableAmount(resultSet.getInt("AVAILABLE_AMOUNT"));
                 log.debug("Book successfully created in createFrom() method. Book id = {}", book.getId());
+                result.add(book);
             }
         } catch (SQLException e) {
-            log.error("Error: JdbcBookDao class createFrom() method. I can not create book from resultSet. {}", e);
-            throw new DaoException("Error: JdbcBookDao class createFrom() method. I can not create book from resultSet.", e);
+            log.error("Error: JdbcBookDao class createListFrom() method. I can not create List of books from resultSet. {}", e);
+            throw new DaoException("Error: JdbcDao class createListFrom() method. I can not create List of books from resultSet.", e);
         }
-        log.debug("Leaving JdbcBookDao class, createFrom() method.");
-        return book;
+        log.debug("Leaving JdbcBookDao class, createListFrom() method. Amount of books = {}", result.size());
+        return result;
     }
 
     @Override
     public List<Book> getAllByGenreId(int id) throws DaoException {
         log.debug("Entering JdbcBookDao class, getAllByGenreId() method. Book ID = {}", id);
-        List<Book> result = null;
+        List<Book> result;
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -109,7 +101,22 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     }
 
     @Override
+    protected String getReadByIdQuery() {
+        return SELECT_BY_ID;
+    }
+
+    @Override
+    protected String getReadAllQuery() {
+        return SELECT_ALL;
+    }
+
+    @Override
     protected String getReadByEntityQuery() {
+        return null;
+    }
+
+    @Override
+    protected String getReadAllByIdParameterQuery() {
         return null;
     }
 
@@ -120,6 +127,11 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
 
     @Override
     protected PreparedStatement setFieldsInReadByEntityPreparedStatement(PreparedStatement preparedStatement, Book entity) throws DaoException {
+        return null;
+    }
+
+    @Override
+    protected PreparedStatement setFieldInReadAllByIdParameterPreparedStatement(PreparedStatement preparedStatement, int id) throws DaoException {
         return null;
     }
 

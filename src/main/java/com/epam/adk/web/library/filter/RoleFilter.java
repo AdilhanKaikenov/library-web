@@ -21,7 +21,7 @@ import java.util.Set;
  *
  * @author Kaikenov Adilhan
  */
-public class RoleFilter implements Filter {
+public final class RoleFilter implements Filter {
 
     private static final Logger log = LoggerFactory.getLogger(RoleFilter.class);
     private static final Collection<String> adminAvailableActions = PropertiesManager.getInstance().getAllValues("/role_actions/admin.actions.properties");
@@ -104,7 +104,7 @@ public class RoleFilter implements Filter {
     /**
      * @return (true) if action is available and (false) if unavailable.
      */
-    public boolean isAvailableFor(Role role, String actionName) {
+    private boolean isAvailableFor(Role role, String actionName) {
         switch (role.getValue()) {
             case ADMIN_ROLE:
                 return adminActions.contains(actionName);

@@ -21,6 +21,8 @@ public class CommentAction implements Action {
     private static final String USER_PARAMETER = "user";
     private static final String BOOK_ID_PARAMETER = "bookId";
     private static final String COMMENT_PARAMETER = "comment";
+    private static final String REGEX_ENTER = "\\r";
+    private static final String LINE_BREAK_HTML_TAG = "<p>";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -30,13 +32,15 @@ public class CommentAction implements Action {
         User user = ((User) session.getAttribute(USER_PARAMETER));
         int bookId = Integer.parseInt(request.getParameter(BOOK_ID_PARAMETER));
         Date date = new Date();
-        String text = request.getParameter(COMMENT_PARAMETER);
+        String text = request.getParameter(COMMENT_PARAMETER).replaceAll(REGEX_ENTER, LINE_BREAK_HTML_TAG);
 
         Comment comment = new Comment();
         comment.setUserID(user.getId());
+        comment.setUserLogin(user.getLogin());
+        comment.setUserFirstname(user.getFirstname());
+        comment.setUserSurname(user.getSurname());
         comment.setBookID(bookId);
         comment.setDate(date);
-
         comment.setText(text);
 
         CommentService commentService = new CommentService();

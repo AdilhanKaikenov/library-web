@@ -17,7 +17,7 @@ import java.io.IOException;
  *
  * @author Kaikenov Adilhan
  */
-public class FrontControllerServlet extends HttpServlet {
+public final class FrontControllerServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(FrontControllerServlet.class);
     private static final String REDIRECT_PREFIX = "redirect:";

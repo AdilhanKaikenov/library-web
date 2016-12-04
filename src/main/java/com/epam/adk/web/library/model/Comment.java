@@ -10,6 +10,9 @@ import java.util.Date;
 public class Comment extends BaseEntity {
 
     private int userID;
+    private String userLogin;
+    private String userFirstname;
+    private String userSurname;
     private int bookID;
     private Date date;
     private String text;
@@ -20,6 +23,30 @@ public class Comment extends BaseEntity {
 
     public void setUserID(int userID) {
         this.userID = userID;
+    }
+
+    public String getUserLogin() {
+        return userLogin;
+    }
+
+    public void setUserLogin(String userLogin) {
+        this.userLogin = userLogin;
+    }
+
+    public String getUserFirstname() {
+        return userFirstname;
+    }
+
+    public void setUserFirstname(String userFirstname) {
+        this.userFirstname = userFirstname;
+    }
+
+    public String getUserSurname() {
+        return userSurname;
+    }
+
+    public void setUserSurname(String userSurname) {
+        this.userSurname = userSurname;
     }
 
     public int getBookID() {

@@ -62,4 +62,23 @@ public class UserService {
         log.debug("Leaving UserService class authorize() method.");
         return authorizedUser;
     }
+
+    public User getUserById(int id) throws ServiceException {
+        User user;
+        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+            try {
+                jdbcDaoFactory.beginTransaction();
+                UserDao userDao = jdbcDaoFactory.userDao();
+                user = userDao.read(id);
+                jdbcDaoFactory.endTransaction();
+            } catch (SQLException e) {
+                jdbcDaoFactory.rollbackTransaction();
+                throw new ServiceException("Error: UserService class, getUserById() method. TRANSACTION error:", e);
+            }
+        } catch (SQLException | DaoException e) {
+            throw new ServiceException("Error: UserService class, getUserById() method.", e);
+        }
+        log.debug("Leaving UserService class getUserById() method.");
+        return user;
+    }
 }

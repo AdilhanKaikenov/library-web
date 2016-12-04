@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * JdbcUserDao class created on 23.11.2016
@@ -43,13 +45,34 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     }
 
     @Override
-    protected String getReadByIdQuery() {
-        return SELECT_BY_ID;
-    }
-
-    @Override
-    protected String getReadAllQuery() {
-        return SELECT_ALL_FROM_USER;
+    protected List<User> createListFrom(ResultSet resultSet) throws DaoException {
+        log.debug("Entering JdbcUserDao class, createListFrom() method");
+        List<User> result = new ArrayList<>();
+        try {
+            while (resultSet.next()){
+                User user = new User();
+                log.debug("Creating user from resultSet");
+                user.setId(resultSet.getInt("ID"));
+                user.setLogin(resultSet.getString("LOGIN"));
+                user.setPassword(resultSet.getString("PASSWORD"));
+                user.setEmail(resultSet.getString("EMAIL"));
+                user.setFirstname(resultSet.getString("FIRSTNAME"));
+                user.setSurname(resultSet.getString("SURNAME"));
+                user.setPatronymic(resultSet.getString("PATRONYMIC"));
+                user.setGender(Gender.from(resultSet.getString("GENDER")));
+                user.setAddress(resultSet.getString("ADDRESS"));
+                user.setMobilePhone(resultSet.getString("MOBILE_PHONE"));
+                user.setRole(Role.from(resultSet.getString("ROLE")));
+                user.setStatus(resultSet.getBoolean("STATUS"));
+                log.debug("User successfully created in createFrom() method. User id = {}", user.getId());
+                result.add(user);
+            }
+        } catch (SQLException e) {
+            log.error("Error: JdbcUserDao class createListFrom() method. I can not create List of user from resultSet. {}", e);
+            throw new DaoException("Error: JdbcUserDao class createListFrom() method. I can not create List of user from resultSet.", e);
+        }
+        log.debug("Leaving JdbcUserDao class, createListFrom() method.");
+        return result;
     }
 
     @Override
@@ -76,36 +99,6 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     }
 
     @Override
-    protected User createFrom(ResultSet resultSet) throws DaoException {
-        log.debug("Entering JdbcUserDao class, createFrom() method");
-        User user = null;
-        try {
-            if (resultSet.next()) {
-                user = new User();
-                log.debug("Creating user from resultSet");
-                user.setId(resultSet.getInt("ID"));
-                user.setLogin(resultSet.getString("LOGIN"));
-                user.setPassword(resultSet.getString("PASSWORD"));
-                user.setEmail(resultSet.getString("EMAIL"));
-                user.setFirstname(resultSet.getString("FIRSTNAME"));
-                user.setSurname(resultSet.getString("SURNAME"));
-                user.setPatronymic(resultSet.getString("PATRONYMIC"));
-                user.setGender(Gender.from(resultSet.getString("GENDER")));
-                user.setAddress(resultSet.getString("ADDRESS"));
-                user.setMobilePhone(resultSet.getString("MOBILE_PHONE"));
-                user.setRole(Role.from(resultSet.getString("ROLE")));
-                user.setStatus(resultSet.getBoolean("STATUS"));
-                log.debug("User successfully created in createFrom() method. User id = {}", user.getId());
-            }
-        } catch (SQLException e) {
-            log.error("Error: JdbcUserDao class createFrom() method. I can not create user from resultSet. {}", e);
-            throw new DaoException("Error: JdbcUserDao class createFrom() method. I can not create user from resultSet.", e);
-        }
-        log.debug("Leaving JdbcUserDao class, createFrom() method.");
-        return user;
-    }
-
-    @Override
     protected PreparedStatement setFieldsInReadByEntityPreparedStatement(PreparedStatement preparedStatement, User entity) throws DaoException {
         log.debug("Entering JdbcUserDao class, setFieldsInReadByEntityPreparedStatement() method. User = {}", entity.getLogin());
         try {
@@ -117,6 +110,16 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
             throw new DaoException("Error: JdbcUserDao class setFieldsInReadByEntityPreparedStatement() method. I can not set fields into statement.", e);
         }
         return preparedStatement;
+    }
+
+    @Override
+    protected String getReadByIdQuery() {
+        return SELECT_BY_ID;
+    }
+
+    @Override
+    protected String getReadAllQuery() {
+        return SELECT_ALL_FROM_USER;
     }
 
     @Override
@@ -132,5 +135,15 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     @Override
     protected String getTableName() {
         return TABLE_NAME;
+    }
+
+    @Override
+    protected PreparedStatement setFieldInReadAllByIdParameterPreparedStatement(PreparedStatement preparedStatement, int id) throws DaoException {
+        return null;
+    }
+
+    @Override
+    protected String getReadAllByIdParameterQuery() {
+        return null;
     }
 }

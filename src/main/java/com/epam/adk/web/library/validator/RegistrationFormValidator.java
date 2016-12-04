@@ -14,6 +14,14 @@ public class RegistrationFormValidator implements FormValidation {
 
     private static final Map<String, String> PROPERTIES = PropertiesManager.getInstance().getPropertiesAsMap("validator.properties");
 
+    private static final String LOGIN_PARAMETER = "login";
+    private static final String PASSWORD_PARAMETER = "password";
+    private static final String EMAIL_PARAMETER = "email";
+    private static final String FIRSTNAME_PARAMETER = "firstname";
+    private static final String SURNAME__PARAMETER = "surname";
+    private static final String PATRONYMIC_PARAMETER = "patronymic";
+    private static final String ADDRESS_PARAMETER = "address";
+    private static final String MOBILE_PHONE_PARAMETER = "mobilePhone";
     private static final String CORRECT_FORM = PROPERTIES.get("correct.form");
     private static final String LATIN_FORM = PROPERTIES.get("latin.form");
     private static final String EMAIL_FORM = PROPERTIES.get("email.form");
@@ -30,14 +38,14 @@ public class RegistrationFormValidator implements FormValidation {
     private Validator validator = new Validator();
 
     public boolean isInvalid(HttpServletRequest request) {
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
-        String email = request.getParameter("email");
-        String firstname = request.getParameter("firstname");
-        String surname = request.getParameter("surname");
-        String patronymic = request.getParameter("patronymic");
-        String address = request.getParameter("address");
-        String mobilePhone = request.getParameter("mobilePhone");
+        String login = request.getParameter(LOGIN_PARAMETER);
+        String password = request.getParameter(PASSWORD_PARAMETER);
+        String email = request.getParameter(EMAIL_PARAMETER);
+        String firstname = request.getParameter(FIRSTNAME_PARAMETER);
+        String surname = request.getParameter(SURNAME__PARAMETER);
+        String patronymic = request.getParameter(PATRONYMIC_PARAMETER);
+        String address = request.getParameter(ADDRESS_PARAMETER);
+        String mobilePhone = request.getParameter(MOBILE_PHONE_PARAMETER);
 
         boolean loginRegexValid = validator.isRegexValid(login, CORRECT_FORM);
         boolean loginLengthValid = validator.isLengthValid(login, LOGIN_MIN_LENGTH, LOGIN_MAX_LENGTH);
