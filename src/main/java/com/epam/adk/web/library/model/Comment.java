@@ -1,5 +1,6 @@
 package com.epam.adk.web.library.model;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -14,7 +15,7 @@ public class Comment extends BaseEntity {
     private String userFirstname;
     private String userSurname;
     private int bookID;
-    private Date date;
+    private Timestamp time;
     private String text;
 
     public int getUserID() {
@@ -57,12 +58,12 @@ public class Comment extends BaseEntity {
         this.bookID = bookID;
     }
 
-    public Date getDate() {
-        return date;
+    public Timestamp getTime() {
+        return time;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setTime(Timestamp time) {
+        this.time = time;
     }
 
     public String getText() {

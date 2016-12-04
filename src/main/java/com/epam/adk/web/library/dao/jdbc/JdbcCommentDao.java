@@ -44,9 +44,7 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
         try {
             preparedStatement.setInt(1, entity.getUserID());
             preparedStatement.setInt(2, entity.getBookID());
-            long time = entity.getDate().getTime();
-            Timestamp timestamp = new Timestamp(time);
-            preparedStatement.setTimestamp(3, timestamp);
+            preparedStatement.setTimestamp(3, entity.getTime());
             preparedStatement.setString(4, entity.getText());
             log.debug("Leaving JdbcCommentDao class, setFieldsInCreatePreparedStatement() method.");
         } catch (SQLException e) {
@@ -70,7 +68,7 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
                 comment.setUserFirstname(resultSet.getString("FIRSTNAME"));
                 comment.setUserSurname(resultSet.getString("SURNAME"));
                 comment.setBookID(resultSet.getInt("BOOK_ID"));
-                comment.setDate(resultSet.getDate("DATE"));
+                comment.setTime(resultSet.getTimestamp("DATE"));
                 comment.setText(resultSet.getString("TEXT"));
                 log.debug("Comment successfully created in createFrom() method. Comment id = {}", comment.getId());
                 result.add(comment);

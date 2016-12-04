@@ -9,6 +9,7 @@ import com.epam.adk.web.library.service.CommentService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -32,6 +33,7 @@ public class CommentAction implements Action {
         User user = ((User) session.getAttribute(USER_PARAMETER));
         int bookId = Integer.parseInt(request.getParameter(BOOK_ID_PARAMETER));
         Date date = new Date();
+        Timestamp time = new Timestamp(date.getTime());
         String text = request.getParameter(COMMENT_PARAMETER).replaceAll(REGEX_ENTER, LINE_BREAK_HTML_TAG);
 
         Comment comment = new Comment();
@@ -40,7 +42,7 @@ public class CommentAction implements Action {
         comment.setUserFirstname(user.getFirstname());
         comment.setUserSurname(user.getSurname());
         comment.setBookID(bookId);
-        comment.setDate(date);
+        comment.setTime(time);
         comment.setText(text);
 
         CommentService commentService = new CommentService();
