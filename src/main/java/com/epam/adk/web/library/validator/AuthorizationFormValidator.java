@@ -22,14 +22,16 @@ public class AuthorizationFormValidator implements FormValidation {
     private static final int LOGIN_MAX_LENGTH = Integer.parseInt(PROPERTIES.get("login.max.length"));
     private static final int PASSWORD_MIN_LENGTH = Integer.parseInt(PROPERTIES.get("password.min.length"));
     private static final int PASSWORD_MAX_LENGTH = Integer.parseInt(PROPERTIES.get("password.max.length"));
+    private static final String AUTH_LOGIN_PARAMETER = "authLogin";
+    private static final String AUTH_PASSWORD_PARAMETER = "authPassword";
 
     private Validator validator = new Validator();
 
     public boolean isInvalid(HttpServletRequest request) {
         log.debug("AuthorizationFormValidator class, isInvalid() method started execute.");
 
-        String login = request.getParameter("authLogin");
-        String password = request.getParameter("authPassword");
+        String login = request.getParameter(AUTH_LOGIN_PARAMETER);
+        String password = request.getParameter(AUTH_PASSWORD_PARAMETER);
 
         if (login == null || password == null){
             log.debug("Login or password = NULL");

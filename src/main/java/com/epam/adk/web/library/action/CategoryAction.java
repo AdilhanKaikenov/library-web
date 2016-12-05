@@ -24,6 +24,7 @@ public class CategoryAction implements Action {
     private static final String PAGE_PARAMETER = "page";
     private static final int LINE_PER_PAGE_NUMBER = 4;
     private static final int DEFAULT_PAGE_NUMBER = 1;
+    private static final String CATEGORY_PAGE = "category";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -54,6 +55,6 @@ public class CategoryAction implements Action {
         } catch (ServiceException e) {
             throw new ActionException("Error: CategoryAction class, execute() method.", e);
         }
-        return "category";
+        return CATEGORY_PAGE;
     }
 }

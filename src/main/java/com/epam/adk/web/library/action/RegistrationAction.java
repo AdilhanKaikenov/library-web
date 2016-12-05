@@ -30,6 +30,7 @@ public class RegistrationAction implements Action {
     private static final String ADDRESS_PARAMETER = "address";
     private static final String MOBILE_PHONE_PARAMETER = "mobilePhone";
     private static final String REGISTRATION_PAGE_NAME = "registration";
+    private static final String REDIRECT_SUCCESS_REGISTRATION_PAGE = "redirect:success-registration";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -76,6 +77,6 @@ public class RegistrationAction implements Action {
             return REGISTRATION_PAGE_NAME;
         }
         log.debug("New User successfully registered User: id = {}, login = {}", registeredUser.getId(), registeredUser.getLogin());
-        return "redirect:success-registration";
+        return REDIRECT_SUCCESS_REGISTRATION_PAGE;
     }
 }

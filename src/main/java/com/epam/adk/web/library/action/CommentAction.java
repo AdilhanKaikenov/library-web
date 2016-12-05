@@ -27,6 +27,7 @@ public class CommentAction implements Action {
     private static final String COMMENT_PARAMETER = "comment";
     private static final String REGEX_ENTER = "\\r";
     private static final String LINE_BREAK_HTML_TAG = "<p>";
+    private static final String REDIRECT_ABOUT_BOOK_PAGE_ID_PARAMETER = "redirect:about-book&&id=";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -57,6 +58,6 @@ public class CommentAction implements Action {
             throw new ActionException("Error: CommentAction class, execute() method. Called CommentService class, writeComment() failed.", e);
         }
 
-        return "redirect:about-book&&id=" + bookID;
+        return REDIRECT_ABOUT_BOOK_PAGE_ID_PARAMETER + bookID;
     }
 }

@@ -84,6 +84,25 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
     }
 
     @Override
+    protected PreparedStatement setFieldsInCreatePreparedStatement(PreparedStatement preparedStatement, Order entity) throws DaoException {
+        log.debug("Entering JdbcOrderDao class, setFieldsInCreatePreparedStatement() method.");
+        try {
+            preparedStatement.setInt(1, entity.getUserID());
+            preparedStatement.setInt(2, entity.getBookID());
+            preparedStatement.setDate(3, entity.getOrderDate());
+            preparedStatement.setInt(4, entity.getType().ordinal());
+            preparedStatement.setDate(5, entity.getFrom());
+            preparedStatement.setDate(6, entity.getTo());
+            preparedStatement.setBoolean(7, entity.isStatus());
+            log.debug("Leaving JdbcOrderDao class, setFieldsInCreatePreparedStatement() method.");
+        } catch (SQLException e) {
+            log.error("Error: JdbcOrderDao class setFieldsInCreatePreparedStatement() method. I can not set fields into statement. {}", e);
+            throw new DaoException("Error: JdbcOrderDao class setFieldsInCreatePreparedStatement() method. I can not set fields into statement.", e);
+        }
+        return preparedStatement;
+    }
+
+    @Override
     protected String getReadByIdQuery() {
         return null;
     }
@@ -129,36 +148,7 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
     }
 
     @Override
-    protected PreparedStatement setFieldInReadAllByIdParameterPreparedStatement(PreparedStatement preparedStatement, int id) throws DaoException {
-        return null;
-    }
-
-    @Override
-    protected PreparedStatement setFieldsInCreatePreparedStatement(PreparedStatement preparedStatement, Order entity) throws DaoException {
-        log.debug("Entering JdbcOrderDao class, setFieldsInCreatePreparedStatement() method.");
-        try {
-            preparedStatement.setInt(1, entity.getUserID());
-            preparedStatement.setInt(2, entity.getBookID());
-            preparedStatement.setDate(3, entity.getOrderDate());
-            preparedStatement.setInt(4, entity.getType().ordinal());
-            preparedStatement.setDate(5, entity.getFrom());
-            preparedStatement.setDate(6, entity.getTo());
-            preparedStatement.setBoolean(7, entity.isStatus());
-            log.debug("Leaving JdbcOrderDao class, setFieldsInCreatePreparedStatement() method.");
-        } catch (SQLException e) {
-            log.error("Error: JdbcOrderDao class setFieldsInCreatePreparedStatement() method. I can not set fields into statement. {}", e);
-            throw new DaoException("Error: JdbcOrderDao class setFieldsInCreatePreparedStatement() method. I can not set fields into statement.", e);
-        }
-        return preparedStatement;
-    }
-
-    @Override
     protected PreparedStatement setFieldsInReadByEntityPreparedStatement(PreparedStatement preparedStatement, Order entity) throws DaoException {
-        return null;
-    }
-
-    @Override
-    protected PreparedStatement setFieldInCountNumberRowsByIdPreparedStatement(PreparedStatement preparedStatement, int id) throws DaoException {
         return null;
     }
 }

@@ -324,6 +324,30 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         return preparedStatement;
     }
 
+    protected PreparedStatement setFieldInCountNumberRowsByIdPreparedStatement(PreparedStatement preparedStatement, int id) throws DaoException {
+        log.debug("Entering JdbcDao class, setFieldInCountNumberRowsByIdPreparedStatement() method.");
+        try {
+            preparedStatement.setInt(1, id);
+        } catch (SQLException e) {
+            log.error("Error: JdbcDao class setFieldInCountNumberRowsByIdPreparedStatement() method. I can not set fields into statement. {}", e);
+            throw new DaoException("Error: JdbcBookDao class setFieldInCountNumberRowsByIdPreparedStatement() method. I can not set fields into statement.", e);
+        }
+        log.debug("Leaving JdbcDao class, setFieldInCountNumberRowsByIdPreparedStatement() method.");
+        return preparedStatement;
+    }
+
+    protected PreparedStatement setFieldInReadAllByIdParameterPreparedStatement(PreparedStatement preparedStatement, int id) throws DaoException {
+        log.debug("Entering JdbcDao class, setFieldInReadAllByIdParameterPreparedStatement() method.");
+        try {
+            preparedStatement.setInt(1, id);
+            log.debug("Leaving JdbcDao class, setFieldInReadAllByIdParameterPreparedStatement() method.");
+        } catch (SQLException e) {
+            log.error("Error: JdbcDao class setFieldInReadAllByIdParameterPreparedStatement() method. I can not set fields into statement. {}", e);
+            throw new DaoException("Error: JdbcDao class setFieldInReadAllByIdParameterPreparedStatement() method. I can not set fields into statement.", e);
+        }
+        return preparedStatement;
+    }
+
     protected abstract List<T> createListFrom(ResultSet resultSet) throws DaoException;
 
     protected abstract String getReadByIdQuery();
@@ -344,13 +368,9 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
     protected abstract String getReadAllByIdParameterQuery();
 
-    protected abstract PreparedStatement setFieldInReadAllByIdParameterPreparedStatement(PreparedStatement preparedStatement, int id) throws DaoException;
-
     protected abstract PreparedStatement setFieldsInCreatePreparedStatement(PreparedStatement preparedStatement, T entity) throws DaoException;
 
     protected abstract PreparedStatement setFieldsInReadByEntityPreparedStatement(PreparedStatement preparedStatement, T entity) throws DaoException;
-
-    protected abstract PreparedStatement setFieldInCountNumberRowsByIdPreparedStatement(PreparedStatement preparedStatement, int id) throws DaoException;
 
 }
 

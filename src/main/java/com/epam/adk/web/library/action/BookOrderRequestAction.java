@@ -25,6 +25,7 @@ public class BookOrderRequestAction implements Action {
     private static final String USER_PARAMETER = "user";
     private static final String BOOK_ID_PARAMETER = "book_id";
     private static final String ORDER_TYPE_PARAMETER = "order_type";
+    private static final String ORDER_REQUEST_INFO_PAGE = "order-request-info";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -51,7 +52,7 @@ public class BookOrderRequestAction implements Action {
 
             if (orderNumber > 0) {
                 request.setAttribute("sentRequestFailed", "book.order.request.failed");
-                return "order-request-info";
+                return ORDER_REQUEST_INFO_PAGE;
             }
 
             Order sentRequest = orderService.sendRequest(order);
@@ -62,6 +63,6 @@ public class BookOrderRequestAction implements Action {
         } catch (ServiceException e) {
             throw new ActionException("Error: BookOrderRequestAction class, Can not send new order book request:", e);
         }
-        return "order-request-info";
+        return ORDER_REQUEST_INFO_PAGE;
     }
 }

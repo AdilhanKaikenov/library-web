@@ -75,19 +75,6 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     }
 
     @Override
-    protected PreparedStatement setFieldInCountNumberRowsByIdPreparedStatement(PreparedStatement preparedStatement, int id) throws DaoException {
-        log.debug("Entering JdbcBookDao class, setFieldInCountNumberRowsByIdPreparedStatement() method.");
-        try {
-            preparedStatement.setInt(1, id);
-        } catch (SQLException e) {
-            log.error("Error: JdbcBookDao class setFieldInCountNumberRowsByIdPreparedStatement() method. I can not set fields into statement. {}", e);
-            throw new DaoException("Error: JdbcBookDao class setFieldInCountNumberRowsByIdPreparedStatement() method. I can not set fields into statement.", e);
-        }
-        log.debug("Leaving JdbcBookDao class, setFieldInCountNumberRowsByIdPreparedStatement() method.");
-        return preparedStatement;
-    }
-
-    @Override
     protected String getTableName() {
         return TABLE_NAME;
     }
@@ -139,11 +126,6 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
 
     @Override
     protected PreparedStatement setFieldsInReadByEntityPreparedStatement(PreparedStatement preparedStatement, Book entity) throws DaoException {
-        return null;
-    }
-
-    @Override
-    protected PreparedStatement setFieldInReadAllByIdParameterPreparedStatement(PreparedStatement preparedStatement, int id) throws DaoException {
         return null;
     }
 

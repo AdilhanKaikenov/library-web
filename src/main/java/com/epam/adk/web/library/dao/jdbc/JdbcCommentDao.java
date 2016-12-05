@@ -35,11 +35,6 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
     }
 
     @Override
-    protected String getReadRangeByIdParameterQuery() {
-        return SELECT_RANGE_BY_ID_QUERY;
-    }
-
-    @Override
     protected List<Comment> createListFrom(ResultSet resultSet) throws DaoException {
         log.debug("Entering JdbcCommentDao class, createListFrom() method");
         List<Comment> result = new ArrayList<>();
@@ -64,32 +59,6 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
         }
         log.debug("Leaving JdbcCommentDao class, createListFrom() method.");
         return result;
-    }
-
-    @Override
-    protected PreparedStatement setFieldInCountNumberRowsByIdPreparedStatement(PreparedStatement preparedStatement, int id) throws DaoException {
-        log.debug("Entering JdbcCommentDao class, setFieldInCountNumberRowsByIdPreparedStatement() method.");
-        try {
-            preparedStatement.setInt(1, id);
-        } catch (SQLException e) {
-            log.error("Error: JdbcCommentDao class setFieldInCountNumberRowsByIdPreparedStatement() method. I can not set fields into statement. {}", e);
-            throw new DaoException("Error: JdbcBookDao class setFieldInCountNumberRowsByIdPreparedStatement() method. I can not set fields into statement.", e);
-        }
-        log.debug("Leaving JdbcCommentDao class, setFieldInCountNumberRowsByIdPreparedStatement() method.");
-        return preparedStatement;
-    }
-
-    @Override
-    protected PreparedStatement setFieldInReadAllByIdParameterPreparedStatement(PreparedStatement preparedStatement, int id) throws DaoException {
-        log.debug("Entering JdbcCommentDao class, setFieldInReadAllByIdParameterPreparedStatement() method. Book id = {}", id);
-        try {
-            preparedStatement.setInt(1, id);
-            log.debug("Leaving JdbcCommentDao class, setFieldInReadAllByIdParameterPreparedStatement() method.");
-        } catch (SQLException e) {
-            log.error("Error: JdbcCommentDao class setFieldInReadAllByIdParameterPreparedStatement() method. I can not set fields into statement. {}", e);
-            throw new DaoException("Error: JdbcCommentDao class setFieldInReadAllByIdParameterPreparedStatement() method. I can not set fields into statement.", e);
-        }
-        return preparedStatement;
     }
 
     @Override
@@ -126,6 +95,11 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
     @Override
     protected String getCountNumberRowsByIdParameterQuery() {
         return SELECT_COUNT_BY_BOOK_ID;
+    }
+
+    @Override
+    protected String getReadRangeByIdParameterQuery() {
+        return SELECT_RANGE_BY_ID_QUERY;
     }
 
     @Override

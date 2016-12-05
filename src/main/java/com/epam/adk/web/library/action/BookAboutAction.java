@@ -26,6 +26,7 @@ public class BookAboutAction implements Action {
     private static final String PAGE_PARAMETER = "page";
     private static final int DEFAULT_PAGE_NUMBER = 1;
     private static final int LINE_PER_PAGE_NUMBER = 2;
+    private static final String ABOUT_BOOK_PAGE = "about-book";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -61,6 +62,6 @@ public class BookAboutAction implements Action {
         } catch (ServiceException e) {
             throw new ActionException("Error: BookAboutAction class, execute() method. Can not give info about book:", e);
         }
-        return "about-book";
+        return ABOUT_BOOK_PAGE;
     }
 }

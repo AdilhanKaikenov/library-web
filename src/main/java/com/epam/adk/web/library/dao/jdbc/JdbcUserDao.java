@@ -33,7 +33,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
             "INNER JOIN role ON user.role = role.id " +
             "INNER JOIN gender ON user.gender = gender.id WHERE login = ? AND password = ?";
     private static final String SELECT_ALL_FROM_USER = "SELECT user.id, user.login, user.password, user.email, user.firstname," +
-            "user.surname, user.patronymic, gender.type AS GENDER, user.address, user.mobile_phone, role.type AS role, user.status FROM user" +
+            "user.surname, user.patronymic, gender.type AS gender, user.address, user.mobile_phone, role.type AS role, user.status FROM user" +
             "INNER JOIN role ON user.role = role.id" +
             "INNER JOIN gender ON user.gender = gender.id";
     private static final String SELECT_BY_ID = "SELECT user.id, user.login, user.password, user.email, user.firstname," +
@@ -155,16 +155,6 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
 
     @Override
     protected String getReadRangeByIdParameterQuery() {
-        return null;
-    }
-
-    @Override
-    protected PreparedStatement setFieldInReadAllByIdParameterPreparedStatement(PreparedStatement preparedStatement, int id) throws DaoException {
-        return null;
-    }
-
-    @Override
-    protected PreparedStatement setFieldInCountNumberRowsByIdPreparedStatement(PreparedStatement preparedStatement, int id) {
         return null;
     }
 

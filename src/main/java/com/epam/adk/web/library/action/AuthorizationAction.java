@@ -23,6 +23,8 @@ public class AuthorizationAction implements Action {
     private static final String USER = "user";
     private static final String AUTH_LOGIN_PARAMETER = "authLogin";
     private static final String AUTH_PASSWORD_PARAMETER = "authPassword";
+    private static final String AUTHORIZATION_ERROR_PAGE = "authorization-error";
+    private static final String REDIRECT_WELCOME_PAGE = "redirect:welcome";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -39,7 +41,7 @@ public class AuthorizationAction implements Action {
         log.debug("Authorization form validation, invalid = {}", isFormInvalid);
         if (isFormInvalid) {
             request.setAttribute("authorizationFormIncorrect", "auth.error.message.one");
-            return "authorization-error";
+            return AUTHORIZATION_ERROR_PAGE;
         }
 
         User user = new User();
@@ -52,16 +54,16 @@ public class AuthorizationAction implements Action {
             user = userService.authorize(user);
             if (!user.isStatus()) {
                 request.setAttribute("inactiveStatus", "user.profile.inactive");
-                return "authorization-error";
+                return AUTHORIZATION_ERROR_PAGE;
             }
             log.debug("User '{}' successfully authorized", user.getLogin());
         } catch (ServiceException e) {
             request.setAttribute("authorizationError", "auth.error");
-            return "authorization-error";
+            return AUTHORIZATION_ERROR_PAGE;
         }
 
         session.setAttribute(USER, user);
 
-        return "redirect:welcome";
+        return REDIRECT_WELCOME_PAGE;
     }
 }

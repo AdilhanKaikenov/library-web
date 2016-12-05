@@ -23,6 +23,7 @@ public class ShowWelcomeAction implements Action {
     private static final String PAGE_PARAMETER = "page";
     private static final int LINE_PER_PAGE_NUMBER = 6;
     private static final int DEFAULT_PAGE_NUMBER = 1;
+    private static final String WELCOME_PAGE = "welcome";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -51,6 +52,6 @@ public class ShowWelcomeAction implements Action {
         } catch (ServiceException e) {
             throw new ActionException("Error: ShowWelcomeAction class, execute() method.", e);
         }
-        return "welcome";
+        return WELCOME_PAGE;
     }
 }

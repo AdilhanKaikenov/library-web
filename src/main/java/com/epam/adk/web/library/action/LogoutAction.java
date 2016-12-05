@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 public class LogoutAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(LogoutAction.class);
+    private static final String REDIRECT_WELCOME_PAGE = "redirect:welcome";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -27,6 +28,6 @@ public class LogoutAction implements Action {
 
         log.info("User logged out");
 
-        return "redirect:welcome";
+        return REDIRECT_WELCOME_PAGE;
     }
 }
