@@ -25,21 +25,21 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
 
     private static final Logger log = LoggerFactory.getLogger(JdbcUserDao.class);
 
-    private static final String TABLE_NAME = "USER";
-    private static final String CREATE_QUERY = "INSERT INTO USER (LOGIN, PASSWORD, EMAIL, FIRSTNAME, SURNAME, " +
-            "PATRONYMIC, GENDER, ADDRESS, MOBILE_PHONE, ROLE, STATUS) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    private static final String SELECT_BY_LOGIN_PASSWORD = "SELECT USER.ID, USER.LOGIN, USER.PASSWORD, USER.EMAIL, USER.FIRSTNAME, " +
-            "USER.SURNAME, USER.PATRONYMIC, GENDER.GENDER_TYPE AS GENDER, USER.ADDRESS, USER.MOBILE_PHONE, ROLE.ROLE_TYPE AS ROLE, USER.STATUS FROM USER " +
-            "INNER JOIN ROLE ON USER.ROLE = ROLE.ID " +
-            "INNER JOIN GENDER ON USER.GENDER = GENDER.ID WHERE LOGIN = ? AND PASSWORD = ?";
-    private static final String SELECT_ALL_FROM_USER = "SELECT USER.ID, USER.LOGIN, USER.PASSWORD, USER.EMAIL, USER.FIRSTNAME," +
-            "USER.SURNAME, USER.PATRONYMIC, GENDER.GENDER_TYPE AS GENDER, USER.ADDRESS, USER.MOBILE_PHONE, ROLE.ROLE_TYPE AS ROLE, USER.STATUS FROM USER" +
-            "INNER JOIN ROLE ON USER.ROLE = ROLE.ID" +
-            "INNER JOIN GENDER ON USER.GENDER = GENDER.ID";
-    private static final String SELECT_BY_ID = "SELECT USER.ID, USER.LOGIN, USER.PASSWORD, USER.EMAIL, USER.FIRSTNAME," +
-            "USER.SURNAME, USER.PATRONYMIC, GENDER.GENDER_TYPE AS GENDER, USER.ADDRESS, USER.MOBILE_PHONE, ROLE.ROLE_TYPE AS ROLE, USER.STATUS FROM USER" +
-            "INNER JOIN ROLE ON USER.ROLE = ROLE.ID" +
-            "INNER JOIN GENDER ON USER.GENDER = GENDER.ID WHERE PUBLIC.USER.ID = ?";
+    private static final String TABLE_NAME = "user";
+    private static final String CREATE_QUERY = "INSERT INTO user (login, password, email, firstname, surname, " +
+            "patronymic, gender, address, mobile_phone, role, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String SELECT_BY_LOGIN_PASSWORD = "SELECT user.id, user.login, user.password, user.email, user.firstname, " +
+            "user.surname, user.patronymic, gender.type AS gender, user.address, user.mobile_phone, role.type AS role, user.status FROM user " +
+            "INNER JOIN role ON user.role = role.id " +
+            "INNER JOIN gender ON user.gender = gender.id WHERE login = ? AND password = ?";
+    private static final String SELECT_ALL_FROM_USER = "SELECT user.id, user.login, user.password, user.email, user.firstname," +
+            "user.surname, user.patronymic, gender.type AS GENDER, user.address, user.mobile_phone, role.type AS role, user.status FROM user" +
+            "INNER JOIN role ON user.role = role.id" +
+            "INNER JOIN gender ON user.gender = gender.id";
+    private static final String SELECT_BY_ID = "SELECT user.id, user.login, user.password, user.email, user.firstname," +
+            "user.surname, user.patronymic, gender.type AS gender, user.address, user.mobile_phone, role.type AS role, user.status FROM user" +
+            "INNER JOIN role ON user.role = role.id" +
+            "INNER JOIN gender ON user.gender = gender.id WHERE user.id = ?";
 
     public JdbcUserDao(Connection connection) {
         super(connection);

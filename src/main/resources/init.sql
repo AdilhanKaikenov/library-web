@@ -1,78 +1,117 @@
-DROP TABLE IF EXISTS USER;
-DROP TABLE IF EXISTS ROLE;
-DROP TABLE IF EXISTS GENDER;
-DROP TABLE IF EXISTS BOOK;
-DROP TABLE IF EXISTS GENRE;
-DROP TABLE IF EXISTS COMMENT;
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS role;
+DROP TABLE IF EXISTS gender;
+DROP TABLE IF EXISTS book;
+DROP TABLE IF EXISTS genre;
+DROP TABLE IF EXISTS comment;
+DROP TABLE IF EXISTS order_type;
+DROP TABLE IF EXISTS orders;
 
-CREATE TABLE PUBLIC.USER
-(
-  ID INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-  LOGIN VARCHAR(15) NOT NULL,
-  PASSWORD VARCHAR(20) NOT NULL,
-  EMAIL VARCHAR(40) NOT NULL,
-  FIRSTNAME VARCHAR(25) NOT NULL,
-  SURNAME VARCHAR(25) NOT NULL,
-  PATRONYMIC VARCHAR(25) NOT NULL,
-  GENDER INT NOT NULL,
-  ADDRESS VARCHAR(25) NOT NULL,
-  MOBILE_PHONE VARCHAR(11) NOT NULL,
-  ROLE INT NOT NULL,
-  STATUS BOOLEAN
-);
-CREATE UNIQUE INDEX "USER_ID_uindex" ON PUBLIC.USER (ID);
-CREATE UNIQUE INDEX "USER_LOGIN_uindex" ON PUBLIC.USER (LOGIN);
-CREATE UNIQUE INDEX "USER_EMAIL_uindex" ON PUBLIC.USER (EMAIL);
-CREATE UNIQUE INDEX "USER_MOBILE_PHONE_uindex" ON PUBLIC.USER (MOBILE_PHONE);
-
-CREATE TABLE PUBLIC.ROLE
+/////////////////////////////////////////////////
+CREATE TABLE PUBLIC.user
 (
   id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-  ROLE_TYPE VARCHAR(20) NOT NULL
+  login VARCHAR(15) NOT NULL,
+  password VARCHAR(15) NOT NULL,
+  email VARCHAR(40) NOT NULL,
+  firstname VARCHAR(25) NOT NULL,
+  surname VARCHAR(25) NOT NULL,
+  patronymic VARCHAR(25) NOT NULL,
+  gender INT NOT NULL,
+  address VARCHAR(25) NOT NULL,
+  mobile_phone VARCHAR(11) NOT NULL,
+  role INT NOT NULL,
+  status BOOLEAN
 );
-CREATE UNIQUE INDEX "ROLE_id_uindex" ON PUBLIC.ROLE (id);
-CREATE UNIQUE INDEX "ROLE_ROLE_TYPE_uindex" ON PUBLIC.ROLE (ROLE_TYPE);
+CREATE UNIQUE INDEX "USER_ID_uindex" ON PUBLIC.user (id);
+CREATE UNIQUE INDEX "USER_LOGIN_uindex" ON PUBLIC.user (login);
+CREATE UNIQUE INDEX "USER_EMAIL_uindex" ON PUBLIC.user (email);
+CREATE UNIQUE INDEX "USER_MOBILE_PHONE_uindex" ON PUBLIC.user (mobile_phone);
 
-CREATE TABLE PUBLIC.GENDER
+CREATE TABLE PUBLIC.book
 (
-  ID INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-  GENDER_TYPE VARCHAR(15) NOT NULL
+  id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  title VARCHAR(100) NOT NULL,
+  cover VARCHAR(50) NOT NULL,
+  authors VARCHAR(100) NOT NULL,
+  publish_year INT NOT NULL,
+  genre INT NOT NULL,
+  description VARCHAR(1500) NOT NULL,
+  total_amount INT NOT NULL,
+  available_amount INT NOT NULL
 );
-CREATE UNIQUE INDEX "GENDER_ID_uindex" ON PUBLIC.GENDER (ID);
-CREATE UNIQUE INDEX "GENDER_GENDER_TYPE_uindex" ON PUBLIC.GENDER (GENDER_TYPE);
+CREATE UNIQUE INDEX "BOOK_ID_uindex" ON PUBLIC.book (id);
 
+CREATE TABLE PUBLIC.comment
+(
+  id iNT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  user_id INT NOT NULL,
+  book_id INT NOT NULL,
+  date DATETIME NOT NULL,
+  text VARCHAR(250) NOT NULL
+);
+CREATE UNIQUE INDEX "COMMENT_id_uindex" ON PUBLIC.comment (id);
 
-INSERT INTO PUBLIC.GENDER(ID, GENDER_TYPE) VALUES
+CREATE TABLE PUBLIC.orders
+(
+  id iNT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  user_id INT NOT NULL,
+  book_id INT NOT NULL,
+  order_date DATE NOT NULL,
+  order_type INT NOT NULL,
+  date_from DATE,
+  date_to DATE,
+  status BOOLEAN DEFAULT FALSE  NOT NULL
+);
+CREATE UNIQUE INDEX "ORDERS_ID_uindex" ON PUBLIC.orders (id);
+
+//////////////////////////////////////////////
+////////////// REFERENCE TABLES //////////////
+//////////////////////////////////////////////
+CREATE TABLE PUBLIC.order_type
+(
+  id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  type VARCHAR(50) NOT NULL
+);
+CREATE UNIQUE INDEX "ORDER_ID_uindex" ON PUBLIC.order_type (id);
+CREATE UNIQUE INDEX "ORDER_TYPE_uindex" ON PUBLIC.order_type (type);
+
+CREATE TABLE PUBLIC.genre
+(
+  id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  type VARCHAR(25) NOT NULL
+);
+CREATE UNIQUE INDEX "GENRE_ID_uindex" ON PUBLIC.genre (id);
+CREATE UNIQUE INDEX "GENRE_TYPE_uindex" ON PUBLIC.genre (type);
+
+CREATE TABLE PUBLIC.role
+(
+  id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  type VARCHAR(20) NOT NULL
+);
+CREATE UNIQUE INDEX "ROLE_id_uindex" ON PUBLIC.role (id);
+CREATE UNIQUE INDEX "ROLE_TYPE_uindex" ON PUBLIC.role (type);
+
+CREATE TABLE PUBLIC.gender
+(
+  id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  type VARCHAR(15) NOT NULL
+);
+CREATE UNIQUE INDEX "GENDER_ID_uindex" ON PUBLIC.gender (id);
+CREATE UNIQUE INDEX "GENDER_TYPE_uindex" ON PUBLIC.gender (type);
+
+//////////////////////////////////////////////
+//////////////// DATA INSERT /////////////////
+//////////////////////////////////////////////
+INSERT INTO PUBLIC.gender(id, type) VALUES
   (0, 'MALE'),
   (1, 'FEMALE');
 
-INSERT INTO PUBLIC.ROLE(ID, ROLE_TYPE) VALUES
+INSERT INTO PUBLIC.role(id, type) VALUES
   (0, 'ADMIN'),
   (1, 'USER');
 
-CREATE TABLE PUBLIC.Book
-(
-  id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-  TITLE VARCHAR(100) NOT NULL,
-  COVER VARCHAR(50) NOT NULL,
-  AUTHORS VARCHAR(100) NOT NULL,
-  PUBLISH_YEAR INT NOT NULL,
-  GENRE INT NOT NULL,
-  DESCRIPTION VARCHAR(1500) NOT NULL,
-  TOTAL_AMOUNT INT NOT NULL,
-  AVAILABLE_AMOUNT INT NOT NULL
-);
-CREATE UNIQUE INDEX "Book_id_uindex" ON PUBLIC.Book (id);
-
-CREATE TABLE PUBLIC.GENRE
-(
-  ID INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-  GENRE_TYPE VARCHAR(25) NOT NULL
-);
-CREATE UNIQUE INDEX "GENRE_ID_uindex" ON PUBLIC.GENRE (ID);
-CREATE UNIQUE INDEX "GENRE_GENRE_TYPE_uindex" ON PUBLIC.GENRE (GENRE_TYPE);
-
-INSERT INTO PUBLIC.GENRE(ID, GENRE_TYPE) VALUES
+INSERT INTO PUBLIC.genre(id, type) VALUES
   (0, 'Documental literature'),
   (1, 'Detectives and thrillers'),
   (2, 'Computers and Internet'),
@@ -80,7 +119,7 @@ INSERT INTO PUBLIC.GENRE(ID, GENRE_TYPE) VALUES
   (4, 'Science and education')
 ;
 
-INSERT INTO PUBLIC.BOOK (TITLE, COVER, AUTHORS, PUBLISH_YEAR, GENRE, DESCRIPTION, TOTAL_AMOUNT, AVAILABLE_AMOUNT) VALUES
+INSERT INTO PUBLIC.book (title, cover, authors, publish_year, genre, description, total_amount, available_amount) VALUES
   ('Aliens of national importance', 'cover1.jpg', 'Igor Prokopenko', 2011, 0, 'This book is the first domestic, based on documents from military archives, about aliens, flying saucers, contacts with extraterrestrial civilizations and the parallel worlds of the famous documentary, author and host of the program "Military Secret" Igor Prokopenko. The author worked on the book for twenty years, it included a truly sensational materials: reports of military pilots of UFO attacks, reports of commanders of nuclear submarines of encounters with objects of extraterrestrial origin, reports chief spetsrazvedki Navy directive Navy Commander ... In this book, there is no single line of rumors and speculation. Each given fact, no matter how it may seem fantastic, documented or event participants. Do UFOs exist? Absolutely accurate answer, you will learn from this book ...', 10, 10),
   ('Peter the First', 'cover2.jpg', 'Henri Troyat', 1980, 0, 'Myths about Peter the Great, brilliant reformer who saved the Russian state from imminent death and at the same time, "The Departed, disrupt Russia with its circular orbit to the comet zashvyrnut in space", almost the Antichrist, overthrew all moral principles and traditions continue haunt the minds and cause controversy today. Why does the human memory Ivan the Terrible - "the mad monster," and Peter the Great, in his cruelty surpassed it remains "immaculate genius"? Above all this reflects the famous French historian Henri Troyat and offers readers his version of the history of the life and reign of Peter.', 10, 10),
   ('Devil''s cocktail', 'cover3.jpg', 'Dick Francis', 1972, 1, 'From the moment the actor Link inherits the South African Republic, begin to pursue his mysterious accidents. Realizing that someone wants him dead, Link tries to get ahead of the mysterious killer', 10, 10),
@@ -93,37 +132,6 @@ INSERT INTO PUBLIC.BOOK (TITLE, COVER, AUTHORS, PUBLISH_YEAR, GENRE, DESCRIPTION
   ('Physics at every step', 'cover10.jpg', 'Yakov Perelman', 2010, 4, 'One of the best benefits of classical physics. Interesting stories, instructive experiments, interesting facts will teach the inquisitive reader to notice the simplest physical phenomena and understand their nature.', 10, 10)
 ;
 
-CREATE TABLE PUBLIC.COMMENT
-(
-  id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-  USER_ID INT NOT NULL,
-  BOOK_ID INT NOT NULL,
-  DATE DATETIME NOT NULL,
-  TEXT VARCHAR(250) NOT NULL
-);
-CREATE UNIQUE INDEX "COMMENT_id_uindex" ON PUBLIC.COMMENT (id);
-
-CREATE TABLE PUBLIC."ORDER"
-(
-  ID INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-  TYPE VARCHAR(50) NOT NULL
-);
-CREATE UNIQUE INDEX "ORDER_ID_uindex" ON PUBLIC."ORDER" (ID);
-CREATE UNIQUE INDEX "ORDER_TYPE_uindex" ON PUBLIC."ORDER" (TYPE);
-
-INSERT INTO PUBLIC."ORDER"(ID, TYPE) VALUES
+INSERT INTO PUBLIC.order_type(id, type) VALUES
   (0, 'Subscription'),
   (1, 'Reading room');
-
-CREATE TABLE PUBLIC.ORDERS
-(
-  ID INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-  USER_ID INT NOT NULL,
-  BOOK_ID INT NOT NULL,
-  ORDER_DATE DATE NOT NULL,
-  ORDER_TYPE INT NOT NULL,
-  DATA_FROM DATE,
-  DATA_TO DATE,
-  STATUS BOOLEAN DEFAULT FALSE  NOT NULL
-);
-CREATE UNIQUE INDEX "ORDERS_ID_uindex" ON PUBLIC.ORDERS (ID);

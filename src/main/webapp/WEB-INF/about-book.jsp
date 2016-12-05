@@ -39,8 +39,7 @@
                           name="comment" cols="125" rows="5" minlength="30" maxlength="250" required
                           autofocus placeholder="${maxCommentLength}"></textarea>
                 <br>
-                <button type="submit"
-                        onclick="return confirm('<ftm:message key="confirm.send.review.message"/>')" class="link-style">
+                <button type="submit" class="link-style">
                     <ftm:message key="leave.comment.button"/></button>
             </form>
         </c:if>

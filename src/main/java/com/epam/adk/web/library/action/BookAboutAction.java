@@ -44,14 +44,6 @@ public class BookAboutAction implements Action {
             log.debug("BookAboutAction: page #{}", page);
         }
 
-        String sentRequest = (String) request.getAttribute("sentRequest");
-        if (sentRequest == null){
-            System.out.println("I AM NULL");
-        } else {
-            System.out.println("1111" + sentRequest);
-        }
-        request.setAttribute("sentRequest", sentRequest);
-
         try {
             Book book = bookService.getBookById(bookId);
             int commentsNumber = commentService.getCommentsNumberByBookId(bookId);

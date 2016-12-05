@@ -23,9 +23,9 @@ import java.util.List;
 public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
 
     private static final Logger log = LoggerFactory.getLogger(JdbcOrderDao.class);
-    private static final String CREATE_QUERY = "INSERT INTO PUBLIC.ORDERS(USER_ID, BOOK_ID, ORDER_DATE, ORDER_TYPE, DATA_FROM, " +
-            "DATA_TO, STATUS) VALUES(?, ?, ?, ?, ?, ?, ?)";
-    private static final String COUNT_ORDERS_QUERY = "SELECT COUNT(*) FROM ORDERS WHERE BOOK_ID = ? AND USER_ID = ? AND ORDER_TYPE = ?";
+    private static final String CREATE_QUERY = "INSERT INTO orders(user_id, book_id, order_date, order_type, date_from, " +
+            "date_to, status) VALUES(?, ?, ?, ?, ?, ?, ?)";
+    private static final String COUNT_ORDERS_QUERY = "SELECT COUNT(*) FROM orders WHERE book_id = ? AND user_id = ? AND order_type = ?";
 
     public JdbcOrderDao(Connection connection) {
         super(connection);
@@ -44,8 +44,8 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
                 order.setBookID(resultSet.getInt("BOOK_ID"));
                 order.setOrderDate(resultSet.getDate("ORDER_DATE"));
                 order.setType(OrderType.from(resultSet.getString("ORDER_TYPE")));
-                order.setFrom(resultSet.getDate("DATA_FROM"));
-                order.setTo(resultSet.getDate("DATA_TO"));
+                order.setFrom(resultSet.getDate("DATE_FROM"));
+                order.setTo(resultSet.getDate("DATE_TO"));
                 order.setStatus(resultSet.getBoolean("STATUS"));
                 log.debug("Order successfully created in createFrom() method. Order id = {}", order.getId());
                 result.add(order);
