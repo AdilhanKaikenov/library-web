@@ -4,14 +4,17 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <ftm:setBundle basename="i18n"/>
+
+<c:set value="${pageContext.request.contextPath}" var="base"/>
+
 <table>
     <tr>
     <td>
-        <a href="${pageContext.request.contextPath}/do/?action=set-locale&region=ru"><img
+        <a href="${base}/do/?action=set-locale&region=ru"><img
                 src="../css/images/rus-flag.png"></a>
     </td>
     <td>
-        <a href="${pageContext.request.contextPath}/do/?action=set-locale&region=en"><img
+        <a href="${base}/do/?action=set-locale&region=en"><img
                 src="../css/images/eng-flag.png"></a>
     </td>
     </tr>

@@ -4,6 +4,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <ftm:setBundle basename="i18n"/>
+
+<c:set value="${pageContext.request.contextPath}" var="base"/>
+
 <%--@elvariable id="book" type="com.epam.adk.web.library.model.Book"--%>
 <t:page title="about.book" optionalTitle="${book.title}">
 
@@ -11,7 +14,7 @@
 
     <c:if test="${not empty user}">
         <div class="reader-requests-links-section" align="center">
-            <form action="${pageContext.request.contextPath}/do/" method="post">
+            <form action="${base}/do/" method="post">
                 <input hidden="hidden" name="action" value="order-book-request">
                 <input hidden="hidden" name="book_id" value="${book.id}">
                 <i><input type="radio" name="order_type" value="Subscription" checked><ftm:message key="subscription"/></i>
@@ -32,7 +35,7 @@
     <%--@elvariable id="user" type="com.epam.adk.web.library.model.User"--%>
     <div class="book-submit-comment-form-section">
         <c:if test="${not empty user}">
-            <form action="${pageContext.request.contextPath}/do/" method="post">
+            <form action="${base}/do/" method="post">
                 <input type="hidden" name="action" value="comment">
                 <input type="hidden" name="bookId" value="${book.id}">
                 <textarea style="resize: none;overflow: hidden;text-overflow: ellipsis;" onresize="" type="text"
@@ -54,7 +57,7 @@
         <c:if test="${pagesNumber != 1}">
             <c:forEach var="i" begin="${1}" end="${pagesNumber}">
                 <%--@elvariable id="genreID" type="java.lang.Integer"--%>
-                <a href="${pageContext.request.contextPath}/do/?action=about-book&id=${book.id}&page=${i}"
+                <a href="${base}/do/?action=about-book&id=${book.id}&page=${i}"
                    class="link-style">${i}</a>
             </c:forEach>
         </c:if>

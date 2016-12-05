@@ -5,9 +5,11 @@
 
 <ftm:setBundle basename="i18n"/>
 
+<c:set value="${pageContext.request.contextPath}" var="base"/>
+
 <div class="header">
     <div>
-        <a href="${pageContext.request.contextPath}/do/?action=welcome"
+        <a href="${base}/do/?action=welcome"
            class="library-icon">Library</a>
         <%--@elvariable id="user" type="com.epam.adk.web.library.model.User"--%>
     </div>
@@ -21,8 +23,8 @@
             <i><ftm:message key="log.in.info.field"/> ${user.login} (${user.role.value}) </i>
             <br>
             <br>
-            <a href="${pageContext.request.contextPath}/do/?action=" class="link-style"><ftm:message key="profile.button"/></a>
-            <a href="${pageContext.request.contextPath}/do/?action=logout" class="link-style"><ftm:message key="logout.button"/></a>
+            <a href="${base}/do/?action=" class="link-style"><ftm:message key="profile.button"/></a>
+            <a href="${base}/do/?action=logout" class="link-style"><ftm:message key="logout.button"/></a>
             </c:if>
     </div>
 </div>

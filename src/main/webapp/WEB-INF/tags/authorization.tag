@@ -5,7 +5,9 @@
 
 <ftm:setBundle basename="i18n"/>
 
-<form action="${pageContext.request.contextPath}/do/" method="post">
+<c:set value="${pageContext.request.contextPath}" var="base"/>
+
+<form action="${base}/do/" method="post">
     <table>
         <input hidden="hidden" name="action" value="authorization">
         <tr>
@@ -17,7 +19,7 @@
             <td><input type="password" name="authPassword" value="adilhan"></td>
         </tr>
         <tr>
-            <td><a href="${pageContext.request.contextPath}/do/?action=registration"><ftm:message key="registration.page"/></a></td>
+            <td><a href="${base}/do/?action=registration"><ftm:message key="registration.page"/></a></td>
         </tr>
     </table>
         <tr align="center">

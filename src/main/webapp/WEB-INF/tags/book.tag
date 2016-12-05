@@ -6,9 +6,11 @@
 
 <ftm:setBundle basename="i18n"/>
 
+<c:set value="${pageContext.request.contextPath}" var="base"/>
+
 <div class="book-section">
     <div class="book-image-section">
-        <img src="${pageContext.request.contextPath}/image/?image=${book.cover}">
+        <img src="${base}/image/?image=${book.cover}">
     </div>
     <div class="book-title-section">
         <h1><br>${book.title}</h1>
@@ -21,6 +23,6 @@
         </c:if>
     </div>
     <div class="book-links-section">
-        <a href="${pageContext.request.contextPath}/do/?action=about-book&id=${book.id}" class="link-style"><ftm:message key="about.book"/></a>
+        <a href="${base}/do/?action=about-book&id=${book.id}" class="link-style"><ftm:message key="about.book"/></a>
     </div>
 </div>
