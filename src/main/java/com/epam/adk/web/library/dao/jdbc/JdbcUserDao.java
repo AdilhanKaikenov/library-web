@@ -113,6 +113,11 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     }
 
     @Override
+    protected String getTableName() {
+        return TABLE_NAME;
+    }
+
+    @Override
     protected String getReadByIdQuery() {
         return SELECT_BY_ID;
     }
@@ -133,8 +138,23 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     }
 
     @Override
-    protected String getTableName() {
-        return TABLE_NAME;
+    protected String getReadRangeQuery() {
+        return null;
+    }
+
+    @Override
+    protected String getCountNumberRowsByIdParameterQuery() {
+        return null;
+    }
+
+    @Override
+    protected String getReadAllByIdParameterQuery() {
+        return null;
+    }
+
+    @Override
+    protected String getReadRangeByIdParameterQuery() {
+        return null;
     }
 
     @Override
@@ -143,7 +163,8 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     }
 
     @Override
-    protected String getReadAllByIdParameterQuery() {
+    protected PreparedStatement setFieldInCountNumberRowsByIdPreparedStatement(PreparedStatement preparedStatement, int id) {
         return null;
     }
+
 }

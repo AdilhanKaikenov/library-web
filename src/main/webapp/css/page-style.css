@@ -51,7 +51,7 @@ hr {
 .inner-content {
     border: solid;
     background: #bbbaae;
-    min-height: 2200px;
+    min-height: 1370px;
     padding: 10px;
 }
 
@@ -248,23 +248,25 @@ hr {
 }
 
 .book-description-section {
-    position: relative;
-    top: 425px;
-    right: 458px;
-    width: 150%;
+    /*position: relative;*/
+    top: 10px;
+    right: 0px;
+    width: 100%;
+    float: left;
 }
 
 .book-submit-comment-form-section {
-    float: initial;
-    position: relative;
-    top: 175px;
+    float: left;
+    /*position: relative;*/
+    top: 25px;
+    height: 100px;
     left: 10px;
 }
 
 .book-comments-section {
-    position: relative;
+    /*position: relative;*/
     float: left;
-    top: 190px;
+    top: 85px;
     background: #dddddd;
     padding: 15px;
     width: 920px;
@@ -279,11 +281,11 @@ hr {
 }
 
 .send-comment-requirement-section {
-    position: relative;
-    top: 165px;
+    /*position: relative;*/
+    top: 15px;
     left: 10px;
-    width: 76%;
-    float: left;
+    width: 100%;
+    float: left;;
 }
 
 .sidebar-category-link-style {
@@ -314,4 +316,17 @@ hr {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
     background: linear-gradient(to bottom, #ffe4b5, #e9e9ce);
     color: #a00;
+}
+
+.pagination-section {
+    height: 10px;
+    margin: 15px;
+}
+
+.comment-pagination-section {
+    float: left;
+    position: relative;
+    height: 75px;
+    bottom: -25px;
+    width: 100%;
 }

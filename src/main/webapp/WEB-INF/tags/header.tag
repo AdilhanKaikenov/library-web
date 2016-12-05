@@ -21,8 +21,8 @@
             <i><ftm:message key="log.in.info.field"/> ${user.login} (${user.role.value}) </i>
             <br>
             <br>
-            <a href="${pageContext.request.contextPath}/do/?action=" class="link-style">Profile</a>
-            <a href="${pageContext.request.contextPath}/do/?action=logout" class="link-style">Logout</a>
+            <a href="${pageContext.request.contextPath}/do/?action=" class="link-style"><ftm:message key="profile.button"/></a>
+            <a href="${pageContext.request.contextPath}/do/?action=logout" class="link-style"><ftm:message key="logout.button"/></a>
             </c:if>
     </div>
 </div>

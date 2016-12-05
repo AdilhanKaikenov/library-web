@@ -12,7 +12,4 @@ import java.util.List;
  * @see Dao
  */
 public interface BookDao extends Dao<Book> {
-
-    List<Book> getAllByGenreId(int id) throws DaoException;
-
 }

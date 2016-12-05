@@ -14,16 +14,18 @@
         <hr>
     </div>
 
+    <ftm:message key="min.max.review.length.message" var="maxCommentLength"/>
     <%--@elvariable id="user" type="com.epam.adk.web.library.model.User"--%>
     <div class="book-submit-comment-form-section">
         <c:if test="${not empty user}">
             <form action="${pageContext.request.contextPath}/do/" method="post">
                 <input type="hidden" name="action" value="comment">
                 <input type="hidden" name="bookId" value="${book.id}">
-                <textarea type="text" name="comment" cols="125" rows="5" minlength="30" maxlength="1000" required
-                          autofocus wrap="soft" title=""></textarea>
+                <textarea style="resize: none;overflow: hidden;text-overflow: ellipsis;" onresize="" type="text" name="comment" cols="125" rows="5" minlength="30" maxlength="250" required
+                          autofocus placeholder="${maxCommentLength}"></textarea>
                 <br>
-                <button type="submit" class="link-style"><ftm:message key="leave.comment.button"/></button>
+                <button type="submit"
+                        onclick="return confirm('<ftm:message key="confirm.send.review.message"/>')" class="link-style"><ftm:message key="leave.comment.button"/></button>
             </form>
         </c:if>
     </div>
@@ -32,7 +34,15 @@
             <ftm:message key="anon.send.comment.requirement.message"/>
         </c:if>
     </div>
-
+    <div class="comment-pagination-section" align="center">
+            <%--@elvariable id="pagesNumber" type="java.lang.Integer"--%>
+        <c:if test="${pagesNumber != 1}">
+            <c:forEach var="i" begin="${1}" end="${pagesNumber}">
+                <%--@elvariable id="genreID" type="java.lang.Integer"--%>
+                <a href="${pageContext.request.contextPath}/do/?action=about-book&id=${book.id}&page=${i}" class="link-style">${i}</a>
+            </c:forEach>
+        </c:if>
+    </div>
     <%--@elvariable id="bookComments" type="java.util.List"--%>
     <c:if test="${not empty bookComments}">
         <div class="book-comments-section">

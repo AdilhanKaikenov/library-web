@@ -21,6 +21,7 @@
         </tr>
     </table>
         <tr align="center">
-            <td colspan="2"><br><button type="submit" class="link-style"><ftm:message key="button.sign.in"/></button></td>
+            <td colspan="2"><br><button type="submit"
+                                        onclick="return confirm('<ftm:message key="confirm.message"/>')" class="link-style"><ftm:message key="button.sign.in"/></button></td>
         </tr>
 </form>

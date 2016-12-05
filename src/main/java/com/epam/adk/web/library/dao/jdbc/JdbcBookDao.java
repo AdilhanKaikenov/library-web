@@ -24,7 +24,7 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
 
     private static final Logger log = LoggerFactory.getLogger(JdbcBookDao.class);
 
-    private static final String TABLE_NAME = "Book";
+    private static final String TABLE_NAME = "BOOK";
     private static final String SELECT_ALL = "SELECT BOOK.ID, BOOK.TITLE, BOOK.COVER, BOOK.AUTHORS, BOOK.PUBLISH_YEAR, " +
             "GENRE.GENRE_TYPE AS GENRE, BOOK.DESCRIPTION, BOOK.TOTAL_AMOUNT, BOOK.AVAILABLE_AMOUNT FROM BOOK " +
             "INNER JOIN GENRE ON BOOK.GENRE = GENRE.ID";
@@ -33,9 +33,13 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     private static final String SELECT_BY_ID = "SELECT BOOK.ID, BOOK.TITLE, BOOK.COVER, BOOK.AUTHORS, BOOK.PUBLISH_YEAR," +
             "GENRE.GENRE_TYPE AS GENRE, BOOK.DESCRIPTION, BOOK.TOTAL_AMOUNT, BOOK.AVAILABLE_AMOUNT FROM BOOK " +
             "INNER JOIN GENRE ON BOOK.GENRE = GENRE.ID WHERE PUBLIC.BOOK.ID = ?";
-    private static final String SELECT_ALL_BY_GENRE = "SELECT BOOK.ID, BOOK.TITLE, BOOK.COVER, BOOK.AUTHORS, BOOK.PUBLISH_YEAR, " +
+    private static final String SELECT_RANGE_BY_GENRE = "SELECT BOOK.ID, BOOK.TITLE, BOOK.COVER, BOOK.AUTHORS, BOOK.PUBLISH_YEAR, " +
             "GENRE.GENRE_TYPE AS GENRE, BOOK.DESCRIPTION, BOOK.TOTAL_AMOUNT, BOOK.AVAILABLE_AMOUNT FROM BOOK INNER JOIN GENRE ON " +
-            "BOOK.GENRE = GENRE.ID WHERE PUBLIC.GENRE.ID = ?";
+            "BOOK.GENRE = GENRE.ID WHERE PUBLIC.GENRE.ID = ? ORDER BY BOOK.PUBLISH_YEAR LIMIT ? OFFSET ?";
+    private static final String SELECT_COUNT_BY_GENRE_ID = "SELECT COUNT(*) FROM PUBLIC.BOOK WHERE GENRE = ?";
+    private static final String SELECT_BY_RANGE_QUERY = "SELECT BOOK.ID, BOOK.TITLE, BOOK.COVER, BOOK.AUTHORS, BOOK.PUBLISH_YEAR, " +
+            "GENRE.GENRE_TYPE AS GENRE, BOOK.DESCRIPTION, BOOK.TOTAL_AMOUNT, BOOK.AVAILABLE_AMOUNT FROM BOOK " +
+            "INNER JOIN GENRE ON BOOK.GENRE = GENRE.ID ORDER BY BOOK.PUBLISH_YEAR LIMIT ? OFFSET ?";
 
     public JdbcBookDao(Connection connection) {
         super(connection);
@@ -70,24 +74,16 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     }
 
     @Override
-    public List<Book> getAllByGenreId(int id) throws DaoException {
-        log.debug("Entering JdbcBookDao class, getAllByGenreId() method. Book ID = {}", id);
-        List<Book> result;
-        ResultSet resultSet = null;
-        PreparedStatement preparedStatement = null;
+    protected PreparedStatement setFieldInCountNumberRowsByIdPreparedStatement(PreparedStatement preparedStatement, int id) throws DaoException {
+        log.debug("Entering JdbcBookDao class, setFieldInCountNumberRowsByIdPreparedStatement() method.");
         try {
-            preparedStatement = getConnection().prepareStatement(SELECT_ALL_BY_GENRE);
             preparedStatement.setInt(1, id);
-            resultSet = preparedStatement.executeQuery();
-            result = createListFrom(resultSet);
         } catch (SQLException e) {
-            log.error("Error: JdbcBookDao class getAllByGenreId() method. I can not get all books. {}", e);
-            throw new DaoException("Error: JdbcBookDao class getAllByGenreId() method. I can not get all books.", e);
-        } finally {
-            close(preparedStatement, resultSet);
+            log.error("Error: JdbcBookDao class setFieldInCountNumberRowsByIdPreparedStatement() method. I can not set fields into statement. {}", e);
+            throw new DaoException("Error: JdbcBookDao class setFieldInCountNumberRowsByIdPreparedStatement() method. I can not set fields into statement.", e);
         }
-        log.debug("Leaving JdbcBookDao class, getAllByGenreId() method.");
-        return result;
+        log.debug("Leaving JdbcBookDao class, setFieldInCountNumberRowsByIdPreparedStatement() method.");
+        return preparedStatement;
     }
 
     @Override
@@ -108,6 +104,21 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     @Override
     protected String getReadAllQuery() {
         return SELECT_ALL;
+    }
+
+    @Override
+    protected String getReadRangeByIdParameterQuery() {
+        return SELECT_RANGE_BY_GENRE;
+    }
+
+    @Override
+    protected String getReadRangeQuery() {
+        return SELECT_BY_RANGE_QUERY;
+    }
+
+    @Override
+    protected String getCountNumberRowsByIdParameterQuery() {
+        return SELECT_COUNT_BY_GENRE_ID;
     }
 
     @Override

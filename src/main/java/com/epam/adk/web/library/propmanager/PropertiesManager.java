@@ -78,8 +78,8 @@ public final class PropertiesManager {
      * @return values from properties.
      */
     public Collection<String> getAllValues(String fileName) {
-        load(fileName);
         List<String> values = new ArrayList<>();
+        load(fileName);
         Enumeration<?> enumeration = properties.propertyNames();
         while (enumeration.hasMoreElements()) {
             String key = (String) enumeration.nextElement();

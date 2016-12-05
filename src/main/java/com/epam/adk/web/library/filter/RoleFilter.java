@@ -54,7 +54,7 @@ public final class RoleFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
-        log.info("RoleFilter class, doFilter()");
+        log.debug("RoleFilter class, doFilter()");
         User user = null;
         Role role;
 

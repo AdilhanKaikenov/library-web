@@ -6,11 +6,17 @@
 <ftm:setBundle basename="i18n"/>
 
 <t:page title="welcome.page">
-
+    <div class="pagination-section" align="center">
+            <%--@elvariable id="pagesNumber" type="java.lang.Integer"--%>
+        <c:if test="${pagesNumber != 1}">
+            <c:forEach var="i" begin="${1}" end="${pagesNumber}">
+                <a href="${pageContext.request.contextPath}/do/?action=welcome&page=${i}" class="link-style">${i}</a>
+            </c:forEach>
+        </c:if>
+    </div>
     <%--@elvariable id="books" type="java.util.List"--%>
     <c:forEach items="${books}" var="book">
         <%--@elvariable id="book" type="com.epam.adk.web.library.model.Book"--%>
         <t:book book="${book}"/>
     </c:forEach>
-
 </t:page>

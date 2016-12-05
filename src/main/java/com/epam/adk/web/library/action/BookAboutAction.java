@@ -6,7 +6,7 @@ import com.epam.adk.web.library.model.Book;
 import com.epam.adk.web.library.model.Comment;
 import com.epam.adk.web.library.service.BookService;
 import com.epam.adk.web.library.service.CommentService;
-import com.epam.adk.web.library.service.UserService;
+import com.epam.adk.web.library.util.Pagination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,31 +23,44 @@ public class BookAboutAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(BookAboutAction.class);
     private static final String BOOK_ID_PARAMETER = "id";
+    private static final String PAGE_PARAMETER = "page";
+    private static final int DEFAULT_PAGE_NUMBER = 1;
+    private static final int LINE_PER_PAGE_NUMBER = 2;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
         log.debug("The book about action started execute.");
 
-        int id = Integer.parseInt(request.getParameter(BOOK_ID_PARAMETER));
+        int bookId = Integer.parseInt(request.getParameter(BOOK_ID_PARAMETER));
 
         BookService bookService = new BookService();
         CommentService commentService = new CommentService();
 
-        try {
-            Book book = bookService.getBookById(id);
-            request.setAttribute("book", book);
+        int page = DEFAULT_PAGE_NUMBER;
+        String pageParameter = request.getParameter(PAGE_PARAMETER);
 
-            List<Comment> bookComments = commentService.getAllBookComments(id);
+        if (pageParameter != null) {
+            page = Integer.parseInt(pageParameter);
+            log.debug("BookAboutAction: page #{}", page);
+        }
+
+        try {
+            Book book = bookService.getBookById(bookId);
+            int commentsNumber = commentService.getCommentsNumberByBookId(bookId);
+            log.debug("BookAboutAction: total comments number = {}", commentsNumber);
+            Pagination pagination = new Pagination();
+            int pagesNumber = pagination.getPagesNumber(commentsNumber, LINE_PER_PAGE_NUMBER);
+            log.debug("BookAboutAction: total pages number = {}", pagesNumber);
+            List<Comment> bookComments = commentService.getPaginatedComments(bookId, page, LINE_PER_PAGE_NUMBER);
 
             if (bookComments.size() != 0) {
                 request.setAttribute("bookComments", bookComments);
             }
-
-
+            request.setAttribute("book", book);
+            request.setAttribute("pagesNumber", pagesNumber);
         } catch (ServiceException e) {
             throw new ActionException("Error: BookAboutAction class, execute() method. Can not give info about book:", e);
         }
-
         return "about-book";
     }
 }
