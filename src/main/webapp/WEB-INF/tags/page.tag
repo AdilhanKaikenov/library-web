@@ -25,6 +25,7 @@
     <div class="content">
         <div class="inner-content">
             <jsp:doBody/>
+            <div style="clear: both;"></div>
         </div>
     </div>
 </div>

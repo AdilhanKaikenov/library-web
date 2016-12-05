@@ -9,6 +9,17 @@
 
     <t:book book="${book}"/>
 
+    <c:if test="${not empty user}">
+        <div class="reader-requests-links-section" align="center">
+            <a href="${pageContext.request.contextPath}/do/?action=" class="link-style">Send a request for
+                subscription</a>
+            <a href="${pageContext.request.contextPath}/do/?action=" class="link-style">Send a request to the reading
+                room</a>
+        </div>
+    </c:if>
+    <div style="float: left; width: 100%;" align="center">
+        <h1> Краткая информация о книге </h1>
+    </div>
     <div class="book-description-section">
         <p align="justify">${book.description}</p>
         <hr>
@@ -21,11 +32,13 @@
             <form action="${pageContext.request.contextPath}/do/" method="post">
                 <input type="hidden" name="action" value="comment">
                 <input type="hidden" name="bookId" value="${book.id}">
-                <textarea style="resize: none;overflow: hidden;text-overflow: ellipsis;" onresize="" type="text" name="comment" cols="125" rows="5" minlength="30" maxlength="250" required
+                <textarea style="resize: none;overflow: hidden;text-overflow: ellipsis;" onresize="" type="text"
+                          name="comment" cols="125" rows="5" minlength="30" maxlength="250" required
                           autofocus placeholder="${maxCommentLength}"></textarea>
                 <br>
                 <button type="submit"
-                        onclick="return confirm('<ftm:message key="confirm.send.review.message"/>')" class="link-style"><ftm:message key="leave.comment.button"/></button>
+                        onclick="return confirm('<ftm:message key="confirm.send.review.message"/>')" class="link-style">
+                    <ftm:message key="leave.comment.button"/></button>
             </form>
         </c:if>
     </div>
@@ -39,7 +52,8 @@
         <c:if test="${pagesNumber != 1}">
             <c:forEach var="i" begin="${1}" end="${pagesNumber}">
                 <%--@elvariable id="genreID" type="java.lang.Integer"--%>
-                <a href="${pageContext.request.contextPath}/do/?action=about-book&id=${book.id}&page=${i}" class="link-style">${i}</a>
+                <a href="${pageContext.request.contextPath}/do/?action=about-book&id=${book.id}&page=${i}"
+                   class="link-style">${i}</a>
             </c:forEach>
         </c:if>
     </div>
@@ -50,7 +64,8 @@
                 <%--@elvariable id="comment" type="com.epam.adk.web.library.model.Comment"--%>
                 <div class="comment-sender-info-section">
                     <h4>${comment.userFirstname} ${comment.userSurname} (${comment.userLogin})
-                        <br><ftm:message key="time.field.message"/> <ftm:formatDate value="${comment.time}" pattern="yyyy-MM-dd HH:mm:ss"/></h4>
+                        <br><ftm:message key="time.field.message"/> <ftm:formatDate value="${comment.time}"
+                                                                                    pattern="yyyy-MM-dd HH:mm:ss"/></h4>
                 </div>
                 <div class="comment-text-section">
                     <p>${comment.text}
