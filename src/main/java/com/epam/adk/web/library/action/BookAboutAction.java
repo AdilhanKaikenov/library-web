@@ -29,7 +29,7 @@ public class BookAboutAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
-        log.debug("The book about action started execute.");
+        log.debug("The BookAboutAction started execute.");
 
         int bookId = Integer.parseInt(request.getParameter(BOOK_ID_PARAMETER));
 
@@ -43,6 +43,14 @@ public class BookAboutAction implements Action {
             page = Integer.parseInt(pageParameter);
             log.debug("BookAboutAction: page #{}", page);
         }
+
+        String sentRequest = (String) request.getAttribute("sentRequest");
+        if (sentRequest == null){
+            System.out.println("I AM NULL");
+        } else {
+            System.out.println("1111" + sentRequest);
+        }
+        request.setAttribute("sentRequest", sentRequest);
 
         try {
             Book book = bookService.getBookById(bookId);

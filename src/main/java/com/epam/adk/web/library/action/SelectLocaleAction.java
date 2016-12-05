@@ -24,7 +24,7 @@ public class SelectLocaleAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
-        log.debug("The action of set locale started execute.");
+        log.debug("The SelectLocaleAction started execute.");
 
         String region = request.getParameter(REGION_PARAMETER);
         Config.set(request.getSession(), Config.FMT_LOCALE, new java.util.Locale(region));

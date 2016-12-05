@@ -27,7 +27,7 @@ public class ShowPageAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response)
             throws ActionException {
-        log.debug("The show page action started execute. Page = {}", page);
+        log.debug("The ShowPageAction started execute. Page = {}", page);
 
         return page;
     }

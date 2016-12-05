@@ -19,7 +19,7 @@ public class LogoutAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
-        log.debug("The logout action started execute.");
+        log.debug("The LogoutAction started execute.");
 
         HttpSession session = request.getSession(false);
         if (session != null)

@@ -10,8 +10,6 @@ import java.util.regex.Pattern;
  */
 public class Validator {
 
-    private Pattern pattern;
-
     /**
      * Method for checking the field using the regular expression.
      *
@@ -20,7 +18,7 @@ public class Validator {
      * @return (true) if the field is valid and (false) if the field is invalid.
      */
     public boolean isRegexValid(String field, String regex){
-        pattern = Pattern.compile(regex);
+        Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(field);
         return matcher.matches();
     }

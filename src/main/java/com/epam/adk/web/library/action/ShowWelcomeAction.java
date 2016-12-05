@@ -26,7 +26,7 @@ public class ShowWelcomeAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
-        log.debug("The show welcome page action started execute.");
+        log.debug("The ShowWelcomeAction started execute.");
         BookService bookService = new BookService();
 
             int page = DEFAULT_PAGE_NUMBER;

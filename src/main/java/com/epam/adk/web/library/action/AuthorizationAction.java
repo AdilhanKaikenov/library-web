@@ -26,7 +26,7 @@ public class AuthorizationAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
-        log.debug("The action of authorization started execute.");
+        log.debug("The AuthorizationAction started execute.");
 
         HttpSession session = request.getSession();
 

@@ -2,7 +2,7 @@
 <%@ taglib prefix="ftm" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
-<%@attribute name="title" type="java.lang.String" required="false" %>
+<%@attribute name="title" type="java.lang.String" required="true" %>
 <%@attribute name="optionalTitle" type="java.lang.String" required="false" %>
 
 <ftm:setBundle basename="i18n"/>

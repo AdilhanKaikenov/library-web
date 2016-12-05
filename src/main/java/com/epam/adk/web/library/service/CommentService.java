@@ -81,24 +81,4 @@ public class CommentService {
         log.debug("Leaving CommentService class getCommentsNumberByBookId() method.");
         return commentsNumber;
     }
-
-    public List<Comment> getAllBookComments(int id) throws ServiceException {
-        log.debug("Entering CommentService class getAllBookComments() method. Book id = {}", id);
-        List<Comment> result;
-        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)){
-            try {
-                jdbcDaoFactory.beginTransaction();
-                CommentDao commentDao = jdbcDaoFactory.commentDao();
-                result = commentDao.readAllByIdParameter(id);
-                jdbcDaoFactory.endTransaction();
-            } catch (SQLException e){
-                jdbcDaoFactory.rollbackTransaction();
-                throw new ServiceException("Error: CommentService class, getAllBookComments() method. TRANSACTION error:", e);
-            }
-        } catch (SQLException | DaoException e) {
-            throw new ServiceException("Error: CommentService class, getAllBookComments() method.", e);
-        }
-        log.debug("Leaving CommentService class getAllBookComments() method. Amount of books comment = {}", result.size());
-        return result;
-    }
 }

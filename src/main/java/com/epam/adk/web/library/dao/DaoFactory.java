@@ -15,6 +15,7 @@ import java.sql.SQLException;
  * Abstract class DaoFactory created on 23.11.2016
  *
  * @author Kaikenov Adilhan
+ * @see AutoCloseable
  */
 public abstract class DaoFactory implements AutoCloseable {
 
@@ -52,6 +53,8 @@ public abstract class DaoFactory implements AutoCloseable {
     public abstract BookDao bookDao();
 
     public abstract CommentDao commentDao();
+
+    public abstract OrderDao orderDao();
 
     /**
      * Start transaction.

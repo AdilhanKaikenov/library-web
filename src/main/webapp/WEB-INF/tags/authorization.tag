@@ -10,11 +10,11 @@
         <input hidden="hidden" name="action" value="authorization">
         <tr>
             <td><ftm:message key="auth.form.login.field"/></td>
-            <td><input type="text" name="authLogin" value="${param.authLogin}"></td>
+            <td><input type="text" name="authLogin" value="Adilhan"></td>
         </tr>
         <tr>
             <td><ftm:message key="auth.form.password.field"/></td>
-            <td><input type="password" name="authPassword" value="${param.authPassword}"></td>
+            <td><input type="password" name="authPassword" value="adilhan"></td>
         </tr>
         <tr>
             <td><a href="${pageContext.request.contextPath}/do/?action=registration"><ftm:message key="registration.page"/></a></td>
@@ -22,6 +22,6 @@
     </table>
         <tr align="center">
             <td colspan="2"><br><button type="submit"
-                                        onclick="return confirm('<ftm:message key="confirm.message"/>')" class="link-style"><ftm:message key="button.sign.in"/></button></td>
+                                         class="link-style"><ftm:message key="button.sign.in"/></button></td>
         </tr>
 </form>

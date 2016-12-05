@@ -11,14 +11,17 @@
 
     <c:if test="${not empty user}">
         <div class="reader-requests-links-section" align="center">
-            <a href="${pageContext.request.contextPath}/do/?action=" class="link-style">Send a request for
-                subscription</a>
-            <a href="${pageContext.request.contextPath}/do/?action=" class="link-style">Send a request to the reading
-                room</a>
+            <form action="${pageContext.request.contextPath}/do/" method="post">
+                <input hidden="hidden" name="action" value="order-book-request">
+                <input hidden="hidden" name="book_id" value="${book.id}">
+                <i><input type="radio" name="order_type" value="Subscription" checked><ftm:message key="subscription"/></i>
+                <i><input type="radio" name="order_type" value="Reading room"><ftm:message key="reading.room"/></i>
+                <br><button style="margin: 10px" type="submit" class="link-style"><ftm:message key="send.request.button"/></button>
+            </form>
         </div>
     </c:if>
     <div style="float: left; width: 100%;" align="center">
-        <h1> Краткая информация о книге </h1>
+        <h1><ftm:message key="short.book.info.header"/></h1>
     </div>
     <div class="book-description-section">
         <p align="justify">${book.description}</p>

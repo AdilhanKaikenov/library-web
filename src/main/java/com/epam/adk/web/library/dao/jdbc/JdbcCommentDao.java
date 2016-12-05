@@ -6,7 +6,10 @@ import com.epam.adk.web.library.model.Comment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +17,7 @@ import java.util.List;
  * JdbcCommentDao class created on 03.12.2016
  *
  * @author Kaikenov Adilhan
+ * @see CommentDao
  **/
 public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
 

@@ -27,7 +27,7 @@ public class CategoryAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
-        log.debug("The category action started execute.");
+        log.debug("The CategoryAction started execute.");
 
         int genreID = Integer.parseInt(request.getParameter(GENRE_PARAMETER));
 

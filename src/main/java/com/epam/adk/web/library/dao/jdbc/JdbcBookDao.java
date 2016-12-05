@@ -19,6 +19,7 @@ import java.util.List;
  * JdbcBookDao class created on 1.12.2016
  *
  * @author Kaikenov Adilhan
+ * @see BookDao
  */
 public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
 

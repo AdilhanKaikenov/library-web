@@ -33,7 +33,7 @@ public class RegistrationAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        log.debug("The action of registration started execute.");
+        log.debug("The RegistrationAction started execute.");
 
         String login = request.getParameter(LOGIN_PARAMETER);
         String password = request.getParameter(PASSWORD_PARAMETER);

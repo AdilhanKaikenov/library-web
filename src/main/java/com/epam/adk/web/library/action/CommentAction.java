@@ -5,6 +5,8 @@ import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.Comment;
 import com.epam.adk.web.library.model.User;
 import com.epam.adk.web.library.service.CommentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +21,7 @@ import java.util.Date;
  **/
 public class CommentAction implements Action {
 
+    private static final Logger log = LoggerFactory.getLogger(CommentAction.class);
     private static final String USER_PARAMETER = "user";
     private static final String BOOK_ID_PARAMETER = "bookId";
     private static final String COMMENT_PARAMETER = "comment";
@@ -27,11 +30,12 @@ public class CommentAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
+        log.debug("The CommentAction started execute.");
 
         HttpSession session = request.getSession(false);
 
         User user = ((User) session.getAttribute(USER_PARAMETER));
-        int bookId = Integer.parseInt(request.getParameter(BOOK_ID_PARAMETER));
+        int bookID = Integer.parseInt(request.getParameter(BOOK_ID_PARAMETER));
         Date date = new Date();
         Timestamp time = new Timestamp(date.getTime());
         String text = request.getParameter(COMMENT_PARAMETER).replaceAll(REGEX_ENTER, LINE_BREAK_HTML_TAG);
@@ -41,7 +45,7 @@ public class CommentAction implements Action {
         comment.setUserLogin(user.getLogin());
         comment.setUserFirstname(user.getFirstname());
         comment.setUserSurname(user.getSurname());
-        comment.setBookID(bookId);
+        comment.setBookID(bookID);
         comment.setTime(time);
         comment.setText(text);
 
@@ -53,6 +57,6 @@ public class CommentAction implements Action {
             throw new ActionException("Error: CommentAction class, execute() method. Called CommentService class, writeComment() failed.", e);
         }
 
-        return "redirect:about-book&&id=" + bookId;
+        return "redirect:about-book&&id=" + bookID;
     }
 }

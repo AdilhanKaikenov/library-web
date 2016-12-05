@@ -19,6 +19,7 @@ import java.util.List;
  * JdbcUserDao class created on 23.11.2016
  *
  * @author Kaikenov Adilhan
+ * @see UserDao
  */
 public class JdbcUserDao extends JdbcDao<User> implements UserDao {
 
@@ -68,8 +69,8 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
                 result.add(user);
             }
         } catch (SQLException e) {
-            log.error("Error: JdbcUserDao class createListFrom() method. I can not create List of user from resultSet. {}", e);
-            throw new DaoException("Error: JdbcUserDao class createListFrom() method. I can not create List of user from resultSet.", e);
+            log.error("Error: JdbcUserDao class createListFrom() method. I can not create List of users from resultSet. {}", e);
+            throw new DaoException("Error: JdbcUserDao class createListFrom() method. I can not create List of users from resultSet.", e);
         }
         log.debug("Leaving JdbcUserDao class, createListFrom() method.");
         return result;
