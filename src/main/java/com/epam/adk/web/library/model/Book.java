@@ -18,7 +18,6 @@ public class Book extends BaseEntity {
     private Genre genre;
     private String description;
     private int totalAmount;
-    private int availableAmount;
 
     public String getTitle() {
         return title;
@@ -76,11 +75,4 @@ public class Book extends BaseEntity {
         this.totalAmount = totalAmount;
     }
 
-    public int getAvailableAmount() {
-        return availableAmount;
-    }
-
-    public void setAvailableAmount(int availableAmount) {
-        this.availableAmount = availableAmount;
-    }
 }

@@ -12,7 +12,7 @@
 
     <t:book book="${book}"/>
 
-    <c:if test="${not empty user}">
+    <c:if test="${not empty user && user.role == 'USER'}">
         <div class="reader-requests-links-section" align="center">
             <form action="${base}/do/" method="post">
                 <input hidden="hidden" name="action" value="order-book-request">
@@ -69,8 +69,7 @@
                 <%--@elvariable id="comment" type="com.epam.adk.web.library.model.Comment"--%>
                 <div class="comment-sender-info-section">
                     <h4>${comment.userFirstname} ${comment.userSurname} (${comment.userLogin})
-                        <br><ftm:message key="time.field.message"/> <ftm:formatDate value="${comment.time}"
-                                                                                    pattern="yyyy-MM-dd HH:mm:ss"/></h4>
+                        <br><ftm:message key="time.field.message"/> <ftm:formatDate value="${comment.time}"/></h4>
                 </div>
                 <div class="comment-text-section">
                     <p>${comment.text}

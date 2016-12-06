@@ -16,6 +16,10 @@ hr {
     border-bottom:1px solid #F4F4F4;
 }
 
+.tr:nth-child(even) {
+    background-color: wheat;
+}
+
 .row:after {
     visibility: hidden;
     display: block;
@@ -57,10 +61,10 @@ hr {
 
 .horizontal-bar{
     float: right;
-    width: 60%;
+    width: 45%;
     margin-bottom: 10px;
     position: relative;
-    right: 460px;
+    right: 465px;
 }
 .inner-horizontal-bar{
     border-radius: 10px;
@@ -194,7 +198,7 @@ hr {
 .select-locale-navigation-section {
     float: right;
     position: relative;
-    bottom: 42px;
+    bottom: 30px;
     right: 25px;
     height: 0%;
 }

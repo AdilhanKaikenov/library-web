@@ -14,6 +14,8 @@
             </c:forEach>
         </c:if>
     </div>
+    <br>
+    <hr>
     <%--@elvariable id="books" type="java.util.List"--%>
     <c:forEach items="${books}" var="book">
         <%--@elvariable id="book" type="com.epam.adk.web.library.model.Book"--%>

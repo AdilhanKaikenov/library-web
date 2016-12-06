@@ -26,6 +26,7 @@ public final class FrontControllerServlet extends HttpServlet {
     private static final String JSP_FORMAT = ".jsp";
     private static final String SERVLET_CONTEXT = "/do";
     private static final String PATH_INFO = "/?action=";
+
     private static ActionFactory factory;
 
     @Override

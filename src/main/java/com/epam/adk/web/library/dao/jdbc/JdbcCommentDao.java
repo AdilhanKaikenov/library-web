@@ -22,10 +22,11 @@ import java.util.List;
 public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
 
     private static final Logger log = LoggerFactory.getLogger(JdbcCommentDao.class);
+
+    private static final String TABLE_NAME = "comment";
     private static final String CREATE_QUERY = "INSERT INTO comment(user_id, book_id, date, text) VALUES (?, ?, ?, ?)";
     private static final String SELECT_ALL_BY_BOOK_ID_QUERY = "SELECT comment.*, user.login, user.firstname, user.surname FROM comment, " +
             "user WHERE comment.user_id = user.id AND comment.book_id = ?";
-    private static final String TABLE_NAME = "comment";
     private static final String SELECT_COUNT_BY_BOOK_ID = "SELECT COUNT(*) FROM comment WHERE book_id = ?";
     private static final String SELECT_RANGE_BY_ID_QUERY = "SELECT comment.*, user.login, user.firstname, user.surname FROM comment, " +
             "user WHERE comment.user_id = user.id AND comment.book_id = ? ORDER BY date LIMIT ? OFFSET ?";

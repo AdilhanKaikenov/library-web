@@ -1,6 +1,5 @@
 package com.epam.adk.web.library.model.enums;
 
-import com.epam.adk.web.library.filter.RoleFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,7 +9,6 @@ import org.slf4j.LoggerFactory;
  * @author Kaikenov Adilhan
  */
 public enum Genre {
-
 
     DOCUMENTAL_LITERATURE("Documental literature"),
     DETECTIVE_AND_THRILLERS("Detectives and thrillers"),

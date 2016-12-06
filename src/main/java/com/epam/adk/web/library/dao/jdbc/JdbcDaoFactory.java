@@ -14,6 +14,7 @@ import java.sql.Connection;
 public class JdbcDaoFactory extends DaoFactory {
 
     private static final Logger log = LoggerFactory.getLogger(JdbcDaoFactory.class);
+
     private Connection connection;
 
     public JdbcDaoFactory(Connection connection) {

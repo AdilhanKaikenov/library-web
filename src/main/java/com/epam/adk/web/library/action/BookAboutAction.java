@@ -25,7 +25,7 @@ public class BookAboutAction implements Action {
     private static final String BOOK_ID_PARAMETER = "id";
     private static final String PAGE_PARAMETER = "page";
     private static final int DEFAULT_PAGE_NUMBER = 1;
-    private static final int LINE_PER_PAGE_NUMBER = 2;
+    private static final int LINE_PER_PAGE_NUMBER = 4;
     private static final String ABOUT_BOOK_PAGE = "about-book";
 
     @Override

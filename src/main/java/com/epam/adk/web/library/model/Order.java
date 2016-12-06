@@ -1,5 +1,6 @@
 package com.epam.adk.web.library.model;
 
+import com.epam.adk.web.library.model.enums.OrderStatus;
 import com.epam.adk.web.library.model.enums.OrderType;
 
 import java.sql.Date;
@@ -13,11 +14,14 @@ public class Order extends BaseEntity {
 
     private int userID;
     private int bookID;
+    private String client;
+    private String bookTitle;
     private Date orderDate;
     private OrderType type;
     private Date from;
     private Date to;
-    private boolean status;
+    private int availableBookAmount;
+    private OrderStatus status;
 
     public int getUserID() {
         return userID;
@@ -33,6 +37,22 @@ public class Order extends BaseEntity {
 
     public void setBookID(int bookID) {
         this.bookID = bookID;
+    }
+
+    public String getClient() {
+        return client;
+    }
+
+    public void setClient(String client) {
+        this.client = client;
+    }
+
+    public String getBookTitle() {
+        return bookTitle;
+    }
+
+    public void setBookTitle(String bookTitle) {
+        this.bookTitle = bookTitle;
     }
 
     public Date getOrderDate() {
@@ -67,11 +87,19 @@ public class Order extends BaseEntity {
         this.to = to;
     }
 
-    public boolean isStatus() {
+    public int getAvailableBookAmount() {
+        return availableBookAmount;
+    }
+
+    public void setAvailableBookAmount(int availableBookAmount) {
+        this.availableBookAmount = availableBookAmount;
+    }
+
+    public OrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
 }

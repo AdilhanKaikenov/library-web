@@ -34,6 +34,8 @@ public class ActionFactory {
         actions.put("GET/category", new CategoryAction());
         actions.put("POST/comment", new CommentAction());
         actions.put("POST/order-book-request", new BookOrderRequestAction());
+        actions.put("GET/user-orders", new ShowUserOrdersAction());
+        actions.put("GET/orders", new ShowAllOrdersAction());
         log.debug("Action Factory class, actions SIZE {}", actions.size());
     }
 

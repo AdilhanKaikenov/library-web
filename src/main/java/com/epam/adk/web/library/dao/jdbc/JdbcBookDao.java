@@ -27,19 +27,19 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
 
     private static final String TABLE_NAME = "book";
     private static final String SELECT_ALL = "SELECT book.id, book.title, book.cover, book.authors, book.publish_year, " +
-            "genre.type AS genre, book.description, book.total_amount, book.available_amount FROM book " +
+            "genre.type AS genre, book.description, book.total_amount FROM book " +
             "INNER JOIN genre ON book.genre = genre.id";
     private static final String CREATE_QUERY = "INSERT INTO book (title, cover, authors, publish_year, genre, " +
-            "description, total_amount, available_amount) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            "description, total_amount) VALUES (?, ?, ?, ?, ?, ?, ?)";
     private static final String SELECT_BY_ID = "SELECT book.id, book.title, book.cover, book.authors, book.publish_year," +
-            "genre.type AS genre, book.description, book.total_amount, book.available_amount FROM BOOK " +
+            "genre.type AS genre, book.description, book.total_amount FROM BOOK " +
             "INNER JOIN genre ON book.genre = genre.id WHERE book.id = ?";
     private static final String SELECT_RANGE_BY_GENRE = "SELECT book.id, book.title, book.cover, book.authors, book.publish_year, " +
-            "genre.type AS genre, book.description, book.total_amount, book.available_amount FROM book INNER JOIN genre ON " +
+            "genre.type AS genre, book.description, book.total_amount FROM book INNER JOIN genre ON " +
             "book.genre = genre.id WHERE genre.id = ? ORDER BY book.publish_year LIMIT ? OFFSET ?";
     private static final String SELECT_COUNT_BY_GENRE_ID = "SELECT COUNT(*) FROM book WHERE genre = ?";
     private static final String SELECT_BY_RANGE_QUERY = "SELECT book.id, book.title, book.cover, book.authors, book.publish_year, " +
-            "genre.type AS genre, book.description, book.total_amount, book.available_amount FROM book " +
+            "genre.type AS genre, book.description, book.total_amount FROM book " +
             "INNER JOIN genre ON book.genre = genre.id ORDER BY book.publish_year LIMIT ? OFFSET ?";
 
     public JdbcBookDao(Connection connection) {
@@ -62,7 +62,6 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
                 book.setGenre(Genre.from(resultSet.getString("GENRE")));
                 book.setDescription(resultSet.getString("DESCRIPTION"));
                 book.setTotalAmount(resultSet.getInt("TOTAL_AMOUNT"));
-                book.setAvailableAmount(resultSet.getInt("AVAILABLE_AMOUNT"));
                 log.debug("Book successfully created in createFrom() method. Book id = {}", book.getId());
                 result.add(book);
             }
