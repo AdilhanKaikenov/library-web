@@ -28,13 +28,13 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
     private static final String CREATE_QUERY = "INSERT INTO orders(user_id, book_id, order_date, order_type, date_from, " +
             "date_to) VALUES(?, ?, ?, ?, ?, ?)";
     private static final String COUNT_ORDERS_QUERY = "SELECT COUNT(*) FROM orders WHERE book_id = ? AND user_id = ? AND order_type = ?";
-    private static final String SELECT_COUNT_BY_USER_ID = "SELECT COUNT(*) FROM orders WHERE user_id = ?";
+    private static final String SELECT_COUNT_BY_USER_ID_QUERY = "SELECT COUNT(*) FROM orders WHERE user_id = ?";
     private static final String SELECT_RANGE_BY_ID_QUERY = "SELECT orders.id, orders.user_id, orders.book_id, book.title AS " +
             "book_title, orders.order_date, order_type.type AS order_type, orders.date_from, orders.date_to, order_status.type AS order_status, " +
             "book.total_amount - (SELECT COUNT(*) FROM orders WHERE orders.book_id = book.id AND orders.status = 0) AS available_amount, " +
             "concat(user.firstname, ' ', user.surname, ' ', user.patronymic) AS client " +
             "FROM orders, order_type, book, order_status, user WHERE orders.order_type = order_type.id AND orders.book_id = book.id AND " +
-            "orders.status = order_status.id AND user.id = ? ORDER BY order_date LIMIT ? OFFSET ?";
+            "orders.status = order_status.id AND orders.user_id = user.id AND user.id = ? ORDER BY order_date LIMIT ? OFFSET ?";
     private static final String SELECT_RANGE_QUERY = "SELECT orders.id, orders.user_id, orders.book_id, book.title AS " +
             "book_title, orders.order_date, order_type.type AS order_type, orders.date_from, orders.date_to, order_status.type AS order_status, " +
             "book.total_amount - (SELECT COUNT(*) FROM orders WHERE orders.book_id = book.id AND orders.status = 0) AS available_amount, " +
@@ -47,7 +47,14 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
             "concat(user.firstname, ' ', user.surname, ' ', user.patronymic) AS client " +
             "FROM orders, order_type, book, order_status, user WHERE orders.order_type = order_type.id AND orders.book_id = book.id AND  "+
             "orders.status = order_status.id AND order_status.id = ? AND orders.user_id = user.id ORDER BY order_date LIMIT ? OFFSET ?";
-    private static final String COUNT_ORDERS_BY_STATUS_ID = "SELECT COUNT(*) FROM orders WHERE status = ?";
+    private static final String COUNT_ORDERS_BY_STATUS_ID_QUERY = "SELECT COUNT(*) FROM orders WHERE status = ?";
+    private static final String SELECT_BY_ID_QUERY = "SELECT orders.id, orders.user_id, orders.book_id, book.title AS " +
+            "book_title, orders.order_date, order_type.type AS order_type, orders.date_from, orders.date_to, order_status.type " +
+            "AS order_status, book.total_amount - (SELECT COUNT(*) FROM orders WHERE orders.book_id = book.id AND orders.status = 0) " +
+            "AS available_amount, concat(user.firstname, ' ', user.surname, ' ', user.patronymic) AS client " +
+            "FROM orders, order_type, book, order_status, user WHERE orders.order_type = order_type.id AND orders.book_id = book.id " +
+            "AND orders.status = order_status.id AND orders.user_id = user.id AND orders.id = ?";
+    public static final String UPDATE_BY_ENTITY_QUERY = "UPDATE orders SET date_from = ?, date_to = ?, status = ? WHERE id LIKE ?";
 
     public JdbcOrderDao(Connection connection) {
         super(connection);
@@ -136,7 +143,7 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
-            preparedStatement = getConnection().prepareStatement(COUNT_ORDERS_BY_STATUS_ID);
+            preparedStatement = getConnection().prepareStatement(COUNT_ORDERS_BY_STATUS_ID_QUERY);
             preparedStatement = setFieldInCountNumberRowsByIdPreparedStatement(preparedStatement, statusID);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()){
@@ -171,8 +178,29 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
     }
 
     @Override
+    protected PreparedStatement setFieldsInUpdateByEntityPreparedStatement(PreparedStatement preparedStatement, Order entity) throws DaoException {
+        log.debug("Entering JdbcOrderDao class, setFieldsInUpdateByEntityPreparedStatement() method.");
+        try {
+            preparedStatement.setDate(1, entity.getFrom());
+            preparedStatement.setDate(2, entity.getTo());
+            preparedStatement.setInt(3, entity.getStatus().ordinal());
+            preparedStatement.setInt(4, entity.getId());
+            log.debug("Leaving JdbcOrderDao class, setFieldsInUpdateByEntityPreparedStatement() method.");
+        } catch (SQLException e) {
+            log.error("Error: JdbcOrderDao class setFieldsInUpdateByEntityPreparedStatement() method. I can not set fields into statement. {}", e);
+            throw new DaoException("Error: JdbcOrderDao class setFieldsInUpdateByEntityPreparedStatement() method. I can not set fields into statement.", e);
+        }
+        return preparedStatement;
+    }
+
+    @Override
+    protected String getUpdateByEntityQuery() {
+        return UPDATE_BY_ENTITY_QUERY;
+    }
+
+    @Override
     protected String getReadByIdQuery() {
-        return null;
+        return SELECT_BY_ID_QUERY;
     }
 
     @Override
@@ -202,7 +230,7 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
 
     @Override
     protected String getCountNumberRowsByIdParameterQuery() {
-        return SELECT_COUNT_BY_USER_ID;
+        return SELECT_COUNT_BY_USER_ID_QUERY;
     }
 
     @Override

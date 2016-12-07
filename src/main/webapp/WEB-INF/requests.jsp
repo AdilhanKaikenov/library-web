@@ -63,11 +63,15 @@
                 </td>
                 <td>
                     <form action="${pageContext.request.contextPath}/do/" method="post">
-                        <button type="submit" class="link-style">Разрешить</button>
+                        <input hidden="hidden" name="action" value="lend-out-book">
+                        <input hidden="hidden" name="orderID" value="${order.id}">
+                        <button type="submit" class="link-style">Lend out</button>
                     </form>
                 </td>
                 <td>
                     <form action="${pageContext.request.contextPath}/do/" method="post">
+                        <input hidden="hidden" name="action" value="reject-book-order">
+                        <input hidden="hidden" name="orderID" value="${order.id}">
                         <button type="submit" class="link-style">Запретить</button>
                     </form>
                 </td>

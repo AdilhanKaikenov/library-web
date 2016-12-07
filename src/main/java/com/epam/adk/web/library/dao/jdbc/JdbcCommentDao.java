@@ -79,6 +79,11 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
     }
 
     @Override
+    protected String getUpdateByEntityQuery() {
+        return null;
+    }
+
+    @Override
     protected String getTableName() {
         return TABLE_NAME;
     }
@@ -91,6 +96,11 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
     @Override
     protected String getReadAllByIdParameterQuery() {
         return SELECT_ALL_BY_BOOK_ID_QUERY;
+    }
+
+    @Override
+    protected PreparedStatement setFieldsInUpdateByEntityPreparedStatement(PreparedStatement preparedStatement, Comment entity) {
+        return null;
     }
 
     @Override

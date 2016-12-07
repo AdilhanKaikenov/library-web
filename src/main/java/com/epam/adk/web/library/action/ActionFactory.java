@@ -38,6 +38,8 @@ public class ActionFactory {
         actions.put("GET/requests", new ShowAllOrderRequestsAction());
         actions.put("GET/orders", new ShowAllAllowedOrdersAction());
         actions.put("GET/rejected-orders", new ShowAllRejectedOrdersAction());
+        actions.put("POST/lend-out-book", new BookLendOutAction());
+        actions.put("POST/reject-book-order", new RejectBookOrderAction());
         log.debug("Action Factory class, actions SIZE {}", actions.size());
     }
 

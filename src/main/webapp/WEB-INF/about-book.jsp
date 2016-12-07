@@ -16,7 +16,7 @@
         <div class="reader-requests-links-section" align="center">
             <form action="${base}/do/" method="post">
                 <input hidden="hidden" name="action" value="order-book-request">
-                <input hidden="hidden" name="book_id" value="${book.id}">
+                <input hidden="hidden" name="bookID" value="${book.id}">
                 <i><input type="radio" name="order_type" value="Subscription" checked><ftm:message key="subscription"/></i>
                 <i><input type="radio" name="order_type" value="Reading room"><ftm:message key="reading.room"/></i>
                 <br><button style="margin: 10px" type="submit" class="link-style"><ftm:message key="send.request.button"/></button>
@@ -37,7 +37,7 @@
         <c:if test="${not empty user}">
             <form action="${base}/do/" method="post">
                 <input type="hidden" name="action" value="comment">
-                <input type="hidden" name="bookId" value="${book.id}">
+                <input type="hidden" name="bookID" value="${book.id}">
                 <textarea style="resize: none;overflow: hidden;text-overflow: ellipsis;" onresize="" type="text"
                           name="comment" cols="125" rows="5" minlength="30" maxlength="250" required
                           autofocus placeholder="${maxCommentLength}"></textarea>

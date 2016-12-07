@@ -26,7 +26,7 @@ public interface Dao<T extends BaseEntity> {
 
     List<T> readRangeByIdParameter(int id, int offset, int limit) throws DaoException;
 
-    T update(T entity) throws DaoException;
+    void update(T entity) throws DaoException;
 
     void delete(T entity) throws DaoException;
 

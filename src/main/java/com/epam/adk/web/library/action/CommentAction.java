@@ -23,7 +23,7 @@ public class CommentAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(CommentAction.class);
     private static final String USER_PARAMETER = "user";
-    private static final String BOOK_ID_PARAMETER = "bookId";
+    private static final String BOOK_ID_PARAMETER = "bookID";
     private static final String COMMENT_PARAMETER = "comment";
     private static final String REGEX_ENTER = "\\r";
     private static final String LINE_BREAK_HTML_TAG = "<p>";

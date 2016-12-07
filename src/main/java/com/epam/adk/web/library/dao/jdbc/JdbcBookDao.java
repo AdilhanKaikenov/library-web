@@ -74,6 +74,11 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     }
 
     @Override
+    protected String getUpdateByEntityQuery() {
+        return null;
+    }
+
+    @Override
     protected String getTableName() {
         return TABLE_NAME;
     }
@@ -115,6 +120,11 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
 
     @Override
     protected String getReadAllByIdParameterQuery() {
+        return null;
+    }
+
+    @Override
+    protected PreparedStatement setFieldsInUpdateByEntityPreparedStatement(PreparedStatement preparedStatement, Book entity) {
         return null;
     }
 

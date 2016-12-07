@@ -79,6 +79,27 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     }
 
     @Override
+    public T read(T entity) throws DaoException {
+        log.debug("Entering JdbcDao class, read() method");
+        T result;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = connection.prepareStatement(getReadByEntityQuery());
+            preparedStatement = setFieldsInReadByEntityPreparedStatement(preparedStatement, entity);
+            resultSet = preparedStatement.executeQuery();
+            result = createFrom(resultSet);
+        } catch (SQLException e) {
+            log.error("Error: JdbcDao class, read() method. I can not read by entity: {}", e);
+            throw new DaoException("Error: JdbcDao class, read() method. I can not read by entity:", e);
+        } finally {
+            close(preparedStatement, resultSet);
+        }
+        log.debug("Leaving JdbcDao class, read() method.");
+        return result;
+    }
+
+    @Override
     public List<T> readAll() throws DaoException {
         log.debug("Entering JdbcDao class, readAll() method");
         List<T> result = new ArrayList<>();
@@ -162,29 +183,20 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     }
 
     @Override
-    public T read(T entity) throws DaoException {
-        log.debug("Entering JdbcDao class, read() method");
-        T result;
+    public void update(T entity) throws DaoException {
+        log.debug("Entering JdbcDao class, update() method. Entity ID = {}", entity.getId());
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
-            preparedStatement = connection.prepareStatement(getReadByEntityQuery());
-            preparedStatement = setFieldsInReadByEntityPreparedStatement(preparedStatement, entity);
-            resultSet = preparedStatement.executeQuery();
-            result = createFrom(resultSet);
+            preparedStatement = connection.prepareStatement(getUpdateByEntityQuery());
+            preparedStatement = setFieldsInUpdateByEntityPreparedStatement(preparedStatement, entity);
+            preparedStatement.execute();
         } catch (SQLException e) {
-            log.error("Error: JdbcDao class, read() method. I can not read by entity: {}", e);
-            throw new DaoException("Error: JdbcDao class, read() method. I can not read by entity:", e);
+            log.error("Error: JdbcDao class update() method. I can not update entity. {}", e);
+            throw new DaoException("Error: JdbcDao class update() method. I can not update entity. ", e);
         } finally {
-            close(preparedStatement, resultSet);
+            closePreparedStatement(preparedStatement);
         }
-        log.debug("Leaving JdbcDao class, read() method.");
-        return result;
-    }
-
-    @Override
-    public T update(T entity) throws DaoException {
-        return null;
+        log.debug("Leaving JdbcDao class, update() method.");
     }
 
     @Override
@@ -263,6 +275,11 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     }
 
     protected void close(PreparedStatement preparedStatement, ResultSet resultSet) throws DaoException {
+        closePreparedStatement(preparedStatement);
+        closeResultSet(resultSet);
+    }
+
+    private void closePreparedStatement(PreparedStatement preparedStatement) throws DaoException {
         if (preparedStatement != null) {
             try {
                 preparedStatement.close();
@@ -271,7 +288,6 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
                 throw new DaoException("Error: JdbcDao class, close() method. Can not close preparedStatement.", e);
             }
         }
-        closeResultSet(resultSet);
     }
 
     private void closeResultSet(ResultSet resultSet) throws DaoException {
@@ -348,6 +364,9 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         return preparedStatement;
     }
 
+
+    protected abstract String getUpdateByEntityQuery();
+
     protected abstract List<T> createListFrom(ResultSet resultSet) throws DaoException;
 
     protected abstract String getReadByIdQuery();
@@ -367,6 +386,8 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     protected abstract String getReadRangeByIdParameterQuery();
 
     protected abstract String getReadAllByIdParameterQuery();
+
+    protected abstract PreparedStatement setFieldsInUpdateByEntityPreparedStatement(PreparedStatement preparedStatement, T entity) throws DaoException;
 
     protected abstract PreparedStatement setFieldsInCreatePreparedStatement(PreparedStatement preparedStatement, T entity) throws DaoException;
 

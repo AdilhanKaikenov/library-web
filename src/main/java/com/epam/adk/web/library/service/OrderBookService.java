@@ -163,4 +163,42 @@ public class OrderBookService {
         log.debug("Leaving OrderBookService class getOrdersNumberByStatusID() method.");
         return ordersNumber;
     }
+
+    public Order getOrderById(int id) throws ServiceException {
+        log.debug("Entering OrderBookService class getOrderById() method. Id = {}", id);
+        Order order;
+        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+            try {
+                jdbcDaoFactory.beginTransaction();
+                OrderDao orderDao = jdbcDaoFactory.orderDao();
+                order = orderDao.read(id);
+                jdbcDaoFactory.endTransaction();
+            } catch (SQLException e) {
+                jdbcDaoFactory.rollbackTransaction();
+                throw new ServiceException("Error: OrderBookService class, getOrderById() method. TRANSACTION error:", e);
+            }
+        } catch (SQLException | DaoException e) {
+            throw new ServiceException("Error: OrderBookService class, getOrderById() method.", e);
+        }
+        log.debug("Leaving OrderBookService class getOrderById() method.");
+        return order;
+    }
+
+    public void updateOrder(Order order) throws ServiceException {
+        log.debug("Entering OrderBookService class updateOrder() method. Order Id = {}", order.getId());
+        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+            try {
+                jdbcDaoFactory.beginTransaction();
+                OrderDao orderDao = jdbcDaoFactory.orderDao();
+                orderDao.update(order);
+                jdbcDaoFactory.endTransaction();
+            } catch (SQLException e) {
+                jdbcDaoFactory.rollbackTransaction();
+                throw new ServiceException("Error: OrderBookService class, updateOrder() method. TRANSACTION error:", e);
+            }
+        } catch (SQLException | DaoException e) {
+            throw new ServiceException("Error: OrderBookService class, updateOrder() method.", e);
+        }
+        log.debug("Leaving OrderBookService class updateOrder() method.");
+    }
 }

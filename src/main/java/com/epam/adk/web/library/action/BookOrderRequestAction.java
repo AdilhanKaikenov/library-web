@@ -23,7 +23,7 @@ public class BookOrderRequestAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(BookOrderRequestAction.class);
     private static final String USER_PARAMETER = "user";
-    private static final String BOOK_ID_PARAMETER = "book_id";
+    private static final String BOOK_ID_PARAMETER = "bookID";
     private static final String ORDER_TYPE_PARAMETER = "order_type";
     private static final String ORDER_REQUEST_INFO_PAGE = "order-request-info";
 

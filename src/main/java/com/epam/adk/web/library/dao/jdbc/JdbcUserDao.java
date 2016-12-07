@@ -114,6 +114,11 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     }
 
     @Override
+    protected String getUpdateByEntityQuery() {
+        return null;
+    }
+
+    @Override
     protected String getTableName() {
         return TABLE_NAME;
     }
@@ -150,6 +155,11 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
 
     @Override
     protected String getReadAllByIdParameterQuery() {
+        return null;
+    }
+
+    @Override
+    protected PreparedStatement setFieldsInUpdateByEntityPreparedStatement(PreparedStatement preparedStatement, User entity) {
         return null;
     }
 
