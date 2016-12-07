@@ -81,8 +81,8 @@ public class OrderBookService {
         return ordersNumber;
     }
 
-    public List<Order> getPaginatedOrders(int userID, int pageNumber, int pageSize) throws ServiceException {
-        log.debug("Entering OrderBookService class getPaginatedOrders() method. User id = {}", userID);
+    public List<Order> getPaginatedUserOrders(int userID, int pageNumber, int pageSize) throws ServiceException {
+        log.debug("Entering OrderBookService class getPaginatedUserOrders() method. User id = {}", userID);
         List<Order> result;
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)){
             try {
@@ -93,16 +93,16 @@ public class OrderBookService {
                 jdbcDaoFactory.endTransaction();
             } catch (SQLException e){
                 jdbcDaoFactory.rollbackTransaction();
-                throw new ServiceException("Error: OrderBookService class, getPaginatedOrders() method. TRANSACTION error:", e);
+                throw new ServiceException("Error: OrderBookService class, getPaginatedUserOrders() method. TRANSACTION error:", e);
             }
         } catch (SQLException | DaoException e) {
-            throw new ServiceException("Error: OrderBookService class, getPaginatedOrders() method.", e);
+            throw new ServiceException("Error: OrderBookService class, getPaginatedUserOrders() method.", e);
         }
-        log.debug("Leaving OrderBookService class getPaginatedOrders() method. Amount of orders comment = {}", result.size());
+        log.debug("Leaving OrderBookService class getPaginatedUserOrders() method. Amount of orders comment = {}", result.size());
         return result;
     }
 
-    public List<Order> getPaginated(int pageNumber, int pageSize) throws ServiceException {
+    public List<Order> getPaginatedByOrderStatus(int statusID, int pageNumber, int pageSize) throws ServiceException {
         log.debug("Entering OrderBookService class getPaginated() method.");
         List<Order> result;
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
@@ -110,7 +110,7 @@ public class OrderBookService {
                 jdbcDaoFactory.beginTransaction();
                 OrderDao orderDao = jdbcDaoFactory.orderDao();
                 int offset = pageSize * pageNumber - pageSize;
-                result = orderDao.readRange(offset, pageSize);
+                result = orderDao.readRangeByStatusId(statusID, offset, pageSize);
                 log.debug("OrderBookService class, getPaginated() method: result size = {}", result.size());
                 jdbcDaoFactory.endTransaction();
             } catch (SQLException e) {
@@ -141,6 +141,26 @@ public class OrderBookService {
             throw new ServiceException("Error: OrderBookService class, getOrdersNumber() method.", e);
         }
         log.debug("Leaving OrderBookService class getOrdersNumber() method.");
+        return ordersNumber;
+    }
+
+    public int getOrdersNumberByStatusID(int statusID) throws ServiceException {
+        log.debug("Entering OrderBookService class getOrdersNumberByStatusID() method.");
+        int ordersNumber;
+        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+            try {
+                jdbcDaoFactory.beginTransaction();
+                OrderDao orderDao = jdbcDaoFactory.orderDao();
+                ordersNumber = orderDao.getNumberRowsByStatusId(statusID);
+                jdbcDaoFactory.endTransaction();
+            } catch (SQLException e) {
+                jdbcDaoFactory.rollbackTransaction();
+                throw new ServiceException("Error: OrderBookService class, getOrdersNumberByStatusID() method. TRANSACTION error:", e);
+            }
+        } catch (SQLException | DaoException e) {
+            throw new ServiceException("Error: OrderBookService class, getOrdersNumberByStatusID() method.", e);
+        }
+        log.debug("Leaving OrderBookService class getOrdersNumberByStatusID() method.");
         return ordersNumber;
     }
 }

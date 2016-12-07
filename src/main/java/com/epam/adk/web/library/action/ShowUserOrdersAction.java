@@ -52,7 +52,7 @@ public class ShowUserOrdersAction implements Action {
             int pagesNumber = pagination.getPagesNumber(userOrdersNumber, LINE_PER_PAGE_NUMBER);
             log.debug("ShowUserOrdersAction: total pages number = {}", pagesNumber);
 
-            List<Order> userOrders = orderBookService.getPaginatedOrders(userID, page, LINE_PER_PAGE_NUMBER);
+            List<Order> userOrders = orderBookService.getPaginatedUserOrders(userID, page, LINE_PER_PAGE_NUMBER);
 
             System.out.println(userOrders.size());
 

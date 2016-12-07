@@ -5,13 +5,13 @@
 
 <ftm:setBundle basename="i18n"/>
 
-<t:page title="orders">
+<t:page title="rejected.orders">
 
     <div class="pagination-section" align="center">
             <%--@elvariable id="pagesNumber" type="java.lang.Integer"--%>
         <c:if test="${pagesNumber != 1}">
             <c:forEach var="i" begin="${1}" end="${pagesNumber}">
-                <a href="${pageContext.request.contextPath}/do/?action=orders&page=${i}" class="link-style">${i}</a>
+                <a href="${pageContext.request.contextPath}/do/?action=rejected-orders&page=${i}" class="link-style">${i}</a>
             </c:forEach>
         </c:if>
     </div>
@@ -54,7 +54,7 @@
                 </td>
                 <td>
                     <form action="${pageContext.request.contextPath}/do/" method="post">
-                        <button type="submit" class="link-style">Книга возвращена</button>
+                        <button type="submit" class="link-style">Удалить</button>
                     </form>
                 </td>
             </tr>

@@ -5,13 +5,13 @@
 
 <ftm:setBundle basename="i18n"/>
 
-<t:page title="orders">
+<t:page title="requests">
 
     <div class="pagination-section" align="center">
             <%--@elvariable id="pagesNumber" type="java.lang.Integer"--%>
         <c:if test="${pagesNumber != 1}">
             <c:forEach var="i" begin="${1}" end="${pagesNumber}">
-                <a href="${pageContext.request.contextPath}/do/?action=orders&page=${i}" class="link-style">${i}</a>
+                <a href="${pageContext.request.contextPath}/do/?action=requests&page=${i}" class="link-style">${i}</a>
             </c:forEach>
         </c:if>
     </div>
@@ -33,6 +33,12 @@
                 <ftm:message key="date.order.request"/>
             </th>
             <th width="100px">
+                <ftm:message key="available.num.books"/>
+            </th>
+            <th width="100px">
+
+            </th>
+            <th width="100px">
 
             </th>
         </tr>
@@ -52,9 +58,17 @@
                 <td width="100px">
                     <ftm:formatDate value="${order.orderDate}"/>
                 </td>
+                <td width="100px">
+                        ${order.availableBookAmount}
+                </td>
                 <td>
                     <form action="${pageContext.request.contextPath}/do/" method="post">
-                        <button type="submit" class="link-style">Книга возвращена</button>
+                        <button type="submit" class="link-style">Разрешить</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="${pageContext.request.contextPath}/do/" method="post">
+                        <button type="submit" class="link-style">Запретить</button>
                     </form>
                 </td>
             </tr>
