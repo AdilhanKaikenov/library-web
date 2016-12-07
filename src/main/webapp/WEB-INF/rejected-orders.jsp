@@ -5,23 +5,31 @@
 
 <ftm:setBundle basename="i18n"/>
 
+<c:set value="${pageContext.request.contextPath}" var="base"/>
+
 <t:page title="rejected.orders">
 
     <div class="pagination-section" align="center">
             <%--@elvariable id="pagesNumber" type="java.lang.Integer"--%>
         <c:if test="${pagesNumber != 1}">
             <c:forEach var="i" begin="${1}" end="${pagesNumber}">
-                <a href="${pageContext.request.contextPath}/do/?action=rejected-orders&page=${i}"
+                <a href="${base}/do/?action=rejected-orders&page=${i}"
                    class="link-style">${i}</a>
             </c:forEach>
         </c:if>
     </div>
     <br>
     <hr>
-    <div>
-        <form action="${pageContext.request.contextPath}/do/" method="post">
+    <c:if test="${empty requestScope.orders}">
+        <div align="center">
+            <ftm:message key="empty.message"/>
+        </div>
+    </c:if>
+    <c:if test="${not empty requestScope.orders}">
+    <div align="center">
+        <form action="${base}/do/" method="post">
             <input hidden="hidden" name="action" value="delete-old-order-requests">
-            <button type="submit" class="link-style">Удалить</button>
+            <button type="submit" class="link-style"><ftm:message key="delete.old.rejected.order.request"/></button>
         </form>
     </div>
     <table style="border: rebeccapurple; background: beige;" border="1px" align="center">
@@ -58,5 +66,5 @@
             </tr>
         </c:forEach>
     </table>
-
+    </c:if>
 </t:page>

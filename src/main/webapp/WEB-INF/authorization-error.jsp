@@ -17,7 +17,7 @@
 <div class="auth-error-content">
     <div class="inner-auth-error-message-section">
 
-        <c:if test="${not empty authorizationFormIncorrect}">
+        <c:if test="${not empty requestScope.authorizationFormIncorrect}">
             <ftm:message key="auth.error.message.one"/>
             <br><ftm:message key="auth.error.message.two"/>
             <li><ftm:message key="auth.error.message.three"/></li>
@@ -29,12 +29,12 @@
                 <ftm:message key="password.form.incorrect"/>
                 <ftm:message key="password.length.incorrect"/></li>
         </c:if>
-        <c:if test="${not empty authorizationError}">
+        <c:if test="${not empty requestScope.authorizationError}">
             <ftm:message key="auth.error.message.one"/>
             <br><ftm:message key="auth.error"/>
             <br><ftm:message key="auth.error.message.two"/>
         </c:if>
-        <c:if test="${not empty inactiveStatus}">
+        <c:if test="${not empty requestScope.inactiveStatus}">
             <ftm:message key="auth.error.message.one"/>
             <br><ftm:message key="user.profile.inactive"/>
         </c:if>

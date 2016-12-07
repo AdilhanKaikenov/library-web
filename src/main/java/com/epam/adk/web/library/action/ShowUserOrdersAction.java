@@ -54,15 +54,15 @@ public class ShowUserOrdersAction implements Action {
 
             List<Order> userOrders = orderBookService.getPaginatedUserOrders(userID, page, LINE_PER_PAGE_NUMBER);
 
-            System.out.println(userOrders.size());
+            if (userOrders.size() != 0) {
+                request.setAttribute("userOrders", userOrders);
+            }
 
             request.setAttribute("pagesNumber", pagesNumber);
-            request.setAttribute("userOrders", userOrders);
 
         } catch (ServiceException e) {
             throw new ActionException("Error: ShowUserOrdersAction class, execute() method.", e);
         }
-
         return "user-orders";
     }
 }

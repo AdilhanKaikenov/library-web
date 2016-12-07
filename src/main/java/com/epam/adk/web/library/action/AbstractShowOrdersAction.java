@@ -46,8 +46,11 @@ public abstract class AbstractShowOrdersAction implements Action {
 
             List<Order> orders = orderBookService.getPaginatedByOrderStatus(getOrderStatusID(), page, LINE_PER_PAGE_NUMBER);
 
+            if (orders.size() != 0) {
+                request.setAttribute("orders", orders);
+            }
+
             request.setAttribute("pagesNumber", pagesNumber);
-            request.setAttribute("orders", orders);
 
         } catch (ServiceException e) {
             throw new ActionException("Error: AbstractShowOrdersAction class, execute() method.", e);

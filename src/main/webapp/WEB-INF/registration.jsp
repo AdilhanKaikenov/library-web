@@ -13,14 +13,14 @@
                 <input type="hidden" name="action" value="registration">
                 <tr>
                     <td colspan="2">
-                        <c:if test="${not empty userExist}">
+                        <c:if test="${not empty requestScope.userExist}">
                             <li style="color: red"><ftm:message key="user.exist.message"/></li></c:if>
                     </td>
                 </tr>
                 <tr>
-                <td colspan="2"><c:if test="${not empty loginFormIncorrect}">
+                <td colspan="2"><c:if test="${not empty requestScope.loginFormIncorrect}">
                     <li style="color: red"><ftm:message key="login.form.incorrect"/></c:if>
-                <c:if test="${not empty loginLengthIncorrect}">
+                <c:if test="${not empty requestScope.loginLengthIncorrect}">
                     <li style="color: red"><ftm:message key="login.length.incorrect"/></c:if></td>
                 </tr>
                 <tr>
@@ -28,9 +28,9 @@
                     <td><input type="text" name="login" value="${param.login}" placeholder="Login123"></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><c:if test="${not empty passwordFormIncorrect}">
+                    <td colspan="2"><c:if test="${not empty requestScope.passwordFormIncorrect}">
                         <li style="color: red"><ftm:message key="password.form.incorrect"/></c:if>
-                    <c:if test="${not empty passwordLengthIncorrect}">
+                    <c:if test="${not empty requestScope.passwordLengthIncorrect}">
                         <li style="color: red"><ftm:message key="password.length.incorrect"/></c:if></td>
                 </tr>
                 <tr>
@@ -38,7 +38,7 @@
                     <td><input type="password" name="password" value="${param.password}"></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><c:if test="${not empty emailFormIncorrect}">
+                    <td colspan="2"><c:if test="${not empty requestScope.emailFormIncorrect}">
                         <li style="color: red"><ftm:message key="email.form.incorrect"/></c:if></td>
                 </tr>
                 <tr>
@@ -47,9 +47,9 @@
 
                 </tr>
                 <tr>
-                <td colspan="2"><c:if test="${not empty fullNameFormIncorrect}">
+                <td colspan="2"><c:if test="${not empty requestScope.fullNameFormIncorrect}">
                     <li style="color: red"><ftm:message key="fullName.form.incorrect"/></c:if>
-                <c:if test="${not empty fullNameLengthIncorrect}">
+                <c:if test="${not empty requestScope.fullNameLengthIncorrect}">
                     <li style="color: red"><ftm:message key="fullName.length.incorrect"/></c:if></td>
                 </tr>
                 <tr>
@@ -73,9 +73,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2"><c:if test="${not empty addressFormIncorrect}">
+                    <td colspan="2"><c:if test="${not empty requestScope.addressFormIncorrect}">
                         <li style="color: red"><ftm:message key="address.form.incorrect"/></c:if>
-                    <c:if test="${not empty addressLengthIncorrect}">
+                    <c:if test="${not empty requestScope.addressLengthIncorrect}">
                         <li style="color: red"><ftm:message key="address.length.incorrect"/></c:if></td>
                 </tr>
                 <tr>
@@ -83,7 +83,7 @@
                     <td><input type="text" name="address" value="${param.address}" placeholder="Abaya street 21\2"></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><c:if test="${not empty mobilePhoneFormIncorrect}">
+                    <td colspan="2"><c:if test="${not empty requestScope.mobilePhoneFormIncorrect}">
                         <li style="color: red"><ftm:message key="mobileNumber.form.incorrect"/></c:if></td>
                 </tr>
                 <tr>

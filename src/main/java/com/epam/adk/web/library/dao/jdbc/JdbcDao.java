@@ -377,12 +377,13 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     }
 
     protected PreparedStatement setFieldsInDeleteByEntityStatement(PreparedStatement preparedStatement, T entity) throws DaoException {
+        log.debug("Entering JdbcDao class, setFieldsInDeleteByEntityStatement() method.");
         try {
-            log.debug("Setting fields in delete statement");
             preparedStatement.setInt(1, entity.getId());
+            log.debug("Leaving JdbcDao class, setFieldsInDeleteByEntityStatement() method.");
         } catch (SQLException e) {
-            log.error("Trouble with setting fields in delete statement", e);
-            throw new DaoException(e);
+            log.error("Error: JdbcDao class setFieldsInDeleteByEntityStatement() method. I can not set fields into statement. {}", e);
+            throw new DaoException("Error: JdbcDao class setFieldsInDeleteByEntityStatement() method. I can not set fields into statement.", e);
         }
         return preparedStatement;
     }

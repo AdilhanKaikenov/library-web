@@ -4,6 +4,7 @@ import com.epam.adk.web.library.exception.ActionException;
 import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.Order;
 import com.epam.adk.web.library.model.enums.OrderStatus;
+import com.epam.adk.web.library.model.enums.OrderType;
 import com.epam.adk.web.library.service.OrderBookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,12 +38,18 @@ public class BookLendOutAction implements Action {
             order.setStatus(OrderStatus.ALLOWED);
 
             java.util.Date today = new java.util.Date();
-
             Date fromDate = new Date(today.getTime());
-            order.setFrom(fromDate);
-
             Date toDate = new Date(today.getTime() + TWO_WEEKS_TIME_DURATION);
-            order.setTo(toDate);
+
+            if (order.getType() == OrderType.SUBSCRIPTION) {
+                order.setFrom(fromDate);
+                order.setTo(toDate);
+            }
+
+            if (order.getType() == OrderType.READING_ROOM) {
+                order.setFrom(fromDate);
+                order.setTo(fromDate);
+            }
 
             orderBookService.updateOrder(order);
 
