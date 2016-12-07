@@ -65,11 +65,11 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
                 log.debug("Book successfully created in createFrom() method. Book id = {}", book.getId());
                 result.add(book);
             }
+            log.debug("Leaving JdbcBookDao class, createListFrom() method. Amount of books = {}", result.size());
         } catch (SQLException e) {
             log.error("Error: JdbcBookDao class createListFrom() method. I can not create List of books from resultSet. {}", e);
             throw new DaoException("Error: JdbcDao class createListFrom() method. I can not create List of books from resultSet.", e);
         }
-        log.debug("Leaving JdbcBookDao class, createListFrom() method. Amount of books = {}", result.size());
         return result;
     }
 

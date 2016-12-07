@@ -53,7 +53,7 @@ CREATE UNIQUE INDEX "COMMENT_id_uindex" ON PUBLIC.comment (id);
 
 CREATE TABLE PUBLIC.orders
 (
-  id iNT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
   user_id INT NOT NULL,
   book_id INT NOT NULL,
   order_date DATE NOT NULL,
@@ -64,6 +64,17 @@ CREATE TABLE PUBLIC.orders
 );
 CREATE UNIQUE INDEX "ORDERS_ID_uindex" ON PUBLIC.orders (id);
 
+CREATE TABLE PUBLIC.orders_history
+(
+  id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  user_id INT NOT NULL,
+  book_id INT NOT NULL,
+  order_date DATE NOT NULL,
+  order_type INT NOT NULL,
+  date_from DATE,
+  date_to DATE
+);
+CREATE UNIQUE INDEX "ORDERS_HISTORY_ID_uindex" ON PUBLIC.orders_history (id);
 //////////////////////////////////////////////
 ////////////// REFERENCE TABLES //////////////
 //////////////////////////////////////////////

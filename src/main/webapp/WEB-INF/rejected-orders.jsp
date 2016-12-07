@@ -11,14 +11,20 @@
             <%--@elvariable id="pagesNumber" type="java.lang.Integer"--%>
         <c:if test="${pagesNumber != 1}">
             <c:forEach var="i" begin="${1}" end="${pagesNumber}">
-                <a href="${pageContext.request.contextPath}/do/?action=rejected-orders&page=${i}" class="link-style">${i}</a>
+                <a href="${pageContext.request.contextPath}/do/?action=rejected-orders&page=${i}"
+                   class="link-style">${i}</a>
             </c:forEach>
         </c:if>
     </div>
     <br>
     <hr>
-
-    <table style="border: rebeccapurple; background: beige;" border="1px" align="center" >
+    <div>
+        <form action="${pageContext.request.contextPath}/do/" method="post">
+            <input hidden="hidden" name="action" value="delete-old-order-requests">
+            <button type="submit" class="link-style">Удалить</button>
+        </form>
+    </div>
+    <table style="border: rebeccapurple; background: beige;" border="1px" align="center">
         <tr align="center" style="background: whitesmoke">
             <th width="200px">
                 <ftm:message key="client.full.name"/>
@@ -31,9 +37,6 @@
             </th>
             <th width="100px">
                 <ftm:message key="date.order.request"/>
-            </th>
-            <th width="100px">
-
             </th>
         </tr>
             <%--@elvariable id="orders" type="java.util.List"--%>
@@ -51,11 +54,6 @@
                 </td>
                 <td width="100px">
                     <ftm:formatDate value="${order.orderDate}"/>
-                </td>
-                <td>
-                    <form action="${pageContext.request.contextPath}/do/" method="post">
-                        <button type="submit" class="link-style">Удалить</button>
-                    </form>
                 </td>
             </tr>
         </c:forEach>

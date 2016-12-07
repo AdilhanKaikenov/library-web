@@ -8,10 +8,7 @@ import com.epam.adk.web.library.model.enums.OrderType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +24,7 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
     private static final String TABLE_NAME = "orders";
     private static final String CREATE_QUERY = "INSERT INTO orders(user_id, book_id, order_date, order_type, date_from, " +
             "date_to) VALUES(?, ?, ?, ?, ?, ?)";
-    private static final String COUNT_ORDERS_QUERY = "SELECT COUNT(*) FROM orders WHERE book_id = ? AND user_id = ? AND order_type = ?";
+    private static final String COUNT_ORDERS_QUERY = "SELECT COUNT(*) FROM orders WHERE book_id = ? AND user_id = ?";
     private static final String SELECT_COUNT_BY_USER_ID_QUERY = "SELECT COUNT(*) FROM orders WHERE user_id = ?";
     private static final String SELECT_RANGE_BY_ID_QUERY = "SELECT orders.id, orders.user_id, orders.book_id, book.title AS " +
             "book_title, orders.order_date, order_type.type AS order_type, orders.date_from, orders.date_to, order_status.type AS order_status, " +
@@ -45,7 +42,7 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
             "book_title, orders.order_date, order_type.type AS order_type, orders.date_from, orders.date_to, order_status.type AS order_status, " +
             "book.total_amount - (SELECT COUNT(*) FROM orders WHERE orders.book_id = book.id AND orders.status = 0) AS available_amount, " +
             "concat(user.firstname, ' ', user.surname, ' ', user.patronymic) AS client " +
-            "FROM orders, order_type, book, order_status, user WHERE orders.order_type = order_type.id AND orders.book_id = book.id AND  "+
+            "FROM orders, order_type, book, order_status, user WHERE orders.order_type = order_type.id AND orders.book_id = book.id AND  " +
             "orders.status = order_status.id AND order_status.id = ? AND orders.user_id = user.id ORDER BY order_date LIMIT ? OFFSET ?";
     private static final String COUNT_ORDERS_BY_STATUS_ID_QUERY = "SELECT COUNT(*) FROM orders WHERE status = ?";
     private static final String SELECT_BY_ID_QUERY = "SELECT orders.id, orders.user_id, orders.book_id, book.title AS " +
@@ -54,7 +51,9 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
             "AS available_amount, concat(user.firstname, ' ', user.surname, ' ', user.patronymic) AS client " +
             "FROM orders, order_type, book, order_status, user WHERE orders.order_type = order_type.id AND orders.book_id = book.id " +
             "AND orders.status = order_status.id AND orders.user_id = user.id AND orders.id = ?";
-    public static final String UPDATE_BY_ENTITY_QUERY = "UPDATE orders SET date_from = ?, date_to = ?, status = ? WHERE id LIKE ?";
+    private static final String UPDATE_BY_ENTITY_QUERY = "UPDATE orders SET date_from = ?, date_to = ?, status = ? WHERE id LIKE ?";
+    private static final String INSERT_INTO_HISTORY_QUERY = "INSERT INTO orders_history(user_id, book_id, order_date, order_type, date_from, date_to) VALUES(?, ?, ?, ?, ?, ?)";
+    private static final String DELETE_ALL_OLD_REJECTED_ORDERS_QUERY = "DELETE FROM orders WHERE DATEDIFF('DAY', orders.order_date, CURRENT_DATE()) >= 1 AND orders.status = 1";
 
     public JdbcOrderDao(Connection connection) {
         super(connection);
@@ -65,7 +64,7 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
         log.debug("Entering JdbcOrderDao class, createListFrom() method");
         List<Order> result = new ArrayList<>();
         try {
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 Order order = new Order();
                 log.debug("Creating order from resultSet");
                 order.setId(resultSet.getInt("ID"));
@@ -82,12 +81,29 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
                 log.debug("Order successfully created in createFrom() method. Order id = {}", order.getId());
                 result.add(order);
             }
+            log.debug("Leaving JdbcOrderDao class, createListFrom() method.");
         } catch (SQLException e) {
             log.error("Error: JdbcOrderDao class createListFrom() method. I can not create List of orders from resultSet. {}", e);
             throw new DaoException("Error: JdbcOrderDao class createListFrom() method. I can not create List of orders from resultSet.", e);
         }
-        log.debug("Leaving JdbcOrderDao class, createListFrom() method.");
         return result;
+    }
+
+    public void insertIntoHistory(Order order) throws DaoException {
+        log.debug("Entering JdbcOrderDao class, insertIntoHistory() method.");
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = getConnection().prepareStatement(INSERT_INTO_HISTORY_QUERY);
+            preparedStatement = setFieldsInCreatePreparedStatement(preparedStatement, order);
+            preparedStatement.execute();
+            log.debug("Order successfully inserted into history");
+            log.debug("Leaving JdbcOrderDao class, insertIntoHistory() method.");
+        } catch (SQLException e) {
+            log.error("Error: JdbcOrderDao class, insertIntoHistory() method. {}", e);
+            throw new DaoException("Error: JdbcOrderDao class, insertIntoHistory() method.", e);
+        } finally {
+            closePreparedStatement(preparedStatement);
+        }
     }
 
     @Override
@@ -101,13 +117,13 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
             preparedStatement = setFieldsInReadRangeByIdParameterPreparedStatement(preparedStatement, id, offset, limit);
             resultSet = preparedStatement.executeQuery();
             result = createListFrom(resultSet);
+            log.debug("Leaving JdbcOrderDao class, readRangeByStatusId() method.");
         } catch (SQLException e) {
             log.error("Error: JdbcOrderDao class readRangeByStatusId() method. {}", e);
             throw new DaoException("Error: JdbcOrderDao class readRangeByStatusId() method. ", e);
         } finally {
             close(preparedStatement, resultSet);
         }
-        log.debug("Leaving JdbcOrderDao class, readRangeByStatusId() method.");
         return result;
     }
 
@@ -121,18 +137,17 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
             preparedStatement = getConnection().prepareStatement(COUNT_ORDERS_QUERY);
             preparedStatement.setInt(1, order.getBookID());
             preparedStatement.setInt(2, order.getUserID());
-            preparedStatement.setInt(3, order.getType().ordinal());
             resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 count = resultSet.getInt(1);
             }
+            log.debug("Leaving JdbcOrderDao class, countOrder() method.");
         } catch (SQLException e) {
             log.error("Error: JdbcOrderDao class countOrder() method.", e);
             throw new DaoException("Error: JdbcOrderDao class countOrder() method.", e);
         } finally {
             close(preparedStatement, resultSet);
         }
-        log.debug("Leaving JdbcOrderDao class, countOrder() method.");
         return count;
     }
 
@@ -146,17 +161,29 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
             preparedStatement = getConnection().prepareStatement(COUNT_ORDERS_BY_STATUS_ID_QUERY);
             preparedStatement = setFieldInCountNumberRowsByIdPreparedStatement(preparedStatement, statusID);
             resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 numberRows = resultSet.getInt(1);
             }
+            log.debug("Leaving JdbcOrderDao class getNumberRowsByStatusId() method. Rows number = {}", numberRows);
         } catch (SQLException e) {
             log.error("Error: JdbcOrderDao class, getNumberRowsByStatusId() method. {}", e);
             throw new DaoException("Error: JdbcOrderDao class, getNumberRowsByStatusId() method.", e);
         } finally {
             close(preparedStatement, resultSet);
         }
-        log.debug("Leaving JdbcOrderDao class getNumberRowsByStatusId() method. Rows number = {}", numberRows);
         return numberRows;
+    }
+
+    @Override
+    public void deleteAllOldRejectedOrderRequests() throws DaoException {
+        log.debug("Entering JdbcOrderDao class, deleteAllOldRejectedOrderRequests() method.");
+        try (Statement statement = getConnection().createStatement()) {
+            statement.executeUpdate(DELETE_ALL_OLD_REJECTED_ORDERS_QUERY);
+            log.debug("Leaving JdbcOrderDao class deleteAllOldRejectedOrderRequests() method.");
+        } catch (SQLException e) {
+            log.error("Error: JdbcOrderDao class, deleteAllOldRejectedOrderRequests() method. {}", e);
+            throw new DaoException("Error: JdbcOrderDao class, deleteAllOldRejectedOrderRequests() method.", e);
+        }
     }
 
     @Override

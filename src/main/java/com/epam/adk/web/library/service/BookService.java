@@ -32,6 +32,7 @@ public class BookService {
                 result = bookDao.readRange(offset, pageSize);
                 log.debug("BookService class, getPaginated() method: result size = {}", result.size());
                 jdbcDaoFactory.endTransaction();
+                log.debug("Leaving BookService class getPaginated() method.");
             } catch (SQLException e) {
                 jdbcDaoFactory.rollbackTransaction();
                 throw new ServiceException("Error: BookService class, getPaginated() method. TRANSACTION error:", e);
@@ -39,7 +40,6 @@ public class BookService {
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: BookService class, getPaginated() method.", e);
         }
-        log.debug("Leaving BookService class getPaginated() method.");
         return result;
     }
 
@@ -52,6 +52,7 @@ public class BookService {
                 BookDao bookDao = jdbcDaoFactory.bookDao();
                 booksNumber = bookDao.getNumberRows();
                 jdbcDaoFactory.endTransaction();
+                log.debug("Leaving BookService class getBooksNumber() method.");
             } catch (SQLException e) {
                 jdbcDaoFactory.rollbackTransaction();
                 throw new ServiceException("Error: BookService class, getBooksNumber() method. TRANSACTION error:", e);
@@ -59,7 +60,6 @@ public class BookService {
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: BookService class, getBooksNumber() method.", e);
         }
-        log.debug("Leaving BookService class getBooksNumber() method.");
         return booksNumber;
     }
 
@@ -72,6 +72,7 @@ public class BookService {
                 BookDao bookDao = jdbcDaoFactory.bookDao();
                 booksNumber = bookDao.getNumberRowsByIdParameter(id);
                 jdbcDaoFactory.endTransaction();
+                log.debug("Leaving BookService class getBooksNumberByGenre() method.");
             } catch (SQLException e) {
                 jdbcDaoFactory.rollbackTransaction();
                 throw new ServiceException("Error: BookService class, getBooksNumberByGenre() method. TRANSACTION error:", e);
@@ -79,7 +80,6 @@ public class BookService {
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: BookService class, getBooksNumberByGenre() method.", e);
         }
-        log.debug("Leaving BookService class getBooksNumberByGenre() method.");
         return booksNumber;
     }
 
@@ -92,6 +92,7 @@ public class BookService {
                 BookDao bookDao = jdbcDaoFactory.bookDao();
                 book = bookDao.read(id);
                 jdbcDaoFactory.endTransaction();
+                log.debug("Leaving BookService class getBookById() method.");
             } catch (SQLException e) {
                 jdbcDaoFactory.rollbackTransaction();
                 throw new ServiceException("Error: BookService class, getBookById() method. TRANSACTION error:", e);
@@ -99,7 +100,6 @@ public class BookService {
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: BookService class, getBookById() method.", e);
         }
-        log.debug("Leaving BookService class getBookById() method.");
         return book;
     }
 
@@ -113,6 +113,7 @@ public class BookService {
                 int offset = pageSize * pageNumber - pageSize;
                 result = bookDao.readRangeByIdParameter(genreId, offset, pageSize);
                 jdbcDaoFactory.endTransaction();
+                log.debug("Leaving BookService class getPaginatedByGenre() method.");
             } catch (SQLException e) {
                 jdbcDaoFactory.rollbackTransaction();
                 throw new ServiceException("Error: BookService class, getPaginatedByGenre() method. TRANSACTION error:", e);
@@ -120,7 +121,6 @@ public class BookService {
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: BookService class, getPaginatedByGenre() method.", e);
         }
-        log.debug("Leaving BookService class getPaginatedByGenre() method.");
         return result;
     }
 }

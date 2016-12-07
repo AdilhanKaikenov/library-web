@@ -29,6 +29,7 @@ public class UserService {
                 UserDao userDao = jdbcDaoFactory.userDao();
                 registeredUser = userDao.create(user);
                 jdbcDaoFactory.endTransaction();
+                log.debug("Leaving UserService class register() method.");
             } catch (SQLException e) {
                 jdbcDaoFactory.rollbackTransaction();
                 throw new ServiceException("Error: UserService class, register() method. TRANSACTION error:", e);
@@ -36,7 +37,6 @@ public class UserService {
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: UserService class, register() method.", e);
         }
-        log.debug("Leaving UserService class register() method.");
         return registeredUser;
     }
 
@@ -52,6 +52,7 @@ public class UserService {
                     log.debug("Authorized user login: {}", authorizedUser.getLogin());
                 }
                 jdbcDaoFactory.endTransaction();
+                log.debug("Leaving UserService class authorize() method.");
             } catch (SQLException e) {
                 jdbcDaoFactory.rollbackTransaction();
                 throw new ServiceException("Error: UserService class, authorize() method. TRANSACTION error:", e);
@@ -59,7 +60,6 @@ public class UserService {
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: UserService class, authorize() method.", e);
         }
-        log.debug("Leaving UserService class authorize() method.");
         return authorizedUser;
     }
 
@@ -71,6 +71,7 @@ public class UserService {
                 UserDao userDao = jdbcDaoFactory.userDao();
                 user = userDao.read(id);
                 jdbcDaoFactory.endTransaction();
+                log.debug("Leaving UserService class getUserById() method.");
             } catch (SQLException e) {
                 jdbcDaoFactory.rollbackTransaction();
                 throw new ServiceException("Error: UserService class, getUserById() method. TRANSACTION error:", e);
@@ -78,7 +79,6 @@ public class UserService {
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: UserService class, getUserById() method.", e);
         }
-        log.debug("Leaving UserService class getUserById() method.");
         return user;
     }
 }

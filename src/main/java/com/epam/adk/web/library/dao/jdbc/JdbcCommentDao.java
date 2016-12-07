@@ -40,7 +40,7 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
         log.debug("Entering JdbcCommentDao class, createListFrom() method");
         List<Comment> result = new ArrayList<>();
         try {
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 Comment comment = new Comment();
                 log.debug("Creating comment from resultSet");
                 comment.setId(resultSet.getInt("ID"));
@@ -54,11 +54,11 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
                 log.debug("Comment successfully created in createFrom() method. Comment id = {}", comment.getId());
                 result.add(comment);
             }
+            log.debug("Leaving JdbcCommentDao class, createListFrom() method.");
         } catch (SQLException e) {
             log.error("Error: JdbcCommentDao class createListFrom() method. I can not create List of comments from resultSet. {}", e);
             throw new DaoException("Error: JdbcCommentDao class createListFrom() method. I can not create List of comments from resultSet.", e);
         }
-        log.debug("Leaving JdbcCommentDao class, createListFrom() method.");
         return result;
     }
 
@@ -78,6 +78,7 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
         return preparedStatement;
     }
 
+
     @Override
     protected String getUpdateByEntityQuery() {
         return null;
@@ -96,11 +97,6 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
     @Override
     protected String getReadAllByIdParameterQuery() {
         return SELECT_ALL_BY_BOOK_ID_QUERY;
-    }
-
-    @Override
-    protected PreparedStatement setFieldsInUpdateByEntityPreparedStatement(PreparedStatement preparedStatement, Comment entity) {
-        return null;
     }
 
     @Override
@@ -135,6 +131,11 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
 
     @Override
     protected PreparedStatement setFieldsInReadByEntityPreparedStatement(PreparedStatement preparedStatement, Comment entity) throws DaoException {
+        return null;
+    }
+
+    @Override
+    protected PreparedStatement setFieldsInUpdateByEntityPreparedStatement(PreparedStatement preparedStatement, Comment entity) {
         return null;
     }
 

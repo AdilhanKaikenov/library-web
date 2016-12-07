@@ -40,6 +40,8 @@ public class ActionFactory {
         actions.put("GET/rejected-orders", new ShowAllRejectedOrdersAction());
         actions.put("POST/lend-out-book", new BookLendOutAction());
         actions.put("POST/reject-book-order", new RejectBookOrderAction());
+        actions.put("POST/book-returned", new BookReturnedAction());
+        actions.put("POST/delete-old-order-requests", new DeleteOldOrderRequests());
         log.debug("Action Factory class, actions SIZE {}", actions.size());
     }
 

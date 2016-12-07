@@ -54,6 +54,8 @@
                 </td>
                 <td>
                     <form action="${pageContext.request.contextPath}/do/" method="post">
+                        <input hidden="hidden" name="action" value="book-returned">
+                        <input hidden="hidden" name="orderID" value="${order.id}">
                         <button type="submit" class="link-style">Книга возвращена</button>
                     </form>
                 </td>

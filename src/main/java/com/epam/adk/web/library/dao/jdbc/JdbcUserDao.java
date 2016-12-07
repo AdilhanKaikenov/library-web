@@ -50,7 +50,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
         log.debug("Entering JdbcUserDao class, createListFrom() method");
         List<User> result = new ArrayList<>();
         try {
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 User user = new User();
                 log.debug("Creating user from resultSet");
                 user.setId(resultSet.getInt("ID"));
@@ -68,11 +68,11 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
                 log.debug("User successfully created in createFrom() method. User id = {}", user.getId());
                 result.add(user);
             }
+            log.debug("Leaving JdbcUserDao class, createListFrom() method.");
         } catch (SQLException e) {
             log.error("Error: JdbcUserDao class createListFrom() method. I can not create List of users from resultSet. {}", e);
             throw new DaoException("Error: JdbcUserDao class createListFrom() method. I can not create List of users from resultSet.", e);
         }
-        log.debug("Leaving JdbcUserDao class, createListFrom() method.");
         return result;
     }
 

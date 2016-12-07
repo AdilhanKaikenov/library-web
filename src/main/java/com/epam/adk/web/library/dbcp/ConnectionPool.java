@@ -97,6 +97,7 @@ public final class ConnectionPool {
                 connection = newConnection();
                 freeConnections.add(connection);
             }
+            log.debug("Leaving ConnectionPool class getConnection() method.");
         } catch (InterruptedException e) {
             log.error("Error: getConnection() method. Called poll() method failed: {}", e);
             throw new ConnectionPoolException("Error: getConnection() method. Called poll() method failed:", e);
@@ -106,7 +107,6 @@ public final class ConnectionPool {
         } finally {
             lock.unlock();
         }
-        log.debug("Leaving ConnectionPool class getConnection() method.");
         return connection;
     }
 
@@ -123,7 +123,7 @@ public final class ConnectionPool {
 
     public void shutDown() throws ConnectionPoolException {
 
-        for (Connection connection : freeConnections){
+        for (Connection connection : freeConnections) {
             try {
                 connection.close();
             } catch (SQLException e) {

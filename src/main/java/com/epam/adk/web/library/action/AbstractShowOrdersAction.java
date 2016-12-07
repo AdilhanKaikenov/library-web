@@ -21,7 +21,7 @@ public abstract class AbstractShowOrdersAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(AbstractShowOrdersAction.class);
     private static final int DEFAULT_PAGE_NUMBER = 1;
-    private static final int LINE_PER_PAGE_NUMBER = 10;
+    private static final int LINE_PER_PAGE_NUMBER = 2;
     private static final String PAGE_PARAMETER = "page";
 
     @Override
