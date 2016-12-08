@@ -22,7 +22,7 @@ public class CategoryAction implements Action {
     private static final Logger log = LoggerFactory.getLogger(CategoryAction.class);
     private static final String GENRE_PARAMETER = "genre";
     private static final String PAGE_PARAMETER = "page";
-    private static final int LINE_PER_PAGE_NUMBER = 4;
+    private static final int LINE_PER_PAGE_NUMBER = 2;
     private static final int DEFAULT_PAGE_NUMBER = 1;
     private static final String CATEGORY_PAGE = "category";
 

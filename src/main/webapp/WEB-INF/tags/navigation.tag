@@ -15,6 +15,9 @@
             <c:if test="${not empty user && user.role == 'USER'}">
                 <a href="${base}/do/?action=user-orders" class="link-style"><ftm:message key="my.orders.page"/></a>
             </c:if>
+            <c:if test="${not empty user}">
+
+            </c:if>
             <c:if test="${not empty user && user.role == 'ADMIN'}">
                 <a href="${base}/do/?action=requests" class="link-style"><ftm:message key="requests"/></a>
                 <a href="${base}/do/?action=orders" class="link-style"><ftm:message key="orders"/></a>

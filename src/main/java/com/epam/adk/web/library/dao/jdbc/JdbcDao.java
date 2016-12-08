@@ -257,7 +257,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         int numberRows = 0;
         ResultSet resultSet = null;
         try (Statement statement = connection.createStatement()) {
-            resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + getTableName());
+            resultSet = statement.executeQuery(getCountNumberRowsQuery());
             if (resultSet.next()) {
                 numberRows = resultSet.getInt(1);
             }
@@ -270,6 +270,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         }
         return numberRows;
     }
+
 
     private Integer getID(ResultSet generatedKeys) throws DaoException {
         log.debug("Entering JdbcDao class, getID() method.");
@@ -388,11 +389,16 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         return preparedStatement;
     }
 
+    protected String getCountNumberRowsQuery() {
+        return "SELECT COUNT(*) FROM " + getTableName();
+    }
+
     protected abstract String getUpdateByEntityQuery();
 
     protected abstract List<T> createListFrom(ResultSet resultSet) throws DaoException;
 
     protected abstract String getReadByIdQuery();
+
 
     protected abstract String getReadAllQuery();
 

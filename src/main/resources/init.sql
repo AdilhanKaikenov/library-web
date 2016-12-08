@@ -1,11 +1,13 @@
-DROP TABLE IF EXISTS user;
-DROP TABLE IF EXISTS role;
-DROP TABLE IF EXISTS gender;
 DROP TABLE IF EXISTS book;
-DROP TABLE IF EXISTS genre;
 DROP TABLE IF EXISTS comment;
+DROP TABLE IF EXISTS gender;
+DROP TABLE IF EXISTS genre;
+DROP TABLE IF EXISTS order_status;
 DROP TABLE IF EXISTS order_type;
 DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS orders_history;
+DROP TABLE IF EXISTS role;
+DROP TABLE IF EXISTS user;
 
 /////////////////////////////////////////////////
 CREATE TABLE PUBLIC.user
@@ -38,6 +40,7 @@ CREATE TABLE PUBLIC.book
   genre INT NOT NULL,
   description VARCHAR(1500) NOT NULL,
   total_amount INT NOT NULL,
+  deleted BOOLEAN DEFAULT FALSE
 );
 CREATE UNIQUE INDEX "BOOK_ID_uindex" ON PUBLIC.book (id);
 

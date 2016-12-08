@@ -39,9 +39,10 @@ public class DeleteBookAction implements Action {
                 return BOOK_DELETE_RESULT_PAGE_NAME;
             }
 
-            Book book = new Book();
-            book.setId(bookID);
-            bookService.deleteBook(book);
+            Book book = bookService.getBookById(bookID);
+            book.setDeleted(true);
+
+            bookService.updateBook(book);
 
             request.setAttribute("bookDeleted", "book.delete.success.message");
 

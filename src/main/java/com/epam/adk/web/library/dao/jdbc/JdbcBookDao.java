@@ -27,20 +27,22 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
 
     private static final String TABLE_NAME = "book";
     private static final String SELECT_ALL = "SELECT book.id, book.title, book.cover, book.authors, book.publish_year, " +
-            "genre.type AS genre, book.description, book.total_amount FROM book " +
+            "genre.type AS genre, book.description, book.total_amount FROM (SELECT * FROM book WHERE deleted = FALSE) AS book " +
             "INNER JOIN genre ON book.genre = genre.id";
     private static final String CREATE_QUERY = "INSERT INTO book (title, cover, authors, publish_year, genre, " +
             "description, total_amount) VALUES (?, ?, ?, ?, ?, ?, ?)";
     private static final String SELECT_BY_ID = "SELECT book.id, book.title, book.cover, book.authors, book.publish_year," +
-            "genre.type AS genre, book.description, book.total_amount FROM BOOK " +
+            "genre.type AS genre, book.description, book.total_amount FROM (SELECT * FROM book WHERE deleted = FALSE) AS book " +
             "INNER JOIN genre ON book.genre = genre.id WHERE book.id = ?";
     private static final String SELECT_RANGE_BY_GENRE = "SELECT book.id, book.title, book.cover, book.authors, book.publish_year, " +
-            "genre.type AS genre, book.description, book.total_amount FROM book INNER JOIN genre ON " +
-            "book.genre = genre.id WHERE genre.id = ? ORDER BY book.publish_year LIMIT ? OFFSET ?";
-    private static final String SELECT_COUNT_BY_GENRE_ID = "SELECT COUNT(*) FROM book WHERE genre = ?";
+            "genre.type AS genre, book.description, book.total_amount FROM (SELECT * FROM book WHERE deleted = FALSE) AS book INNER JOIN genre ON " +
+            "book.genre = genre.id AND genre.id = ? ORDER BY book.publish_year LIMIT ? OFFSET ?";
+    private static final String SELECT_COUNT_BY_GENRE_ID = "SELECT COUNT(*) FROM book WHERE deleted = FALSE AND genre = ?";
     private static final String SELECT_BY_RANGE_QUERY = "SELECT book.id, book.title, book.cover, book.authors, book.publish_year, " +
-            "genre.type AS genre, book.description, book.total_amount FROM book " +
+            "genre.type AS genre, book.description, book.total_amount FROM (SELECT * FROM book WHERE deleted = FALSE) AS book " +
             "INNER JOIN genre ON book.genre = genre.id ORDER BY book.publish_year LIMIT ? OFFSET ?";
+    private static final String UPDATE_QUERY = "UPDATE book SET title = ?, cover = ?, authors = ?, publish_year = ?, genre = ?, description = ?, total_amount = ?, deleted = ? WHERE id LIKE ?";
+    private static final String SELECT_COUNT_ROWS_QUERY = "SELECT COUNT(*) FROM book WHERE deleted = FALSE";
 
     public JdbcBookDao(Connection connection) {
         super(connection);
@@ -74,8 +76,34 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     }
 
     @Override
+    protected PreparedStatement setFieldsInUpdateByEntityPreparedStatement(PreparedStatement preparedStatement, Book book) throws DaoException {
+        log.debug("Entering JdbcBookDao class, setFieldsInUpdateByEntityPreparedStatement() method.");
+        try {
+            preparedStatement.setString(1, book.getTitle());
+            preparedStatement.setString(2, book.getCover());
+            preparedStatement.setString(3, book.getAuthors());
+            preparedStatement.setInt(4, book.getPublishYear().getValue());
+            preparedStatement.setInt(5, book.getGenre().ordinal());
+            preparedStatement.setString(6, book.getDescription());
+            preparedStatement.setInt(7, book.getTotalAmount());
+            preparedStatement.setBoolean(8, book.isDeleted());
+            preparedStatement.setInt(9, book.getId());
+            log.debug("Leaving JdbcBookDao class, setFieldsInUpdateByEntityPreparedStatement() method.");
+        } catch (SQLException e) {
+            log.error("Error: JdbcBookDao class setFieldsInUpdateByEntityPreparedStatement() method. I can not set fields into statement. {}", e);
+            throw new DaoException("Error: JdbcBookDao class setFieldsInUpdateByEntityPreparedStatement() method. I can not set fields into statement.", e);
+        }
+        return preparedStatement;
+    }
+
+    @Override
+    protected String getCountNumberRowsQuery() {
+        return SELECT_COUNT_ROWS_QUERY;
+    }
+
+    @Override
     protected String getUpdateByEntityQuery() {
-        return null;
+        return UPDATE_QUERY;
     }
 
     @Override
@@ -120,11 +148,6 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
 
     @Override
     protected String getReadAllByIdParameterQuery() {
-        return null;
-    }
-
-    @Override
-    protected PreparedStatement setFieldsInUpdateByEntityPreparedStatement(PreparedStatement preparedStatement, Book entity) {
         return null;
     }
 
