@@ -5,7 +5,7 @@ import com.epam.adk.web.library.model.User;
 import com.epam.adk.web.library.model.enums.Gender;
 import com.epam.adk.web.library.model.enums.Role;
 import com.epam.adk.web.library.service.UserService;
-import com.epam.adk.web.library.validator.RegistrationFormValidator;
+import com.epam.adk.web.library.validator.FormValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,9 +46,9 @@ public class RegistrationAction implements Action {
         String address = request.getParameter(ADDRESS_PARAMETER);
         String mobilePhone = request.getParameter(MOBILE_PHONE_PARAMETER);
 
-        RegistrationFormValidator formValidator = new RegistrationFormValidator();
-        boolean isFormInvalid = formValidator.isInvalid(request);
-        log.debug("Registration form validation, invalid= {}", isFormInvalid);
+       FormValidator formValidator = new FormValidator();
+        boolean isFormInvalid = formValidator.isRegistrationFormInvalid(request);
+        log.debug("Registration form validation, invalid = {}", isFormInvalid);
         if (isFormInvalid) {
             return REGISTRATION_PAGE_NAME;
         }

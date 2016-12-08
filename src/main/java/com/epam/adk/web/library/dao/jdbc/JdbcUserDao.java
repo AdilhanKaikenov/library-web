@@ -40,6 +40,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
             "user.surname, user.patronymic, gender.type AS gender, user.address, user.mobile_phone, role.type AS role, user.status FROM user" +
             "INNER JOIN role ON user.role = role.id" +
             "INNER JOIN gender ON user.gender = gender.id WHERE user.id = ?";
+    private static final String UPDATE_QUERY = "UPDATE user SET password = ?, email = ?, address = ?, mobile_phone = ? WHERE id LIKE ?";
 
     public JdbcUserDao(Connection connection) {
         super(connection);
@@ -114,8 +115,26 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     }
 
     @Override
+    protected PreparedStatement setFieldsInUpdateByEntityPreparedStatement(PreparedStatement preparedStatement, User user) throws DaoException {
+        log.debug("Entering JdbcUserDao class, setFieldsInUpdateByEntityPreparedStatement() method.");
+        try {
+            preparedStatement.setString(1, user.getPassword());
+            preparedStatement.setString(2, user.getEmail());
+            preparedStatement.setString(3, user.getAddress());
+            preparedStatement.setString(4, user.getMobilePhone());
+            preparedStatement.setInt(5, user.getId());
+            log.debug("Leaving JdbcUserDao class, setFieldsInUpdateByEntityPreparedStatement() method.");
+        } catch (SQLException e) {
+            log.error("Error: JdbcUserDao class setFieldsInUpdateByEntityPreparedStatement() method. I can not set fields into statement. {}", e);
+            throw new DaoException("Error: JdbcUserDao class setFieldsInUpdateByEntityPreparedStatement() method. I can not set fields into statement.", e);
+        }
+        return preparedStatement;
+    }
+
+
+    @Override
     protected String getUpdateByEntityQuery() {
-        return null;
+        return UPDATE_QUERY;
     }
 
     @Override
@@ -155,11 +174,6 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
 
     @Override
     protected String getReadAllByIdParameterQuery() {
-        return null;
-    }
-
-    @Override
-    protected PreparedStatement setFieldsInUpdateByEntityPreparedStatement(PreparedStatement preparedStatement, User entity) {
         return null;
     }
 

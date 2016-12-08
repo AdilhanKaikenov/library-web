@@ -24,6 +24,6 @@
     </table>
         <tr align="center">
             <td colspan="2"><br><button type="submit"
-                                         class="link-style"><ftm:message key="button.sign.in"/></button></td>
+                                         class="link-style"><ftm:message key="sign.in.button"/></button></td>
         </tr>
 </form>

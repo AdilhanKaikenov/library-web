@@ -81,4 +81,22 @@ public class UserService {
         }
         return user;
     }
+
+    public void updateUserData(User user) throws ServiceException {
+        log.debug("Entering UserService class updateUserData() method. User Id = {}", user.getId());
+        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+            try {
+                jdbcDaoFactory.beginTransaction();
+                UserDao userDao = jdbcDaoFactory.userDao();
+                userDao.update(user);
+                jdbcDaoFactory.endTransaction();
+                log.debug("Leaving UserService class updateUserData() method.");
+            } catch (SQLException e) {
+                jdbcDaoFactory.rollbackTransaction();
+                throw new ServiceException("Error: UserService class, updateUserData() method. TRANSACTION error:", e);
+            }
+        } catch (SQLException | DaoException e) {
+            throw new ServiceException("Error: UserService class, updateUserData() method.", e);
+        }
+    }
 }

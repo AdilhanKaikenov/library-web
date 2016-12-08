@@ -23,7 +23,7 @@
             <i><ftm:message key="log.in.info.field"/> ${user.login} (${user.role.value}) </i>
             <br>
             <br>
-            <a href="${base}/do/?action=" class="link-style"><ftm:message key="profile.button"/></a>
+            <a href="${base}/do/?action=personal-area" class="link-style"><ftm:message key="profile"/></a>
             <a href="${base}/do/?action=logout" class="link-style"><ftm:message key="logout.button"/></a>
             </c:if>
     </div>

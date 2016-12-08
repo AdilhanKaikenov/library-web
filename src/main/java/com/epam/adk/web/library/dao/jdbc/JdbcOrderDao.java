@@ -51,7 +51,7 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
             "AS available_amount, concat(user.firstname, ' ', user.surname, ' ', user.patronymic) AS client " +
             "FROM orders, order_type, book, order_status, user WHERE orders.order_type = order_type.id AND orders.book_id = book.id " +
             "AND orders.status = order_status.id AND orders.user_id = user.id AND orders.id = ?";
-    private static final String UPDATE_BY_ENTITY_QUERY = "UPDATE orders SET date_from = ?, date_to = ?, status = ? WHERE id LIKE ?";
+    private static final String UPDATE_QUERY = "UPDATE orders SET date_from = ?, date_to = ?, status = ? WHERE id LIKE ?";
     private static final String INSERT_INTO_HISTORY_QUERY = "INSERT INTO orders_history(user_id, book_id, order_date, order_type, date_from, date_to) VALUES(?, ?, ?, ?, ?, ?)";
     private static final String DELETE_ALL_OLD_REJECTED_ORDERS_QUERY = "DELETE FROM orders WHERE DATEDIFF('DAY', orders.order_date, CURRENT_DATE()) >= 1 AND orders.status = 1";
 
@@ -222,7 +222,7 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
 
     @Override
     protected String getUpdateByEntityQuery() {
-        return UPDATE_BY_ENTITY_QUERY;
+        return UPDATE_QUERY;
     }
 
     @Override

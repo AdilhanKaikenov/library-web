@@ -95,7 +95,7 @@
                             <br>
                             <button type="submit"
                                     onclick="return confirm('<ftm:message key="confirm.message"/>')" class="link-style"><ftm:message
-                                    key="button.sign.up"/></button>
+                                    key="sign.up.button"/></button>
                         </td>
                     </tr>
             </table>

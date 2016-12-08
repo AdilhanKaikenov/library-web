@@ -42,6 +42,9 @@ public class ActionFactory {
         actions.put("POST/reject-book-order", new RejectBookOrderAction());
         actions.put("POST/book-returned", new BookReturnedAction());
         actions.put("POST/delete-old-order-requests", new DeleteOldOrderRequests());
+        actions.put("GET/personal-area", new ShowPageAction("profile"));
+        actions.put("GET/edit-profile", new ShowPageAction("edit-profile"));
+        actions.put("POST/edit-profile", new EditProfileAction());
         log.debug("Action Factory class, actions SIZE {}", actions.size());
     }
 

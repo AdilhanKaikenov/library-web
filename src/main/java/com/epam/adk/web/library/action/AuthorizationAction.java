@@ -4,7 +4,7 @@ import com.epam.adk.web.library.exception.ActionException;
 import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.User;
 import com.epam.adk.web.library.service.UserService;
-import com.epam.adk.web.library.validator.AuthorizationFormValidator;
+import com.epam.adk.web.library.validator.FormValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,8 +36,8 @@ public class AuthorizationAction implements Action {
         String password = request.getParameter(AUTH_PASSWORD_PARAMETER);
         log.debug("AuthorizationAction class: login from request = {}", login);
 
-        AuthorizationFormValidator formValidator = new AuthorizationFormValidator();
-        boolean isFormInvalid = formValidator.isInvalid(request);
+        FormValidator formValidator = new FormValidator();
+        boolean isFormInvalid = formValidator.isAuthorizationFormInvalid(request);
         log.debug("Authorization form validation, invalid = {}", isFormInvalid);
         if (isFormInvalid) {
             request.setAttribute("authorizationFormIncorrect", "auth.error.message.one");
