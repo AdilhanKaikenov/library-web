@@ -22,6 +22,16 @@
             <br><ftm:message key="book.section.publish.year.field"/> ${book.publishYear}
         </c:if>
     </div>
+    <div class="book-admin-links-section">
+        <%--@elvariable id="user" type="com.epam.adk.web.library.model.User"--%>
+        <c:if test="${not empty user && user.role == 'ADMIN'}">
+            <form action="${pageContext.request.contextPath}/do/" method="post">
+                <input hidden="hidden" name="action" value="delete-book">
+                <input hidden="hidden" name="bookID" value="${book.id}">
+                <button type="submit" class="link-style"><ftm:message key="delete.button"/></button>
+            </form>
+        </c:if>
+    </div>
     <div class="book-links-section">
         <a href="${base}/do/?action=about-book&id=${book.id}" class="link-style"><ftm:message key="about.book"/></a>
     </div>

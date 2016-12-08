@@ -45,6 +45,7 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
             "FROM orders, order_type, book, order_status, user WHERE orders.order_type = order_type.id AND orders.book_id = book.id AND  " +
             "orders.status = order_status.id AND order_status.id = ? AND orders.user_id = user.id ORDER BY order_date LIMIT ? OFFSET ?";
     private static final String COUNT_ORDERS_BY_STATUS_ID_QUERY = "SELECT COUNT(*) FROM orders WHERE status = ?";
+    private static final String COUNT_ORDERS_BY_BOOK_ID_QUERY = "SELECT COUNT(*) FROM orders WHERE book_id = ?";
     private static final String SELECT_BY_ID_QUERY = "SELECT orders.id, orders.user_id, orders.book_id, book.title AS " +
             "book_title, orders.order_date, order_type.type AS order_type, orders.date_from, orders.date_to, order_status.type " +
             "AS order_status, book.total_amount - (SELECT COUNT(*) FROM orders WHERE orders.book_id = book.id AND orders.status = 0) " +
@@ -168,6 +169,29 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
         } catch (SQLException e) {
             log.error("Error: JdbcOrderDao class, getNumberRowsByStatusId() method. {}", e);
             throw new DaoException("Error: JdbcOrderDao class, getNumberRowsByStatusId() method.", e);
+        } finally {
+            close(preparedStatement, resultSet);
+        }
+        return numberRows;
+    }
+
+    @Override
+    public int getNumberRowsByBookId(int bookID) throws DaoException {
+        log.debug("Entering JdbcOrderDao class, getNumberRowsByBookId() method. Book Id = {}", bookID);
+        int numberRows = 0;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = getConnection().prepareStatement(COUNT_ORDERS_BY_BOOK_ID_QUERY);
+            preparedStatement = setFieldInCountNumberRowsByIdPreparedStatement(preparedStatement, bookID);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                numberRows = resultSet.getInt(1);
+            }
+            log.debug("Leaving JdbcOrderDao class getNumberRowsByBookId() method. Rows number = {}", numberRows);
+        } catch (SQLException e) {
+            log.error("Error: JdbcOrderDao class, getNumberRowsByBookId() method. {}", e);
+            throw new DaoException("Error: JdbcOrderDao class, getNumberRowsByBookId() method.", e);
         } finally {
             close(preparedStatement, resultSet);
         }

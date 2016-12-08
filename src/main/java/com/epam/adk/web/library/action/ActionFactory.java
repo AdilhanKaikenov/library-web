@@ -45,6 +45,7 @@ public class ActionFactory {
         actions.put("GET/personal-area", new ShowPageAction("profile"));
         actions.put("GET/edit-profile", new ShowPageAction("edit-profile"));
         actions.put("POST/edit-profile", new EditProfileAction());
+        actions.put("POST/delete-book", new DeleteBookAction());
         log.debug("Action Factory class, actions SIZE {}", actions.size());
     }
 

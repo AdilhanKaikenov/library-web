@@ -19,9 +19,9 @@
                 </tr>
                 <tr>
                 <td colspan="2"><c:if test="${not empty requestScope.loginFormIncorrect}">
-                    <li style="color: red"><ftm:message key="login.form.incorrect"/></c:if>
+                    <li style="color: red"><ftm:message key="${loginFormIncorrect}"/></c:if>
                 <c:if test="${not empty requestScope.loginLengthIncorrect}">
-                    <li style="color: red"><ftm:message key="login.length.incorrect"/></c:if></td>
+                    <li style="color: red"><ftm:message key="${loginLengthIncorrect}"/></c:if></td>
                 </tr>
                 <tr>
                     <td align="right"><ftm:message key="register.enter.login.field"/></td>
@@ -29,9 +29,9 @@
                 </tr>
                 <tr>
                     <td colspan="2"><c:if test="${not empty requestScope.passwordFormIncorrect}">
-                        <li style="color: red"><ftm:message key="password.form.incorrect"/></c:if>
+                        <li style="color: red"><ftm:message key="${passwordFormIncorrect}"/></c:if>
                     <c:if test="${not empty requestScope.passwordLengthIncorrect}">
-                        <li style="color: red"><ftm:message key="password.length.incorrect"/></c:if></td>
+                        <li style="color: red"><ftm:message key="${passwordLengthIncorrect}"/></c:if></td>
                 </tr>
                 <tr>
                     <td  align="right"><ftm:message key="register.enter.password.field"/></td>
@@ -39,7 +39,7 @@
                 </tr>
                 <tr>
                     <td colspan="2"><c:if test="${not empty requestScope.emailFormIncorrect}">
-                        <li style="color: red"><ftm:message key="email.form.incorrect"/></c:if></td>
+                        <li style="color: red"><ftm:message key="${emailFormIncorrect}"/></c:if></td>
                 </tr>
                 <tr>
                     <td align="right"><ftm:message key="register.enter.email.field"/></td>
@@ -48,9 +48,9 @@
                 </tr>
                 <tr>
                 <td colspan="2"><c:if test="${not empty requestScope.fullNameFormIncorrect}">
-                    <li style="color: red"><ftm:message key="fullName.form.incorrect"/></c:if>
+                    <li style="color: red"><ftm:message key="${fullNameFormIncorrect}"/></c:if>
                 <c:if test="${not empty requestScope.fullNameLengthIncorrect}">
-                    <li style="color: red"><ftm:message key="fullName.length.incorrect"/></c:if></td>
+                    <li style="color: red"><ftm:message key="${fullNameLengthIncorrect}"/></c:if></td>
                 </tr>
                 <tr>
                     <td align="right"><ftm:message key="register.enter.firstname.field"/></td>
@@ -74,9 +74,9 @@
                 </tr>
                 <tr>
                     <td colspan="2"><c:if test="${not empty requestScope.addressFormIncorrect}">
-                        <li style="color: red"><ftm:message key="address.form.incorrect"/></c:if>
+                        <li style="color: red"><ftm:message key="${addressFormIncorrect}"/></c:if>
                     <c:if test="${not empty requestScope.addressLengthIncorrect}">
-                        <li style="color: red"><ftm:message key="address.length.incorrect"/></c:if></td>
+                        <li style="color: red"><ftm:message key="${addressLengthIncorrect}"/></c:if></td>
                 </tr>
                 <tr>
                     <td align="right"><ftm:message key="register.enter.address.field"/></td>
@@ -84,7 +84,7 @@
                 </tr>
                 <tr>
                     <td colspan="2"><c:if test="${not empty requestScope.mobilePhoneFormIncorrect}">
-                        <li style="color: red"><ftm:message key="mobileNumber.form.incorrect"/></c:if></td>
+                        <li style="color: red"><ftm:message key="${mobilePhoneFormIncorrect}"/></c:if></td>
                 </tr>
                 <tr>
                     <td align="right"><ftm:message key="register.enter.mobphone.field"/></td>

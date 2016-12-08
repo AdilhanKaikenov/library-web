@@ -19,6 +19,8 @@ public interface OrderDao extends Dao<Order> {
 
     int getNumberRowsByStatusId(int statusID) throws DaoException;
 
+    int getNumberRowsByBookId(int bookID) throws DaoException;
+
     void insertIntoHistory(Order order) throws DaoException;
 
     void deleteAllOldRejectedOrderRequests() throws DaoException;

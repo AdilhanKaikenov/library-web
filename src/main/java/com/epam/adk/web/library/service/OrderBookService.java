@@ -164,6 +164,26 @@ public class OrderBookService {
         return ordersNumber;
     }
 
+    public int getOrdersNumberByBookID(int bookID) throws ServiceException {
+        log.debug("Entering OrderBookService class getOrdersNumberByBookID() method.");
+        int ordersNumber;
+        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+            try {
+                jdbcDaoFactory.beginTransaction();
+                OrderDao orderDao = jdbcDaoFactory.orderDao();
+                ordersNumber = orderDao.getNumberRowsByBookId(bookID);
+                jdbcDaoFactory.endTransaction();
+                log.debug("Leaving OrderBookService class getOrdersNumberByBookID() method.");
+            } catch (SQLException e) {
+                jdbcDaoFactory.rollbackTransaction();
+                throw new ServiceException("Error: OrderBookService class, getOrdersNumberByBookID() method. TRANSACTION error:", e);
+            }
+        } catch (SQLException | DaoException e) {
+            throw new ServiceException("Error: OrderBookService class, getOrdersNumberByBookID() method.", e);
+        }
+        return ordersNumber;
+    }
+
     public Order getOrderById(int id) throws ServiceException {
         log.debug("Entering OrderBookService class getOrderById() method. Id = {}", id);
         Order order;

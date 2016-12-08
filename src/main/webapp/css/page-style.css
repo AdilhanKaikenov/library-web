@@ -336,3 +336,10 @@ hr {
     width: 100%;
     height: 55px;
 }
+
+.book-admin-links-section {
+    float: left;
+    position: relative;
+    top: 60px;
+    right: 190px;
+}

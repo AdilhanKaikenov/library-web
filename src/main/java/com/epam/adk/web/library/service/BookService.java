@@ -123,4 +123,23 @@ public class BookService {
         }
         return result;
     }
+
+    public void deleteBook(Book book) throws ServiceException {
+        log.debug("Entering BookService class deleteBook() method. Book Id = {}", book.getId());
+        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+            try {
+                jdbcDaoFactory.beginTransaction();
+                BookDao bookDao = jdbcDaoFactory.bookDao();
+                bookDao.delete(book);
+                jdbcDaoFactory.endTransaction();
+                log.debug("Leaving BookService class deleteBook() method.");
+            } catch (SQLException e) {
+                jdbcDaoFactory.rollbackTransaction();
+                throw new ServiceException("Error: BookService class, deleteBook() method. TRANSACTION error:", e);
+            }
+        } catch (SQLException | DaoException e) {
+            throw new ServiceException("Error: BookService class, deleteBook() method.", e);
+        }
+    }
+
 }
