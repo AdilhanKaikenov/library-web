@@ -5,6 +5,7 @@ import com.epam.adk.web.library.model.User;
 import com.epam.adk.web.library.model.enums.Gender;
 import com.epam.adk.web.library.model.enums.Role;
 import com.epam.adk.web.library.service.UserService;
+import com.epam.adk.web.library.util.MD5;
 import com.epam.adk.web.library.validator.FormValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,7 +56,7 @@ public class RegistrationAction implements Action {
 
         User user = new User();
         user.setLogin(login);
-        user.setPassword(password);
+        user.setPassword(MD5.get(password));
         user.setEmail(email);
         user.setFirstname(firstname);
         user.setSurname(surname);

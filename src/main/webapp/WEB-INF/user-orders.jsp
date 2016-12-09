@@ -25,7 +25,7 @@
         </div>
     </c:if>
     <c:if test="${not empty requestScope.userOrders}">
-        <table style="border: rebeccapurple; background: beige;" border="1px" align="center">
+        <table cellpadding="10" style="border: rebeccapurple; background: beige;" border="1px" align="center">
             <tr align="center" style="background: whitesmoke">
                 <th width="200px">
                     <ftm:message key="book.title"/>

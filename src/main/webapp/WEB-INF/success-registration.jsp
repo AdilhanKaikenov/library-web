@@ -6,5 +6,7 @@
 <ftm:setBundle basename="i18n"/>
 
 <t:page title="registration.page">
-    Congratulations!!!
+    <div style="margin-top: 30px" align="center">
+        <h1 style="background: green"><ftm:message key="successfull.registration.message"/></h1>
+    </div>
 </t:page>
