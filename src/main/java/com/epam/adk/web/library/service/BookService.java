@@ -142,4 +142,24 @@ public class BookService {
         }
     }
 
+    public List<Book> findByTitle(String title) throws ServiceException {
+        log.debug("Entering BookService class findByTitle() method.");
+        List<Book> result;
+        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+            try {
+                jdbcDaoFactory.beginTransaction();
+                BookDao bookDao = jdbcDaoFactory.bookDao();
+                result = bookDao.findByTitle(title);
+                jdbcDaoFactory.endTransaction();
+                log.debug("Leaving BookService class findByTitle() method.");
+            } catch (SQLException e) {
+                jdbcDaoFactory.rollbackTransaction();
+                throw new ServiceException("Error: BookService class, findByTitle() method. TRANSACTION error:", e);
+            }
+        } catch (SQLException | DaoException e) {
+            throw new ServiceException("Error: BookService class, findByTitle() method.", e);
+        }
+        return result;
+    }
+
 }

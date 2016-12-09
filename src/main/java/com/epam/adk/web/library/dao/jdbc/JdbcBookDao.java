@@ -7,10 +7,7 @@ import com.epam.adk.web.library.model.enums.Genre;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +68,30 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
         } catch (SQLException e) {
             log.error("Error: JdbcBookDao class createListFrom() method. I can not create List of books from resultSet. {}", e);
             throw new DaoException("Error: JdbcDao class createListFrom() method. I can not create List of books from resultSet.", e);
+        }
+        return result;
+    }
+
+    @Override
+    public List<Book> findByTitle(String title) throws DaoException {
+        log.debug("Entering JdbcBookDao class, findByTitle() method");
+        List<Book> result;
+        String correctTitle = title;
+        ResultSet resultSet = null;
+        try (Statement statement = getConnection().createStatement()) {
+            if (title.contains("'")) {
+                correctTitle = title.replaceAll("'", "''");
+            }
+            resultSet = statement.executeQuery("SELECT book.id, book.title, book.cover, book.authors, book.publish_year, " +
+                    "genre.type AS genre, book.description, book.total_amount FROM (SELECT * FROM book WHERE deleted = FALSE AND LOWER(book.title) " +
+                    "LIKE LOWER('%" + correctTitle +"%')) AS book INNER JOIN genre ON book.genre = genre.id ORDER BY LOWER(book.title)");
+            result = createListFrom(resultSet);
+            log.debug("Leaving JdbcBookDao class, findByTitle() method. Book found = {}", result.size());
+        } catch (SQLException e) {
+            log.error("Error: JdbcBookDao class findByTitle() method. I can not find books. {}", e);
+            throw new DaoException("Error: JdbcDao class findByTitle() method. I can not find books.", e);
+        } finally {
+            closeResultSet(resultSet);
         }
         return result;
     }

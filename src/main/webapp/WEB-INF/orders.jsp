@@ -65,11 +65,11 @@
                     <td width="200px">
                         <c:if test="${order.type == 'SUBSCRIPTION'}">
                             <ftm:message key="subscription.duration.message"/>
-                            <ftm:formatDate value="${order.from}"/> / <ftm:formatDate value="${order.to}"/>
+                            <br><ftm:formatDate value="${order.from}"/> / <ftm:formatDate value="${order.to}"/>
                         </c:if>
                         <c:if test="${order.type == 'READING_ROOM'}">
                             <ftm:message key="day.reading,room.message"/>
-                            <ftm:formatDate value="${order.from}"/>
+                            <br><ftm:formatDate value="${order.from}"/>
                         </c:if>
                     </td>
                     <td>

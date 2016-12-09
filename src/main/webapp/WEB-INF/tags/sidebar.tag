@@ -9,6 +9,14 @@
 
 <div class="sidebar" align="center">
     <div class="inner-sidebar">
+        <div style="height: 35px; padding: 15px;" align="center">
+            <form action="${pageContext.request.contextPath}/do/" method="post">
+                <input hidden="hidden" name="action" value="book-search">
+                <input type="text" name="dataForSearch" placeholder="Поиск" required>
+                <button type="submit">Поиск</button>
+            </form>
+        </div>
+        <hr>
         <h3><ftm:message key="genres.header"/></h3>
         <hr>
         <a href="${base}/do/?action=category&genre=0" class="sidebar-category-link-style"><ftm:message key="docum.litra.genre"/></a>

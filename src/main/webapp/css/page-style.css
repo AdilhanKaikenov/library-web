@@ -198,8 +198,7 @@ hr {
 .select-locale-navigation-section {
     float: right;
     position: relative;
-    bottom: 30px;
-    right: 25px;
+    bottom: 35px;
     height: 0%;
 }
 
@@ -247,7 +246,9 @@ hr {
 .book-links-section {
     float: right;
     position: relative;
-    top: 50px;
+    width: 100%;
+    left: 285px;
+    bottom: 65px;
 }
 
 .book-description-section {
@@ -337,8 +338,5 @@ hr {
 }
 
 .book-admin-links-section {
-    float: left;
-    position: relative;
-    top: 60px;
-    right: 190px;
+
 }
