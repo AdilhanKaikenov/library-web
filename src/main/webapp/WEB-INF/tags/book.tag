@@ -23,14 +23,23 @@
         </c:if>
     </div>
     <div class="book-links-section">
+        <div style="float: left; margin-right: 20px;">
+            <a href="${base}/do/?action=about-book&id=${book.id}" class="link-style"><ftm:message
+                    key="about.book"/></a>
+        </div>
         <%--@elvariable id="user" type="com.epam.adk.web.library.model.User"--%>
         <c:if test="${not empty user && user.role == 'ADMIN'}">
-            <form action="${base}/do/" method="post">
-                <input hidden="hidden" name="action" value="delete-book">
-                <input hidden="hidden" name="bookID" value="${book.id}">
-                <button type="submit" class="link-style"><ftm:message key="delete.button"/></button>
-            </form>
+            <div style="float: left;">
+                <a href="${base}/do/?action=book-amount&bookID=${book.id}"
+                   class="link-style"><ftm:message key="edit.book.amount.button"/></a>
+            </div>
+            <div style="float: left; margin-left: 15px;">
+                <form action="${base}/do/" method="post">
+                    <input hidden="hidden" name="action" value="delete-book">
+                    <input hidden="hidden" name="bookID" value="${book.id}">
+                    <button type="submit" class="link-style"><ftm:message key="delete.button"/></button>
+                </form>
+            </div>
         </c:if>
-        <a href="${base}/do/?action=about-book&id=${book.id}" style="position: static" class="link-style"><ftm:message key="about.book"/></a>
     </div>
 </div>
