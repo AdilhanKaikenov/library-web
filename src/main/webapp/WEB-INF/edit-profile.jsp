@@ -15,18 +15,18 @@
                 <tr>
                     <td colspan="2">
                         <c:if test="${not empty requestScope.invalidInformation}">
-                            <li style="color: red"><ftm:message key="${invalidInformation}"/></li></c:if>
+                            <li style="color: red"><ftm:message key="${requestScope.invalidInformation}"/></li></c:if>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2">
                         <c:if test="${not empty requestScope.passwordFormIncorrect}">
                         <li style="color: red">
-                                <ftm:message key="${passwordFormIncorrect}"/>
+                                <ftm:message key="${requestScope.passwordFormIncorrect}"/>
                             </c:if>
                             <c:if test="${not empty requestScope.passwordLengthIncorrect}">
                         <li style="color: red">
-                        <ftm:message key="${passwordLengthIncorrect}"/></c:if></td>
+                        <ftm:message key="${requestScope.passwordLengthIncorrect}"/></c:if></td>
                 </tr>
                 <tr>
                     <th align="right"><ftm:message key="new.password"/></th>
@@ -35,7 +35,7 @@
                 <tr>
                     <td colspan="2"><c:if test="${not empty requestScope.emailFormIncorrect}">
                         <li style="color: red">
-                        <ftm:message key="${emailFormIncorrect}"/></c:if></td>
+                        <ftm:message key="${requestScope.emailFormIncorrect}"/></c:if></td>
                 </tr>
                 <tr>
                     <th align="right"><ftm:message key="new.email"/></th>
@@ -44,7 +44,7 @@
                 <tr>
                     <td colspan="2"><c:if test="${not empty requestScope.mobilePhoneFormIncorrect}">
                         <li style="color: red">
-                        <ftm:message key="${mobilePhoneFormIncorrect}"/></c:if></td>
+                        <ftm:message key="${requestScope.mobilePhoneFormIncorrect}"/></c:if></td>
                 </tr>
                 <tr>
                     <th align="right"><ftm:message key="new.phone"/></th>
@@ -54,11 +54,11 @@
                     <td colspan="2">
                         <c:if test="${not empty requestScope.addressFormIncorrect}">
                         <li style="color: red">
-                                <ftm:message key="${addressFormIncorrect}"/>
+                                <ftm:message key="${requestScope.addressFormIncorrect}"/>
                             </c:if>
                             <c:if test="${not empty requestScope.addressLengthIncorrect}">
                         <li style="color: red">
-                        <ftm:message key="${addressLengthIncorrect}"/></c:if></td>
+                        <ftm:message key="${requestScope.addressLengthIncorrect}"/></c:if></td>
                 </tr>
                 <tr>
                     <th align="right"><ftm:message key="new.address"/></th>

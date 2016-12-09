@@ -18,25 +18,25 @@
                 </td>
             </tr>
             <tr>
-                <th><ftm:message key="register.enter.login.field"/></th>
+                <th><ftm:message key="login.field"/></th>
                 <td>
                         ${user.login}
                 </td>
             </tr>
             <tr>
-                <th><ftm:message key="register.enter.email.field"/></th>
+                <th><ftm:message key="email.field"/></th>
                 <td>
                         ${user.email}
                 </td>
             </tr>
             <tr>
-                <th><ftm:message key="register.enter.address.field"/></th>
+                <th><ftm:message key="address.field"/></th>
                 <td>
                         ${user.address}
                 </td>
             </tr>
             <tr>
-                <th><ftm:message key="register.enter.mobphone.field"/></th>
+                <th><ftm:message key="mobphone.field"/></th>
                 <td>
                         ${user.mobilePhone}
                 </td>

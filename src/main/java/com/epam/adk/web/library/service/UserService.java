@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * UserService class created on 27.11.2016
@@ -98,5 +99,47 @@ public class UserService {
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: UserService class, updateUserData() method.", e);
         }
+    }
+
+    public List<User> getPaginated(int pageNumber, int pageSize) throws ServiceException {
+        log.debug("Entering UserService class getPaginated() method.");
+        List<User> result;
+        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+            try {
+                jdbcDaoFactory.beginTransaction();
+                UserDao userDao = jdbcDaoFactory.userDao();
+                int offset = pageSize * pageNumber - pageSize;
+                result = userDao.readRange(offset, pageSize);
+                log.debug("UserService class, getPaginated() method: result size = {}", result.size());
+                jdbcDaoFactory.endTransaction();
+                log.debug("Leaving UserService class getPaginated() method.");
+            } catch (SQLException e) {
+                jdbcDaoFactory.rollbackTransaction();
+                throw new ServiceException("Error: UserService class, getPaginated() method. TRANSACTION error:", e);
+            }
+        } catch (SQLException | DaoException e) {
+            throw new ServiceException("Error: UserService class, getPaginated() method.", e);
+        }
+        return result;
+    }
+
+    public int getUsersNumber() throws ServiceException {
+        log.debug("Entering UserService class getUsersNumber() method.");
+        int usersNumber;
+        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+            try {
+                jdbcDaoFactory.beginTransaction();
+                UserDao userDao = jdbcDaoFactory.userDao();
+                usersNumber = userDao.getNumberRows();
+                jdbcDaoFactory.endTransaction();
+                log.debug("Leaving UserService class getUsersNumber() method.");
+            } catch (SQLException e) {
+                jdbcDaoFactory.rollbackTransaction();
+                throw new ServiceException("Error: UserService class, getUsersNumber() method. TRANSACTION error:", e);
+            }
+        } catch (SQLException | DaoException e) {
+            throw new ServiceException("Error: UserService class, getUsersNumber() method.", e);
+        }
+        return usersNumber;
     }
 }

@@ -9,10 +9,10 @@
 
     <div style="padding: 20px" align="center">
         <c:if test="${not empty requestScope.impossibleToRemove}">
-            <h2 style="background: red"><ftm:message key="${impossibleToRemove}"/></h2>
+            <h2 style="background: red"><ftm:message key="${requestScope.impossibleToRemove}"/></h2>
         </c:if>
         <c:if test="${not empty requestScope.bookDeleted}">
-            <h2 style="background: green"><ftm:message key="${bookDeleted}"/></h2>
+            <h2 style="background: green"><ftm:message key="${requestScope.bookDeleted}"/></h2>
         </c:if>
     </div>
 

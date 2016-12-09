@@ -32,15 +32,19 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
             "user.surname, user.patronymic, gender.type AS gender, user.address, user.mobile_phone, role.type AS role, user.status FROM user " +
             "INNER JOIN role ON user.role = role.id " +
             "INNER JOIN gender ON user.gender = gender.id WHERE login = ? AND password = ?";
-    private static final String SELECT_ALL_FROM_USER = "SELECT user.id, user.login, user.password, user.email, user.firstname," +
-            "user.surname, user.patronymic, gender.type AS gender, user.address, user.mobile_phone, role.type AS role, user.status FROM user" +
-            "INNER JOIN role ON user.role = role.id" +
+    private static final String SELECT_ALL = "SELECT user.id, user.login, user.password, user.email, user.firstname," +
+            "user.surname, user.patronymic, gender.type AS gender, user.address, user.mobile_phone, role.type AS role, user.status FROM user " +
+            "INNER JOIN role ON user.role = role.id " +
             "INNER JOIN gender ON user.gender = gender.id";
+    private static final String SELECT_RANGE = "SELECT user.id, user.login, user.password, user.email, user.firstname," +
+            "user.surname, user.patronymic, gender.type AS gender, user.address, user.mobile_phone, role.type AS role, user.status FROM user " +
+            "INNER JOIN role ON user.role = role.id " +
+            "INNER JOIN gender ON user.gender = gender.id ORDER BY user.login LIMIT ? OFFSET ?";
     private static final String SELECT_BY_ID = "SELECT user.id, user.login, user.password, user.email, user.firstname," +
-            "user.surname, user.patronymic, gender.type AS gender, user.address, user.mobile_phone, role.type AS role, user.status FROM user" +
-            "INNER JOIN role ON user.role = role.id" +
+            "user.surname, user.patronymic, gender.type AS gender, user.address, user.mobile_phone, role.type AS role, user.status FROM user " +
+            "INNER JOIN role ON user.role = role.id " +
             "INNER JOIN gender ON user.gender = gender.id WHERE user.id = ?";
-    private static final String UPDATE_QUERY = "UPDATE user SET password = ?, email = ?, address = ?, mobile_phone = ? WHERE id LIKE ?";
+    private static final String UPDATE_QUERY = "UPDATE user SET password = ?, email = ?, address = ?, mobile_phone = ?, role = ?, status = ? WHERE id LIKE ?";
 
     public JdbcUserDao(Connection connection) {
         super(connection);
@@ -122,7 +126,9 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
             preparedStatement.setString(2, user.getEmail());
             preparedStatement.setString(3, user.getAddress());
             preparedStatement.setString(4, user.getMobilePhone());
-            preparedStatement.setInt(5, user.getId());
+            preparedStatement.setInt(5, user.getRole().ordinal());
+            preparedStatement.setBoolean(6, user.isStatus());
+            preparedStatement.setInt(7, user.getId());
             log.debug("Leaving JdbcUserDao class, setFieldsInUpdateByEntityPreparedStatement() method.");
         } catch (SQLException e) {
             log.error("Error: JdbcUserDao class setFieldsInUpdateByEntityPreparedStatement() method. I can not set fields into statement. {}", e);
@@ -149,7 +155,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
 
     @Override
     protected String getReadAllQuery() {
-        return SELECT_ALL_FROM_USER;
+        return SELECT_ALL;
     }
 
     @Override
@@ -164,7 +170,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
 
     @Override
     protected String getReadRangeQuery() {
-        return null;
+        return SELECT_RANGE;
     }
 
     @Override

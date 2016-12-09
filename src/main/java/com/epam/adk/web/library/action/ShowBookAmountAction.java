@@ -4,6 +4,7 @@ import com.epam.adk.web.library.exception.ActionException;
 import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.Book;
 import com.epam.adk.web.library.service.BookService;
+import com.epam.adk.web.library.service.OrderBookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,9 +27,14 @@ public class ShowBookAmountAction implements Action {
         int bookID = Integer.parseInt(request.getParameter("bookID"));
 
         BookService bookService = new BookService();
+        OrderBookService orderBookService = new OrderBookService();
 
         try {
             Book book = bookService.getBookById(bookID);
+
+            int orderedBookNumber = orderBookService.getOrdersNumberByBookID(bookID);
+
+            request.setAttribute("orderedBookNumber", orderedBookNumber);
             request.setAttribute("book", book);
         } catch (ServiceException e) {
             throw new ActionException("Error: ShowBookAmountAction class. ", e);

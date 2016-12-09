@@ -21,18 +21,18 @@ public class ActionFactory {
     private ActionFactory() {
         log.debug("Entering constructor ActionFactory class");
         actions = new HashMap<>();
+        actions.put("GET/welcome", new ShowWelcomeAction());
+        actions.put("GET/set-locale", new SelectLocaleAction());
         actions.put("POST/registration", new RegistrationAction());
         actions.put("GET/registration", new ShowPageAction("registration"));
+        actions.put("GET/success-registration", new ShowPageAction("success-registration"));
         actions.put("POST/authorization", new AuthorizationAction());
         actions.put("GET/authorization", new AuthorizationAction());
-        actions.put("GET/set-locale", new SelectLocaleAction());
-        actions.put("GET/welcome", new ShowWelcomeAction());
-        actions.put("GET/success-registration", new ShowPageAction("success-registration"));
         actions.put("GET/authorization-error", new ShowPageAction("authorization-error"));
         actions.put("GET/logout", new LogoutAction());
         actions.put("GET/about-book", new BookAboutAction());
-        actions.put("GET/category", new CategoryAction());
         actions.put("POST/comment", new CommentAction());
+        actions.put("GET/category", new CategoryAction());
         actions.put("POST/order-book-request", new BookOrderRequestAction());
         actions.put("GET/user-orders", new ShowUserOrdersAction());
         actions.put("GET/requests", new ShowAllOrderRequestsAction());
@@ -51,6 +51,9 @@ public class ActionFactory {
         actions.put("GET/book-search-result", new ShowPageAction("book-search-result"));
         actions.put("GET/book-amount", new ShowBookAmountAction());
         actions.put("POST/edit-book-amount", new EditBookAmountAction());
+        actions.put("GET/users", new ShowUsersListAction());
+        actions.put("GET/edit-user", new ShowEditUserAction());
+        actions.put("POST/edit-user", new EditUserAction());
         log.debug("Action Factory class, actions SIZE {}", actions.size());
     }
 

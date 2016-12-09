@@ -24,9 +24,7 @@ public class EditBookAmountAction implements Action {
         log.debug("The EditBookAmountAction started execute.");
 
         int bookID = Integer.parseInt(request.getParameter("bookID"));
-        System.out.println(bookID);
         int bookAmount = Integer.parseInt(request.getParameter("bookAmount"));
-        System.out.println(bookAmount);
 
         BookService bookService = new BookService();
 
@@ -35,7 +33,6 @@ public class EditBookAmountAction implements Action {
             book.setTotalAmount(bookAmount);
 
             bookService.updateBook(book);
-
         } catch (ServiceException e) {
             throw new ActionException("Error: EditBookAmountAction class. ", e);
         }

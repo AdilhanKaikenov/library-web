@@ -20,6 +20,11 @@ hr {
     background-color: wheat;
 }
 
+.th{
+    background-color: slategray;
+    color: white;
+}
+
 .row:after {
     visibility: hidden;
     display: block;
