@@ -13,6 +13,9 @@
            class="library-icon">Library</a>
         <%--@elvariable id="user" type="com.epam.adk.web.library.model.User"--%>
     </div>
+    <div class="library-system-section">
+        LIBRARY SYSTEM
+    </div>
     <div class="authorization-form-section">
         <c:if test="${empty user.role}">
             <t:authorization/>
@@ -26,6 +29,9 @@
             <a href="${base}/do/?action=personal-area" class="link-style"><ftm:message key="profile"/></a>
             <a href="${base}/do/?action=logout" class="link-style"><ftm:message key="logout.button"/></a>
             </c:if>
+    </div>
+    <div class="select-locale-navigation-section">
+        <t:select-locale/>
     </div>
 </div>
 </div>

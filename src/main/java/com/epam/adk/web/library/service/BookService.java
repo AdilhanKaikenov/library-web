@@ -21,6 +21,26 @@ public class BookService {
 
     private static final Logger log = LoggerFactory.getLogger(BookService.class);
 
+    public Book add(Book book) throws ServiceException {
+        log.debug("Entering BookService class add() method, book title = {}", book.getTitle());
+        Book addedBook;
+        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+            try {
+                jdbcDaoFactory.beginTransaction();
+                BookDao bookDao = jdbcDaoFactory.bookDao();
+                addedBook = bookDao.create(book);
+                jdbcDaoFactory.endTransaction();
+                log.debug("Leaving BookService class add() method.");
+            } catch (SQLException e) {
+                jdbcDaoFactory.rollbackTransaction();
+                throw new ServiceException("Error: BookService class, add() method. TRANSACTION error:", e);
+            }
+        } catch (SQLException | DaoException e) {
+            throw new ServiceException("Error: BookService class, add() method.", e);
+        }
+        return addedBook;
+    }
+
     public List<Book> getPaginated(int pageNumber, int pageSize) throws ServiceException {
         log.debug("Entering BookService class getPaginated() method.");
         List<Book> result;

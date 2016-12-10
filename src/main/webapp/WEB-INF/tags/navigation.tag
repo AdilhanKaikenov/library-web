@@ -20,10 +20,9 @@
                 <a href="${base}/do/?action=orders" class="link-style"><ftm:message key="orders"/></a>
                 <a href="${base}/do/?action=rejected-orders" class="link-style"><ftm:message key="rejected.orders"/></a>
                 <a href="${base}/do/?action=users" class="link-style"><ftm:message key="users.list.page"/></a>
+                <a href="${base}/do/?action=add-new-book" class="link-style"><ftm:message key="add.new.book"/></a>
             </c:if>
         </div>
-        <div class="select-locale-navigation-section">
-            <t:select-locale/>
-        </div>
+
     </div>
 </div>

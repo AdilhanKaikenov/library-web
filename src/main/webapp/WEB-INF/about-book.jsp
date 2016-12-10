@@ -27,7 +27,7 @@
         <h1><ftm:message key="short.book.info.header"/></h1>
     </div>
     <div class="book-description-section">
-        <p align="justify">${book.description}</p>
+        <p style="text-align: justify">${book.description}</p>
         <hr>
     </div>
 
@@ -38,8 +38,7 @@
             <form action="${base}/do/" method="post">
                 <input type="hidden" name="action" value="comment">
                 <input type="hidden" name="bookID" value="${book.id}">
-                <textarea style="resize: none;overflow: hidden;text-overflow: ellipsis;" onresize="" type="text"
-                          name="comment" cols="125" rows="5" minlength="30" maxlength="250" required
+                <textarea style="resize: none;overflow: hidden;text-overflow: ellipsis;" type="text" name="comment" cols="125" rows="4" minlength="30" maxlength="250" required
                           autofocus placeholder="${maxCommentLength}"></textarea>
                 <br>
                 <button type="submit" class="link-style">

@@ -54,6 +54,8 @@ public class ActionFactory {
         actions.put("GET/users", new ShowUsersListAction());
         actions.put("GET/edit-user", new ShowEditUserAction());
         actions.put("POST/edit-user", new EditUserAction());
+        actions.put("GET/add-new-book", new ShowPageAction("add-new-book"));
+        actions.put("POST/add-new-book", new AddNewBookAction());
         log.debug("Action Factory class, actions SIZE {}", actions.size());
     }
 

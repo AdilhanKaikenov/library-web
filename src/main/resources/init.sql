@@ -34,7 +34,7 @@ CREATE TABLE PUBLIC.book
 (
   id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
   title VARCHAR(100) NOT NULL,
-  cover VARCHAR(50) NOT NULL,
+  cover VARCHAR(50) DEFAULT 'default_cover.jpg' NOT NULL,
   authors VARCHAR(100) NOT NULL,
   publish_year INT NOT NULL,
   genre INT NOT NULL,

@@ -24,7 +24,7 @@ public final class ImageServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(ImageServlet.class);
     private static final String IMAGE_PARAMETER = "image";
-    private static final String imagePath = "D:\\images";
+    private static final String IMAGE_PATH = "D:\\images";
 
     private static Map<String, String> contentTypes = new HashMap<>();
 
@@ -54,13 +54,13 @@ public final class ImageServlet extends HttpServlet {
 
         log.trace("ImageServlet class, doGet() method: format = {}, contentType = {}", format, contentType);
 
-        if (contentType != null){
+        if (contentType != null) {
             response.setContentType(contentType);
         }
 
         ServletOutputStream out = response.getOutputStream();
 
-        File file = new File(imagePath, image);
+        File file = new File(IMAGE_PATH, image);
 
         response.setHeader("Content-Type", getServletContext().getMimeType(image));
         response.setHeader("Content-Length", String.valueOf(file.length()));
