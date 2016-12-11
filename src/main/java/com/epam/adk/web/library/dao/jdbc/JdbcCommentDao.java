@@ -24,12 +24,10 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
     private static final Logger log = LoggerFactory.getLogger(JdbcCommentDao.class);
 
     private static final String TABLE_NAME = "comment";
-    private static final String CREATE_QUERY = "INSERT INTO comment(user_id, book_id, date, text) VALUES (?, ?, ?, ?)";
-    private static final String SELECT_ALL_BY_BOOK_ID_QUERY = "SELECT comment.*, user.login, user.firstname, user.surname FROM comment, " +
-            "user WHERE comment.user_id = user.id AND comment.book_id = ?";
-    private static final String SELECT_COUNT_BY_BOOK_ID = "SELECT COUNT(*) FROM comment WHERE book_id = ?";
-    private static final String SELECT_RANGE_BY_ID_QUERY = "SELECT comment.*, user.login, user.firstname, user.surname FROM comment, " +
-            "user WHERE comment.user_id = user.id AND comment.book_id = ? ORDER BY date LIMIT ? OFFSET ?";
+    private static final String CREATE_QUERY = queriesProperties.get("insert.comment");
+    private static final String SELECT_ALL_BY_BOOK_ID_QUERY = queriesProperties.get("select.all.by.book.id");
+    private static final String SELECT_COUNT_BY_BOOK_ID = queriesProperties.get("select.count.by.book.id");
+    private static final String SELECT_RANGE_BY_ID_QUERY = queriesProperties.get("select.range.comment.by.book.id");
 
     public JdbcCommentDao(Connection connection) {
         super(connection);
@@ -63,13 +61,17 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
     }
 
     @Override
-    protected PreparedStatement setFieldsInCreatePreparedStatement(PreparedStatement preparedStatement, Comment entity) throws DaoException {
+    protected PreparedStatement setFieldsInCreatePreparedStatement(PreparedStatement preparedStatement, Comment comment) throws DaoException {
         log.debug("Entering JdbcCommentDao class, setFieldsInCreatePreparedStatement() method.");
         try {
-            preparedStatement.setInt(1, entity.getUserID());
-            preparedStatement.setInt(2, entity.getBookID());
-            preparedStatement.setTimestamp(3, entity.getTime());
-            preparedStatement.setString(4, entity.getText());
+            log.debug("Set user ID: {}", comment.getUserID());
+            preparedStatement.setInt(1, comment.getUserID());
+            log.debug("Set book ID: {}", comment.getBookID());
+            preparedStatement.setInt(2, comment.getBookID());
+            log.debug("Set time: {}", comment.getTime());
+            preparedStatement.setTimestamp(3, comment.getTime());
+            log.debug("Set text:length = {}", comment.getText().length());
+            preparedStatement.setString(4, comment.getText());
             log.debug("Leaving JdbcCommentDao class, setFieldsInCreatePreparedStatement() method.");
         } catch (SQLException e) {
             log.error("Error: JdbcCommentDao class setFieldsInCreatePreparedStatement() method. I can not set fields into statement. {}", e);

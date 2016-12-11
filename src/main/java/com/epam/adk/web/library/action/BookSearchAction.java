@@ -19,23 +19,27 @@ import java.util.List;
 public class BookSearchAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(BookSearchAction.class);
+    private static final String BOOK_SEARCH_RESULT_PAGE_NAME = "book-search-result";
+    private static final String DATA_FOR_SEARCH_PARAMETER = "dataForSearch";
+    private static final String DATA_FOR_SEARCH_REQUEST_ATTRIBUTE = "dataForSearch";
+    private static final String FOUND_BOOKS_REQUEST_ATTRIBUTE = "foundBooks";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
         log.debug("The BookSearchAction started execute.");
 
-        String dataForSearch = request.getParameter("dataForSearch");
+        String dataForSearch = request.getParameter(DATA_FOR_SEARCH_PARAMETER);
         log.debug("Data for searching = {}", dataForSearch);
         BookService bookService = new BookService();
 
         try {
             List<Book> foundBooks = bookService.findByTitle(dataForSearch);
             log.debug("Found book amount = {}", foundBooks.size());
-            request.setAttribute("dataForSearch", dataForSearch);
-            request.setAttribute("foundBooks", foundBooks);
+            request.setAttribute(DATA_FOR_SEARCH_REQUEST_ATTRIBUTE, dataForSearch);
+            request.setAttribute(FOUND_BOOKS_REQUEST_ATTRIBUTE, foundBooks);
         } catch (ServiceException e) {
             throw new ActionException("Error: BookSearchAction class, Can not find books:", e);
         }
-        return "book-search-result";
+        return BOOK_SEARCH_RESULT_PAGE_NAME;
     }
 }

@@ -12,10 +12,10 @@
         <div>
             <a href="${base}/do/?action=welcome" class="link-style"><ftm:message key="home.page"/></a>
             <%--@elvariable id="user" type="com.epam.adk.web.library.model.User"--%>
-            <c:if test="${not empty user && user.role == 'USER'}">
+            <c:if test="${not empty user && user.role == 'READER'}">
                 <a href="${base}/do/?action=user-orders" class="link-style"><ftm:message key="my.orders.page"/></a>
             </c:if>
-            <c:if test="${not empty user && user.role == 'ADMIN'}">
+            <c:if test="${not empty user && user.role == 'LIBRARIAN'}">
                 <a href="${base}/do/?action=requests" class="link-style"><ftm:message key="requests"/></a>
                 <a href="${base}/do/?action=orders" class="link-style"><ftm:message key="orders"/></a>
                 <a href="${base}/do/?action=rejected-orders" class="link-style"><ftm:message key="rejected.orders"/></a>

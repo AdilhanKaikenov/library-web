@@ -19,12 +19,16 @@ import javax.servlet.http.HttpServletResponse;
 public class ShowBookAmountAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(ShowBookAmountAction.class);
+    private static final String ORDERED_BOOK_NUMBER_REQUEST_ATTRIBUTE = "orderedBookNumber";
+    private static final String BOOK_ID_PARAMETER = "bookID";
+    private static final String BOOK_REQUEST_ATTRIBUTE = "book";
+    private static final String EDIT_BOOK_AMOUNT_PAGE_NAME = "edit-book-amount";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
         log.debug("The ShowBookAmountAction started execute.");
 
-        int bookID = Integer.parseInt(request.getParameter("bookID"));
+        int bookID = Integer.parseInt(request.getParameter(BOOK_ID_PARAMETER));
 
         BookService bookService = new BookService();
         OrderBookService orderBookService = new OrderBookService();
@@ -34,11 +38,12 @@ public class ShowBookAmountAction implements Action {
 
             int orderedBookNumber = orderBookService.getOrdersNumberByBookID(bookID);
 
-            request.setAttribute("orderedBookNumber", orderedBookNumber);
-            request.setAttribute("book", book);
+            request.setAttribute(ORDERED_BOOK_NUMBER_REQUEST_ATTRIBUTE, orderedBookNumber);
+            request.setAttribute(BOOK_REQUEST_ATTRIBUTE, book);
         } catch (ServiceException e) {
             throw new ActionException("Error: ShowBookAmountAction class. ", e);
+
         }
-        return "edit-book-amount";
+        return EDIT_BOOK_AMOUNT_PAGE_NAME;
     }
 }

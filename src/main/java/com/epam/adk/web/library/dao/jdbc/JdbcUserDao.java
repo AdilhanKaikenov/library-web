@@ -26,25 +26,12 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     private static final Logger log = LoggerFactory.getLogger(JdbcUserDao.class);
 
     private static final String TABLE_NAME = "user";
-    private static final String CREATE_QUERY = "INSERT INTO user (login, password, email, firstname, surname, " +
-            "patronymic, gender, address, mobile_phone, role, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    private static final String SELECT_BY_LOGIN_PASSWORD = "SELECT user.id, user.login, user.password, user.email, user.firstname, " +
-            "user.surname, user.patronymic, gender.type AS gender, user.address, user.mobile_phone, role.type AS role, user.status FROM user " +
-            "INNER JOIN role ON user.role = role.id " +
-            "INNER JOIN gender ON user.gender = gender.id WHERE login = ? AND password = ?";
-    private static final String SELECT_ALL = "SELECT user.id, user.login, user.password, user.email, user.firstname," +
-            "user.surname, user.patronymic, gender.type AS gender, user.address, user.mobile_phone, role.type AS role, user.status FROM user " +
-            "INNER JOIN role ON user.role = role.id " +
-            "INNER JOIN gender ON user.gender = gender.id";
-    private static final String SELECT_RANGE = "SELECT user.id, user.login, user.password, user.email, user.firstname," +
-            "user.surname, user.patronymic, gender.type AS gender, user.address, user.mobile_phone, role.type AS role, user.status FROM user " +
-            "INNER JOIN role ON user.role = role.id " +
-            "INNER JOIN gender ON user.gender = gender.id ORDER BY user.login LIMIT ? OFFSET ?";
-    private static final String SELECT_BY_ID = "SELECT user.id, user.login, user.password, user.email, user.firstname," +
-            "user.surname, user.patronymic, gender.type AS gender, user.address, user.mobile_phone, role.type AS role, user.status FROM user " +
-            "INNER JOIN role ON user.role = role.id " +
-            "INNER JOIN gender ON user.gender = gender.id WHERE user.id = ?";
-    private static final String UPDATE_QUERY = "UPDATE user SET password = ?, email = ?, address = ?, mobile_phone = ?, role = ?, status = ? WHERE id LIKE ?";
+    private static final String CREATE_QUERY = queriesProperties.get("insert.user");
+    private static final String SELECT_BY_LOGIN_PASSWORD = queriesProperties.get("select.by.login.password");
+    private static final String SELECT_ALL = queriesProperties.get("select.all.users");
+    private static final String SELECT_RANGE = queriesProperties.get("select,range.users");
+    private static final String SELECT_BY_ID = queriesProperties.get("select.user.by.id");
+    private static final String UPDATE_QUERY = queriesProperties.get("update.user");
 
     public JdbcUserDao(Connection connection) {
         super(connection);
@@ -82,19 +69,30 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     }
 
     @Override
-    protected PreparedStatement setFieldsInCreatePreparedStatement(PreparedStatement preparedStatement, User entity) throws DaoException {
-        log.debug("Entering JdbcUserDao class, setFieldsInCreatePreparedStatement() method. User = {}", entity.getLogin());
+    protected PreparedStatement setFieldsInCreatePreparedStatement(PreparedStatement preparedStatement, User user) throws DaoException {
+        log.debug("Entering JdbcUserDao class, setFieldsInCreatePreparedStatement() method. User = {}", user.getLogin());
         try {
-            preparedStatement.setString(1, entity.getLogin());
-            preparedStatement.setString(2, entity.getPassword());
-            preparedStatement.setString(3, entity.getEmail());
-            preparedStatement.setString(4, entity.getFirstname());
-            preparedStatement.setString(5, entity.getSurname());
-            preparedStatement.setString(6, entity.getPatronymic());
-            preparedStatement.setInt(7, entity.getGender().ordinal());
-            preparedStatement.setString(8, entity.getAddress());
-            preparedStatement.setString(9, entity.getMobilePhone());
-            preparedStatement.setInt(10, entity.getRole().ordinal());
+            log.debug("Set login: {}", user.getLogin());
+            preparedStatement.setString(1, user.getLogin());
+            log.debug("Set password: {}", user.getPassword());
+            preparedStatement.setString(2, user.getPassword());
+            log.debug("Set email: {}", user.getEmail());
+            preparedStatement.setString(3, user.getEmail());
+            log.debug("Set firstname: {}", user.getFirstname());
+            preparedStatement.setString(4, user.getFirstname());
+            log.debug("Set surname: {}", user.getSurname());
+            preparedStatement.setString(5, user.getSurname());
+            log.debug("Set patronymic: {}", user.getPatronymic());
+            preparedStatement.setString(6, user.getPatronymic());
+            log.debug("Set gender: {}",  user.getGender());
+            preparedStatement.setInt(7, user.getGender().ordinal());
+            log.debug("Set address: {}", user.getAddress());
+            preparedStatement.setString(8, user.getAddress());
+            log.debug("Set mobile phone: {}", user.getMobilePhone());
+            preparedStatement.setString(9, user.getMobilePhone());
+            log.debug("Set role: {}", user.getRole());
+            preparedStatement.setInt(10, user.getRole().ordinal());
+            log.debug("Set status, is active: {}", true);
             preparedStatement.setBoolean(11, true);
             log.debug("Leaving JdbcUserDao class, setFieldsInCreatePreparedStatement() method.");
         } catch (SQLException e) {
@@ -105,11 +103,13 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     }
 
     @Override
-    protected PreparedStatement setFieldsInReadByEntityPreparedStatement(PreparedStatement preparedStatement, User entity) throws DaoException {
-        log.debug("Entering JdbcUserDao class, setFieldsInReadByEntityPreparedStatement() method. User = {}", entity.getLogin());
+    protected PreparedStatement setFieldsInReadByEntityPreparedStatement(PreparedStatement preparedStatement, User user) throws DaoException {
+        log.debug("Entering JdbcUserDao class, setFieldsInReadByEntityPreparedStatement() method. User = {}", user.getLogin());
         try {
-            preparedStatement.setString(1, entity.getLogin());
-            preparedStatement.setString(2, entity.getPassword());
+            log.debug("Set login: {}", user.getLogin());
+            preparedStatement.setString(1, user.getLogin());
+            log.debug("Set password: {}", user.getPassword());
+            preparedStatement.setString(2, user.getPassword());
             log.debug("Leaving JdbcUserDao class, setFieldsInReadByEntityPreparedStatement() method");
         } catch (SQLException e) {
             log.error("Error: JdbcUserDao class setFieldsInReadByEntityPreparedStatement() method. I can not set fields into statement. {}", e);
@@ -122,12 +122,19 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     protected PreparedStatement setFieldsInUpdateByEntityPreparedStatement(PreparedStatement preparedStatement, User user) throws DaoException {
         log.debug("Entering JdbcUserDao class, setFieldsInUpdateByEntityPreparedStatement() method.");
         try {
+            log.debug("Set password: {}", user.getPassword());
             preparedStatement.setString(1, user.getPassword());
+            log.debug("Set email: {}", user.getEmail());
             preparedStatement.setString(2, user.getEmail());
+            log.debug("Set address: {}", user.getAddress());
             preparedStatement.setString(3, user.getAddress());
+            log.debug("Set mobile phone: {}", user.getMobilePhone());
             preparedStatement.setString(4, user.getMobilePhone());
+            log.debug("Set role: {}", user.getRole());
             preparedStatement.setInt(5, user.getRole().ordinal());
+            log.debug("Set status, is active: {}", user.isStatus());
             preparedStatement.setBoolean(6, user.isStatus());
+            log.debug("Set user ID: {}", user.getId());
             preparedStatement.setInt(7, user.getId());
             log.debug("Leaving JdbcUserDao class, setFieldsInUpdateByEntityPreparedStatement() method.");
         } catch (SQLException e) {

@@ -24,6 +24,8 @@ public class ShowWelcomeAction implements Action {
     private static final int LINE_PER_PAGE_NUMBER = 6;
     private static final int DEFAULT_PAGE_NUMBER = 1;
     private static final String WELCOME_PAGE = "welcome";
+    private static final String PAGES_NUMBER_REQUEST_ATTRIBUTE = "pagesNumber";
+    private static final String BOOKS_REQUEST_ATTRIBUTE = "books";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -47,8 +49,8 @@ public class ShowWelcomeAction implements Action {
             log.debug("ShowWelcomeAction: total pages number = {}", pagesNumber);
             List<Book> books = bookService.getPaginated(page, LINE_PER_PAGE_NUMBER);
 
-            request.setAttribute("pagesNumber", pagesNumber);
-            request.setAttribute("books", books);
+            request.setAttribute(PAGES_NUMBER_REQUEST_ATTRIBUTE, pagesNumber);
+            request.setAttribute(BOOKS_REQUEST_ATTRIBUTE, books);
         } catch (ServiceException e) {
             throw new ActionException("Error: ShowWelcomeAction class, execute() method.", e);
         }

@@ -18,13 +18,17 @@ import javax.servlet.http.HttpServletResponse;
 public class EditBookAmountAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(EditBookAmountAction.class);
+    private static final String REDIRECT_PREFIX = "redirect:";
+    private static final String BOOK_AMOUNT_BOOK_ID_PAGE_NAME = "book-amount&bookID=";
+    private static final String BOOK_ID_PARAMETER = "bookID";
+    private static final String BOOK_AMOUNT_PARAMETER = "bookAmount";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
         log.debug("The EditBookAmountAction started execute.");
 
-        int bookID = Integer.parseInt(request.getParameter("bookID"));
-        int bookAmount = Integer.parseInt(request.getParameter("bookAmount"));
+        int bookID = Integer.parseInt(request.getParameter(BOOK_ID_PARAMETER));
+        int bookAmount = Integer.parseInt(request.getParameter(BOOK_AMOUNT_PARAMETER));
 
         BookService bookService = new BookService();
 
@@ -36,7 +40,7 @@ public class EditBookAmountAction implements Action {
         } catch (ServiceException e) {
             throw new ActionException("Error: EditBookAmountAction class. ", e);
         }
-        return "redirect:book-amount&bookID="+bookID;
+        return REDIRECT_PREFIX + BOOK_AMOUNT_BOOK_ID_PAGE_NAME + bookID;
     }
 
 }

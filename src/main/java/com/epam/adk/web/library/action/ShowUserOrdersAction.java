@@ -26,6 +26,9 @@ public class ShowUserOrdersAction implements Action {
     private static final String PAGE_PARAMETER = "page";
     private static final int DEFAULT_PAGE_NUMBER = 1;
     private static final int LINE_PER_PAGE_NUMBER = 10;
+    private static final String USER_ORDERS_REQUEST_ATTRIBUTE = "userOrders";
+    private static final String PAGES_NUMBER_REQUEST_ATTRIBUTE = "pagesNumber";
+    private static final String USER_ORDERS_PAGE_NAME = "user-orders";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -55,14 +58,14 @@ public class ShowUserOrdersAction implements Action {
             List<Order> userOrders = orderBookService.getPaginatedUserOrders(userID, page, LINE_PER_PAGE_NUMBER);
 
             if (userOrders.size() != 0) {
-                request.setAttribute("userOrders", userOrders);
+                request.setAttribute(USER_ORDERS_REQUEST_ATTRIBUTE, userOrders);
             }
 
-            request.setAttribute("pagesNumber", pagesNumber);
+            request.setAttribute(PAGES_NUMBER_REQUEST_ATTRIBUTE, pagesNumber);
 
         } catch (ServiceException e) {
             throw new ActionException("Error: ShowUserOrdersAction class, execute() method.", e);
         }
-        return "user-orders";
+        return USER_ORDERS_PAGE_NAME;
     }
 }

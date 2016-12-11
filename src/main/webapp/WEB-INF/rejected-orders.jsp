@@ -29,7 +29,9 @@
     <div align="center">
         <form action="${base}/do/" method="post">
             <input hidden="hidden" name="action" value="delete-old-order-requests">
-            <button type="submit" class="link-style"><ftm:message key="delete.old.rejected.order.request"/></button>
+            <button type="submit"
+                    onclick="return confirm('<ftm:message key="confirm.warning"/>')"
+                    class="link-style"><ftm:message key="delete.old.rejected.order.request"/></button>
         </form>
     </div>
     <table cellpadding="10" style="border: rebeccapurple; background: beige;" border="1px" align="center">

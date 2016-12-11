@@ -8,11 +8,11 @@ package com.epam.adk.web.library.action;
 public class ShowAllRejectedOrdersAction extends AbstractShowOrdersAction {
 
     private static final int REJECTED_STATUS_ID = 1;
-    private static final String RETURN_PAGE = "rejected-orders";
+    private static final String REJECTED_ORDERS_PAGE_NAME = "rejected-orders";
 
     @Override
     protected String getPage() {
-        return RETURN_PAGE;
+        return REJECTED_ORDERS_PAGE_NAME;
     }
 
     @Override

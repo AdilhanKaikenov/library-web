@@ -9,6 +9,7 @@ DROP TABLE IF EXISTS orders_history;
 DROP TABLE IF EXISTS role;
 DROP TABLE IF EXISTS user;
 
+
 /////////////////////////////////////////////////
 CREATE TABLE PUBLIC.user
 (
@@ -78,6 +79,8 @@ CREATE TABLE PUBLIC.orders_history
   date_to DATE
 );
 CREATE UNIQUE INDEX "ORDERS_HISTORY_ID_uindex" ON PUBLIC.orders_history (id);
+
+
 //////////////////////////////////////////////
 ////////////// REFERENCE TABLES //////////////
 //////////////////////////////////////////////
@@ -120,6 +123,8 @@ CREATE TABLE PUBLIC.order_status
 );
 CREATE UNIQUE INDEX "ORDER_STATUS_id_uindex" ON PUBLIC.order_status (id);
 CREATE UNIQUE INDEX "ORDER_STATUS_type_uindex" ON PUBLIC.order_status (type);
+
+
 //////////////////////////////////////////////
 //////////////// DATA INSERT /////////////////
 //////////////////////////////////////////////
@@ -128,8 +133,8 @@ INSERT INTO PUBLIC.gender(id, type) VALUES
   (1, 'FEMALE');
 
 INSERT INTO PUBLIC.role(id, type) VALUES
-  (0, 'ADMIN'),
-  (1, 'USER');
+  (0, 'LIBRARIAN'),
+  (1, 'READER');
 
 INSERT INTO PUBLIC.genre(id, type) VALUES
   (0, 'Documental literature'),

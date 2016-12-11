@@ -15,21 +15,25 @@ import javax.servlet.http.HttpServletResponse;
  **/
 public class ShowEditUserAction implements Action {
 
+    private static final String EDIT_USER_PAGE_NAME = "edit-user";
+    private static final String USER_REQUEST_ATTRIBUTE = "user";
+    private static final String USER_ID_PARAMETER = "id";
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
 
-        int userID = Integer.parseInt(request.getParameter("id"));
+        int userID = Integer.parseInt(request.getParameter(USER_ID_PARAMETER));
 
         UserService userService = new UserService();
 
         try {
             User user = userService.getUserById(userID);
 
-            request.setAttribute("user", user);
+            request.setAttribute(USER_REQUEST_ATTRIBUTE, user);
         } catch (ServiceException e) {
-            throw new ActionException("", e);
+            throw new ActionException("Error: ShowEditUserAction class. ", e);
         }
 
-        return "edit-user";
+        return EDIT_USER_PAGE_NAME;
     }
 }

@@ -8,11 +8,11 @@ package com.epam.adk.web.library.action;
 public class ShowAllOrderRequestsAction extends AbstractShowOrdersAction {
 
     private static final int CONSIDERED_STATUS_ID = 2;
-    private static final String RETURN_PAGE = "requests";
+    private static final String REQUESTS_PAGE_NAME = "requests";
 
     @Override
     protected String getPage() {
-        return RETURN_PAGE;
+        return REQUESTS_PAGE_NAME;
     }
 
     @Override

@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 public class DeleteOldOrderRequests implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(DeleteOldOrderRequests.class);
+    private static final String REJECTED_ORDERS_PAGE_NAME = "rejected-orders";
+    private static final String REDIRECT_PREFIX = "redirect:";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -29,6 +31,6 @@ public class DeleteOldOrderRequests implements Action {
         } catch (ServiceException e) {
             throw new ActionException("Error: DeleteOldOrderRequests class. I can not to delete old order requests:", e);
         }
-        return "redirect:rejected-orders";
+        return REDIRECT_PREFIX + REJECTED_ORDERS_PAGE_NAME;
     }
 }

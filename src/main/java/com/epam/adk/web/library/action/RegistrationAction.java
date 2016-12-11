@@ -32,6 +32,7 @@ public class RegistrationAction implements Action {
     private static final String MOBILE_PHONE_PARAMETER = "mobilePhone";
     private static final String REGISTRATION_PAGE_NAME = "registration";
     private static final String REDIRECT_SUCCESS_REGISTRATION_PAGE = "redirect:success-registration";
+    private static final String USER_EXIST_REQUEST_ATTRIBUTE = "userExist";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -62,7 +63,7 @@ public class RegistrationAction implements Action {
         user.setSurname(surname);
         user.setPatronymic(patronymic);
         user.setGender(gender);
-        user.setRole(Role.USER);
+        user.setRole(Role.READER);
         user.setAddress(address);
         user.setMobilePhone(mobilePhone);
         user.setStatus(true);
@@ -74,7 +75,7 @@ public class RegistrationAction implements Action {
             registeredUser = userService.register(user);
         } catch (ServiceException e) {
             log.error("Error: RegistrationAction class, Can not register new user: {}", e);
-            request.setAttribute("userExist", "user.exist.message");
+            request.setAttribute(USER_EXIST_REQUEST_ATTRIBUTE, "user.exist.message");
             return REGISTRATION_PAGE_NAME;
         }
         log.debug("New User successfully registered User: id = {}, login = {}", registeredUser.getId(), registeredUser.getLogin());

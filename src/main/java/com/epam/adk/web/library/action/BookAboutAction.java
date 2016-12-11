@@ -27,6 +27,9 @@ public class BookAboutAction implements Action {
     private static final int DEFAULT_PAGE_NUMBER = 1;
     private static final int LINE_PER_PAGE_NUMBER = 4;
     private static final String ABOUT_BOOK_PAGE = "about-book";
+    private static final String BOOK_REQUEST_ATTRIBUTE = "book";
+    private static final String PAGES_NUMBER_REQUEST_ATTRIBUTE = "pagesNumber";
+    private static final String BOOK_COMMENTS_REQUEST_ATTRIBUTE = "bookComments";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -55,10 +58,10 @@ public class BookAboutAction implements Action {
             List<Comment> bookComments = commentService.getPaginatedComments(bookId, page, LINE_PER_PAGE_NUMBER);
 
             if (bookComments.size() != 0) {
-                request.setAttribute("bookComments", bookComments);
+                request.setAttribute(BOOK_COMMENTS_REQUEST_ATTRIBUTE, bookComments);
             }
-            request.setAttribute("book", book);
-            request.setAttribute("pagesNumber", pagesNumber);
+            request.setAttribute(BOOK_REQUEST_ATTRIBUTE, book);
+            request.setAttribute(PAGES_NUMBER_REQUEST_ATTRIBUTE, pagesNumber);
         } catch (ServiceException e) {
             throw new ActionException("Error: BookAboutAction class, execute() method. Can not give info about book:", e);
         }

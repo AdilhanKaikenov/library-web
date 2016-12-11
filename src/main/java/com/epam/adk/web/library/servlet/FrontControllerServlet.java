@@ -3,7 +3,6 @@ package com.epam.adk.web.library.servlet;
 import com.epam.adk.web.library.action.Action;
 import com.epam.adk.web.library.action.ActionFactory;
 import com.epam.adk.web.library.exception.ActionException;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,8 +10,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -26,7 +23,7 @@ public final class FrontControllerServlet extends HttpServlet {
     private static final String REDIRECT_PREFIX = "redirect:";
     private static final String ACTION_PARAMETER = "action";
     private static final String WEB_INF = "/WEB-INF/";
-    private static final String JSP_FORMAT = ".jsp";
+    private static final String JSP_EXPANSION = ".jsp";
     private static final String SERVLET_CONTEXT = "/do";
     private static final String PATH_INFO = "/?action=";
     private static final String IMAGE_PATH = "D:\\images";
@@ -41,16 +38,6 @@ public final class FrontControllerServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-        if (isMultipart) {
-            Part cover = request.getPart("cover");
-            if (cover != null){
-                String fileName = extractFileName(cover);
-                request.setAttribute("coverFilename", fileName);
-                cover.write(IMAGE_PATH + File.separator + fileName);
-            }
-        }
 
         Action action = factory.getAction(getActionName(request));
         if (action == null) {
@@ -77,7 +64,7 @@ public final class FrontControllerServlet extends HttpServlet {
         if (view.contains(REDIRECT_PREFIX)){
             response.sendRedirect(getRedirectURL(request, view));
         } else {
-            request.getRequestDispatcher(WEB_INF + view + JSP_FORMAT).forward(request, response);
+            request.getRequestDispatcher(WEB_INF + view + JSP_EXPANSION).forward(request, response);
         }
     }
 
@@ -93,16 +80,5 @@ public final class FrontControllerServlet extends HttpServlet {
      */
     private String getActionName(HttpServletRequest request) {
         return request.getMethod() + "/" + request.getParameter(ACTION_PARAMETER);
-    }
-
-    private String extractFileName(Part part) {
-        String contentDisposition = part.getHeader("content-disposition");
-        String[] items = contentDisposition.split(";");
-        for (String s : items) {
-            if (s.trim().startsWith("filename")) {
-                return s.substring(s.indexOf("=") + 2, s.length() - 1);
-            }
-        }
-        return "";
     }
 }

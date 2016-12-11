@@ -76,7 +76,9 @@
                         <form action="${base}/do/" method="post">
                             <input hidden="hidden" name="action" value="book-returned">
                             <input hidden="hidden" name="orderID" value="${order.id}">
-                            <button type="submit" class="link-style"><ftm:message key="book.returned"/></button>
+                            <button type="submit"
+                                    onclick="return confirm('<ftm:message key="confirm.warning"/>')"
+                                    class="link-style"><ftm:message key="book.returned"/></button>
                         </form>
                     </td>
                 </tr>

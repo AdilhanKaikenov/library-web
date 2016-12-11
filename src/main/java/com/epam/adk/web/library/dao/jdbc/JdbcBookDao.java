@@ -23,23 +23,16 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     private static final Logger log = LoggerFactory.getLogger(JdbcBookDao.class);
 
     private static final String TABLE_NAME = "book";
-    private static final String SELECT_ALL = "SELECT book.id, book.title, book.cover, book.authors, book.publish_year, " +
-            "genre.type AS genre, book.description, book.total_amount FROM (SELECT * FROM book WHERE deleted = FALSE) AS book " +
-            "INNER JOIN genre ON book.genre = genre.id";
-    private static final String CREATE_QUERY = "INSERT INTO book (title, cover, authors, publish_year, genre, " +
-            "description, total_amount) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    private static final String SELECT_BY_ID = "SELECT book.id, book.title, book.cover, book.authors, book.publish_year," +
-            "genre.type AS genre, book.description, book.total_amount FROM (SELECT * FROM book WHERE deleted = FALSE) AS book " +
-            "INNER JOIN genre ON book.genre = genre.id WHERE book.id = ?";
-    private static final String SELECT_RANGE_BY_GENRE = "SELECT book.id, book.title, book.cover, book.authors, book.publish_year, " +
-            "genre.type AS genre, book.description, book.total_amount FROM (SELECT * FROM book WHERE deleted = FALSE) AS book INNER JOIN genre ON " +
-            "book.genre = genre.id AND genre.id = ? ORDER BY book.publish_year LIMIT ? OFFSET ?";
-    private static final String SELECT_COUNT_BY_GENRE_ID = "SELECT COUNT(*) FROM book WHERE deleted = FALSE AND genre = ?";
-    private static final String SELECT_BY_RANGE_QUERY = "SELECT book.id, book.title, book.cover, book.authors, book.publish_year, " +
-            "genre.type AS genre, book.description, book.total_amount FROM (SELECT * FROM book WHERE deleted = FALSE) AS book " +
-            "INNER JOIN genre ON book.genre = genre.id ORDER BY book.publish_year LIMIT ? OFFSET ?";
-    private static final String UPDATE_QUERY = "UPDATE book SET title = ?, cover = ?, authors = ?, publish_year = ?, genre = ?, description = ?, total_amount = ?, deleted = ? WHERE id LIKE ?";
-    private static final String SELECT_COUNT_ROWS_QUERY = "SELECT COUNT(*) FROM book WHERE deleted = FALSE";
+    private static final String SELECT_ALL = queriesProperties.get("select.all.book");
+    private static final String CREATE_QUERY = queriesProperties.get("insert.book");
+    private static final String SELECT_BY_ID = queriesProperties.get("select.book.by.id");
+    private static final String SELECT_RANGE_BY_GENRE = queriesProperties.get("select.range.books.by.genre");
+    private static final String SELECT_COUNT_BY_GENRE_ID = queriesProperties.get("select.count.by.genre.id");
+    private static final String SELECT_RANGE_QUERY = queriesProperties.get("select.range.books");
+    private static final String UPDATE_QUERY = queriesProperties.get("update.book");
+    private static final String SELECT_COUNT_ROWS_QUERY = queriesProperties.get("select.count.rows.number");
+    private static final String SELECT_FOUND_QUERY_PART_ONE = queriesProperties.get("select.found.books.part.one");
+    private static final String SELECT_FOUND_QUERY_PART_TWO = queriesProperties.get("select.found.books.part.two");
 
     public JdbcBookDao(Connection connection) {
         super(connection);
@@ -82,9 +75,7 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
             if (title.contains("'")) {
                 correctTitle = title.replaceAll("'", "''");
             }
-            resultSet = statement.executeQuery("SELECT book.id, book.title, book.cover, book.authors, book.publish_year, " +
-                    "genre.type AS genre, book.description, book.total_amount FROM (SELECT * FROM book WHERE deleted = FALSE AND LOWER(book.title) " +
-                    "LIKE LOWER('%" + correctTitle +"%')) AS book INNER JOIN genre ON book.genre = genre.id ORDER BY LOWER(book.title)");
+            resultSet = statement.executeQuery( SELECT_FOUND_QUERY_PART_ONE + correctTitle + SELECT_FOUND_QUERY_PART_TWO);
             result = createListFrom(resultSet);
             log.debug("Leaving JdbcBookDao class, findByTitle() method. Book found = {}", result.size());
         } catch (SQLException e) {
@@ -100,14 +91,23 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     protected PreparedStatement setFieldsInUpdateByEntityPreparedStatement(PreparedStatement preparedStatement, Book book) throws DaoException {
         log.debug("Entering JdbcBookDao class, setFieldsInUpdateByEntityPreparedStatement() method.");
         try {
+            log.debug("Set title: {}", book.getTitle());
             preparedStatement.setString(1, book.getTitle());
+            log.debug("Set cover: {}", book.getCover());
             preparedStatement.setString(2, book.getCover());
+            log.debug("Set authors: {}", book.getAuthors());
             preparedStatement.setString(3, book.getAuthors());
+            log.debug("Set publish year: {}", book.getPublishYear());
             preparedStatement.setInt(4, book.getPublishYear().getValue());
+            log.debug("Set genre: {}", book.getGenre());
             preparedStatement.setInt(5, book.getGenre().ordinal());
+            log.debug("Set description: length = {}", book.getDescription().length());
             preparedStatement.setString(6, book.getDescription());
+            log.debug("Set total amount: {}", book.getTotalAmount());
             preparedStatement.setInt(7, book.getTotalAmount());
+            log.debug("Set boolean, is deleted: {}", book.isDeleted());
             preparedStatement.setBoolean(8, book.isDeleted());
+            log.debug("Set id: {}", book.getId());
             preparedStatement.setInt(9, book.getId());
             log.debug("Leaving JdbcBookDao class, setFieldsInUpdateByEntityPreparedStatement() method.");
         } catch (SQLException e) {
@@ -121,13 +121,20 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     protected PreparedStatement setFieldsInCreatePreparedStatement(PreparedStatement preparedStatement, Book book) throws DaoException {
         log.debug("Entering JdbcBookDao class, setFieldsInCreatePreparedStatement() method.");
         try {
+            log.debug("Set title: {}", book.getTitle());
             preparedStatement.setString(1, book.getTitle());
-            preparedStatement.setString(2, book.getCover());
-            preparedStatement.setString(3, book.getAuthors());
-            preparedStatement.setInt(4, book.getPublishYear().getValue());
-            preparedStatement.setInt(5, book.getGenre().ordinal());
-            preparedStatement.setString(6, book.getDescription());
-            preparedStatement.setInt(7, book.getTotalAmount());
+            log.debug("Set authors: {}", book.getAuthors());
+            preparedStatement.setString(2, book.getAuthors());
+            log.debug("Set publish year: {}", book.getPublishYear());
+            preparedStatement.setInt(3, book.getPublishYear().getValue());
+            log.debug("Set genre: {}", book.getGenre());
+            preparedStatement.setInt(4, book.getGenre().ordinal());
+            log.debug("Set description: length = {}", book.getDescription().length());
+            preparedStatement.setString(5, book.getDescription());
+            log.debug("Set total amount: {}", book.getTotalAmount());
+            preparedStatement.setInt(6, book.getTotalAmount());
+            log.debug("Set cover: {}", book.getCover());
+            preparedStatement.setString(7, book.getCover());
             log.debug("Leaving JdbcBookDao class, setFieldsInCreatePreparedStatement() method.");
         } catch (SQLException e) {
             log.error("Error: JdbcBookDao class setFieldsInCreatePreparedStatement() method. I can not set fields into statement. {}", e);
@@ -173,7 +180,7 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
 
     @Override
     protected String getReadRangeQuery() {
-        return SELECT_BY_RANGE_QUERY;
+        return SELECT_RANGE_QUERY;
     }
 
     @Override

@@ -25,6 +25,9 @@ public class CategoryAction implements Action {
     private static final int LINE_PER_PAGE_NUMBER = 2;
     private static final int DEFAULT_PAGE_NUMBER = 1;
     private static final String CATEGORY_PAGE = "category";
+    private static final String PAGES_NUMBER_REQUEST_ATTRIBUTE= "pagesNumber";
+    private static final String GENRE_BOOKS_REQUEST_ATTRIBUTE = "genreBooks";
+    private static final String GENRE_ID_REQUEST_ATTRIBUTE = "genreID";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -49,9 +52,9 @@ public class CategoryAction implements Action {
             log.debug("CategoryAction: total pages number = {}", pagesNumber);
             List<Book> genreBooks = bookService.getPaginatedByGenre(genreID, page, LINE_PER_PAGE_NUMBER);
 
-            request.setAttribute("pagesNumber", pagesNumber);
-            request.setAttribute("genreBooks", genreBooks);
-            request.setAttribute("genreID", genreID);
+            request.setAttribute(PAGES_NUMBER_REQUEST_ATTRIBUTE, pagesNumber);
+            request.setAttribute(GENRE_BOOKS_REQUEST_ATTRIBUTE, genreBooks);
+            request.setAttribute(GENRE_ID_REQUEST_ATTRIBUTE, genreID);
         } catch (ServiceException e) {
             throw new ActionException("Error: CategoryAction class, execute() method.", e);
         }

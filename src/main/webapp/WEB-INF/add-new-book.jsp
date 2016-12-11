@@ -10,7 +10,7 @@
 <t:page title="add.new.book">
 
     <div align="center">
-        <h3><ftm:message key="add.new.book"/></h3>
+        <h3><ftm:message key="add.new.book"/></h3>${bli}
         <li style="background: goldenrod"><ftm:message key="add.book.requirements.message.one"/></li>
         <li style="background: goldenrod"><ftm:message key="add.book.requirements.message.two"/></li>
         <form action="${base}/do/" method="post" enctype="multipart/form-data">
@@ -22,7 +22,7 @@
                 </tr>
                 <tr>
                     <td><ftm:message key="book.cover.field"/></td>
-                    <td><input name="cover" type="file" required></td>
+                    <td><input name="cover" type="file" accept="image/jpeg,image/png"></td>
                 </tr>
                 <tr>
                     <td><ftm:message key="book.section.authors.field"/></td>

@@ -24,6 +24,9 @@ public class ShowUsersListAction implements Action{
     private static final int DEFAULT_PAGE_NUMBER = 1;
     private static final int LINE_PER_PAGE_NUMBER = 2;
     private static final String PAGE_PARAMETER = "page";
+    private static final String USERS_LIST_PAGE_NAME = "users-list";
+    private static final String USERS_REQUEST_ATTRIBUTE = "users";
+    private static final String PAGES_NUMBER_REQUEST_ATTRIBUTE = "pagesNumber";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -48,11 +51,11 @@ public class ShowUsersListAction implements Action{
             int pagesNumber = pagination.getPagesNumber(usersNumber, LINE_PER_PAGE_NUMBER);
             log.debug("ShowUsersListAction: total pages number = {}", pagesNumber);
 
-            request.setAttribute("users", users);
-            request.setAttribute("pagesNumber", pagesNumber);
+            request.setAttribute(USERS_REQUEST_ATTRIBUTE, users);
+            request.setAttribute(PAGES_NUMBER_REQUEST_ATTRIBUTE, pagesNumber);
         } catch (ServiceException e) {
-            throw new ActionException("", e);
+            throw new ActionException("Error: ShowUsersListAction class. ", e);
         }
-        return "users-list";
+        return USERS_LIST_PAGE_NAME;
     }
 }

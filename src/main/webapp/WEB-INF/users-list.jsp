@@ -19,7 +19,7 @@
     <div align="center">
         <form action="${pageContext.request.contextPath}/do/" method="post">
             <input type="hidden" name="action" value="edit-user">
-            <table cellpadding="10">
+            <table cellpadding="8">
                 <tr><h3><ftm:message key="users.list.page"/></h3></tr>
                 <tr bgcolor="#deb887" class="th">
                     <th><ftm:message key="login.field"/></th>

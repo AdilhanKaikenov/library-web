@@ -1,6 +1,7 @@
 package com.epam.adk.web.library.dbcp;
 
 import com.epam.adk.web.library.exception.ConnectionPoolException;
+import com.epam.adk.web.library.exception.ConnectionPoolInitializationException;
 import com.epam.adk.web.library.propmanager.PropertiesManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +40,7 @@ public final class ConnectionPool {
     private ConnectionPool() {
     }
 
-    public void init() throws ConnectionPoolException {
+    public void init() throws ConnectionPoolInitializationException {
         try {
             log.debug("Creating connection pool.");
             log.debug("Database driver: {}", H2_DRIVER);
@@ -52,10 +53,10 @@ public final class ConnectionPool {
             }
         } catch (ClassNotFoundException e) {
             log.error("Error: Driver class not found error: {}", e);
-            throw new ConnectionPoolException("Error: Driver class not found error:", e);
+            throw new ConnectionPoolInitializationException("Error: Driver class not found error:", e);
         } catch (SQLException e) {
             log.error("Error: Get connection from database failed. Called newConnection() method failed: {}", e);
-            throw new ConnectionPoolException("Error: Get connection from database failed. Called newConnection() method failed:", e);
+            throw new ConnectionPoolInitializationException("Error: Get connection from database failed. Called newConnection() method failed:", e);
         }
     }
 

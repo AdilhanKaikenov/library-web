@@ -21,8 +21,10 @@ public abstract class AbstractShowOrdersAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(AbstractShowOrdersAction.class);
     private static final int DEFAULT_PAGE_NUMBER = 1;
-    private static final int LINE_PER_PAGE_NUMBER = 2;
+    private static final int LINE_PER_PAGE_NUMBER = 5;
     private static final String PAGE_PARAMETER = "page";
+    private static final String ORDERS_REQUEST_ATTRIBUTE = "orders";
+    private static final String PAGES_NUMBER_REQUEST_ATTRIBUTE = "pagesNumber";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -47,10 +49,10 @@ public abstract class AbstractShowOrdersAction implements Action {
             List<Order> orders = orderBookService.getPaginatedByOrderStatus(getOrderStatusID(), page, LINE_PER_PAGE_NUMBER);
 
             if (orders.size() != 0) {
-                request.setAttribute("orders", orders);
+                request.setAttribute(ORDERS_REQUEST_ATTRIBUTE, orders);
             }
 
-            request.setAttribute("pagesNumber", pagesNumber);
+            request.setAttribute(PAGES_NUMBER_REQUEST_ATTRIBUTE, pagesNumber);
 
         } catch (ServiceException e) {
             throw new ActionException("Error: AbstractShowOrdersAction class, execute() method.", e);

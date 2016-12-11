@@ -73,7 +73,9 @@
                             <form action="${base}/do/" method="post">
                                 <input hidden="hidden" name="action" value="lend-out-book">
                                 <input hidden="hidden" name="orderID" value="${order.id}">
-                                <button type="submit" class="link-style"><ftm:message key="lend.out.book"/></button>
+                                <button type="submit"
+                                        onclick="return confirm('<ftm:message key="confirm.warning"/>')"
+                                        class="link-style"><ftm:message key="lend.out.book"/></button>
                             </form>
                         </c:if>
                     </td>
@@ -81,7 +83,9 @@
                         <form action="${base}/do/" method="post">
                             <input hidden="hidden" name="action" value="reject-book-order">
                             <input hidden="hidden" name="orderID" value="${order.id}">
-                            <button type="submit" class="link-style"><ftm:message key="reject.request"/></button>
+                            <button type="submit"
+                                    onclick="return confirm('<ftm:message key="confirm.warning"/>')"
+                                    class="link-style"><ftm:message key="reject.request"/></button>
                         </form>
                     </td>
                 </tr>

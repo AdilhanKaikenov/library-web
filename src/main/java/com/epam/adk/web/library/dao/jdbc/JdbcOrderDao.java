@@ -22,39 +22,18 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
 
     private static final Logger log = LoggerFactory.getLogger(JdbcOrderDao.class);
     private static final String TABLE_NAME = "orders";
-    private static final String CREATE_QUERY = "INSERT INTO orders(user_id, book_id, order_date, order_type, date_from, " +
-            "date_to) VALUES(?, ?, ?, ?, ?, ?)";
-    private static final String COUNT_ORDERS_QUERY = "SELECT COUNT(*) FROM orders WHERE book_id = ? AND user_id = ?";
-    private static final String SELECT_COUNT_BY_USER_ID_QUERY = "SELECT COUNT(*) FROM orders WHERE user_id = ?";
-    private static final String SELECT_RANGE_BY_ID_QUERY = "SELECT orders.id, orders.user_id, orders.book_id, book.title AS " +
-            "book_title, orders.order_date, order_type.type AS order_type, orders.date_from, orders.date_to, order_status.type AS order_status, " +
-            "book.total_amount - (SELECT COUNT(*) FROM orders WHERE orders.book_id = book.id AND orders.status = 0) AS available_amount, " +
-            "concat(user.firstname, ' ', user.surname, ' ', user.patronymic) AS client " +
-            "FROM orders, order_type, book, order_status, user WHERE orders.order_type = order_type.id AND orders.book_id = book.id AND " +
-            "orders.status = order_status.id AND orders.user_id = user.id AND user.id = ? ORDER BY order_date LIMIT ? OFFSET ?";
-    private static final String SELECT_RANGE_QUERY = "SELECT orders.id, orders.user_id, orders.book_id, book.title AS " +
-            "book_title, orders.order_date, order_type.type AS order_type, orders.date_from, orders.date_to, order_status.type AS order_status, " +
-            "book.total_amount - (SELECT COUNT(*) FROM orders WHERE orders.book_id = book.id AND orders.status = 0) AS available_amount, " +
-            "concat(user.firstname, ' ', user.surname, ' ', user.patronymic) AS client " +
-            "FROM orders, order_type, book, order_status, user WHERE orders.order_type = order_type.id AND orders.book_id = book.id AND " +
-            "orders.status = order_status.id AND orders.user_id = user.id ORDER BY order_date LIMIT ? OFFSET ?";
-    private static final String SELECT_RANGE_BY_STATUS_ID_QUERY = "SELECT orders.id, orders.user_id, orders.book_id, book.title AS " +
-            "book_title, orders.order_date, order_type.type AS order_type, orders.date_from, orders.date_to, order_status.type AS order_status, " +
-            "book.total_amount - (SELECT COUNT(*) FROM orders WHERE orders.book_id = book.id AND orders.status = 0) AS available_amount, " +
-            "concat(user.firstname, ' ', user.surname, ' ', user.patronymic) AS client " +
-            "FROM orders, order_type, book, order_status, user WHERE orders.order_type = order_type.id AND orders.book_id = book.id AND  " +
-            "orders.status = order_status.id AND order_status.id = ? AND orders.user_id = user.id ORDER BY order_date LIMIT ? OFFSET ?";
-    private static final String COUNT_ORDERS_BY_STATUS_ID_QUERY = "SELECT COUNT(*) FROM orders WHERE status = ?";
-    private static final String COUNT_ORDERS_BY_BOOK_ID_QUERY = "SELECT COUNT(*) FROM orders WHERE book_id = ?";
-    private static final String SELECT_BY_ID_QUERY = "SELECT orders.id, orders.user_id, orders.book_id, book.title AS " +
-            "book_title, orders.order_date, order_type.type AS order_type, orders.date_from, orders.date_to, order_status.type " +
-            "AS order_status, book.total_amount - (SELECT COUNT(*) FROM orders WHERE orders.book_id = book.id AND orders.status = 0) " +
-            "AS available_amount, concat(user.firstname, ' ', user.surname, ' ', user.patronymic) AS client " +
-            "FROM orders, order_type, book, order_status, user WHERE orders.order_type = order_type.id AND orders.book_id = book.id " +
-            "AND orders.status = order_status.id AND orders.user_id = user.id AND orders.id = ?";
-    private static final String UPDATE_QUERY = "UPDATE orders SET date_from = ?, date_to = ?, status = ? WHERE id LIKE ?";
-    private static final String INSERT_INTO_HISTORY_QUERY = "INSERT INTO orders_history(user_id, book_id, order_date, order_type, date_from, date_to) VALUES(?, ?, ?, ?, ?, ?)";
-    private static final String DELETE_ALL_OLD_REJECTED_ORDERS_QUERY = "DELETE FROM orders WHERE DATEDIFF('DAY', orders.order_date, CURRENT_DATE()) >= 1 AND orders.status = 1";
+    private static final String CREATE_QUERY = queriesProperties.get("insert.order");
+    private static final String INSERT_INTO_HISTORY_QUERY = queriesProperties.get("insert.into.orders.history");
+    private static final String COUNT_ORDERS_QUERY = queriesProperties.get("select.count.orders");
+    private static final String SELECT_COUNT_BY_USER_ID_QUERY = queriesProperties.get("select.count.by.user.id");
+    private static final String SELECT_RANGE_BY_ID_QUERY = queriesProperties.get("select.range.orders.by.user.id");
+    private static final String SELECT_RANGE_QUERY = queriesProperties.get("select.orders.range");
+    private static final String SELECT_RANGE_BY_STATUS_ID_QUERY = queriesProperties.get("select.range.orders.by.status.id");
+    private static final String COUNT_ORDERS_BY_STATUS_ID_QUERY = queriesProperties.get("select.count.orders.by.status.id");
+    private static final String COUNT_ORDERS_BY_BOOK_ID_QUERY = queriesProperties.get("select.count.orders.by.book.id");
+    private static final String SELECT_BY_ID_QUERY = queriesProperties.get("select.by.id");
+    private static final String UPDATE_QUERY = queriesProperties.get("update.order");
+    private static final String DELETE_ALL_OLD_REJECTED_ORDERS_QUERY = queriesProperties.get("delete.all.old.rejected.orders");
 
     public JdbcOrderDao(Connection connection) {
         super(connection);
@@ -136,7 +115,9 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
         ResultSet resultSet = null;
         try {
             preparedStatement = getConnection().prepareStatement(COUNT_ORDERS_QUERY);
+            log.debug("Set book ID: {}", order.getBookID());
             preparedStatement.setInt(1, order.getBookID());
+            log.debug("Set user ID: {}", order.getUserID());
             preparedStatement.setInt(2, order.getUserID());
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -211,15 +192,21 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
     }
 
     @Override
-    protected PreparedStatement setFieldsInCreatePreparedStatement(PreparedStatement preparedStatement, Order entity) throws DaoException {
+    protected PreparedStatement setFieldsInCreatePreparedStatement(PreparedStatement preparedStatement, Order order) throws DaoException {
         log.debug("Entering JdbcOrderDao class, setFieldsInCreatePreparedStatement() method.");
         try {
-            preparedStatement.setInt(1, entity.getUserID());
-            preparedStatement.setInt(2, entity.getBookID());
-            preparedStatement.setDate(3, entity.getOrderDate());
-            preparedStatement.setInt(4, entity.getType().ordinal());
-            preparedStatement.setDate(5, entity.getFrom());
-            preparedStatement.setDate(6, entity.getTo());
+            log.debug("Set user ID: {}", order.getUserID());
+            preparedStatement.setInt(1, order.getUserID());
+            log.debug("Set book ID: {}", order.getBookID());
+            preparedStatement.setInt(2, order.getBookID());
+            log.debug("Set order date: {}", order.getOrderDate());
+            preparedStatement.setDate(3, order.getOrderDate());
+            log.debug("Set order type: {}", order.getType());
+            preparedStatement.setInt(4, order.getType().ordinal());
+            log.debug("Set date from : {}", order.getFrom());
+            preparedStatement.setDate(5, order.getFrom());
+            log.debug("Set date to: {}", order.getTo());
+            preparedStatement.setDate(6, order.getTo());
             log.debug("Leaving JdbcOrderDao class, setFieldsInCreatePreparedStatement() method.");
         } catch (SQLException e) {
             log.error("Error: JdbcOrderDao class setFieldsInCreatePreparedStatement() method. I can not set fields into statement. {}", e);
@@ -229,13 +216,17 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
     }
 
     @Override
-    protected PreparedStatement setFieldsInUpdateByEntityPreparedStatement(PreparedStatement preparedStatement, Order entity) throws DaoException {
+    protected PreparedStatement setFieldsInUpdateByEntityPreparedStatement(PreparedStatement preparedStatement, Order order) throws DaoException {
         log.debug("Entering JdbcOrderDao class, setFieldsInUpdateByEntityPreparedStatement() method.");
         try {
-            preparedStatement.setDate(1, entity.getFrom());
-            preparedStatement.setDate(2, entity.getTo());
-            preparedStatement.setInt(3, entity.getStatus().ordinal());
-            preparedStatement.setInt(4, entity.getId());
+            log.debug("Set date from : {}", order.getFrom());
+            preparedStatement.setDate(1, order.getFrom());
+            log.debug("Set date to: {}", order.getTo());
+            preparedStatement.setDate(2, order.getTo());
+            log.debug("Set order status: {}", order.getStatus());
+            preparedStatement.setInt(3, order.getStatus().ordinal());
+            log.debug("Set order ID: {}", order.getId());
+            preparedStatement.setInt(4, order.getId());
             log.debug("Leaving JdbcOrderDao class, setFieldsInUpdateByEntityPreparedStatement() method.");
         } catch (SQLException e) {
             log.error("Error: JdbcOrderDao class setFieldsInUpdateByEntityPreparedStatement() method. I can not set fields into statement. {}", e);

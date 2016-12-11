@@ -23,6 +23,8 @@ public class BookLendOutAction implements Action {
     private static final Logger log = LoggerFactory.getLogger(BookLendOutAction.class);
     private static final int TWO_WEEKS_TIME_DURATION = 1209600000;
     private static final String ORDER_ID_PARAMETER = "orderID";
+    private static final String REQUESTS_PAGE_NAME = "requests";
+    private static final String REDIRECT_PREFIX = "redirect:";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -56,6 +58,6 @@ public class BookLendOutAction implements Action {
         } catch (ServiceException e) {
             throw new ActionException("Error: BookLendOutAction class:", e);
         }
-        return "redirect:requests";
+        return REDIRECT_PREFIX + REQUESTS_PAGE_NAME;
     }
 }

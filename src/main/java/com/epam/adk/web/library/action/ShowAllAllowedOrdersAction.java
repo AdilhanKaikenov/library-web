@@ -8,11 +8,11 @@ package com.epam.adk.web.library.action;
 public class ShowAllAllowedOrdersAction extends AbstractShowOrdersAction {
 
     private static final int ALLOWED_STATUS_ID = 0;
-    private static final String RETURN_PAGE = "orders";
+    private static final String ORDERS_PAGE_NAME = "orders";
 
     @Override
     protected String getPage() {
-        return RETURN_PAGE;
+        return ORDERS_PAGE_NAME;
     }
 
     @Override

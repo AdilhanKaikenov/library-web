@@ -16,12 +16,18 @@ import javax.servlet.http.HttpServletResponse;
  **/
 public class EditUserAction implements Action {
 
+    private static final String USER_ID_PARAMETER = "userID";
+    private static final String REDIRECT_PREFIX = "redirect:";
+    private static final String USERS_PAGE_NAME = "users";
+    private static final String ROLE_PARAMETER = "role";
+    private static final String STATUS_PARAMETER = "status";
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
 
-        int userID = Integer.parseInt(request.getParameter("userID"));
-        Role role = Role.valueOf(request.getParameter("role"));
-        boolean status = Boolean.valueOf(request.getParameter("status"));
+        int userID = Integer.parseInt(request.getParameter(USER_ID_PARAMETER));
+        Role role = Role.valueOf(request.getParameter(ROLE_PARAMETER));
+        boolean status = Boolean.valueOf(request.getParameter(STATUS_PARAMETER));
 
         UserService userService = new UserService();
 
@@ -33,9 +39,10 @@ public class EditUserAction implements Action {
             userService.updateUserData(user);
 
         } catch (ServiceException e) {
-            throw new ActionException("", e);
+            throw new ActionException("Error: EditUserAction class. ", e);
         }
 
-        return "redirect:users";
+        return REDIRECT_PREFIX + USERS_PAGE_NAME;
     }
 }
+

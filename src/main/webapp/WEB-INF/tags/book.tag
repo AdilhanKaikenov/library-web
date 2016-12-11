@@ -28,7 +28,7 @@
                     key="about.book"/></a>
         </div>
         <%--@elvariable id="user" type="com.epam.adk.web.library.model.User"--%>
-        <c:if test="${not empty user && user.role == 'ADMIN'}">
+        <c:if test="${not empty user && user.role == 'LIBRARIAN'}">
             <div style="float: left;">
                 <a href="${base}/do/?action=book-amount&bookID=${book.id}"
                    class="link-style"><ftm:message key="edit.book.amount.button"/></a>

@@ -26,6 +26,9 @@ public class BookOrderRequestAction implements Action {
     private static final String BOOK_ID_PARAMETER = "bookID";
     private static final String ORDER_TYPE_PARAMETER = "order_type";
     private static final String ORDER_REQUEST_INFO_PAGE = "order-request-info";
+    private static final String BOOK_ID_REQUEST_ATTRIBUTE = "bookID";
+    private static final String SENT_REQUEST_FAILED_REQUEST_ATTRIBUTE = "sentRequestFailed";
+    private static final String SENT_REQUEST_SUCCESSFUL_REQUEST_ATTRIBUTE = "sentRequestSuccessful";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -43,7 +46,7 @@ public class BookOrderRequestAction implements Action {
         order.setBookID(bookID);
         order.setOrderDate(orderDate);
         order.setType(orderType);
-        request.setAttribute("bookID", bookID);
+        request.setAttribute(BOOK_ID_REQUEST_ATTRIBUTE, bookID);
 
         OrderBookService orderService = new OrderBookService();
 
@@ -51,13 +54,13 @@ public class BookOrderRequestAction implements Action {
             int orderNumber = orderService.getOrderNumber(order);
 
             if (orderNumber > 0) {
-                request.setAttribute("sentRequestFailed", "book.order.request.failed");
+                request.setAttribute(SENT_REQUEST_FAILED_REQUEST_ATTRIBUTE, "book.order.request.failed");
                 return ORDER_REQUEST_INFO_PAGE;
             }
 
             Order sentRequest = orderService.sendRequest(order);
             if (sentRequest != null) {
-                request.setAttribute("sentRequestSuccessful", "book.order.request.successful");
+                request.setAttribute(SENT_REQUEST_SUCCESSFUL_REQUEST_ATTRIBUTE, "book.order.request.successful");
             }
 
         } catch (ServiceException e) {

@@ -19,6 +19,8 @@ public class BookReturnedAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(BookReturnedAction.class);
     private static final String ORDER_ID_PARAMETER = "orderID";
+    private static final String REDIRECT_PREFIX = "redirect:";
+    private static final String ORDERS_PAGE_NAME = "orders";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -34,6 +36,6 @@ public class BookReturnedAction implements Action {
         } catch (ServiceException e) {
             throw new ActionException("Error: BookReturnedAction class:", e);
         }
-        return "redirect:orders";
+        return REDIRECT_PREFIX + ORDERS_PAGE_NAME;
     }
 }

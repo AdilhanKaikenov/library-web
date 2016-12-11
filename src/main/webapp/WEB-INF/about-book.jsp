@@ -12,14 +12,16 @@
 
     <t:book book="${book}"/>
 
-    <c:if test="${not empty user && user.role == 'USER'}">
+    <c:if test="${not empty user && user.role == 'READER'}">
         <div class="reader-requests-links-section" align="center">
             <form action="${base}/do/" method="post">
                 <input hidden="hidden" name="action" value="order-book-request">
                 <input hidden="hidden" name="bookID" value="${book.id}">
                 <i><input type="radio" name="order_type" value="Subscription" checked><ftm:message key="subscription"/></i>
                 <i><input type="radio" name="order_type" value="Reading room"><ftm:message key="reading.room"/></i>
-                <br><button style="margin: 10px" type="submit" class="link-style"><ftm:message key="send.request.button"/></button>
+                <br><button style="margin: 10px" type="submit"
+                            onclick="return confirm('<ftm:message key="confirm.warning"/>')"
+                            class="link-style"><ftm:message key="send.request.button"/></button>
             </form>
         </div>
     </c:if>
@@ -66,11 +68,11 @@
         <div class="book-comments-section">
             <c:forEach items="${bookComments}" var="comment">
                 <%--@elvariable id="comment" type="com.epam.adk.web.library.model.Comment"--%>
-                <div class="comment-sender-info-section">
+                <div>
                     <h4>${comment.userFirstname} ${comment.userSurname} (${comment.userLogin})
                         <br><ftm:message key="time.field.message"/> <ftm:formatDate value="${comment.time}"/></h4>
                 </div>
-                <div class="comment-text-section">
+                <div>
                     <p>${comment.text}
                     <hr>
                 </div>

@@ -21,6 +21,7 @@ public class SelectLocaleAction implements Action {
     private static final String ACTION_PARAMETER = "action";
     private static final String REDIRECT_PREFIX = "redirect:";
     private static final String REDIRECT_WELCOME_PAGE = "redirect:welcome";
+    private static final String REFERER = "referer";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -29,7 +30,7 @@ public class SelectLocaleAction implements Action {
         String region = request.getParameter(REGION_PARAMETER);
         Config.set(request.getSession(), Config.FMT_LOCALE, new java.util.Locale(region));
 
-        String referer = request.getHeader("referer");
+        String referer = request.getHeader(REFERER);
 
         if (referer.contains(SELECT_LOCALE_PATH_INFO)){
             return REDIRECT_WELCOME_PAGE;

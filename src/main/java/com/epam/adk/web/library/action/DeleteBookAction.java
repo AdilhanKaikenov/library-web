@@ -21,6 +21,8 @@ public class DeleteBookAction implements Action {
     private static final Logger log = LoggerFactory.getLogger(DeleteBookAction.class);
     private static final String BOOK_ID_PARAMETER = "bookID";
     private static final String BOOK_DELETE_RESULT_PAGE_NAME = "book-delete-result";
+    private static final String BOOK_DELETED_ATTRIBUTE = "bookDeleted";
+    private static final String IMPOSSIBLE_TO_REMOVE_ATTRIBUTE = "impossibleToRemove";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -35,7 +37,7 @@ public class DeleteBookAction implements Action {
             int bookOrderNumber = orderBookService.getOrdersNumberByBookID(bookID);
 
             if (bookOrderNumber != 0){
-                request.setAttribute("impossibleToRemove", "book.delete.failed.message");
+                request.setAttribute(IMPOSSIBLE_TO_REMOVE_ATTRIBUTE, "book.delete.failed.message");
                 return BOOK_DELETE_RESULT_PAGE_NAME;
             }
 
@@ -44,7 +46,7 @@ public class DeleteBookAction implements Action {
 
             bookService.updateBook(book);
 
-            request.setAttribute("bookDeleted", "book.delete.success.message");
+            request.setAttribute(BOOK_DELETED_ATTRIBUTE, "book.delete.success.message");
 
         } catch (ServiceException e) {
             throw new ActionException("Error: DeleteBookAction class. Can not delete book properly:", e);

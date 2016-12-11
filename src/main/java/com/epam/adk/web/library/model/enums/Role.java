@@ -7,8 +7,8 @@ package com.epam.adk.web.library.model.enums;
  */
 public enum  Role {
 
-    ADMIN("Admin"),
-    USER("User"),
+    LIBRARIAN("Librarian"),
+    READER("Reader"),
     ANONYMOUS("Anonymous");
 
     private String value;

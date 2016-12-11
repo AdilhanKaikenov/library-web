@@ -23,8 +23,8 @@
                     <td>${user.login}</td>
                     <td>
                         <select name="role">
-                            <option value="USER">USER</option>
-                            <option value="ADMIN">ADMIN</option>
+                            <option value="READER">READER</option>
+                            <option value="LIBRARIAN">LIBRARIAN</option>
                         </select>
                     </td>
                     <td>
