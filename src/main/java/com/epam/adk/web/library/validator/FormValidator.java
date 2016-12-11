@@ -16,53 +16,53 @@ public class FormValidator {
 
     private static final Logger log = LoggerFactory.getLogger(FormValidator.class);
 
-    private static final Map<String, String> PROPERTIES = PropertiesManager.getInstance().getPropertiesAsMap("validator.properties");
+    private static final Map<String, String> validationProps = PropertiesManager.getInstance().getPropertiesAsMap("validator.properties");
 
-    private static final String CORRECT_FORM = PROPERTIES.get("correct.form");
-    private static final String LATIN_FORM = PROPERTIES.get("latin.form");
-    private static final String EMAIL_FORM = PROPERTIES.get("email.form");
-    private static final String DIGIT_FORM = PROPERTIES.get("digit.form");
-    private static final String ADDRESS_FORM = PROPERTIES.get("address.form");
+    private static final String LATIN_FORM = validationProps.get("latin.form");
+    private static final String EMAIL_FORM = validationProps.get("email.form");
+    private static final String DIGIT_FORM = validationProps.get("digit.form");
+    private static final String CORRECT_FORM = validationProps.get("correct.form");
+    private static final String ADDRESS_FORM = validationProps.get("address.form");
 
-    private static final int LOGIN_MIN_LENGTH = Integer.parseInt(PROPERTIES.get("login.min.length"));
-    private static final int LOGIN_MAX_LENGTH = Integer.parseInt(PROPERTIES.get("login.max.length"));
-    private static final int PASSWORD_MIN_LENGTH = Integer.parseInt(PROPERTIES.get("password.min.length"));
-    private static final int PASSWORD_MAX_LENGTH = Integer.parseInt(PROPERTIES.get("password.max.length"));
-    private static final int MOB_PHONE_LENGTH = Integer.parseInt(PROPERTIES.get("mob.phone.length"));
-    private static final int FIELD_MIN_LENGTH = Integer.parseInt(PROPERTIES.get("field.min.length"));
-    private static final int FIELD_MAX_LENGTH = Integer.parseInt(PROPERTIES.get("field.max.length"));
+    private static final int LOGIN_MIN_LENGTH = Integer.parseInt(validationProps.get("login.min.length"));
+    private static final int LOGIN_MAX_LENGTH = Integer.parseInt(validationProps.get("login.max.length"));
+    private static final int MOB_PHONE_LENGTH = Integer.parseInt(validationProps.get("mob.phone.length"));
+    private static final int FIELD_MIN_LENGTH = Integer.parseInt(validationProps.get("field.min.length"));
+    private static final int FIELD_MAX_LENGTH = Integer.parseInt(validationProps.get("field.max.length"));
+    private static final int PASSWORD_MIN_LENGTH = Integer.parseInt(validationProps.get("password.min.length"));
+    private static final int PASSWORD_MAX_LENGTH = Integer.parseInt(validationProps.get("password.max.length"));
 
     private static final String LOGIN_PARAMETER = "login";
-    private static final String PASSWORD_PARAMETER = "password";
     private static final String EMAIL_PARAMETER = "email";
-    private static final String FIRSTNAME_PARAMETER = "firstname";
-    private static final String SURNAME__PARAMETER = "surname";
-    private static final String PATRONYMIC_PARAMETER = "patronymic";
     private static final String ADDRESS_PARAMETER = "address";
-    private static final String MOBILE_PHONE_PARAMETER = "mobilePhone";
+    private static final String PASSWORD_PARAMETER = "password";
+    private static final String SURNAME__PARAMETER = "surname";
+    private static final String FIRSTNAME_PARAMETER = "firstname";
+    private static final String PATRONYMIC_PARAMETER = "patronymic";
     private static final String AUTH_LOGIN_PARAMETER = "authLogin";
+    private static final String MOBILE_PHONE_PARAMETER = "mobilePhone";
     private static final String AUTH_PASSWORD_PARAMETER = "authPassword";
 
     private static final String LOGIN_FORM_INCORRECT_ATTRIBUTE_NAME = "loginFormIncorrect";
-    private static final String LOGIN_LENGTH_INCORRECT_ATTRIBUTE_NAME = "loginLengthIncorrect";
-    private static final String PASSWORD_FORM_INCORRECT_ATTRIBUTE_NAME = "passwordFormIncorrect";
-    private static final String PASSWORD_LENGTH_INCORRECT_ATTRIBUTE_NAME = "passwordLengthIncorrect";
     private static final String EMAIL_FORM_INCORRECT_ATTRIBUTE_NAME = "emailFormIncorrect";
-    private static final String FULL_NAME_FORM_INCORRECT_ATTRIBUTE_NAME = "fullNameFormIncorrect";
-    private static final String FULL_NAME_LENGTH_INCORRECT_ATTRIBUTE_NAME = "fullNameLengthIncorrect";
+    private static final String LOGIN_LENGTH_INCORRECT_ATTRIBUTE_NAME = "loginLengthIncorrect";
     private static final String ADDRESS_FORM_INCORRECT_ATTRIBUTE_NAME = "addressFormIncorrect";
+    private static final String PASSWORD_FORM_INCORRECT_ATTRIBUTE_NAME = "passwordFormIncorrect";
+    private static final String FULL_NAME_FORM_INCORRECT_ATTRIBUTE_NAME = "fullNameFormIncorrect";
     private static final String ADDRESS_LENGTH_INCORRECT_ATTRIBUTE_NAME = "addressLengthIncorrect";
+    private static final String PASSWORD_LENGTH_INCORRECT_ATTRIBUTE_NAME = "passwordLengthIncorrect";
+    private static final String FULL_NAME_LENGTH_INCORRECT_ATTRIBUTE_NAME = "fullNameLengthIncorrect";
     private static final String MOBILE_PHONE_FORM_INCORRECT_ATTRIBUTE_NAME = "mobilePhoneFormIncorrect";
 
     private static final String LOGIN_FORM_INCORRECT_ATTRIBUTE_STORED_MESSAGE = "login.form.incorrect";
-    private static final String LOGIN_LENGTH_INCORRECT_ATTRIBUTE_STORED_MESSAGE = "login.length.incorrect";
-    private static final String PASSWORD_FORM_INCORRECT_ATTRIBUTE_STORED_MESSAGE = "password.form.incorrect";
-    private static final String PASSWORD_LENGTH_INCORRECT_ATTRIBUTE_STORED_MESSAGE = "password.length.incorrect";
     private static final String EMAIL_FORM_INCORRECT_ATTRIBUTE_STORED_MESSAGE = "email.form.incorrect";
-    private static final String FULL_NAME_FORM_INCORRECT_ATTRIBUTE_STORED_MESSAGE = "fullName.form.incorrect";
-    private static final String FULL_NAME_LENGTH_INCORRECT_ATTRIBUTE_STORED_MESSAGE = "fullName.length.incorrect";
+    private static final String LOGIN_LENGTH_INCORRECT_ATTRIBUTE_STORED_MESSAGE = "login.length.incorrect";
     private static final String ADDRESS_FORM_INCORRECT_ATTRIBUTE_STORED_MESSAGE = "address.form.incorrect";
+    private static final String PASSWORD_FORM_INCORRECT_ATTRIBUTE_STORED_MESSAGE = "password.form.incorrect";
+    private static final String FULL_NAME_FORM_INCORRECT_ATTRIBUTE_STORED_MESSAGE = "fullName.form.incorrect";
     private static final String ADDRESS_LENGTH_INCORRECT_ATTRIBUTE_STORED_MESSAGE = "address.length.incorrect";
+    private static final String PASSWORD_LENGTH_INCORRECT_ATTRIBUTE_STORED_MESSAGE = "password.length.incorrect";
+    private static final String FULL_NAME_LENGTH_INCORRECT_ATTRIBUTE_STORED_MESSAGE = "fullName.length.incorrect";
     private static final String MOBILE_NUMBER_FORM_INCORRECT_ATTRIBUTE_STORED_MESSAGE = "mobileNumber.form.incorrect";
 
     private Validator validator = new Validator();

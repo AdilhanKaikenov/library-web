@@ -18,9 +18,9 @@ public final class PropertiesManager {
 
     private static final Logger log = LoggerFactory.getLogger(PropertiesManager.class);
 
+    private static Properties properties;
     private static PropertiesManager instance;
     private static Map<String, String> propertiesMap = new TreeMap<>();
-    private static Properties properties;
 
     /**
      * Method to get an instance of this class.

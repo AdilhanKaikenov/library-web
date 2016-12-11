@@ -1,4 +1,4 @@
-package com.epam.adk.web.library.action;
+package com.epam.adk.web.library.action.librarian;
 
 /**
  * ShowAllRejectedOrdersAction class created on 07.12.2016

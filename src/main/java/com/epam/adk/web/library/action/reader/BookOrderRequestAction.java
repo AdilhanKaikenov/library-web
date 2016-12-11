@@ -1,5 +1,6 @@
-package com.epam.adk.web.library.action;
+package com.epam.adk.web.library.action.reader;
 
+import com.epam.adk.web.library.action.Action;
 import com.epam.adk.web.library.exception.ActionException;
 import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.Order;
@@ -22,11 +23,12 @@ import java.sql.Date;
 public class BookOrderRequestAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(BookOrderRequestAction.class);
+
     private static final String USER_PARAMETER = "user";
     private static final String BOOK_ID_PARAMETER = "bookID";
     private static final String ORDER_TYPE_PARAMETER = "order_type";
-    private static final String ORDER_REQUEST_INFO_PAGE = "order-request-info";
     private static final String BOOK_ID_REQUEST_ATTRIBUTE = "bookID";
+    private static final String ORDER_REQUEST_INFO_PAGE = "order-request-info";
     private static final String SENT_REQUEST_FAILED_REQUEST_ATTRIBUTE = "sentRequestFailed";
     private static final String SENT_REQUEST_SUCCESSFUL_REQUEST_ATTRIBUTE = "sentRequestSuccessful";
 
@@ -38,6 +40,7 @@ public class BookOrderRequestAction implements Action {
         User user = ((User) session.getAttribute(USER_PARAMETER));
         int bookID = Integer.parseInt(request.getParameter(BOOK_ID_PARAMETER));
         OrderType orderType = OrderType.from(request.getParameter(ORDER_TYPE_PARAMETER));
+
         java.util.Date currentDate = new java.util.Date();
         Date orderDate = new Date(currentDate.getTime());
 
@@ -46,6 +49,7 @@ public class BookOrderRequestAction implements Action {
         order.setBookID(bookID);
         order.setOrderDate(orderDate);
         order.setType(orderType);
+
         request.setAttribute(BOOK_ID_REQUEST_ATTRIBUTE, bookID);
 
         OrderBookService orderService = new OrderBookService();

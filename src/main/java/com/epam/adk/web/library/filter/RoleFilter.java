@@ -24,16 +24,17 @@ import java.util.Set;
 public final class RoleFilter implements Filter {
 
     private static final Logger log = LoggerFactory.getLogger(RoleFilter.class);
+
     private static final Collection<String> librarianAvailableActions = PropertiesManager.getInstance().getAllValues("/role_actions/librarian.actions.properties");
     private static final Collection<String> readerAvailableActions = PropertiesManager.getInstance().getAllValues("/role_actions/reader.actions.properties");
     private static final Collection<String> anonAvailableActions = PropertiesManager.getInstance().getAllValues("/role_actions/anon.actions.properties");
 
+    private static final String PATH_INFO = "/?action=welcome";
+    private static final String READER_ROLE = "Reader";
+    private static final String LIBRARIAN_ROLE = "Librarian";
     private static final String USER_PARAMETER = "user";
     private static final String SERVLET_CONTEXT = "/do";
-    private static final String PATH_INFO = "/?action=welcome";
     private static final String ACTION_PARAMETER = "action";
-    private static final String LIBRARIAN_ROLE = "Librarian";
-    private static final String READER_ROLE = "Reader";
 
     private Set<String> librarianActions = new HashSet<>();
     private Set<String> readerActions = new HashSet<>();

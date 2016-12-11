@@ -23,8 +23,9 @@ import java.util.Map;
 public final class ImageServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(ImageServlet.class);
-    private static final String IMAGE_PARAMETER = "image";
+
     private static final String IMAGE_PATH = "D:\\images";
+    private static final String IMAGE_PARAMETER = "image";
 
     private static Map<String, String> contentTypes = new HashMap<>();
 

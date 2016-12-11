@@ -1,5 +1,6 @@
-package com.epam.adk.web.library.action;
+package com.epam.adk.web.library.action.librarian;
 
+import com.epam.adk.web.library.action.Action;
 import com.epam.adk.web.library.exception.ActionException;
 import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.Book;
@@ -19,9 +20,10 @@ import javax.servlet.http.HttpServletResponse;
 public class DeleteBookAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(DeleteBookAction.class);
+
     private static final String BOOK_ID_PARAMETER = "bookID";
-    private static final String BOOK_DELETE_RESULT_PAGE_NAME = "book-delete-result";
     private static final String BOOK_DELETED_ATTRIBUTE = "bookDeleted";
+    private static final String BOOK_DELETE_RESULT_PAGE_NAME = "book-delete-result";
     private static final String IMPOSSIBLE_TO_REMOVE_ATTRIBUTE = "impossibleToRemove";
 
     @Override

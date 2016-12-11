@@ -1,5 +1,6 @@
-package com.epam.adk.web.library.action;
+package com.epam.adk.web.library.action.librarian;
 
+import com.epam.adk.web.library.action.Action;
 import com.epam.adk.web.library.exception.ActionException;
 import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.Order;
@@ -22,13 +23,14 @@ import java.util.List;
 public class ShowUserOrdersAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(ShowUserOrdersAction.class);
-    private static final String USER_PARAMETER = "user";
-    private static final String PAGE_PARAMETER = "page";
+
     private static final int DEFAULT_PAGE_NUMBER = 1;
     private static final int LINE_PER_PAGE_NUMBER = 10;
+    private static final String USER_PARAMETER = "user";
+    private static final String PAGE_PARAMETER = "page";
+    private static final String USER_ORDERS_PAGE_NAME = "user-orders";
     private static final String USER_ORDERS_REQUEST_ATTRIBUTE = "userOrders";
     private static final String PAGES_NUMBER_REQUEST_ATTRIBUTE = "pagesNumber";
-    private static final String USER_ORDERS_PAGE_NAME = "user-orders";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {

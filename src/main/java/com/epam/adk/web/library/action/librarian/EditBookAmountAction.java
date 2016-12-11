@@ -1,5 +1,6 @@
-package com.epam.adk.web.library.action;
+package com.epam.adk.web.library.action.librarian;
 
+import com.epam.adk.web.library.action.Action;
 import com.epam.adk.web.library.exception.ActionException;
 import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.Book;
@@ -18,10 +19,11 @@ import javax.servlet.http.HttpServletResponse;
 public class EditBookAmountAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(EditBookAmountAction.class);
+
     private static final String REDIRECT_PREFIX = "redirect:";
-    private static final String BOOK_AMOUNT_BOOK_ID_PAGE_NAME = "book-amount&bookID=";
     private static final String BOOK_ID_PARAMETER = "bookID";
     private static final String BOOK_AMOUNT_PARAMETER = "bookAmount";
+    private static final String BOOK_AMOUNT_BOOK_ID_PAGE_NAME = "book-amount&bookID=";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {

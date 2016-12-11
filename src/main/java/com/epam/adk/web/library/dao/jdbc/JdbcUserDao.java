@@ -26,12 +26,12 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     private static final Logger log = LoggerFactory.getLogger(JdbcUserDao.class);
 
     private static final String TABLE_NAME = "user";
-    private static final String CREATE_QUERY = queriesProperties.get("insert.user");
-    private static final String SELECT_BY_LOGIN_PASSWORD = queriesProperties.get("select.by.login.password");
-    private static final String SELECT_ALL = queriesProperties.get("select.all.users");
-    private static final String SELECT_RANGE = queriesProperties.get("select,range.users");
-    private static final String SELECT_BY_ID = queriesProperties.get("select.user.by.id");
-    private static final String UPDATE_QUERY = queriesProperties.get("update.user");
+    private static final String CREATE_QUERY = queriesProp.get("insert.user");
+    private static final String SELECT_BY_LOGIN_PASSWORD = queriesProp.get("select.by.login.password");
+    private static final String SELECT_ALL = queriesProp.get("select.all.users");
+    private static final String SELECT_RANGE = queriesProp.get("select,range.users");
+    private static final String SELECT_BY_ID = queriesProp.get("select.user.by.id");
+    private static final String UPDATE_QUERY = queriesProp.get("update.user");
 
     public JdbcUserDao(Connection connection) {
         super(connection);
@@ -143,7 +143,6 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
         }
         return preparedStatement;
     }
-
 
     @Override
     protected String getUpdateByEntityQuery() {

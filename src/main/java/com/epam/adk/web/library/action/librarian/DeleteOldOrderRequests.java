@@ -1,5 +1,6 @@
-package com.epam.adk.web.library.action;
+package com.epam.adk.web.library.action.librarian;
 
+import com.epam.adk.web.library.action.Action;
 import com.epam.adk.web.library.exception.ActionException;
 import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.service.OrderBookService;
@@ -17,8 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 public class DeleteOldOrderRequests implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(DeleteOldOrderRequests.class);
-    private static final String REJECTED_ORDERS_PAGE_NAME = "rejected-orders";
+
     private static final String REDIRECT_PREFIX = "redirect:";
+    private static final String REJECTED_ORDERS_PAGE_NAME = "rejected-orders";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {

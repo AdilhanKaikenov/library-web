@@ -1,10 +1,13 @@
-package com.epam.adk.web.library.action;
+package com.epam.adk.web.library.action.librarian;
 
+import com.epam.adk.web.library.action.Action;
 import com.epam.adk.web.library.exception.ActionException;
 import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.User;
 import com.epam.adk.web.library.model.enums.Role;
 import com.epam.adk.web.library.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,14 +19,17 @@ import javax.servlet.http.HttpServletResponse;
  **/
 public class EditUserAction implements Action {
 
+    private static final Logger log = LoggerFactory.getLogger(EditUserAction.class);
+
+    private static final String ROLE_PARAMETER = "role";
+    private static final String USERS_PAGE_NAME = "users";
+    private static final String STATUS_PARAMETER = "status";
     private static final String USER_ID_PARAMETER = "userID";
     private static final String REDIRECT_PREFIX = "redirect:";
-    private static final String USERS_PAGE_NAME = "users";
-    private static final String ROLE_PARAMETER = "role";
-    private static final String STATUS_PARAMETER = "status";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
+        log.debug("The EditUserAction started execute.");
 
         int userID = Integer.parseInt(request.getParameter(USER_ID_PARAMETER));
         Role role = Role.valueOf(request.getParameter(ROLE_PARAMETER));

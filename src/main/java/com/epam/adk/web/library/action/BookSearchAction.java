@@ -19,10 +19,11 @@ import java.util.List;
 public class BookSearchAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(BookSearchAction.class);
-    private static final String BOOK_SEARCH_RESULT_PAGE_NAME = "book-search-result";
+
     private static final String DATA_FOR_SEARCH_PARAMETER = "dataForSearch";
-    private static final String DATA_FOR_SEARCH_REQUEST_ATTRIBUTE = "dataForSearch";
+    private static final String BOOK_SEARCH_RESULT_PAGE_NAME = "book-search-result";
     private static final String FOUND_BOOKS_REQUEST_ATTRIBUTE = "foundBooks";
+    private static final String DATA_FOR_SEARCH_REQUEST_ATTRIBUTE = "dataForSearch";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {

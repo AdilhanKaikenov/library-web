@@ -23,7 +23,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
     private static final Logger log = LoggerFactory.getLogger(JdbcDao.class);
 
-    protected static final Map<String, String> queriesProperties = PropertiesManager.getInstance().getPropertiesAsMap("query.properties");
+    protected static final Map<String, String> queriesProp = PropertiesManager.getInstance().getPropertiesAsMap("query.properties");
     private static final int FIRST_COLUMN_INDEX = 1;
 
     private Connection connection;

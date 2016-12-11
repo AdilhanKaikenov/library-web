@@ -21,11 +21,12 @@ import javax.servlet.http.HttpSession;
 public class AuthorizationAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(AuthorizationAction.class);
+
     private static final String USER = "user";
     private static final String AUTH_LOGIN_PARAMETER = "authLogin";
+    private static final String REDIRECT_WELCOME_PAGE = "redirect:welcome";
     private static final String AUTH_PASSWORD_PARAMETER = "authPassword";
     private static final String AUTHORIZATION_ERROR_PAGE = "authorization-error";
-    private static final String REDIRECT_WELCOME_PAGE = "redirect:welcome";
     private static final String INACTIVE_STATUS_REQUEST_ATTRIBUTE = "inactiveStatus";
     private static final String AUTHORIZATION_ERROR_REQUEST_ATTRIBUTE = "authorizationError";
     private static final String AUTHORIZATION_FORM_INCORRECT_REQUEST_ATTRIBUTE = "authorizationFormIncorrect";
@@ -38,7 +39,7 @@ public class AuthorizationAction implements Action {
 
         String login = request.getParameter(AUTH_LOGIN_PARAMETER);
         String password = request.getParameter(AUTH_PASSWORD_PARAMETER);
-        log.debug("AuthorizationAction class: login from request = {}", login);
+        log.debug("User login = {}", login);
 
         FormValidator formValidator = new FormValidator();
         boolean isFormInvalid = formValidator.isAuthorizationFormInvalid(request);

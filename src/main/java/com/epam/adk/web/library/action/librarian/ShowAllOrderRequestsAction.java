@@ -1,4 +1,4 @@
-package com.epam.adk.web.library.action;
+package com.epam.adk.web.library.action.librarian;
 
 /**
  * ShowAllOrderRequestsAction class created on 06.12.2016

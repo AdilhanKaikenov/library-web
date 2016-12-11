@@ -24,10 +24,10 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
     private static final Logger log = LoggerFactory.getLogger(JdbcCommentDao.class);
 
     private static final String TABLE_NAME = "comment";
-    private static final String CREATE_QUERY = queriesProperties.get("insert.comment");
-    private static final String SELECT_ALL_BY_BOOK_ID_QUERY = queriesProperties.get("select.all.by.book.id");
-    private static final String SELECT_COUNT_BY_BOOK_ID = queriesProperties.get("select.count.by.book.id");
-    private static final String SELECT_RANGE_BY_ID_QUERY = queriesProperties.get("select.range.comment.by.book.id");
+    private static final String CREATE_QUERY = queriesProp.get("insert.comment");
+    private static final String SELECT_ALL_BY_BOOK_ID_QUERY = queriesProp.get("select.all.by.book.id");
+    private static final String SELECT_COUNT_BY_BOOK_ID = queriesProp.get("select.count.by.book.id");
+    private static final String SELECT_RANGE_BY_ID_QUERY = queriesProp.get("select.range.comment.by.book.id");
 
     public JdbcCommentDao(Connection connection) {
         super(connection);
@@ -80,12 +80,6 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
         return preparedStatement;
     }
 
-
-    @Override
-    protected String getUpdateByEntityQuery() {
-        return null;
-    }
-
     @Override
     protected String getTableName() {
         return TABLE_NAME;
@@ -109,6 +103,11 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
     @Override
     protected String getReadRangeByIdParameterQuery() {
         return SELECT_RANGE_BY_ID_QUERY;
+    }
+
+    @Override
+    protected String getUpdateByEntityQuery() {
+        return null;
     }
 
     @Override

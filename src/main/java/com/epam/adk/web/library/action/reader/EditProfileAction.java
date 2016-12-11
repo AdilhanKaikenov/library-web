@@ -1,5 +1,6 @@
-package com.epam.adk.web.library.action;
+package com.epam.adk.web.library.action.reader;
 
+import com.epam.adk.web.library.action.Action;
 import com.epam.adk.web.library.exception.ActionException;
 import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.User;
@@ -20,15 +21,16 @@ import javax.servlet.http.HttpSession;
 public class EditProfileAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(EditProfileAction.class);
-    private static final String PASSWORD_PARAMETER = "password";
-    private static final String EMAIL_PARAMETER = "email";
-    private static final String ADDRESS_PARAMETER = "address";
-    private static final String MOBILE_PHONE_PARAMETER = "mobilePhone";
+
     private static final String USER_PARAMETER = "user";
-    private static final String EDIT_PROFILE_PAGE_NAME = "edit-profile";
-    private static final String INVALID_INFORMATION_REQUEST_ATTRIBUTE = "invalidInformation";
-    private static final String PERSONAL_AREA_PAGE_NAME = "personal-area";
+    private static final String EMAIL_PARAMETER = "email";
     private static final String REDIRECT_PREFIX = "redirect:";
+    private static final String ADDRESS_PARAMETER = "address";
+    private static final String PASSWORD_PARAMETER = "password";
+    private static final String MOBILE_PHONE_PARAMETER = "mobilePhone";
+    private static final String EDIT_PROFILE_PAGE_NAME = "edit-profile";
+    private static final String PERSONAL_AREA_PAGE_NAME = "personal-area";
+    private static final String INVALID_INFORMATION_REQUEST_ATTRIBUTE = "invalidInformation";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -38,9 +40,13 @@ public class EditProfileAction implements Action {
         User user = ((User) session.getAttribute(USER_PARAMETER));
 
         String password = request.getParameter(PASSWORD_PARAMETER);
+        log.debug("Password: {}", password);
         String email = request.getParameter(EMAIL_PARAMETER);
+        log.debug("Email: {}", email);
         String address = request.getParameter(ADDRESS_PARAMETER);
+        log.debug("Address: {}", address);
         String mobilePhone = request.getParameter(MOBILE_PHONE_PARAMETER);
+        log.debug("Mobile phone: {}", mobilePhone);
 
         FormValidator formValidator = new FormValidator();
 

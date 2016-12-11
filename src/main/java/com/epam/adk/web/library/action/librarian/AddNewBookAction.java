@@ -1,5 +1,6 @@
-package com.epam.adk.web.library.action;
+package com.epam.adk.web.library.action.librarian;
 
+import com.epam.adk.web.library.action.Action;
 import com.epam.adk.web.library.exception.ActionException;
 import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.Book;
@@ -23,18 +24,19 @@ import java.time.Year;
 public class AddNewBookAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(AddNewBookAction.class);
+
     private static final String IMAGE_PATH = "D:\\images";
     private static final String GENRE_PARAMETER = "genre";
     private static final String TITLE_PARAMETER = "title";
     private static final String COVER_PARAMETER = "cover";
     private static final String REDIRECT_PREFIX = "redirect:";
     private static final String WELCOME_PAGE_NAME = "welcome";
+    private static final String DEFAULT_COVER_JPG = "default_cover.jpg";
     private static final String AUTHORS_PARAMETER = "authors";
     private static final String FILENAME_PARAMETER = "filename";
     private static final String DESCRIPTION_PARAMETER = "description";
-    private static final String TOTAL_AMOUNT_PARAMETER = "totalAmount";
-    private static final String DEFAULT_COVER_JPG = "default_cover.jpg";
     private static final String PUBLISH_YEAR_PARAMETER = "publishYear";
+    private static final String TOTAL_AMOUNT_PARAMETER = "totalAmount";
     private static final String CONTENT_DISPOSITION_HEADER = "content-disposition";
 
     @Override

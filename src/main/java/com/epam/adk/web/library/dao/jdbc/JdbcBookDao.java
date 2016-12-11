@@ -23,16 +23,16 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     private static final Logger log = LoggerFactory.getLogger(JdbcBookDao.class);
 
     private static final String TABLE_NAME = "book";
-    private static final String SELECT_ALL = queriesProperties.get("select.all.book");
-    private static final String CREATE_QUERY = queriesProperties.get("insert.book");
-    private static final String SELECT_BY_ID = queriesProperties.get("select.book.by.id");
-    private static final String SELECT_RANGE_BY_GENRE = queriesProperties.get("select.range.books.by.genre");
-    private static final String SELECT_COUNT_BY_GENRE_ID = queriesProperties.get("select.count.by.genre.id");
-    private static final String SELECT_RANGE_QUERY = queriesProperties.get("select.range.books");
-    private static final String UPDATE_QUERY = queriesProperties.get("update.book");
-    private static final String SELECT_COUNT_ROWS_QUERY = queriesProperties.get("select.count.rows.number");
-    private static final String SELECT_FOUND_QUERY_PART_ONE = queriesProperties.get("select.found.books.part.one");
-    private static final String SELECT_FOUND_QUERY_PART_TWO = queriesProperties.get("select.found.books.part.two");
+    private static final String SELECT_ALL = queriesProp.get("select.all.book");
+    private static final String CREATE_QUERY = queriesProp.get("insert.book");
+    private static final String SELECT_BY_ID = queriesProp.get("select.book.by.id");
+    private static final String SELECT_RANGE_BY_GENRE = queriesProp.get("select.range.books.by.genre");
+    private static final String SELECT_COUNT_BY_GENRE_ID = queriesProp.get("select.count.by.genre.id");
+    private static final String SELECT_RANGE_QUERY = queriesProp.get("select.range.books");
+    private static final String UPDATE_QUERY = queriesProp.get("update.book");
+    private static final String SELECT_COUNT_ROWS_QUERY = queriesProp.get("select.count.rows.number");
+    private static final String SELECT_FOUND_QUERY_PART_ONE = queriesProp.get("select.found.books.part.one");
+    private static final String SELECT_FOUND_QUERY_PART_TWO = queriesProp.get("select.found.books.part.two");
 
     public JdbcBookDao(Connection connection) {
         super(connection);

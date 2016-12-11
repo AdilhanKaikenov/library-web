@@ -1,5 +1,6 @@
-package com.epam.adk.web.library.action;
+package com.epam.adk.web.library.action.librarian;
 
+import com.epam.adk.web.library.action.Action;
 import com.epam.adk.web.library.exception.ActionException;
 import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.Order;
@@ -20,6 +21,7 @@ import java.util.List;
 public abstract class AbstractShowOrdersAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(AbstractShowOrdersAction.class);
+
     private static final int DEFAULT_PAGE_NUMBER = 1;
     private static final int LINE_PER_PAGE_NUMBER = 5;
     private static final String PAGE_PARAMETER = "page";

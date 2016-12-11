@@ -5,19 +5,21 @@
 
 <ftm:setBundle basename="i18n"/>
 
+<c:set value="${pageContext.request.contextPath}" var="base"/>
+
 <t:page title="users.list.page">
     <div class="pagination-section" align="center">
             <%--@elvariable id="pagesNumber" type="java.lang.Integer"--%>
         <c:if test="${pagesNumber != 1}">
             <c:forEach var="i" begin="${1}" end="${pagesNumber}">
-                <a href="${pageContext.request.contextPath}/do/?action=users&page=${i}" class="link-style">${i}</a>
+                <a href="${base}/do/?action=users&page=${i}" class="link-style">${i}</a>
             </c:forEach>
         </c:if>
     </div>
     <br>
     <hr>
     <div align="center">
-        <form action="${pageContext.request.contextPath}/do/" method="post">
+        <form action="${base}/do/" method="post">
             <input type="hidden" name="action" value="edit-user">
             <table cellpadding="8">
                 <tr><h3><ftm:message key="users.list.page"/></h3></tr>
@@ -48,7 +50,7 @@
                                 <c:when test="${not user.status}"><ftm:message key="inactive.false"/></c:when>
                             </c:choose>
                         </td>
-                        <td><a href="${pageContext.request.contextPath}/do/?action=edit-user&id=${user.id}"
+                        <td><a href="${base}/do/?action=edit-user&id=${user.id}"
                                class="link-style"><ftm:message key="change.button"/></a></td>
                     </tr>
                 </c:forEach>

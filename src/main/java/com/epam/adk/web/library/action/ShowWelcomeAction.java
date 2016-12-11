@@ -20,12 +20,13 @@ import java.util.List;
 public class ShowWelcomeAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(ShowWelcomeAction.class);
-    private static final String PAGE_PARAMETER = "page";
-    private static final int LINE_PER_PAGE_NUMBER = 6;
+
     private static final int DEFAULT_PAGE_NUMBER = 1;
+    private static final int LINE_PER_PAGE_NUMBER = 6;
     private static final String WELCOME_PAGE = "welcome";
-    private static final String PAGES_NUMBER_REQUEST_ATTRIBUTE = "pagesNumber";
+    private static final String PAGE_PARAMETER = "page";
     private static final String BOOKS_REQUEST_ATTRIBUTE = "books";
+    private static final String PAGES_NUMBER_REQUEST_ATTRIBUTE = "pagesNumber";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {

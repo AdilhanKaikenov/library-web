@@ -16,12 +16,12 @@ import javax.servlet.jsp.jstl.core.Config;
 public class SelectLocaleAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(SelectLocaleAction.class);
-    private static final String REGION_PARAMETER = "region";
-    private static final String SELECT_LOCALE_PATH_INFO = "/?action=set-locale&region=";
-    private static final String ACTION_PARAMETER = "action";
-    private static final String REDIRECT_PREFIX = "redirect:";
-    private static final String REDIRECT_WELCOME_PAGE = "redirect:welcome";
     private static final String REFERER = "referer";
+    private static final String REDIRECT_PREFIX = "redirect:";
+    private static final String REGION_PARAMETER = "region";
+    private static final String ACTION_PARAMETER = "action";
+    private static final String REDIRECT_WELCOME_PAGE = "redirect:welcome";
+    private static final String SELECT_LOCALE_PATH_INFO = "/?action=set-locale&region=";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {

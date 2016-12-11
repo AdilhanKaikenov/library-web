@@ -1,5 +1,6 @@
-package com.epam.adk.web.library.action;
+package com.epam.adk.web.library.action.librarian;
 
+import com.epam.adk.web.library.action.Action;
 import com.epam.adk.web.library.exception.ActionException;
 import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.User;
@@ -17,7 +18,7 @@ import java.util.List;
  *
  * @author Kaikenov Adilhan
  **/
-public class ShowUsersListAction implements Action{
+public class ShowUsersListAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(ShowUsersListAction.class);
 

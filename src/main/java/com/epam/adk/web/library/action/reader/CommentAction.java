@@ -1,5 +1,6 @@
-package com.epam.adk.web.library.action;
+package com.epam.adk.web.library.action.reader;
 
+import com.epam.adk.web.library.action.Action;
 import com.epam.adk.web.library.exception.ActionException;
 import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.Comment;
@@ -22,11 +23,12 @@ import java.util.Date;
 public class CommentAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(CommentAction.class);
+
+    private static final String REGEX_ENTER = "\\r";
     private static final String USER_PARAMETER = "user";
+    private static final String LINE_BREAK_HTML_TAG = "<p>";
     private static final String BOOK_ID_PARAMETER = "bookID";
     private static final String COMMENT_PARAMETER = "comment";
-    private static final String REGEX_ENTER = "\\r";
-    private static final String LINE_BREAK_HTML_TAG = "<p>";
     private static final String REDIRECT_ABOUT_BOOK_PAGE_ID_PARAMETER = "redirect:about-book&&id=";
 
     @Override
@@ -35,10 +37,10 @@ public class CommentAction implements Action {
 
         HttpSession session = request.getSession(false);
 
-        User user = ((User) session.getAttribute(USER_PARAMETER));
-        int bookID = Integer.parseInt(request.getParameter(BOOK_ID_PARAMETER));
         Date date = new Date();
         Timestamp time = new Timestamp(date.getTime());
+        User user = ((User) session.getAttribute(USER_PARAMETER));
+        int bookID = Integer.parseInt(request.getParameter(BOOK_ID_PARAMETER));
         String text = request.getParameter(COMMENT_PARAMETER).replaceAll(REGEX_ENTER, LINE_BREAK_HTML_TAG);
 
         Comment comment = new Comment();

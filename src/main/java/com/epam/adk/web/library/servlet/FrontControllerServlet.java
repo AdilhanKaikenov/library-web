@@ -20,12 +20,13 @@ import java.io.IOException;
 public final class FrontControllerServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(FrontControllerServlet.class);
-    private static final String REDIRECT_PREFIX = "redirect:";
-    private static final String ACTION_PARAMETER = "action";
+
     private static final String WEB_INF = "/WEB-INF/";
+    private static final String PATH_INFO = "/?action=";
     private static final String JSP_EXPANSION = ".jsp";
     private static final String SERVLET_CONTEXT = "/do";
-    private static final String PATH_INFO = "/?action=";
+    private static final String REDIRECT_PREFIX = "redirect:";
+    private static final String ACTION_PARAMETER = "action";
     private static final String IMAGE_PATH = "D:\\images";
 
     private static ActionFactory factory;

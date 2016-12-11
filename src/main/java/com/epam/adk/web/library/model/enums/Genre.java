@@ -10,10 +10,10 @@ import org.slf4j.LoggerFactory;
  */
 public enum Genre {
 
+    POETRY("Poetry"),
     DOCUMENTAL_LITERATURE("Documental literature"),
     DETECTIVE_AND_THRILLERS("Detectives and thrillers"),
     COMPUTERS_AND_INTERNET("Computers and Internet"),
-    POETRY("Poetry"),
     SCIENCE_AND_EDUCATION("Science and education");
 
     private static final Logger log = LoggerFactory.getLogger(Genre.class);
