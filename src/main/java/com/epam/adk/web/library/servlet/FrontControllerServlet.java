@@ -50,7 +50,7 @@ public final class FrontControllerServlet extends HttpServlet {
         try {
             view = action.execute(request, response);
         } catch (ActionException e) {
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
         proceedTo(request, response, view);

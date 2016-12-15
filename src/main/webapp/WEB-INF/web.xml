@@ -42,6 +42,17 @@
         <url-pattern>/do/*</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>ErrorHandler</servlet-name>
+        <servlet-class>com.epam.adk.web.library.servlet.ErrorHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ErrorHandler</servlet-name>
+        <url-pattern>/error-page</url-pattern>
+    </servlet-mapping>
+    <error-page>
+        <location>/error-page</location>
+    </error-page>
+    <servlet>
         <servlet-name>ImageServlet</servlet-name>
         <servlet-class>com.epam.adk.web.library.servlet.ImageServlet</servlet-class>
     </servlet>
