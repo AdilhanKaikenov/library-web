@@ -23,16 +23,16 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     private static final Logger log = LoggerFactory.getLogger(JdbcBookDao.class);
 
     private static final String TABLE_NAME = "book";
-    private static final String SELECT_ALL = queriesProp.get("select.all.book");
-    private static final String CREATE_QUERY = queriesProp.get("insert.book");
-    private static final String SELECT_BY_ID = queriesProp.get("select.book.by.id");
-    private static final String SELECT_RANGE_BY_GENRE = queriesProp.get("select.range.books.by.genre");
-    private static final String SELECT_COUNT_BY_GENRE_ID = queriesProp.get("select.count.by.genre.id");
-    private static final String SELECT_RANGE_QUERY = queriesProp.get("select.range.books");
-    private static final String UPDATE_QUERY = queriesProp.get("update.book");
-    private static final String SELECT_COUNT_ROWS_QUERY = queriesProp.get("select.count.rows.number");
-    private static final String SELECT_FOUND_QUERY_PART_ONE = queriesProp.get("select.found.books.part.one");
-    private static final String SELECT_FOUND_QUERY_PART_TWO = queriesProp.get("select.found.books.part.two");
+    private static final String SELECT_ALL = getQueriesProp().get("select.all.book");
+    private static final String CREATE_QUERY = getQueriesProp().get("insert.book");
+    private static final String SELECT_BY_ID = getQueriesProp().get("select.book.by.id");
+    private static final String SELECT_RANGE_BY_GENRE = getQueriesProp().get("select.range.books.by.genre");
+    private static final String SELECT_COUNT_BY_GENRE_ID = getQueriesProp().get("select.count.by.genre.id");
+    private static final String SELECT_RANGE_QUERY = getQueriesProp().get("select.range.books");
+    private static final String UPDATE_QUERY = getQueriesProp().get("update.book");
+    private static final String SELECT_COUNT_ROWS_QUERY = getQueriesProp().get("select.count.rows.number");
+    private static final String SELECT_FOUND_QUERY_PART_ONE = getQueriesProp().get("select.found.books.part.one");
+    private static final String SELECT_FOUND_QUERY_PART_TWO = getQueriesProp().get("select.found.books.part.two");
 
     public JdbcBookDao(Connection connection) {
         super(connection);
@@ -75,7 +75,7 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
             if (title.contains("'")) {
                 correctTitle = title.replaceAll("'", "''");
             }
-            resultSet = statement.executeQuery( SELECT_FOUND_QUERY_PART_ONE + correctTitle + SELECT_FOUND_QUERY_PART_TWO);
+            resultSet = statement.executeQuery(SELECT_FOUND_QUERY_PART_ONE + correctTitle + SELECT_FOUND_QUERY_PART_TWO);
             result = createListFrom(resultSet);
             log.debug("Leaving JdbcBookDao class, findByTitle() method. Book found = {}", result.size());
         } catch (SQLException e) {

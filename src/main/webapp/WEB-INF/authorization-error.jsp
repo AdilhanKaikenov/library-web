@@ -23,10 +23,10 @@
             <li><ftm:message key="auth.error.message.three"/></li>
             <li><ftm:message key="auth.error.message.four"/></li>
             <li>
-                <ftm:message key="login.form.incorrect"/>
+                <ftm:message key="login.incorrect"/>
                 <ftm:message key="login.length.incorrect"/></li>
             <li>
-                <ftm:message key="password.form.incorrect"/>
+                <ftm:message key="password.incorrect"/>
                 <ftm:message key="password.length.incorrect"/></li>
         </c:if>
         <c:if test="${not empty requestScope.authorizationError}">

@@ -1,7 +1,8 @@
-package com.epam.adk.web.library.action.reader;
+package com.epam.adk.web.library.action;
 
-import com.epam.adk.web.library.action.Action;
 import com.epam.adk.web.library.exception.ActionException;
+import com.epam.adk.web.library.exception.FormValidationException;
+import com.epam.adk.web.library.exception.PropertyManagerException;
 import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.User;
 import com.epam.adk.web.library.service.UserService;
@@ -27,7 +28,7 @@ public class EditProfileAction implements Action {
     private static final String REDIRECT_PREFIX = "redirect:";
     private static final String ADDRESS_PARAMETER = "address";
     private static final String PASSWORD_PARAMETER = "password";
-    private static final String MOBILE_PHONE_PARAMETER = "mobilePhone";
+    private static final String MOBILE_PHONE_PARAMETER = "mobile_phone";
     private static final String EDIT_PROFILE_PAGE_NAME = "edit-profile";
     private static final String PERSONAL_AREA_PAGE_NAME = "personal-area";
     private static final String INVALID_INFORMATION_REQUEST_ATTRIBUTE = "invalidInformation";
@@ -48,12 +49,15 @@ public class EditProfileAction implements Action {
         String mobilePhone = request.getParameter(MOBILE_PHONE_PARAMETER);
         log.debug("Mobile phone: {}", mobilePhone);
 
-        FormValidator formValidator = new FormValidator();
-
-        boolean isFormInvalid = formValidator.isEditProfileFormInvalid(request);
-        log.debug("Edit profile form validation, invalid = {}", isFormInvalid);
-        if (isFormInvalid) {
-            return EDIT_PROFILE_PAGE_NAME;
+        try {
+            FormValidator formValidator = new FormValidator();
+            boolean isInvalid = formValidator.isInvalid("edit.profile", request);
+            log.debug("Edit profile form validation, invalid = {}", isInvalid);
+            if (isInvalid) {
+                return EDIT_PROFILE_PAGE_NAME;
+            }
+        } catch (PropertyManagerException | FormValidationException e) {
+            throw new ActionException("Error: EditProfileAction class. Validation failed:", e);
         }
 
         user.setPassword(password);

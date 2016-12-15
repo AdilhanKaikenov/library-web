@@ -1,6 +1,5 @@
-package com.epam.adk.web.library.action.reader;
+package com.epam.adk.web.library.action;
 
-import com.epam.adk.web.library.action.Action;
 import com.epam.adk.web.library.exception.ActionException;
 import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.Comment;

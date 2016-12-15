@@ -1,5 +1,8 @@
 package com.epam.adk.web.library.action;
 
+import com.epam.adk.web.library.exception.ActionException;
+import com.epam.adk.web.library.exception.FormValidationException;
+import com.epam.adk.web.library.exception.PropertyManagerException;
 import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.User;
 import com.epam.adk.web.library.model.enums.Gender;
@@ -30,13 +33,13 @@ public class RegistrationAction implements Action {
     private static final String PASSWORD_PARAMETER = "password";
     private static final String FIRSTNAME_PARAMETER = "firstname";
     private static final String PATRONYMIC_PARAMETER = "patronymic";
-    private static final String MOBILE_PHONE_PARAMETER = "mobilePhone";
+    private static final String MOBILE_PHONE_PARAMETER = "mobile_phone";
     private static final String REGISTRATION_PAGE_NAME = "registration";
     private static final String USER_EXIST_REQUEST_ATTRIBUTE = "userExist";
     private static final String REDIRECT_SUCCESS_REGISTRATION_PAGE = "redirect:success-registration";
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
         log.debug("The RegistrationAction started execute.");
 
         String login = request.getParameter(LOGIN_PARAMETER);
@@ -58,11 +61,16 @@ public class RegistrationAction implements Action {
         String mobilePhone = request.getParameter(MOBILE_PHONE_PARAMETER);
         log.debug("Mobile Phone: {}", mobilePhone);
 
-        FormValidator formValidator = new FormValidator();
-        boolean isFormInvalid = formValidator.isRegistrationFormInvalid(request);
-        log.debug("Registration form validation, invalid = {}", isFormInvalid);
-        if (isFormInvalid) {
-            return REGISTRATION_PAGE_NAME;
+        try {
+            FormValidator validator = new FormValidator();
+            boolean isInvalid = validator.isInvalid(REGISTRATION_PAGE_NAME, request);
+            log.debug("Registration form validation, invalid = {}", isInvalid);
+            if (isInvalid){
+                return REGISTRATION_PAGE_NAME;
+            }
+
+        } catch (PropertyManagerException | FormValidationException e) {
+            throw new ActionException("Error: RegistrationAction class. Validation failed:", e);
         }
 
         User user = new User();

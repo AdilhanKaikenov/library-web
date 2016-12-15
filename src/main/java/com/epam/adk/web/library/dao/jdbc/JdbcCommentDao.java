@@ -24,10 +24,10 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
     private static final Logger log = LoggerFactory.getLogger(JdbcCommentDao.class);
 
     private static final String TABLE_NAME = "comment";
-    private static final String CREATE_QUERY = queriesProp.get("insert.comment");
-    private static final String SELECT_ALL_BY_BOOK_ID_QUERY = queriesProp.get("select.all.by.book.id");
-    private static final String SELECT_COUNT_BY_BOOK_ID = queriesProp.get("select.count.by.book.id");
-    private static final String SELECT_RANGE_BY_ID_QUERY = queriesProp.get("select.range.comment.by.book.id");
+    private static final String CREATE_QUERY = getQueriesProp().get("insert.comment");
+    private static final String SELECT_ALL_BY_BOOK_ID_QUERY = getQueriesProp().get("select.all.by.book.id");
+    private static final String SELECT_COUNT_BY_BOOK_ID = getQueriesProp().get("select.count.by.book.id");
+    private static final String SELECT_RANGE_BY_ID_QUERY = getQueriesProp().get("select.range.comment.by.book.id");
 
     public JdbcCommentDao(Connection connection) {
         super(connection);

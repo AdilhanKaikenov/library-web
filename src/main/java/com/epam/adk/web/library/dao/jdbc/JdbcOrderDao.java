@@ -22,18 +22,18 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
 
     private static final Logger log = LoggerFactory.getLogger(JdbcOrderDao.class);
     private static final String TABLE_NAME = "orders";
-    private static final String CREATE_QUERY = queriesProp.get("insert.order");
-    private static final String INSERT_INTO_HISTORY_QUERY = queriesProp.get("insert.into.orders.history");
-    private static final String COUNT_ORDERS_QUERY = queriesProp.get("select.count.orders");
-    private static final String SELECT_COUNT_BY_USER_ID_QUERY = queriesProp.get("select.count.by.user.id");
-    private static final String SELECT_RANGE_BY_ID_QUERY = queriesProp.get("select.range.orders.by.user.id");
-    private static final String SELECT_RANGE_QUERY = queriesProp.get("select.orders.range");
-    private static final String SELECT_RANGE_BY_STATUS_ID_QUERY = queriesProp.get("select.range.orders.by.status.id");
-    private static final String COUNT_ORDERS_BY_STATUS_ID_QUERY = queriesProp.get("select.count.orders.by.status.id");
-    private static final String COUNT_ORDERS_BY_BOOK_ID_QUERY = queriesProp.get("select.count.orders.by.book.id");
-    private static final String SELECT_BY_ID_QUERY = queriesProp.get("select.by.id");
-    private static final String UPDATE_QUERY = queriesProp.get("update.order");
-    private static final String DELETE_ALL_OLD_REJECTED_ORDERS_QUERY = queriesProp.get("delete.all.old.rejected.orders");
+    private static final String CREATE_QUERY = getQueriesProp().get("insert.order");
+    private static final String INSERT_INTO_HISTORY_QUERY = getQueriesProp().get("insert.into.orders.history");
+    private static final String COUNT_ORDERS_QUERY = getQueriesProp().get("select.count.orders");
+    private static final String SELECT_COUNT_BY_USER_ID_QUERY = getQueriesProp().get("select.count.by.user.id");
+    private static final String SELECT_RANGE_BY_ID_QUERY = getQueriesProp().get("select.range.orders.by.user.id");
+    private static final String SELECT_RANGE_QUERY = getQueriesProp().get("select.orders.range");
+    private static final String SELECT_RANGE_BY_STATUS_ID_QUERY = getQueriesProp().get("select.range.orders.by.status.id");
+    private static final String COUNT_ORDERS_BY_STATUS_ID_QUERY = getQueriesProp().get("select.count.orders.by.status.id");
+    private static final String COUNT_ORDERS_BY_BOOK_ID_QUERY = getQueriesProp().get("select.count.orders.by.book.id");
+    private static final String SELECT_BY_ID_QUERY = getQueriesProp().get("select.by.id");
+    private static final String UPDATE_QUERY = getQueriesProp().get("update.order");
+    private static final String DELETE_ALL_OLD_REJECTED_ORDERS_QUERY = getQueriesProp().get("delete.all.old.rejected.orders");
 
     public JdbcOrderDao(Connection connection) {
         super(connection);

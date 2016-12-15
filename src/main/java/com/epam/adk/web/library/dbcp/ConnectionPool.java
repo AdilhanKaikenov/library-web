@@ -2,6 +2,7 @@ package com.epam.adk.web.library.dbcp;
 
 import com.epam.adk.web.library.exception.ConnectionPoolException;
 import com.epam.adk.web.library.exception.ConnectionPoolInitializationException;
+import com.epam.adk.web.library.exception.PropertyManagerException;
 import com.epam.adk.web.library.propmanager.PropertiesManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,15 +25,16 @@ import java.util.concurrent.locks.ReentrantLock;
 public final class ConnectionPool {
 
     private static final Logger log = LoggerFactory.getLogger(ConnectionPool.class);
-    private static final Map<String, String> dbProperties = PropertiesManager.getInstance().getPropertiesAsMap("h2db.properties");
+    private static final int DEFAULT_MIN_POOL_SIZE = 10;
+    private static final int DEFAULT_MAX_POOL_SIZE = 50;
 
-    private static String JDBC_URL = dbProperties.get("jdbc.url");
-    private static String H2_DRIVER = dbProperties.get("h2.driver");
-    private static String DB_LOGIN = dbProperties.get("db.login");
-    private static String DB_PASSWORD = dbProperties.get("db.password");
-    private static int DEFAULT_POOL_SIZE = Integer.parseInt(dbProperties.get("default.pool.size"));
-    private static int MAX_POOL_SIZE = Integer.parseInt(dbProperties.get("max.pool.size"));
-    private static long TIMEOUT = Long.parseLong(dbProperties.get("timeout.milliseconds"));
+    private static String JDBC_URL;
+    private static String H2_DRIVER;
+    private static String DB_LOGIN;
+    private static String DB_PASSWORD;
+    private static int DEFAULT_POOL_SIZE;
+    private static int MAX_POOL_SIZE;
+    private static long TIMEOUT;
 
     private BlockingQueue<Connection> freeConnections = null;
     private final Lock lock = new ReentrantLock();
@@ -43,6 +45,7 @@ public final class ConnectionPool {
     public void init() throws ConnectionPoolInitializationException {
         try {
             log.debug("Creating connection pool.");
+            configure();
             log.debug("Database driver: {}", H2_DRIVER);
             Class.forName(H2_DRIVER);
             freeConnections = new ArrayBlockingQueue<>(MAX_POOL_SIZE, true);
@@ -57,7 +60,32 @@ public final class ConnectionPool {
         } catch (SQLException e) {
             log.error("Error: Get connection from database failed. Called newConnection() method failed: {}", e);
             throw new ConnectionPoolInitializationException("Error: Get connection from database failed. Called newConnection() method failed:", e);
+        } catch (PropertyManagerException e) {
+            log.error("Error: Called configure() method failed: {}", e);
+            throw new ConnectionPoolInitializationException("Error: Called configure() method failed: {}", e);
         }
+    }
+
+    private void configure() throws PropertyManagerException {
+        PropertiesManager propertiesManager = new PropertiesManager("h2db.properties");
+        Map<String, String> dbProperties = propertiesManager.getPropertiesAsMap();
+        JDBC_URL = dbProperties.get("jdbc.url");
+        H2_DRIVER = dbProperties.get("h2.driver");
+        DB_LOGIN = dbProperties.get("db.login");
+        DB_PASSWORD = dbProperties.get("db.password");
+        DEFAULT_POOL_SIZE = getInt(dbProperties.get("default.pool.size"), DEFAULT_MIN_POOL_SIZE);
+        MAX_POOL_SIZE = getInt(dbProperties.get("max.pool.size"), DEFAULT_MAX_POOL_SIZE);
+        TIMEOUT = Long.parseLong(dbProperties.get("timeout.milliseconds"));
+    }
+
+    private static int getInt(String string, int defaultValue) {
+        int result = defaultValue;
+        try {
+            result = Integer.parseInt(string);
+        } catch (NumberFormatException e){
+            return result;
+        }
+        return result;
     }
 
     private Connection newConnection() throws SQLException {
@@ -134,4 +162,6 @@ public final class ConnectionPool {
         freeConnections.clear();
         log.debug("ConnectionPool class, shutDown() method, Pool successfully closed. Pool size = {}.", freeConnectionsNumber());
     }
+
+
 }

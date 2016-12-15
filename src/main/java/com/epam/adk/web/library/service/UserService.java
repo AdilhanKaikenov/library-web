@@ -25,16 +25,9 @@ public class UserService {
         log.debug("Entering UserService class register() method, user login = {}", user.getLogin());
         User registeredUser;
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            try {
-                jdbcDaoFactory.beginTransaction();
-                UserDao userDao = jdbcDaoFactory.userDao();
-                registeredUser = userDao.create(user);
-                jdbcDaoFactory.endTransaction();
-                log.debug("Leaving UserService class register() method.");
-            } catch (SQLException e) {
-                jdbcDaoFactory.rollbackTransaction();
-                throw new ServiceException("Error: UserService class, register() method. TRANSACTION error:", e);
-            }
+            UserDao userDao = jdbcDaoFactory.getUserDao();
+            registeredUser = userDao.create(user);
+            log.debug("Leaving UserService class register() method.");
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: UserService class, register() method.", e);
         }
@@ -45,19 +38,12 @@ public class UserService {
         log.debug("Entering UserService class authorize() method, user login = {}", user.getLogin());
         User authorizedUser;
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            try {
-                jdbcDaoFactory.beginTransaction();
-                UserDao userDao = jdbcDaoFactory.userDao();
-                authorizedUser = userDao.read(user);
-                if (authorizedUser != null) {
-                    log.debug("Authorized user login: {}", authorizedUser.getLogin());
-                }
-                jdbcDaoFactory.endTransaction();
-                log.debug("Leaving UserService class authorize() method.");
-            } catch (SQLException e) {
-                jdbcDaoFactory.rollbackTransaction();
-                throw new ServiceException("Error: UserService class, authorize() method. TRANSACTION error:", e);
+            UserDao userDao = jdbcDaoFactory.getUserDao();
+            authorizedUser = userDao.read(user);
+            if (authorizedUser != null) {
+                log.debug("Authorized user login: {}", authorizedUser.getLogin());
             }
+            log.debug("Leaving UserService class authorize() method.");
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: UserService class, authorize() method.", e);
         }
@@ -67,16 +53,9 @@ public class UserService {
     public User getUserById(int id) throws ServiceException {
         User user;
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            try {
-                jdbcDaoFactory.beginTransaction();
-                UserDao userDao = jdbcDaoFactory.userDao();
-                user = userDao.read(id);
-                jdbcDaoFactory.endTransaction();
-                log.debug("Leaving UserService class getUserById() method.");
-            } catch (SQLException e) {
-                jdbcDaoFactory.rollbackTransaction();
-                throw new ServiceException("Error: UserService class, getUserById() method. TRANSACTION error:", e);
-            }
+            UserDao userDao = jdbcDaoFactory.getUserDao();
+            user = userDao.read(id);
+            log.debug("Leaving UserService class getUserById() method.");
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: UserService class, getUserById() method.", e);
         }
@@ -86,16 +65,9 @@ public class UserService {
     public void updateUserData(User user) throws ServiceException {
         log.debug("Entering UserService class updateUserData() method. User Id = {}", user.getId());
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            try {
-                jdbcDaoFactory.beginTransaction();
-                UserDao userDao = jdbcDaoFactory.userDao();
-                userDao.update(user);
-                jdbcDaoFactory.endTransaction();
-                log.debug("Leaving UserService class updateUserData() method.");
-            } catch (SQLException e) {
-                jdbcDaoFactory.rollbackTransaction();
-                throw new ServiceException("Error: UserService class, updateUserData() method. TRANSACTION error:", e);
-            }
+            UserDao userDao = jdbcDaoFactory.getUserDao();
+            userDao.update(user);
+            log.debug("Leaving UserService class updateUserData() method.");
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: UserService class, updateUserData() method.", e);
         }
@@ -105,18 +77,11 @@ public class UserService {
         log.debug("Entering UserService class getPaginated() method.");
         List<User> result;
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            try {
-                jdbcDaoFactory.beginTransaction();
-                UserDao userDao = jdbcDaoFactory.userDao();
-                int offset = pageSize * pageNumber - pageSize;
-                result = userDao.readRange(offset, pageSize);
-                log.debug("UserService class, getPaginated() method: result size = {}", result.size());
-                jdbcDaoFactory.endTransaction();
-                log.debug("Leaving UserService class getPaginated() method.");
-            } catch (SQLException e) {
-                jdbcDaoFactory.rollbackTransaction();
-                throw new ServiceException("Error: UserService class, getPaginated() method. TRANSACTION error:", e);
-            }
+            UserDao userDao = jdbcDaoFactory.getUserDao();
+            int offset = pageSize * pageNumber - pageSize;
+            result = userDao.readRange(offset, pageSize);
+            log.debug("UserService class, getPaginated() method: result size = {}", result.size());
+            log.debug("Leaving UserService class getPaginated() method.");
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: UserService class, getPaginated() method.", e);
         }
@@ -127,16 +92,9 @@ public class UserService {
         log.debug("Entering UserService class getUsersNumber() method.");
         int usersNumber;
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            try {
-                jdbcDaoFactory.beginTransaction();
-                UserDao userDao = jdbcDaoFactory.userDao();
-                usersNumber = userDao.getNumberRows();
-                jdbcDaoFactory.endTransaction();
-                log.debug("Leaving UserService class getUsersNumber() method.");
-            } catch (SQLException e) {
-                jdbcDaoFactory.rollbackTransaction();
-                throw new ServiceException("Error: UserService class, getUsersNumber() method. TRANSACTION error:", e);
-            }
+            UserDao userDao = jdbcDaoFactory.getUserDao();
+            usersNumber = userDao.getNumberRows();
+            log.debug("Leaving UserService class getUsersNumber() method.");
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: UserService class, getUsersNumber() method.", e);
         }

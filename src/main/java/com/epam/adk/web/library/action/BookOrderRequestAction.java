@@ -1,6 +1,5 @@
-package com.epam.adk.web.library.action.reader;
+package com.epam.adk.web.library.action;
 
-import com.epam.adk.web.library.action.Action;
 import com.epam.adk.web.library.exception.ActionException;
 import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.Order;
@@ -62,8 +61,8 @@ public class BookOrderRequestAction implements Action {
                 return ORDER_REQUEST_INFO_PAGE;
             }
 
-            Order sentRequest = orderService.sendRequest(order);
-            if (sentRequest != null) {
+            Order submittedOrder = orderService.submitOrder(order);
+            if (submittedOrder != null) {
                 request.setAttribute(SENT_REQUEST_SUCCESSFUL_REQUEST_ATTRIBUTE, "book.order.request.successful");
             }
 

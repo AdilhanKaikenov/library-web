@@ -22,25 +22,25 @@ public class JdbcDaoFactory extends DaoFactory {
     }
 
     @Override
-    public UserDao userDao() {
+    public UserDao getUserDao() {
         log.debug("JdbcDaoFactory class, JdbcUserDao created");
         return new JdbcUserDao(connection);
     }
 
     @Override
-    public BookDao bookDao() {
+    public BookDao getBookDao() {
         log.debug("JdbcDaoFactory class, JdbcBookDao created");
         return new JdbcBookDao(connection);
     }
 
     @Override
-    public CommentDao commentDao() {
+    public CommentDao getCommentDao() {
         log.debug("JdbcDaoFactory class, JdbcCommentDao created");
         return new JdbcCommentDao(connection);
     }
 
     @Override
-    public OrderDao orderDao() {
+    public OrderDao getOrderDao() {
         log.debug("JdbcDaoFactory class, JdbcOrderDao created");
         return new JdbcOrderDao(connection);
     }

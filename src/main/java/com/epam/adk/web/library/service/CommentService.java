@@ -25,16 +25,9 @@ public class CommentService {
         log.debug("Entering CommentService class writeComment() method.");
         Comment addedComment;
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            try {
-                jdbcDaoFactory.beginTransaction();
-                CommentDao commentDao = jdbcDaoFactory.commentDao();
-                addedComment = commentDao.create(comment);
-                jdbcDaoFactory.endTransaction();
-                log.debug("Leaving CommentService class writeComment() method.");
-            } catch (SQLException e) {
-                jdbcDaoFactory.rollbackTransaction();
-                throw new ServiceException("Error: CommentService class, writeComment() method. TRANSACTION error:", e);
-            }
+            CommentDao commentDao = jdbcDaoFactory.getCommentDao();
+            addedComment = commentDao.create(comment);
+            log.debug("Leaving CommentService class writeComment() method.");
         } catch (DaoException | SQLException e) {
             throw new ServiceException("Error: CommentService class, writeComment() method.", e);
         }
@@ -45,17 +38,10 @@ public class CommentService {
         log.debug("Entering CommentService class getPaginatedComments() method. Book id = {}", id);
         List<Comment> result;
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            try {
-                jdbcDaoFactory.beginTransaction();
-                CommentDao commentDao = jdbcDaoFactory.commentDao();
-                int offset = pageSize * pageNumber - pageSize;
-                result = commentDao.readRangeByIdParameter(id, offset, pageSize);
-                jdbcDaoFactory.endTransaction();
-                log.debug("Leaving CommentService class getPaginatedComments() method. Amount of books comment = {}", result.size());
-            } catch (SQLException e) {
-                jdbcDaoFactory.rollbackTransaction();
-                throw new ServiceException("Error: CommentService class, getPaginatedComments() method. TRANSACTION error:", e);
-            }
+            CommentDao commentDao = jdbcDaoFactory.getCommentDao();
+            int offset = pageSize * pageNumber - pageSize;
+            result = commentDao.readRangeByIdParameter(id, offset, pageSize);
+            log.debug("Leaving CommentService class getPaginatedComments() method. Amount of books comment = {}", result.size());
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: CommentService class, getPaginatedComments() method.", e);
         }
@@ -66,16 +52,9 @@ public class CommentService {
         log.debug("Entering CommentService class getCommentsNumberByBookId() method.");
         int commentsNumber;
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            try {
-                jdbcDaoFactory.beginTransaction();
-                CommentDao commentDao = jdbcDaoFactory.commentDao();
-                commentsNumber = commentDao.getNumberRowsByIdParameter(id);
-                jdbcDaoFactory.endTransaction();
-                log.debug("Leaving CommentService class getCommentsNumberByBookId() method.");
-            } catch (SQLException e) {
-                jdbcDaoFactory.rollbackTransaction();
-                throw new ServiceException("Error: CommentService class, getCommentsNumberByBookId() method. TRANSACTION error:", e);
-            }
+            CommentDao commentDao = jdbcDaoFactory.getCommentDao();
+            commentsNumber = commentDao.getNumberRowsByIdParameter(id);
+            log.debug("Leaving CommentService class getCommentsNumberByBookId() method.");
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: CommentService class, getCommentsNumberByBookId() method.", e);
         }

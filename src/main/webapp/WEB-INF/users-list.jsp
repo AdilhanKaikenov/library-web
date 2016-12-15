@@ -21,7 +21,7 @@
     <div align="center">
         <form action="${base}/do/" method="post">
             <input type="hidden" name="action" value="edit-user">
-            <table cellpadding="8">
+            <table cellpadding="6">
                 <tr><h3><ftm:message key="users.list.page"/></h3></tr>
                 <tr bgcolor="#deb887" class="th">
                     <th><ftm:message key="login.field"/></th>

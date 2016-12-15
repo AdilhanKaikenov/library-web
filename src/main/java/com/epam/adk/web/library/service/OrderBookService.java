@@ -21,22 +21,15 @@ public class OrderBookService {
 
     private static final Logger log = LoggerFactory.getLogger(OrderBookService.class);
 
-    public Order sendRequest(Order order) throws ServiceException {
-        log.debug("Entering OrderBookService class sendRequest() method.");
+    public Order submitOrder(Order order) throws ServiceException {
+        log.debug("Entering OrderBookService class submitOrder() method.");
         Order orderRequest;
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            try {
-                jdbcDaoFactory.beginTransaction();
-                OrderDao orderDao = jdbcDaoFactory.orderDao();
-                orderRequest = orderDao.create(order);
-                jdbcDaoFactory.endTransaction();
-                log.debug("Leaving OrderBookService class sendRequest() method.");
-            } catch (SQLException e) {
-                jdbcDaoFactory.rollbackTransaction();
-                throw new ServiceException("Error: OrderBookService class, sendRequest() method. TRANSACTION error:", e);
-            }
+            OrderDao orderDao = jdbcDaoFactory.getOrderDao();
+            orderRequest = orderDao.create(order);
+            log.debug("Leaving OrderBookService class submitOrder() method.");
         } catch (SQLException | DaoException e) {
-            throw new ServiceException("Error: OrderBookService class, sendRequest() method.", e);
+            throw new ServiceException("Error: OrderBookService class, submitOrder() method.", e);
         }
         return orderRequest;
     }
@@ -45,16 +38,9 @@ public class OrderBookService {
         log.debug("Entering OrderBookService class getOrderNumber() method.");
         int orderNumber;
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            try {
-                jdbcDaoFactory.beginTransaction();
-                OrderDao orderDao = jdbcDaoFactory.orderDao();
-                orderNumber = orderDao.countOrder(order);
-                jdbcDaoFactory.endTransaction();
-                log.debug("Leaving OrderBookService class getOrderNumber() method.");
-            } catch (SQLException e) {
-                jdbcDaoFactory.rollbackTransaction();
-                throw new ServiceException("Error: OrderBookService class, getOrderNumber() method. TRANSACTION error:", e);
-            }
+            OrderDao orderDao = jdbcDaoFactory.getOrderDao();
+            orderNumber = orderDao.countOrder(order);
+            log.debug("Leaving OrderBookService class getOrderNumber() method.");
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: OrderBookService class, getOrderNumber() method.", e);
         }
@@ -65,16 +51,9 @@ public class OrderBookService {
         log.debug("Entering OrderBookService class getOrdersNumberByUser() method.");
         int ordersNumber;
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            try {
-                jdbcDaoFactory.beginTransaction();
-                OrderDao orderDao = jdbcDaoFactory.orderDao();
-                ordersNumber = orderDao.getNumberRowsByIdParameter(id);
-                jdbcDaoFactory.endTransaction();
-                log.debug("Leaving OrderBookService class getOrdersNumberByUser() method.");
-            } catch (SQLException e) {
-                jdbcDaoFactory.rollbackTransaction();
-                throw new ServiceException("Error: OrderBookService class, getOrdersNumberByUser() method. TRANSACTION error:", e);
-            }
+            OrderDao orderDao = jdbcDaoFactory.getOrderDao();
+            ordersNumber = orderDao.getNumberRowsByIdParameter(id);
+            log.debug("Leaving OrderBookService class getOrdersNumberByUser() method.");
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: OrderBookService class, getOrdersNumberByUser() method.", e);
         }
@@ -85,17 +64,10 @@ public class OrderBookService {
         log.debug("Entering OrderBookService class getPaginatedUserOrders() method. User id = {}", userID);
         List<Order> result;
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            try {
-                jdbcDaoFactory.beginTransaction();
-                OrderDao orderDao = jdbcDaoFactory.orderDao();
-                int offset = pageSize * pageNumber - pageSize;
-                result = orderDao.readRangeByIdParameter(userID, offset, pageSize);
-                jdbcDaoFactory.endTransaction();
-                log.debug("Leaving OrderBookService class getPaginatedUserOrders() method. Amount of orders comment = {}", result.size());
-            } catch (SQLException e) {
-                jdbcDaoFactory.rollbackTransaction();
-                throw new ServiceException("Error: OrderBookService class, getPaginatedUserOrders() method. TRANSACTION error:", e);
-            }
+            OrderDao orderDao = jdbcDaoFactory.getOrderDao();
+            int offset = pageSize * pageNumber - pageSize;
+            result = orderDao.readRangeByIdParameter(userID, offset, pageSize);
+            log.debug("Leaving OrderBookService class getPaginatedUserOrders() method. Amount of orders comment = {}", result.size());
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: OrderBookService class, getPaginatedUserOrders() method.", e);
         }
@@ -106,18 +78,11 @@ public class OrderBookService {
         log.debug("Entering OrderBookService class getPaginated() method.");
         List<Order> result;
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            try {
-                jdbcDaoFactory.beginTransaction();
-                OrderDao orderDao = jdbcDaoFactory.orderDao();
-                int offset = pageSize * pageNumber - pageSize;
-                result = orderDao.readRangeByStatusId(statusID, offset, pageSize);
-                log.debug("OrderBookService class, getPaginated() method: result size = {}", result.size());
-                jdbcDaoFactory.endTransaction();
-                log.debug("Leaving OrderBookService class getPaginated() method.");
-            } catch (SQLException e) {
-                jdbcDaoFactory.rollbackTransaction();
-                throw new ServiceException("Error: OrderBookService class, getPaginated() method. TRANSACTION error:", e);
-            }
+            OrderDao orderDao = jdbcDaoFactory.getOrderDao();
+            int offset = pageSize * pageNumber - pageSize;
+            result = orderDao.readRangeByStatusId(statusID, offset, pageSize);
+            log.debug("OrderBookService class, getPaginated() method: result size = {}", result.size());
+            log.debug("Leaving OrderBookService class getPaginated() method.");
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: OrderBookService class, getPaginated() method.", e);
         }
@@ -128,16 +93,9 @@ public class OrderBookService {
         log.debug("Entering OrderBookService class getOrdersNumberByStatusID() method.");
         int ordersNumber;
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            try {
-                jdbcDaoFactory.beginTransaction();
-                OrderDao orderDao = jdbcDaoFactory.orderDao();
-                ordersNumber = orderDao.getNumberRowsByStatusId(statusID);
-                jdbcDaoFactory.endTransaction();
-                log.debug("Leaving OrderBookService class getOrdersNumberByStatusID() method.");
-            } catch (SQLException e) {
-                jdbcDaoFactory.rollbackTransaction();
-                throw new ServiceException("Error: OrderBookService class, getOrdersNumberByStatusID() method. TRANSACTION error:", e);
-            }
+            OrderDao orderDao = jdbcDaoFactory.getOrderDao();
+            ordersNumber = orderDao.getNumberRowsByStatusId(statusID);
+            log.debug("Leaving OrderBookService class getOrdersNumberByStatusID() method.");
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: OrderBookService class, getOrdersNumberByStatusID() method.", e);
         }
@@ -148,16 +106,9 @@ public class OrderBookService {
         log.debug("Entering OrderBookService class getOrdersNumberByBookID() method.");
         int ordersNumber;
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            try {
-                jdbcDaoFactory.beginTransaction();
-                OrderDao orderDao = jdbcDaoFactory.orderDao();
-                ordersNumber = orderDao.getNumberRowsByBookId(bookID);
-                jdbcDaoFactory.endTransaction();
-                log.debug("Leaving OrderBookService class getOrdersNumberByBookID() method.");
-            } catch (SQLException e) {
-                jdbcDaoFactory.rollbackTransaction();
-                throw new ServiceException("Error: OrderBookService class, getOrdersNumberByBookID() method. TRANSACTION error:", e);
-            }
+            OrderDao orderDao = jdbcDaoFactory.getOrderDao();
+            ordersNumber = orderDao.getNumberRowsByBookId(bookID);
+            log.debug("Leaving OrderBookService class getOrdersNumberByBookID() method.");
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: OrderBookService class, getOrdersNumberByBookID() method.", e);
         }
@@ -168,16 +119,9 @@ public class OrderBookService {
         log.debug("Entering OrderBookService class getOrderById() method. Id = {}", id);
         Order order;
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            try {
-                jdbcDaoFactory.beginTransaction();
-                OrderDao orderDao = jdbcDaoFactory.orderDao();
-                order = orderDao.read(id);
-                jdbcDaoFactory.endTransaction();
-                log.debug("Leaving OrderBookService class getOrderById() method.");
-            } catch (SQLException e) {
-                jdbcDaoFactory.rollbackTransaction();
-                throw new ServiceException("Error: OrderBookService class, getOrderById() method. TRANSACTION error:", e);
-            }
+            OrderDao orderDao = jdbcDaoFactory.getOrderDao();
+            order = orderDao.read(id);
+            log.debug("Leaving OrderBookService class getOrderById() method.");
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: OrderBookService class, getOrderById() method.", e);
         }
@@ -187,16 +131,9 @@ public class OrderBookService {
     public void updateOrder(Order order) throws ServiceException {
         log.debug("Entering OrderBookService class updateOrder() method. Order Id = {}", order.getId());
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            try {
-                jdbcDaoFactory.beginTransaction();
-                OrderDao orderDao = jdbcDaoFactory.orderDao();
-                orderDao.update(order);
-                jdbcDaoFactory.endTransaction();
-                log.debug("Leaving OrderBookService class updateOrder() method.");
-            } catch (SQLException e) {
-                jdbcDaoFactory.rollbackTransaction();
-                throw new ServiceException("Error: OrderBookService class, updateOrder() method. TRANSACTION error:", e);
-            }
+            OrderDao orderDao = jdbcDaoFactory.getOrderDao();
+            orderDao.update(order);
+            log.debug("Leaving OrderBookService class updateOrder() method.");
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: OrderBookService class, updateOrder() method.", e);
         }
@@ -204,17 +141,10 @@ public class OrderBookService {
 
     public void writeToHistory(Order order) throws ServiceException {
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            try {
-                jdbcDaoFactory.beginTransaction();
-                OrderDao orderDao = jdbcDaoFactory.orderDao();
-                orderDao.insertIntoHistory(order);
-                orderDao.delete(order);
-                jdbcDaoFactory.endTransaction();
-                log.debug("Leaving OrderBookService class writeToHistory() method.");
-            } catch (SQLException e) {
-                jdbcDaoFactory.rollbackTransaction();
-                throw new ServiceException("Error: OrderBookService class, writeToHistory() method. TRANSACTION error:", e);
-            }
+            OrderDao orderDao = jdbcDaoFactory.getOrderDao();
+            orderDao.insertIntoHistory(order);
+            orderDao.delete(order);
+            log.debug("Leaving OrderBookService class writeToHistory() method.");
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: OrderBookService class, writeToHistory() method.", e);
         }
@@ -223,16 +153,9 @@ public class OrderBookService {
     public void deleteRejectedOrderRequests() throws ServiceException {
         log.debug("Entering OrderBookService class deleteRejectedOrderRequests() method. ");
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            try {
-                jdbcDaoFactory.beginTransaction();
-                OrderDao orderDao = jdbcDaoFactory.orderDao();
-                orderDao.deleteAllOldRejectedOrderRequests();
-                jdbcDaoFactory.endTransaction();
-                log.debug("Leaving OrderBookService class deleteRejectedOrderRequests() method.");
-            } catch (SQLException e) {
-                jdbcDaoFactory.rollbackTransaction();
-                throw new ServiceException("Error: OrderBookService class, deleteRejectedOrderRequests() method. TRANSACTION error:", e);
-            }
+            OrderDao orderDao = jdbcDaoFactory.getOrderDao();
+            orderDao.deleteAllOldRejectedOrderRequests();
+            log.debug("Leaving OrderBookService class deleteRejectedOrderRequests() method.");
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: OrderBookService class, deleteRejectedOrderRequests() method.", e);
         }

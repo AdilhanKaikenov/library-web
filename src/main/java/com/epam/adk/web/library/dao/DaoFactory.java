@@ -48,13 +48,13 @@ public abstract class DaoFactory implements AutoCloseable {
         DaoFactory.connectionPool = connectionPool;
     }
 
-    public abstract UserDao userDao();
+    public abstract UserDao getUserDao();
 
-    public abstract BookDao bookDao();
+    public abstract BookDao getBookDao();
 
-    public abstract CommentDao commentDao();
+    public abstract CommentDao getCommentDao();
 
-    public abstract OrderDao orderDao();
+    public abstract OrderDao getOrderDao();
 
     /**
      * Start transaction.

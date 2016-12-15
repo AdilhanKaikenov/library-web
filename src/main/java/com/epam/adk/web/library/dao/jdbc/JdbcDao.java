@@ -2,6 +2,7 @@ package com.epam.adk.web.library.dao.jdbc;
 
 import com.epam.adk.web.library.dao.Dao;
 import com.epam.adk.web.library.exception.DaoException;
+import com.epam.adk.web.library.exception.PropertyManagerException;
 import com.epam.adk.web.library.model.BaseEntity;
 import com.epam.adk.web.library.propmanager.PropertiesManager;
 import org.slf4j.Logger;
@@ -23,8 +24,8 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
     private static final Logger log = LoggerFactory.getLogger(JdbcDao.class);
 
-    protected static final Map<String, String> queriesProp = PropertiesManager.getInstance().getPropertiesAsMap("query.properties");
     private static final int FIRST_COLUMN_INDEX = 1;
+    private static Map<String, String> queriesProp;
 
     private Connection connection;
 
@@ -34,6 +35,19 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
     protected Connection getConnection() {
         return connection;
+    }
+
+    protected static Map<String, String> getQueriesProp() {
+        PropertiesManager propertiesManager = null;
+        try {
+            propertiesManager = new PropertiesManager("query.properties");
+        } catch (PropertyManagerException e) {
+            log.error("Error: JdbcDao class, getQueriesProp() method: {}", e);
+        }
+        if (propertiesManager != null) {
+            queriesProp = propertiesManager.getPropertiesAsMap();
+        }
+        return queriesProp;
     }
 
     @Override

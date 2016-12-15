@@ -1,6 +1,7 @@
 package com.epam.adk.web.library.filter;
 
 
+import com.epam.adk.web.library.exception.PropertyManagerException;
 import com.epam.adk.web.library.model.User;
 import com.epam.adk.web.library.model.enums.Role;
 import com.epam.adk.web.library.propmanager.PropertiesManager;
@@ -25,9 +26,9 @@ public final class RoleFilter implements Filter {
 
     private static final Logger log = LoggerFactory.getLogger(RoleFilter.class);
 
-    private static final Collection<String> librarianAvailableActions = PropertiesManager.getInstance().getAllValues("/role_actions/librarian.actions.properties");
-    private static final Collection<String> readerAvailableActions = PropertiesManager.getInstance().getAllValues("/role_actions/reader.actions.properties");
-    private static final Collection<String> anonAvailableActions = PropertiesManager.getInstance().getAllValues("/role_actions/anon.actions.properties");
+    private static Collection<String> librarianAvailableActions;
+    private static Collection<String> readerAvailableActions;
+    private static Collection<String> anonAvailableActions;
 
     private static final String PATH_INFO = "/?action=welcome";
     private static final String READER_ROLE = "Reader";
@@ -43,6 +44,12 @@ public final class RoleFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
+        try {
+            loadProperties();
+        } catch (PropertyManagerException e) {
+            log.error("Error: RoleFilter class, init() method: called loadProperties() method failed: {}", e);
+        }
+
         log.debug("LIBRARIAN Available Actions = {}", librarianAvailableActions.size());
         log.debug("READER Available Actions = {}", readerAvailableActions.size());
         log.debug("ANON Available Actions = {}", anonAvailableActions.size());
@@ -51,6 +58,16 @@ public final class RoleFilter implements Filter {
         readerActions.addAll(readerAvailableActions);
         anonActions.addAll(anonAvailableActions);
 
+    }
+
+    private void loadProperties() throws PropertyManagerException {
+        PropertiesManager libPropertiesManager = new PropertiesManager("/role_actions/librarian.actions.properties");
+        PropertiesManager readerPropertiesManager = new PropertiesManager("/role_actions/reader.actions.properties");
+        PropertiesManager anonPropertiesManager = new PropertiesManager("/role_actions/anon.actions.properties");
+
+        librarianAvailableActions = libPropertiesManager.getAllValues();
+        readerAvailableActions = readerPropertiesManager.getAllValues();
+        anonAvailableActions = anonPropertiesManager.getAllValues();
     }
 
     @Override

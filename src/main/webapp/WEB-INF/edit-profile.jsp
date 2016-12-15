@@ -20,9 +20,9 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <c:if test="${not empty requestScope.passwordFormIncorrect}">
+                        <c:if test="${not empty requestScope.passwordIncorrect}">
                         <li style="color: red">
-                                <ftm:message key="${requestScope.passwordFormIncorrect}"/>
+                                <ftm:message key="${requestScope.passwordIncorrect}"/>
                             </c:if>
                             <c:if test="${not empty requestScope.passwordLengthIncorrect}">
                         <li style="color: red">
@@ -33,28 +33,28 @@
                     <td><input type="password" name="password" value=""></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><c:if test="${not empty requestScope.emailFormIncorrect}">
+                    <td colspan="2"><c:if test="${not empty requestScope.emailIncorrect}">
                         <li style="color: red">
-                        <ftm:message key="${requestScope.emailFormIncorrect}"/></c:if></td>
+                        <ftm:message key="${requestScope.emailIncorrect}"/></c:if></td>
                 </tr>
                 <tr>
                     <th align="right"><ftm:message key="new.email"/></th>
                     <td><input type="text" name="email" value="${user.email}"></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><c:if test="${not empty requestScope.mobilePhoneFormIncorrect}">
+                    <td colspan="2"><c:if test="${not empty requestScope.mobile_phoneIncorrect}">
                         <li style="color: red">
-                        <ftm:message key="${requestScope.mobilePhoneFormIncorrect}"/></c:if></td>
+                        <ftm:message key="${requestScope.mobile_phoneIncorrect}"/></c:if></td>
                 </tr>
                 <tr>
                     <th align="right"><ftm:message key="new.phone"/></th>
-                    <td><input type="text" name="mobilePhone" value="${user.mobilePhone}"></td>
+                    <td><input type="text" name="mobile_phone" value="${user.mobilePhone}"></td>
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <c:if test="${not empty requestScope.addressFormIncorrect}">
+                        <c:if test="${not empty requestScope.addressIncorrect}">
                         <li style="color: red">
-                                <ftm:message key="${requestScope.addressFormIncorrect}"/>
+                                <ftm:message key="${requestScope.addressIncorrect}"/>
                             </c:if>
                             <c:if test="${not empty requestScope.addressLengthIncorrect}">
                         <li style="color: red">

@@ -5,7 +5,7 @@ package com.epam.adk.web.library.exception;
  *
  * @author Kaikenov Adilhan
  */
-public class PropertyManagerException extends RuntimeException {
+public class PropertyManagerException extends Exception {
 
     public PropertyManagerException(String message) {
         super(message);
