@@ -57,7 +57,7 @@
                         ${order.client}
                 </td>
                 <td width="200px">
-                        ${order.bookTitle}
+                        ${order.book.title}
                 </td>
                 <td width="100px">
                         ${order.type.value}

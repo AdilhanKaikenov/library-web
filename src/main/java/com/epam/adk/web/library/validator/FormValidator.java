@@ -2,6 +2,7 @@ package com.epam.adk.web.library.validator;
 
 import com.epam.adk.web.library.exception.FormValidationException;
 import com.epam.adk.web.library.exception.PropertyManagerException;
+import com.epam.adk.web.library.exception.ValidatorConfigurationException;
 import com.epam.adk.web.library.propmanager.PropertiesManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,11 +33,14 @@ public class FormValidator {
 
     private static Map<String, String> properties;
 
-    public FormValidator() throws PropertyManagerException {
-        log.debug("FormValidator constructor.");
+    public static void configure() throws ValidatorConfigurationException {
         if (properties == null) {
-            PropertiesManager propertiesManager = new PropertiesManager(PROPERTIES_FILE_NAME);
-            properties = propertiesManager.getPropertiesAsMap();
+            try {
+                PropertiesManager propertiesManager = new PropertiesManager(PROPERTIES_FILE_NAME);
+                properties = propertiesManager.getPropertiesAsMap();
+            } catch (PropertyManagerException e) {
+                throw new ValidatorConfigurationException("Error: FormValidator class, configure() method.", e);
+            }
         }
     }
 
@@ -56,7 +60,7 @@ public class FormValidator {
                         log.debug("Incorrect regex: {}", key);
                         request.setAttribute(key + INCORRECT, validator.getMessage());
                     }
-                    if (validator instanceof LengthValidator){
+                    if (validator instanceof LengthValidator) {
                         log.debug("Incorrect length: {}", key);
                         request.setAttribute(key + LENGTH_INCORRECT, validator.getMessage());
                     }
@@ -86,9 +90,9 @@ public class FormValidator {
         List<Validator> validators = new ArrayList<>();
 
         Set<Map.Entry<String, String>> entries = properties.entrySet();
-        for (Map.Entry<String, String> next : entries) {
-            String key = next.getKey();
-            String value = next.getValue();
+        for (Map.Entry<String, String> entry : entries) {
+            String key = entry.getKey();
+            String value = entry.getValue();
 
             String[] split = key.split(DOT_REGEX);
 
@@ -126,8 +130,8 @@ public class FormValidator {
         for (Map.Entry<String, String> entry : entries) {
             String key = entry.getKey();
             String value = entry.getValue();
-            String[] splittedKey = key.split(DOT_REGEX);
-            String validatorField = splittedKey[splittedKey.length - 1];
+            String[] keyParts = key.split(DOT_REGEX);
+            String validatorField = keyParts[keyParts.length - 1];
 
             if (key.contains(validatorIdentifier)) {
                 try {

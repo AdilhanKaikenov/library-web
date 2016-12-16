@@ -12,10 +12,9 @@ import java.sql.Date;
  **/
 public class Order extends BaseEntity {
 
-    private int userID;
-    private int bookID;
+    private User user;
+    private Book book;
     private String client;
-    private String bookTitle;
     private Date orderDate;
     private OrderType type;
     private Date from;
@@ -23,20 +22,20 @@ public class Order extends BaseEntity {
     private int availableBookAmount;
     private OrderStatus status;
 
-    public int getUserID() {
-        return userID;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public int getBookID() {
-        return bookID;
+    public Book getBook() {
+        return book;
     }
 
-    public void setBookID(int bookID) {
-        this.bookID = bookID;
+    public void setBook(Book book) {
+        this.book = book;
     }
 
     public String getClient() {
@@ -45,14 +44,6 @@ public class Order extends BaseEntity {
 
     public void setClient(String client) {
         this.client = client;
-    }
-
-    public String getBookTitle() {
-        return bookTitle;
-    }
-
-    public void setBookTitle(String bookTitle) {
-        this.bookTitle = bookTitle;
     }
 
     public Date getOrderDate() {

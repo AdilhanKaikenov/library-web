@@ -2,6 +2,7 @@ package com.epam.adk.web.library.filter;
 
 
 import com.epam.adk.web.library.exception.PropertyManagerException;
+import com.epam.adk.web.library.exception.RoleFilterConfigurationException;
 import com.epam.adk.web.library.model.User;
 import com.epam.adk.web.library.model.enums.Role;
 import com.epam.adk.web.library.propmanager.PropertiesManager;
@@ -44,12 +45,6 @@ public final class RoleFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
-        try {
-            loadProperties();
-        } catch (PropertyManagerException e) {
-            log.error("Error: RoleFilter class, init() method: called loadProperties() method failed: {}", e);
-        }
-
         log.debug("LIBRARIAN Available Actions = {}", librarianAvailableActions.size());
         log.debug("READER Available Actions = {}", readerAvailableActions.size());
         log.debug("ANON Available Actions = {}", anonAvailableActions.size());
@@ -60,14 +55,18 @@ public final class RoleFilter implements Filter {
 
     }
 
-    private void loadProperties() throws PropertyManagerException {
-        PropertiesManager libPropertiesManager = new PropertiesManager("/role_actions/librarian.actions.properties");
-        PropertiesManager readerPropertiesManager = new PropertiesManager("/role_actions/reader.actions.properties");
-        PropertiesManager anonPropertiesManager = new PropertiesManager("/role_actions/anon.actions.properties");
+    public static void configure() throws RoleFilterConfigurationException {
+        try {
+            PropertiesManager libPropertiesManager = new PropertiesManager("/role_actions/librarian.actions.properties");
+            PropertiesManager readerPropertiesManager = new PropertiesManager("/role_actions/reader.actions.properties");
+            PropertiesManager anonPropertiesManager = new PropertiesManager("/role_actions/anon.actions.properties");
 
-        librarianAvailableActions = libPropertiesManager.getAllValues();
-        readerAvailableActions = readerPropertiesManager.getAllValues();
-        anonAvailableActions = anonPropertiesManager.getAllValues();
+            librarianAvailableActions = libPropertiesManager.getAllValues();
+            readerAvailableActions = readerPropertiesManager.getAllValues();
+            anonAvailableActions = anonPropertiesManager.getAllValues();
+        } catch (PropertyManagerException e) {
+            throw new RoleFilterConfigurationException("Error: RoleFilter class, configure() method.", e);
+        }
     }
 
     @Override

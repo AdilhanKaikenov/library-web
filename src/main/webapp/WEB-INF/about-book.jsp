@@ -69,7 +69,7 @@
             <c:forEach items="${bookComments}" var="comment">
                 <%--@elvariable id="comment" type="com.epam.adk.web.library.model.Comment"--%>
                 <div>
-                    <h4>${comment.userFirstname} ${comment.userSurname} (${comment.userLogin})
+                    <h4>${comment.user.firstname} ${comment.user.surname} (${comment.user.login})
                         <br><ftm:message key="time.field.message"/> <ftm:formatDate value="${comment.time}"/></h4>
                 </div>
                 <div>

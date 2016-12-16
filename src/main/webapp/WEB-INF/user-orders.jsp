@@ -48,7 +48,7 @@
                 <%--@elvariable id="order" type="com.epam.adk.web.library.model.Order"--%>
                 <tr align="center" class="tr">
                     <td width="200px">
-                            ${order.bookTitle}
+                            ${order.book.title}
                     </td>
                     <td width="100px">
                             ${order.type.value}

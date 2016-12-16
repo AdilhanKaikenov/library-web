@@ -9,6 +9,9 @@
     </welcome-file-list>
 
     <listener>
+        <listener-class>com.epam.adk.web.library.listener.ConfigurationListener</listener-class>
+    </listener>
+    <listener>
         <listener-class>com.epam.adk.web.library.listener.ConnectionPoolListener</listener-class>
     </listener>
     <filter>

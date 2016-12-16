@@ -2,7 +2,9 @@ package com.epam.adk.web.library.dao.jdbc;
 
 import com.epam.adk.web.library.dao.OrderDao;
 import com.epam.adk.web.library.exception.DaoException;
+import com.epam.adk.web.library.model.Book;
 import com.epam.adk.web.library.model.Order;
+import com.epam.adk.web.library.model.User;
 import com.epam.adk.web.library.model.enums.OrderStatus;
 import com.epam.adk.web.library.model.enums.OrderType;
 import org.slf4j.Logger;
@@ -22,18 +24,18 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
 
     private static final Logger log = LoggerFactory.getLogger(JdbcOrderDao.class);
     private static final String TABLE_NAME = "orders";
-    private static final String CREATE_QUERY = getQueriesProp().get("insert.order");
-    private static final String INSERT_INTO_HISTORY_QUERY = getQueriesProp().get("insert.into.orders.history");
-    private static final String COUNT_ORDERS_QUERY = getQueriesProp().get("select.count.orders");
-    private static final String SELECT_COUNT_BY_USER_ID_QUERY = getQueriesProp().get("select.count.by.user.id");
-    private static final String SELECT_RANGE_BY_ID_QUERY = getQueriesProp().get("select.range.orders.by.user.id");
-    private static final String SELECT_RANGE_QUERY = getQueriesProp().get("select.orders.range");
-    private static final String SELECT_RANGE_BY_STATUS_ID_QUERY = getQueriesProp().get("select.range.orders.by.status.id");
-    private static final String COUNT_ORDERS_BY_STATUS_ID_QUERY = getQueriesProp().get("select.count.orders.by.status.id");
-    private static final String COUNT_ORDERS_BY_BOOK_ID_QUERY = getQueriesProp().get("select.count.orders.by.book.id");
-    private static final String SELECT_BY_ID_QUERY = getQueriesProp().get("select.by.id");
-    private static final String UPDATE_QUERY = getQueriesProp().get("update.order");
-    private static final String DELETE_ALL_OLD_REJECTED_ORDERS_QUERY = getQueriesProp().get("delete.all.old.rejected.orders");
+    private static final String CREATE_QUERY = queryProperties.get("insert.order");
+    private static final String INSERT_INTO_HISTORY_QUERY = queryProperties.get("insert.into.orders.history");
+    private static final String COUNT_ORDERS_QUERY = queryProperties.get("select.count.orders");
+    private static final String SELECT_COUNT_BY_USER_ID_QUERY = queryProperties.get("select.count.by.user.id");
+    private static final String SELECT_RANGE_BY_ID_QUERY = queryProperties.get("select.range.orders.by.user.id");
+    private static final String SELECT_RANGE_QUERY = queryProperties.get("select.orders.range");
+    private static final String SELECT_RANGE_BY_STATUS_ID_QUERY = queryProperties.get("select.range.orders.by.status.id");
+    private static final String COUNT_ORDERS_BY_STATUS_ID_QUERY = queryProperties.get("select.count.orders.by.status.id");
+    private static final String COUNT_ORDERS_BY_BOOK_ID_QUERY = queryProperties.get("select.count.orders.by.book.id");
+    private static final String SELECT_BY_ID_QUERY = queryProperties.get("select.by.id");
+    private static final String UPDATE_QUERY = queryProperties.get("update.order");
+    private static final String DELETE_ALL_OLD_REJECTED_ORDERS_QUERY = queryProperties.get("delete.all.old.rejected.orders");
 
     public JdbcOrderDao(Connection connection) {
         super(connection);
@@ -48,10 +50,14 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
                 Order order = new Order();
                 log.debug("Creating order from resultSet");
                 order.setId(resultSet.getInt("ID"));
-                order.setUserID(resultSet.getInt("USER_ID"));
-                order.setBookID(resultSet.getInt("BOOK_ID"));
+                User user = new User();
+                user.setId(resultSet.getInt("USER_ID"));
+                order.setUser(user);
+                Book book = new Book();
+                book.setId(resultSet.getInt("BOOK_ID"));
+                book.setTitle(resultSet.getString("BOOK_TITLE"));
+                order.setBook(book);
                 order.setClient(resultSet.getString("CLIENT"));
-                order.setBookTitle(resultSet.getString("BOOK_TITLE"));
                 order.setOrderDate(resultSet.getDate("ORDER_DATE"));
                 order.setType(OrderType.from(resultSet.getString("ORDER_TYPE")));
                 order.setFrom(resultSet.getDate("DATE_FROM"));
@@ -115,10 +121,10 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
         ResultSet resultSet = null;
         try {
             preparedStatement = getConnection().prepareStatement(COUNT_ORDERS_QUERY);
-            log.debug("Set book ID: {}", order.getBookID());
-            preparedStatement.setInt(1, order.getBookID());
-            log.debug("Set user ID: {}", order.getUserID());
-            preparedStatement.setInt(2, order.getUserID());
+            log.debug("Set book ID: {}", order.getUser().getId());
+            preparedStatement.setInt(1, order.getBook().getId());
+            log.debug("Set user ID: {}", order.getUser().getId());
+            preparedStatement.setInt(2, order.getUser().getId());
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 count = resultSet.getInt(1);
@@ -195,10 +201,10 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
     protected PreparedStatement setFieldsInCreatePreparedStatement(PreparedStatement preparedStatement, Order order) throws DaoException {
         log.debug("Entering JdbcOrderDao class, setFieldsInCreatePreparedStatement() method.");
         try {
-            log.debug("Set user ID: {}", order.getUserID());
-            preparedStatement.setInt(1, order.getUserID());
-            log.debug("Set book ID: {}", order.getBookID());
-            preparedStatement.setInt(2, order.getBookID());
+            log.debug("Set user ID: {}", order.getUser().getId());
+            preparedStatement.setInt(1, order.getUser().getId());
+            log.debug("Set book ID: {}", order.getBook().getId());
+            preparedStatement.setInt(2, order.getBook().getId());
             log.debug("Set order date: {}", order.getOrderDate());
             preparedStatement.setDate(3, order.getOrderDate());
             log.debug("Set order type: {}", order.getType());

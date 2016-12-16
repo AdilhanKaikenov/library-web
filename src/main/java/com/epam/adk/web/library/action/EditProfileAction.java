@@ -2,7 +2,6 @@ package com.epam.adk.web.library.action;
 
 import com.epam.adk.web.library.exception.ActionException;
 import com.epam.adk.web.library.exception.FormValidationException;
-import com.epam.adk.web.library.exception.PropertyManagerException;
 import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.User;
 import com.epam.adk.web.library.service.UserService;
@@ -56,7 +55,7 @@ public class EditProfileAction implements Action {
             if (isInvalid) {
                 return EDIT_PROFILE_PAGE_NAME;
             }
-        } catch (PropertyManagerException | FormValidationException e) {
+        } catch (FormValidationException e) {
             throw new ActionException("Error: EditProfileAction class. Validation failed:", e);
         }
 

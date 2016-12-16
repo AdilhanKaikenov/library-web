@@ -21,6 +21,7 @@ public final class ConnectionPoolListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
+        log.debug("Entering ConnectionPoolListener class, contextInitialized() method");
         try {
             connectionPool.init();
         } catch (ConnectionPoolException e) {

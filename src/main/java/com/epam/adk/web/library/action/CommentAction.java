@@ -2,6 +2,7 @@ package com.epam.adk.web.library.action;
 
 import com.epam.adk.web.library.exception.ActionException;
 import com.epam.adk.web.library.exception.ServiceException;
+import com.epam.adk.web.library.model.Book;
 import com.epam.adk.web.library.model.Comment;
 import com.epam.adk.web.library.model.User;
 import com.epam.adk.web.library.service.CommentService;
@@ -42,12 +43,15 @@ public class CommentAction implements Action {
         int bookID = Integer.parseInt(request.getParameter(BOOK_ID_PARAMETER));
         String text = request.getParameter(COMMENT_PARAMETER).replaceAll(REGEX_ENTER, LINE_BREAK_HTML_TAG);
 
+        Book book = new Book();
+        book.setId(bookID);
+
         Comment comment = new Comment();
-        comment.setUserID(user.getId());
-        comment.setUserLogin(user.getLogin());
-        comment.setUserFirstname(user.getFirstname());
-        comment.setUserSurname(user.getSurname());
-        comment.setBookID(bookID);
+        comment.getUser().setId(user.getId());
+        comment.getUser().setLogin(user.getLogin());
+        comment.getUser().setFirstname(user.getFirstname());
+        comment.getUser().setSurname(user.getSurname());
+        comment.setBook(book);
         comment.setTime(time);
         comment.setText(text);
 

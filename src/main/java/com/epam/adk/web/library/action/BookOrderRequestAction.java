@@ -44,8 +44,8 @@ public class BookOrderRequestAction implements Action {
         Date orderDate = new Date(currentDate.getTime());
 
         Order order = new Order();
-        order.setUserID(user.getId());
-        order.setBookID(bookID);
+        order.getUser().setId(user.getId());
+        order.getBook().setId(bookID);
         order.setOrderDate(orderDate);
         order.setType(orderType);
 

@@ -73,7 +73,4 @@ public final class PropertiesManager {
         return properties.getProperty(key);
     }
 
-    public Properties getProperties() {
-        return properties;
-    }
 }

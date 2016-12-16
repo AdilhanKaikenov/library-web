@@ -2,7 +2,6 @@ package com.epam.adk.web.library.action;
 
 import com.epam.adk.web.library.exception.ActionException;
 import com.epam.adk.web.library.exception.FormValidationException;
-import com.epam.adk.web.library.exception.PropertyManagerException;
 import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.User;
 import com.epam.adk.web.library.service.UserService;
@@ -51,7 +50,7 @@ public class AuthorizationAction implements Action {
                 request.setAttribute(AUTHORIZATION_FORM_INCORRECT_REQUEST_ATTRIBUTE, "auth.error.message.one");
                 return AUTHORIZATION_ERROR_PAGE;
             }
-        } catch (PropertyManagerException | FormValidationException e) {
+        } catch (FormValidationException e) {
             throw new ActionException("Error: AuthorizationAction class. Validation failed:", e);
         }
 

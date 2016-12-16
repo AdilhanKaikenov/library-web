@@ -2,7 +2,9 @@ package com.epam.adk.web.library.dao.jdbc;
 
 import com.epam.adk.web.library.dao.CommentDao;
 import com.epam.adk.web.library.exception.DaoException;
+import com.epam.adk.web.library.model.Book;
 import com.epam.adk.web.library.model.Comment;
+import com.epam.adk.web.library.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,10 +26,10 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
     private static final Logger log = LoggerFactory.getLogger(JdbcCommentDao.class);
 
     private static final String TABLE_NAME = "comment";
-    private static final String CREATE_QUERY = getQueriesProp().get("insert.comment");
-    private static final String SELECT_ALL_BY_BOOK_ID_QUERY = getQueriesProp().get("select.all.by.book.id");
-    private static final String SELECT_COUNT_BY_BOOK_ID = getQueriesProp().get("select.count.by.book.id");
-    private static final String SELECT_RANGE_BY_ID_QUERY = getQueriesProp().get("select.range.comment.by.book.id");
+    private static final String CREATE_QUERY = queryProperties.get("insert.comment");
+    private static final String SELECT_ALL_BY_BOOK_ID_QUERY = queryProperties.get("select.all.by.book.id");
+    private static final String SELECT_COUNT_BY_BOOK_ID = queryProperties.get("select.count.by.book.id");
+    private static final String SELECT_RANGE_BY_ID_QUERY = queryProperties.get("select.range.comment.by.book.id");
 
     public JdbcCommentDao(Connection connection) {
         super(connection);
@@ -42,11 +44,15 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
                 Comment comment = new Comment();
                 log.debug("Creating comment from resultSet");
                 comment.setId(resultSet.getInt("ID"));
-                comment.setUserID(resultSet.getInt("USER_ID"));
-                comment.setUserLogin(resultSet.getString("LOGIN"));
-                comment.setUserFirstname(resultSet.getString("FIRSTNAME"));
-                comment.setUserSurname(resultSet.getString("SURNAME"));
-                comment.setBookID(resultSet.getInt("BOOK_ID"));
+                User user = new User();
+                user.setId(resultSet.getInt("USER_ID"));
+                user.setLogin(resultSet.getString("LOGIN"));
+                user.setFirstname(resultSet.getString("FIRSTNAME"));
+                user.setSurname(resultSet.getString("SURNAME"));
+                comment.setUser(user);
+                Book book = new Book();
+                book.setId(resultSet.getInt("BOOK_ID"));
+                comment.setBook(book);
                 comment.setTime(resultSet.getTimestamp("DATE"));
                 comment.setText(resultSet.getString("TEXT"));
                 log.debug("Comment successfully created in createFrom() method. Comment id = {}", comment.getId());
@@ -64,10 +70,10 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
     protected PreparedStatement setFieldsInCreatePreparedStatement(PreparedStatement preparedStatement, Comment comment) throws DaoException {
         log.debug("Entering JdbcCommentDao class, setFieldsInCreatePreparedStatement() method.");
         try {
-            log.debug("Set user ID: {}", comment.getUserID());
-            preparedStatement.setInt(1, comment.getUserID());
-            log.debug("Set book ID: {}", comment.getBookID());
-            preparedStatement.setInt(2, comment.getBookID());
+            log.debug("Set user ID: {}", comment.getUser().getId());
+            preparedStatement.setInt(1, comment.getUser().getId());
+            log.debug("Set book ID: {}", comment.getBook().getId());
+            preparedStatement.setInt(2, comment.getBook().getId());
             log.debug("Set time: {}", comment.getTime());
             preparedStatement.setTimestamp(3, comment.getTime());
             log.debug("Set text:length = {}", comment.getText().length());

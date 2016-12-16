@@ -1,7 +1,6 @@
 package com.epam.adk.web.library.model;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 /**
  * Comment class created on 03.12.2016
@@ -10,52 +9,25 @@ import java.util.Date;
  **/
 public class Comment extends BaseEntity {
 
-    private int userID;
-    private String userLogin;
-    private String userFirstname;
-    private String userSurname;
-    private int bookID;
+    private User user;
+    private Book book;
     private Timestamp time;
     private String text;
 
-    public int getUserID() {
-        return userID;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public String getUserLogin() {
-        return userLogin;
+    public Book getBook() {
+        return book;
     }
 
-    public void setUserLogin(String userLogin) {
-        this.userLogin = userLogin;
-    }
-
-    public String getUserFirstname() {
-        return userFirstname;
-    }
-
-    public void setUserFirstname(String userFirstname) {
-        this.userFirstname = userFirstname;
-    }
-
-    public String getUserSurname() {
-        return userSurname;
-    }
-
-    public void setUserSurname(String userSurname) {
-        this.userSurname = userSurname;
-    }
-
-    public int getBookID() {
-        return bookID;
-    }
-
-    public void setBookID(int bookID) {
-        this.bookID = bookID;
+    public void setBook(Book book) {
+        this.book = book;
     }
 
     public Timestamp getTime() {

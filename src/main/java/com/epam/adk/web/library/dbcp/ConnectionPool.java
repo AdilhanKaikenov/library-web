@@ -1,5 +1,6 @@
 package com.epam.adk.web.library.dbcp;
 
+import com.epam.adk.web.library.exception.ConnectionPoolConfigurationException;
 import com.epam.adk.web.library.exception.ConnectionPoolException;
 import com.epam.adk.web.library.exception.ConnectionPoolInitializationException;
 import com.epam.adk.web.library.exception.PropertyManagerException;
@@ -10,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -45,7 +45,6 @@ public final class ConnectionPool {
     public void init() throws ConnectionPoolInitializationException {
         try {
             log.debug("Creating connection pool.");
-            configure();
             log.debug("Database driver: {}", H2_DRIVER);
             Class.forName(H2_DRIVER);
             freeConnections = new ArrayBlockingQueue<>(MAX_POOL_SIZE, true);
@@ -60,22 +59,23 @@ public final class ConnectionPool {
         } catch (SQLException e) {
             log.error("Error: Get connection from database failed. Called newConnection() method failed: {}", e);
             throw new ConnectionPoolInitializationException("Error: Get connection from database failed. Called newConnection() method failed:", e);
-        } catch (PropertyManagerException e) {
-            log.error("Error: Called configure() method failed: {}", e);
-            throw new ConnectionPoolInitializationException("Error: Called configure() method failed: {}", e);
         }
     }
 
-    private void configure() throws PropertyManagerException {
-        PropertiesManager propertiesManager = new PropertiesManager("h2db.properties");
-        Map<String, String> dbProperties = propertiesManager.getPropertiesAsMap();
-        JDBC_URL = dbProperties.get("jdbc.url");
-        H2_DRIVER = dbProperties.get("h2.driver");
-        DB_LOGIN = dbProperties.get("db.login");
-        DB_PASSWORD = dbProperties.get("db.password");
-        DEFAULT_POOL_SIZE = getInt(dbProperties.get("default.pool.size"), DEFAULT_MIN_POOL_SIZE);
-        MAX_POOL_SIZE = getInt(dbProperties.get("max.pool.size"), DEFAULT_MAX_POOL_SIZE);
-        TIMEOUT = Long.parseLong(dbProperties.get("timeout.milliseconds"));
+    public static void configure() throws ConnectionPoolConfigurationException {
+        PropertiesManager propertiesManager;
+        try {
+            propertiesManager = new PropertiesManager("h2db.properties");
+        } catch (PropertyManagerException e) {
+            throw new ConnectionPoolConfigurationException("Error: ConnectionPool class, configure() method.", e);
+        }
+        JDBC_URL = propertiesManager.get("jdbc.url");
+        H2_DRIVER = propertiesManager.get("h2.driver");
+        DB_LOGIN = propertiesManager.get("db.login");
+        DB_PASSWORD = propertiesManager.get("db.password");
+        DEFAULT_POOL_SIZE = getInt(propertiesManager.get("default.pool.size"), DEFAULT_MIN_POOL_SIZE);
+        MAX_POOL_SIZE = getInt(propertiesManager.get("max.pool.size"), DEFAULT_MAX_POOL_SIZE);
+        TIMEOUT = Long.parseLong(propertiesManager.get("timeout.milliseconds"));
     }
 
     private static int getInt(String string, int defaultValue) {
