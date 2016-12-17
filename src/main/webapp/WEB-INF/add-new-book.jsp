@@ -25,15 +25,15 @@
                     <td><input name="cover" type="file" accept="image/jpeg,image/png"></td>
                 </tr>
                 <tr>
-                    <td><ftm:message key="book.section.authors.field"/></td>
+                    <td><ftm:message key="book.authors.field"/></td>
                     <td><input name="authors" type="text" size="50" required></td>
                 </tr>
                 <tr>
-                    <td><ftm:message key="book.section.publish.year.field"/></td>
+                    <td><ftm:message key="book.publish.year.field"/></td>
                     <td><input style="width: 50px" name="publishYear" type="number" min="1900" max="2016" required></td>
                 </tr>
                 <tr>
-                    <td><ftm:message key="book.section.genre.field"/></td>
+                    <td><ftm:message key="book.genre.field"/></td>
                     <td><select name="genre">
                         <option value="Documental literature">Documental literature</option>
                         <option value="Detectives and thrillers">Detectives and thrillers</option>

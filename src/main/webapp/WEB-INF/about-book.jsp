@@ -13,22 +13,37 @@
     <t:book book="${book}"/>
 
     <c:if test="${not empty user && user.role == 'READER'}">
+        <%--@elvariable id="availableBookAmount" type="java.lang.Integer"--%>
         <div class="reader-requests-links-section" align="center">
-            <form action="${base}/do/" method="post">
-                <input hidden="hidden" name="action" value="order-book-request">
-                <input hidden="hidden" name="bookID" value="${book.id}">
-                <i><input type="radio" name="order_type" value="Subscription" checked><ftm:message key="subscription"/></i>
-                <i><input type="radio" name="order_type" value="Reading room"><ftm:message key="reading.room"/></i>
-                <br><button style="margin: 10px" type="submit"
+            <c:if test="${availableBookAmount != 0 && empty requestScope.bookAddedToOrder && empty requestScope.bookOrdered}">
+                <form action="${base}/do/" method="post">
+                    <input hidden="hidden" name="action" value="add-book-to-order">
+                    <input hidden="hidden" name="bookID" value="${book.id}">
+                    <i><input type="radio" name="order_type" value="Subscription" checked><ftm:message
+                            key="subscription"/></i>
+                    <i><input type="radio" name="order_type" value="Reading room"><ftm:message key="reading.room"/></i>
+                    <br>
+                    <button style="margin: 10px" type="submit"
                             onclick="return confirm('<ftm:message key="confirm.warning"/>')"
-                            class="link-style"><ftm:message key="send.request.button"/></button>
-            </form>
+                            class="link-style"><ftm:message key="add.to.order"/></button>
+                </form>
+            </c:if>
+            <c:if test="${not empty requestScope.bookOrdered}">
+                <ftm:message key="${requestScope.bookOrdered}"/>
+            </c:if>
+            <c:if test="${not empty requestScope.bookAddedToOrder}">
+                <ftm:message key="${requestScope.bookAddedToOrder}"/>
+            </c:if>
+            <c:if test="${availableBookAmount == 0}">
+                <ftm:message key="book.no.available"/>
+            </c:if>
         </div>
     </c:if>
     <div style="float: left; width: 100%;" align="center">
         <h1><ftm:message key="short.book.info.header"/></h1>
     </div>
     <div class="book-description-section">
+        <h1>${requestScope.sentRequestFailed}</h1>
         <p style="text-align: justify">${book.description}</p>
         <hr>
     </div>
@@ -40,7 +55,8 @@
             <form action="${base}/do/" method="post">
                 <input type="hidden" name="action" value="comment">
                 <input type="hidden" name="bookID" value="${book.id}">
-                <textarea style="resize: none;overflow: hidden;text-overflow: ellipsis;" type="text" name="comment" cols="125" rows="4" minlength="30" maxlength="250" required
+                <textarea style="resize: none;overflow: hidden;text-overflow: ellipsis;" type="text" name="comment"
+                          cols="125" rows="4" minlength="30" maxlength="250" required
                           autofocus placeholder="${maxCommentLength}"></textarea>
                 <br>
                 <button type="submit" class="link-style">

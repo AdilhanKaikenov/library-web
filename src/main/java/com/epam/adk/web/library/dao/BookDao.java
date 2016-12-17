@@ -15,4 +15,5 @@ public interface BookDao extends Dao<Book> {
 
     List<Book> findByTitle(String title) throws DaoException;
 
+    int countAvailableAmount(int bookID) throws DaoException;
 }

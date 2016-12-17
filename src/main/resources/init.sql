@@ -50,23 +50,30 @@ CREATE TABLE PUBLIC.comment
   id iNT AUTO_INCREMENT PRIMARY KEY NOT NULL,
   user_id INT NOT NULL,
   book_id INT NOT NULL,
-  date DATETIME NOT NULL,
+  orderDate DATETIME NOT NULL,
   text VARCHAR(250) NOT NULL
 );
 CREATE UNIQUE INDEX "COMMENT_id_uindex" ON PUBLIC.comment (id);
+
+CREATE TABLE PUBLIC.orders_books
+(
+  user_id INT NOT NULL,
+  book_id INT NOT NULL,
+  order_id INT NOT NULL,
+  CONSTRAINT orders_books_user_id_book_id_pk PRIMARY KEY (user_id, book_id)
+);
 
 CREATE TABLE PUBLIC.orders
 (
   id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
   user_id INT NOT NULL,
-  book_id INT NOT NULL,
-  order_date DATE NOT NULL,
   order_type INT NOT NULL,
+  order_date DATE NOT NULL,
   date_from DATE,
   date_to DATE,
-  status INT DEFAULT 2 NOT NULL
+  status BOOLEAN NOT NULL DEFAULT FALSE
 );
-CREATE UNIQUE INDEX "ORDERS_ID_uindex" ON PUBLIC.orders (id);
+CREATE UNIQUE INDEX "register_order_id_uindex" ON PUBLIC.orders (id);
 
 CREATE TABLE PUBLIC.orders_history
 (

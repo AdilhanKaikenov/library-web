@@ -14,6 +14,11 @@ public class Comment extends BaseEntity {
     private Timestamp time;
     private String text;
 
+    public Comment() {
+        user = new User();
+        book = new Book();
+    }
+
     public User getUser() {
         return user;
     }

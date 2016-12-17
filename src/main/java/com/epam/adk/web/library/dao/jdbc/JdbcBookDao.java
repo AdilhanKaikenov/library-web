@@ -33,6 +33,7 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     private static final String SELECT_COUNT_ROWS_QUERY = queryProperties.get("select.count.rows.number");
     private static final String SELECT_FOUND_QUERY_PART_ONE = queryProperties.get("select.found.books.part.one");
     private static final String SELECT_FOUND_QUERY_PART_TWO = queryProperties.get("select.found.books.part.two");
+    private static final String SELECT_COUNT_AVAILABLE_AMOUNT = "SELECT book.total_amount - cnt FROM book, (SELECT COUNT(*) AS cnt FROM orders_books WHERE orders_books.book_id = ?) WHERE book.id = ?";
 
     public JdbcBookDao(Connection connection) {
         super(connection);
@@ -54,13 +55,13 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
                 book.setGenre(Genre.from(resultSet.getString("GENRE")));
                 book.setDescription(resultSet.getString("DESCRIPTION"));
                 book.setTotalAmount(resultSet.getInt("TOTAL_AMOUNT"));
-                log.debug("Book successfully created in createFrom() method. Book id = {}", book.getId());
+                log.debug("Book successfully created in createListFrom() method. Book id = {}", book.getId());
                 result.add(book);
             }
             log.debug("Leaving JdbcBookDao class, createListFrom() method. Amount of books = {}", result.size());
         } catch (SQLException e) {
             log.error("Error: JdbcBookDao class createListFrom() method. I can not create List of books from resultSet. {}", e);
-            throw new DaoException("Error: JdbcDao class createListFrom() method. I can not create List of books from resultSet.", e);
+            throw new DaoException("Error: JdbcBookDao class createListFrom() method. I can not create List of books from resultSet.", e);
         }
         return result;
     }
@@ -80,11 +81,33 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
             log.debug("Leaving JdbcBookDao class, findByTitle() method. Book found = {}", result.size());
         } catch (SQLException e) {
             log.error("Error: JdbcBookDao class findByTitle() method. I can not find books. {}", e);
-            throw new DaoException("Error: JdbcDao class findByTitle() method. I can not find books.", e);
+            throw new DaoException("Error: JdbcBookDao class findByTitle() method. I can not find books.", e);
         } finally {
             closeResultSet(resultSet);
         }
         return result;
+    }
+
+    @Override
+    public int countAvailableAmount(int bookID) throws DaoException {
+        log.debug("Entering JdbcBookDao class, countAvailableAmount() method. Book ID = {}", bookID);
+        int count = 0;
+        PreparedStatement preparedStatement;
+        ResultSet resultSet;
+        try {
+            preparedStatement = getConnection().prepareStatement(SELECT_COUNT_AVAILABLE_AMOUNT);
+            preparedStatement.setInt(1, bookID);
+            preparedStatement.setInt(2, bookID);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                count = resultSet.getInt(1);
+            }
+            log.debug("Leaving JdbcBookDao class, countAvailableAmount() method. Book amount = {}", count);
+        } catch (SQLException e) {
+            log.error("Error: JdbcBookDao class countAvailableAmount() method. {}", e);
+            throw new DaoException("Error: JdbcBookDao class countAvailableAmount() method.", e);
+        }
+        return count;
     }
 
     @Override

@@ -40,8 +40,14 @@ public class JdbcDaoFactory extends DaoFactory {
     }
 
     @Override
-    public OrderDao getOrderDao() {
-        log.debug("JdbcDaoFactory class, JdbcOrderDao created");
-        return new JdbcOrderDao(connection);
+    public OrdersBooksDao getOrdersBooksDao() {
+        log.debug("JdbcDaoFactory class, JdbcOrdersBooksDao created");
+        return new JdbcOrdersBooksDao(connection);
+    }
+
+    @Override
+    public OrdersDao getOrdersDao() {
+        log.debug("JdbcDaoFactory class, OrdersDao created");
+        return new JdbcOrders(connection);
     }
 }

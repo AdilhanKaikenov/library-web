@@ -1,26 +1,26 @@
 package com.epam.adk.web.library.model;
 
-import com.epam.adk.web.library.model.enums.OrderStatus;
 import com.epam.adk.web.library.model.enums.OrderType;
 
 import java.sql.Date;
 
 /**
- * Order class created on 05.12.2016
+ * Order class created on 16.12.2016
  *
  * @author Kaikenov Adilhan
  **/
 public class Order extends BaseEntity {
 
     private User user;
-    private Book book;
-    private String client;
     private Date orderDate;
-    private OrderType type;
+    private OrderType orderType;
     private Date from;
     private Date to;
-    private int availableBookAmount;
-    private OrderStatus status;
+    private boolean status;
+
+    public Order() {
+        user = new User();
+    }
 
     public User getUser() {
         return user;
@@ -28,22 +28,6 @@ public class Order extends BaseEntity {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Book getBook() {
-        return book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
-    }
-
-    public String getClient() {
-        return client;
-    }
-
-    public void setClient(String client) {
-        this.client = client;
     }
 
     public Date getOrderDate() {
@@ -54,12 +38,12 @@ public class Order extends BaseEntity {
         this.orderDate = orderDate;
     }
 
-    public OrderType getType() {
-        return type;
+    public OrderType getOrderType() {
+        return orderType;
     }
 
-    public void setType(OrderType type) {
-        this.type = type;
+    public void setOrderType(OrderType orderType) {
+        this.orderType = orderType;
     }
 
     public Date getFrom() {
@@ -78,19 +62,11 @@ public class Order extends BaseEntity {
         this.to = to;
     }
 
-    public int getAvailableBookAmount() {
-        return availableBookAmount;
-    }
-
-    public void setAvailableBookAmount(int availableBookAmount) {
-        this.availableBookAmount = availableBookAmount;
-    }
-
-    public OrderStatus getStatus() {
+    public boolean isStatus() {
         return status;
     }
 
-    public void setStatus(OrderStatus status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 }

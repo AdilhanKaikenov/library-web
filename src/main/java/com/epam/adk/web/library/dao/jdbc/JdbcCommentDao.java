@@ -55,7 +55,7 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
                 comment.setBook(book);
                 comment.setTime(resultSet.getTimestamp("DATE"));
                 comment.setText(resultSet.getString("TEXT"));
-                log.debug("Comment successfully created in createFrom() method. Comment id = {}", comment.getId());
+                log.debug("Comment successfully created in createListFrom() method. Comment id = {}", comment.getId());
                 result.add(comment);
             }
             log.debug("Leaving JdbcCommentDao class, createListFrom() method.");

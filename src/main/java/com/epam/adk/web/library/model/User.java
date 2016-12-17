@@ -3,6 +3,9 @@ package com.epam.adk.web.library.model;
 import com.epam.adk.web.library.model.enums.Gender;
 import com.epam.adk.web.library.model.enums.Role;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * User class created on 27.11.2016
  *
@@ -20,7 +23,38 @@ public class User extends BaseEntity {
     private String address;
     private String mobilePhone;
     private Role role;
+    private List<Book> subscriptionBooks;
+    private List<Book> readingRoomBooks;
     private boolean status;
+
+    public User() {
+        subscriptionBooks = new ArrayList<>();
+        readingRoomBooks = new ArrayList<>();
+    }
+
+    public List<Book> getSubscriptionBooks() {
+        return subscriptionBooks;
+    }
+
+    public void setSubscriptionBooks(List<Book> subscriptionBooks) {
+        this.subscriptionBooks = subscriptionBooks;
+    }
+
+    public List<Book> getReadingRoomBooks() {
+        return readingRoomBooks;
+    }
+
+    public void setReadingRoomBooks(List<Book> readingRoomBooks) {
+        this.readingRoomBooks = readingRoomBooks;
+    }
+
+    public void addSubscriptionBook(Book book){
+        subscriptionBooks.add(book);
+    }
+
+    public void addReadingRoomBook(Book book){
+        readingRoomBooks.add(book);
+    }
 
     public String getLogin() {
         return login;

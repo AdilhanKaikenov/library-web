@@ -5,9 +5,7 @@
 
 <ftm:setBundle basename="i18n"/>
 
-<c:set value="${pageContext.request.contextPath}" var="base"/>
-
-<t:page title="requests">
+<t:page title="my.orders.page">
 
 
 </t:page>

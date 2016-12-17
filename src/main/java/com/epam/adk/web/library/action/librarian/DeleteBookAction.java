@@ -5,7 +5,7 @@ import com.epam.adk.web.library.exception.ActionException;
 import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.Book;
 import com.epam.adk.web.library.service.BookService;
-import com.epam.adk.web.library.service.OrderBookService;
+import com.epam.adk.web.library.service.OrdersBooksService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,11 +32,11 @@ public class DeleteBookAction implements Action {
 
         int bookID = Integer.parseInt(request.getParameter(BOOK_ID_PARAMETER));
 
-        OrderBookService orderBookService = new OrderBookService();
+        OrdersBooksService ordersBooksService = new OrdersBooksService();
         BookService bookService = new BookService();
 
         try {
-            int bookOrderNumber = orderBookService.getOrdersNumberByBookID(bookID);
+            int bookOrderNumber = ordersBooksService.getOrdersNumberByBookID(bookID);
 
             if (bookOrderNumber != 0){
                 request.setAttribute(IMPOSSIBLE_TO_REMOVE_ATTRIBUTE, "book.delete.failed.message");

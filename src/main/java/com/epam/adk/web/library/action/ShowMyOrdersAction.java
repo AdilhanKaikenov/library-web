@@ -1,11 +1,10 @@
-package com.epam.adk.web.library.action.librarian;
+package com.epam.adk.web.library.action;
 
-import com.epam.adk.web.library.action.Action;
 import com.epam.adk.web.library.exception.ActionException;
 import com.epam.adk.web.library.exception.ServiceException;
-import com.epam.adk.web.library.model.Order;
+import com.epam.adk.web.library.model.OrderBook;
 import com.epam.adk.web.library.model.User;
-import com.epam.adk.web.library.service.OrderBookService;
+import com.epam.adk.web.library.service.OrdersBooksService;
 import com.epam.adk.web.library.util.Pagination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,21 +19,21 @@ import java.util.List;
  *
  * @author Kaikenov Adilhan
  **/
-public class ShowUserOrdersAction implements Action {
+public class ShowMyOrdersAction implements Action {
 
-    private static final Logger log = LoggerFactory.getLogger(ShowUserOrdersAction.class);
+    private static final Logger log = LoggerFactory.getLogger(ShowMyOrdersAction.class);
 
     private static final int DEFAULT_PAGE_NUMBER = 1;
     private static final int LINE_PER_PAGE_NUMBER = 10;
     private static final String USER_PARAMETER = "user";
     private static final String PAGE_PARAMETER = "page";
-    private static final String USER_ORDERS_PAGE_NAME = "user-orders";
+    private static final String USER_ORDERS_PAGE_NAME = "my-orders";
     private static final String USER_ORDERS_REQUEST_ATTRIBUTE = "userOrders";
     private static final String PAGES_NUMBER_REQUEST_ATTRIBUTE = "pagesNumber";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
-        log.debug("The ShowUserOrdersAction started execute.");
+        log.debug("The ShowMyOrdersAction started execute.");
 
         HttpSession session = request.getSession(false);
 
@@ -45,19 +44,19 @@ public class ShowUserOrdersAction implements Action {
         String pageParameter = request.getParameter(PAGE_PARAMETER);
         if (pageParameter != null) {
             page = Integer.parseInt(pageParameter);
-            log.debug("ShowUserOrdersAction: page #{}", page);
+            log.debug("ShowMyOrdersAction: page #{}", page);
         }
 
-        OrderBookService orderBookService = new OrderBookService();
+        OrdersBooksService ordersBooksService = new OrdersBooksService();
 
         try {
-            int userOrdersNumber = orderBookService.getOrdersNumberByUser(userID);
-            log.debug("ShowUserOrdersAction: total orders number = {}", userOrdersNumber);
+            int userOrdersNumber = ordersBooksService.getOrdersNumberByUser(userID);
+            log.debug("ShowMyOrdersAction: total orders number = {}", userOrdersNumber);
             Pagination pagination = new Pagination();
             int pagesNumber = pagination.getPagesNumber(userOrdersNumber, LINE_PER_PAGE_NUMBER);
-            log.debug("ShowUserOrdersAction: total pages number = {}", pagesNumber);
+            log.debug("ShowMyOrdersAction: total pages number = {}", pagesNumber);
 
-            List<Order> userOrders = orderBookService.getPaginatedUserOrders(userID, page, LINE_PER_PAGE_NUMBER);
+            List<OrderBook> userOrders = ordersBooksService.getPaginatedUserOrders(userID, page, LINE_PER_PAGE_NUMBER);
 
             if (userOrders.size() != 0) {
                 request.setAttribute(USER_ORDERS_REQUEST_ATTRIBUTE, userOrders);
@@ -66,7 +65,7 @@ public class ShowUserOrdersAction implements Action {
             request.setAttribute(PAGES_NUMBER_REQUEST_ATTRIBUTE, pagesNumber);
 
         } catch (ServiceException e) {
-            throw new ActionException("Error: ShowUserOrdersAction class, execute() method.", e);
+            throw new ActionException("Error: ShowMyOrdersAction class, execute() method.", e);
         }
         return USER_ORDERS_PAGE_NAME;
     }

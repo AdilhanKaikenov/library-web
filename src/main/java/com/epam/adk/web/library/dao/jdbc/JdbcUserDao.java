@@ -57,7 +57,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
                 user.setMobilePhone(resultSet.getString("MOBILE_PHONE"));
                 user.setRole(Role.from(resultSet.getString("ROLE")));
                 user.setStatus(resultSet.getBoolean("STATUS"));
-                log.debug("User successfully created in createFrom() method. User id = {}", user.getId());
+                log.debug("User successfully created in createListFrom() method. User id = {}", user.getId());
                 result.add(user);
             }
             log.debug("Leaving JdbcUserDao class, createListFrom() method.");
