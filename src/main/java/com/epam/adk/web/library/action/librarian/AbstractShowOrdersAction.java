@@ -3,8 +3,8 @@ package com.epam.adk.web.library.action.librarian;
 import com.epam.adk.web.library.action.Action;
 import com.epam.adk.web.library.exception.ActionException;
 import com.epam.adk.web.library.exception.ServiceException;
-import com.epam.adk.web.library.model.OrderBook;
-import com.epam.adk.web.library.service.OrdersBooksService;
+import com.epam.adk.web.library.model.Order;
+import com.epam.adk.web.library.service.OrdersService;
 import com.epam.adk.web.library.util.Pagination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,16 +39,16 @@ public abstract class AbstractShowOrdersAction implements Action {
             log.debug("AbstractShowOrdersAction: page #{}", page);
         }
 
-        OrdersBooksService ordersBooksService = new OrdersBooksService();
+        OrdersService ordersService = new OrdersService();
 
         try {
-            int ordersNumber = ordersBooksService.getOrdersNumberByStatusID(getOrderStatusID());
+            int ordersNumber = ordersService.getOrdersNumberByStatus(getOrderStatus());
             log.debug("AbstractShowOrdersAction: total orders number = {}", ordersNumber);
             Pagination pagination = new Pagination();
             int pagesNumber = pagination.getPagesNumber(ordersNumber, LINE_PER_PAGE_NUMBER);
             log.debug("AbstractShowOrdersAction: total pages number = {}", pagesNumber);
 
-            List<OrderBook> orders = ordersBooksService.getPaginatedByOrderStatus(getOrderStatusID(), page, LINE_PER_PAGE_NUMBER);
+            List<Order> orders = ordersService.getPaginatedByOrderStatus(getOrderStatus(), page, LINE_PER_PAGE_NUMBER);
 
             if (orders.size() != 0) {
                 request.setAttribute(ORDERS_REQUEST_ATTRIBUTE, orders);
@@ -65,6 +65,6 @@ public abstract class AbstractShowOrdersAction implements Action {
 
     protected abstract String getPage();
 
-    protected abstract int getOrderStatusID();
+    protected abstract boolean getOrderStatus();
 
 }

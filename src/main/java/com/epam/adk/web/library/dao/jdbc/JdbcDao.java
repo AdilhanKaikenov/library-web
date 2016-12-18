@@ -216,7 +216,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         log.debug("Entering JdbcDao class, delete() method. Entity ID = {}", entity.getId());
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = connection.prepareStatement("DELETE FROM " + getTableName() + " WHERE ID LIKE ?");
+            preparedStatement = connection.prepareStatement(getDeleteQuery());
             preparedStatement = setFieldsInDeleteByEntityStatement(preparedStatement, entity);
             preparedStatement.execute();
             log.debug("Leaving JdbcDao class, delete() method.");
@@ -227,6 +227,8 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             closePreparedStatement(preparedStatement);
         }
     }
+
+    protected abstract String getDeleteQuery();
 
     protected T createFrom(ResultSet resultSet) throws DaoException {
         log.debug("Entering JdbcDao class, createFrom() method");

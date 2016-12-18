@@ -79,21 +79,24 @@ public class BookAboutAction implements Action {
 
             OrdersBooksService ordersBooksService = new OrdersBooksService();
 
-            OrderBook orderBook = new OrderBook();
-            orderBook.setUser(user);
-            orderBook.setBook(book);
+            if (user != null) {
 
-            List<Book> subscriptionBooks = user.getSubscriptionBooks();
-            List<Book> readingRoomBooks = user.getReadingRoomBooks();
+                OrderBook orderBook = new OrderBook();
+                orderBook.setUser(user);
+                orderBook.setBook(book);
 
-            int orderedBooksNumber = ordersBooksService.getOrderedBooksNumber(orderBook);
+                List<Book> subscriptionBooks = user.getSubscriptionBooks();
+                List<Book> readingRoomBooks = user.getReadingRoomBooks();
 
-            if (orderedBooksNumber > 0){
-                request.setAttribute("bookOrdered", "book.already.ordered");
-            }
+                int orderedBooksNumber = ordersBooksService.getOrderedBooksNumber(orderBook);
 
-            if (subscriptionBooks.contains(book) || readingRoomBooks.contains(book)){
-                request.setAttribute("bookAddedToOrder", "book.added.to.order");
+                if (orderedBooksNumber > 0) {
+                    request.setAttribute("bookOrdered", "book.already.ordered");
+                }
+
+                if (subscriptionBooks.contains(book) || readingRoomBooks.contains(book)) {
+                    request.setAttribute("bookAddedToOrder", "book.added.to.order");
+                }
             }
 
         } catch (ServiceException e) {

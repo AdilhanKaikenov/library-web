@@ -9,17 +9,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * RejectBookOrderAction class created on 07.12.2016
+ * RejectOrderAction class created on 07.12.2016
  *
  * @author Kaikenov Adilhan
  **/
-public class RejectBookOrderAction implements Action {
+public class RejectOrderAction implements Action {
 
-    private static final Logger log = LoggerFactory.getLogger(BookLendOutAction.class);
+    private static final Logger log = LoggerFactory.getLogger(LendOutAction.class);
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
-        log.debug("The RejectBookOrderAction started execute.");
+        log.debug("The RejectOrderAction started execute.");
 
         return null;
     }

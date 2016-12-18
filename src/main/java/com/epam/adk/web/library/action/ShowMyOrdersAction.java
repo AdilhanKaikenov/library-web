@@ -2,9 +2,9 @@ package com.epam.adk.web.library.action;
 
 import com.epam.adk.web.library.exception.ActionException;
 import com.epam.adk.web.library.exception.ServiceException;
-import com.epam.adk.web.library.model.OrderBook;
+import com.epam.adk.web.library.model.Order;
 import com.epam.adk.web.library.model.User;
-import com.epam.adk.web.library.service.OrdersBooksService;
+import com.epam.adk.web.library.service.OrdersService;
 import com.epam.adk.web.library.util.Pagination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +24,7 @@ public class ShowMyOrdersAction implements Action {
     private static final Logger log = LoggerFactory.getLogger(ShowMyOrdersAction.class);
 
     private static final int DEFAULT_PAGE_NUMBER = 1;
-    private static final int LINE_PER_PAGE_NUMBER = 10;
+    private static final int LINE_PER_PAGE_NUMBER = 5;
     private static final String USER_PARAMETER = "user";
     private static final String PAGE_PARAMETER = "page";
     private static final String USER_ORDERS_PAGE_NAME = "my-orders";
@@ -47,17 +47,16 @@ public class ShowMyOrdersAction implements Action {
             log.debug("ShowMyOrdersAction: page #{}", page);
         }
 
-        OrdersBooksService ordersBooksService = new OrdersBooksService();
+        OrdersService ordersService = new OrdersService();
 
         try {
-            int userOrdersNumber = ordersBooksService.getOrdersNumberByUser(userID);
+            int userOrdersNumber = ordersService.getOrdersNumberByUserID(userID);
             log.debug("ShowMyOrdersAction: total orders number = {}", userOrdersNumber);
             Pagination pagination = new Pagination();
             int pagesNumber = pagination.getPagesNumber(userOrdersNumber, LINE_PER_PAGE_NUMBER);
             log.debug("ShowMyOrdersAction: total pages number = {}", pagesNumber);
 
-            List<OrderBook> userOrders = ordersBooksService.getPaginatedUserOrders(userID, page, LINE_PER_PAGE_NUMBER);
-
+            List<Order> userOrders = ordersService.getPaginatedUserOrders(userID, page, LINE_PER_PAGE_NUMBER);
             if (userOrders.size() != 0) {
                 request.setAttribute(USER_ORDERS_REQUEST_ATTRIBUTE, userOrders);
             }

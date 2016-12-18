@@ -87,6 +87,11 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
     }
 
     @Override
+    protected String getDeleteQuery() {
+        return "DELETE FROM comment WHERE id LIKE ?";
+    }
+
+    @Override
     protected String getTableName() {
         return TABLE_NAME;
     }

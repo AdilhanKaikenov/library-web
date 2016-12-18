@@ -50,11 +50,12 @@ public class UserService {
         return authorizedUser;
     }
 
-    public User getUserById(int id) throws ServiceException {
+    public User getUserById(int userID) throws ServiceException {
+        log.debug("Entering UserService class getUserById() method, User id = {}", userID);
         User user;
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
             UserDao userDao = jdbcDaoFactory.getUserDao();
-            user = userDao.read(id);
+            user = userDao.read(userID);
             log.debug("Leaving UserService class getUserById() method.");
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: UserService class, getUserById() method.", e);

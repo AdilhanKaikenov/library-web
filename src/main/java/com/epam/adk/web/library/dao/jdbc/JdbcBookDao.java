@@ -167,6 +167,11 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     }
 
     @Override
+    protected String getDeleteQuery() {
+        return "DELETE FROM book WHERE id LIKE ?";
+    }
+
+    @Override
     protected String getCountNumberRowsQuery() {
         return SELECT_COUNT_ROWS_QUERY;
     }

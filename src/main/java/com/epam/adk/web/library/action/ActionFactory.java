@@ -29,17 +29,18 @@ public class ActionFactory {
         actions.put("POST/book-search", new BookSearchAction());
         actions.put("POST/add-new-book", new AddNewBookAction());
         actions.put("POST/edit-profile", new EditProfileAction());
-        actions.put("POST/lend-out-book", new BookLendOutAction());
+        actions.put("POST/lend-out-book", new LendOutAction());
         actions.put("POST/registration", new RegistrationAction());
         actions.put("POST/book-returned", new BookReturnedAction());
         actions.put("POST/authorization", new AuthorizationAction());
         actions.put("POST/edit-book-amount", new EditBookAmountAction());
-        actions.put("POST/reject-book-order", new RejectBookOrderAction());
+        actions.put("POST/reject-book-order", new RejectOrderAction());
 //        actions.put("POST/order-book-request", new BookOrderRequestAction());
 //        actions.put("POST/delete-old-order-requests", new DeleteOldOrderRequests());
         actions.put("POST/add-book-to-order", new AddBookToOrderAction());
         actions.put("POST/order-request", new OrderRequestAction());
         actions.put("POST/remove-book-from-order", new DeleteBookFromOrderAction());
+        actions.put("POST/remove-book-from-order-request", new DeleteBookFromOrderRequestAction());
 
         actions.put("GET/logout", new LogoutAction());
         actions.put("GET/category", new CategoryAction());
@@ -53,8 +54,10 @@ public class ActionFactory {
         actions.put("GET/authorization", new AuthorizationAction());
         actions.put("GET/orders", new ShowAllAllowedOrdersAction());
         actions.put("GET/requests", new ShowAllOrderRequestsAction());
-        actions.put("GET/rejected-orders", new ShowAllRejectedOrdersAction());
+//        actions.put("GET/rejected-orders", new ShowAllRejectedOrdersAction());
         actions.put("GET/my-order", new ShowMyOrderAction());
+        actions.put("GET/handle-order-request", new ShowOrderRequestAction());
+        actions.put("GET/order-book-list", new ShowOrderBooksListAction());
 
         actions.put("GET/personal-area", new ShowPageAction("profile"));
         actions.put("GET/book-search", new ShowPageAction("book-search"));

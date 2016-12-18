@@ -48,4 +48,82 @@ public class OrdersService {
         return result;
     }
 
+    public int getOrdersNumberByUserID(int id) throws ServiceException {
+        log.debug("Entering OrdersService class getOrdersNumberByUserID() method.");
+        int ordersNumber;
+        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+            OrdersDao ordersDao = jdbcDaoFactory.getOrdersDao();
+            ordersNumber = ordersDao.getNumberRowsByIdParameter(id);
+            log.debug("Leaving OrdersService class getOrdersNumberByUserID() method.");
+        } catch (SQLException | DaoException e) {
+            throw new ServiceException("Error: OrdersService class, getOrdersNumberByUserID() method.", e);
+        }
+        return ordersNumber;
+    }
+
+    public List<Order> getPaginatedUserOrders(int userID, int pageNumber, int pageSize) throws ServiceException {
+        log.debug("Entering OrdersService class getPaginatedUserOrders() method. User id = {}", userID);
+        List<Order> result;
+        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+            OrdersDao ordersDao = jdbcDaoFactory.getOrdersDao();
+            int offset = pageSize * pageNumber - pageSize;
+            result = ordersDao.readRangeByIdParameter(userID, offset, pageSize);
+            log.debug("Leaving OrdersService class getPaginatedUserOrders() method. Amount of orders comment = {}", result.size());
+        } catch (SQLException | DaoException e) {
+            throw new ServiceException("Error: OrdersService class, getPaginatedUserOrders() method.", e);
+        }
+        return result;
+    }
+
+    public int getOrdersNumberByStatus(boolean status) throws ServiceException {
+        log.debug("Entering OrdersService class getOrdersNumberByStatus() method.");
+        int ordersNumber;
+        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+            OrdersDao ordersDao = jdbcDaoFactory.getOrdersDao();
+            ordersNumber = ordersDao.getNumberRowsByStatus(status);
+            log.debug("Leaving OrdersService class getOrdersNumberByStatus() method.");
+        } catch (SQLException | DaoException e) {
+            throw new ServiceException("Error: OrdersService class, getOrdersNumberByStatus() method.", e);
+        }
+        return ordersNumber;
+    }
+
+    public List<Order> getPaginatedByOrderStatus(boolean status, int pageNumber, int pageSize) throws ServiceException {
+        log.debug("Entering OrdersService class getPaginated() method.");
+        List<Order> result;
+        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+            OrdersDao ordersDao = jdbcDaoFactory.getOrdersDao();
+            int offset = pageSize * pageNumber - pageSize;
+            result = ordersDao.readRangeByStatus(status, offset, pageSize);
+            log.debug("OrdersService class, getPaginated() method: result size = {}", result.size());
+            log.debug("Leaving OrdersService class getPaginated() method.");
+        } catch (SQLException | DaoException e) {
+            throw new ServiceException("Error: OrdersService class, getPaginated() method.", e);
+        }
+        return result;
+    }
+
+    public Order getOrderById(int orderID) throws ServiceException {
+        log.debug("Entering OrdersService class getOrderBookById() method. Order Id = {}", orderID);
+        Order order;
+        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+            OrdersDao ordersDao = jdbcDaoFactory.getOrdersDao();
+            order = ordersDao.read(orderID);
+            log.debug("Leaving OrdersService class getOrderBookById() method.");
+        } catch (SQLException | DaoException e) {
+            throw new ServiceException("Error: OrdersService class, getOrderBookById() method.", e);
+        }
+        return order;
+    }
+
+    public void update(Order order) throws ServiceException {
+        log.debug("Entering OrdersService class update() method. Order Id = {}", order.getId());
+        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+            OrdersDao ordersDao = jdbcDaoFactory.getOrdersDao();
+            ordersDao.update(order);
+            log.debug("Leaving OrdersService class update() method.");
+        } catch (SQLException | DaoException e) {
+            throw new ServiceException("Error: OrdersService class, update() method.", e);
+        }
+    }
 }

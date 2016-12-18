@@ -9,7 +9,6 @@ public class OrderBook extends BaseEntity {
 
     private User user;
     private Book book;
-    private String client;
     private Order order;
     private int availableBookAmount;
 
@@ -33,14 +32,6 @@ public class OrderBook extends BaseEntity {
 
     public void setBook(Book book) {
         this.book = book;
-    }
-
-    public String getClient() {
-        return client;
-    }
-
-    public void setClient(String client) {
-        this.client = client;
     }
 
     public Order getOrder() {

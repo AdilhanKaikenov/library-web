@@ -7,7 +7,7 @@ package com.epam.adk.web.library.action.librarian;
  **/
 public class ShowAllAllowedOrdersAction extends AbstractShowOrdersAction {
 
-    private static final int ALLOWED_STATUS_ID = 0;
+    private static final boolean ALLOWED_STATUS = true;
     private static final String ORDERS_PAGE_NAME = "orders";
 
     @Override
@@ -16,7 +16,7 @@ public class ShowAllAllowedOrdersAction extends AbstractShowOrdersAction {
     }
 
     @Override
-    protected int getOrderStatusID() {
-        return ALLOWED_STATUS_ID;
+    protected boolean getOrderStatus() {
+        return ALLOWED_STATUS;
     }
 }
