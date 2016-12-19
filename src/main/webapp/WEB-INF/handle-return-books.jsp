@@ -15,8 +15,8 @@
         <h2><ftm:message key="order.type"/>: ${order.orderType.value}</h2>
         <h2><ftm:message key="period.of.books.use"/>:
             <c:if test="${order.orderType == 'SUBSCRIPTION'}">
-            <ftm:formatDate value="${order.from}"/> / <ftm:formatDate value="${order.to}"/>
-        </c:if>
+                <ftm:formatDate value="${order.from}"/> / <ftm:formatDate value="${order.to}"/>
+            </c:if>
             <c:if test="${order.orderType == 'READING_ROOM'}">
                 <ftm:formatDate value="${order.from}"/>
             </c:if></h2>
@@ -73,17 +73,17 @@
         </c:forEach>
         <tr>
             <td colspan="5" align="center">
-                <c:if test="${ordersBooks.size() != 0}">
+                <c:if test="${requestScope.optionToExtend == true}">
                     <form action="${base}/do/" method="post">
-                        <input hidden="hidden" name="action" value="lend-out-book">
+                        <input hidden="hidden" name="action" value="extend-order">
                         <input hidden="hidden" name="orderID" value="${order.id}">
                         <button type="submit"
                                 onclick="return confirm('<ftm:message key="confirm.warning"/>')"
-                                class="link-style"><ftm:message key="lend.out"/></button>
+                                class="link-style"><ftm:message key="extend.order"/></button>
                     </form>
                 </c:if>
+                <a href="${base}/do/?action=orders" class="link-style"><ftm:message key="back.button"/></a>
             </td>
-        </tr>
     </table>
 
 </t:page>

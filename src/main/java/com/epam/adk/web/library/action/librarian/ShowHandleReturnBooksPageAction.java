@@ -1,5 +1,14 @@
 package com.epam.adk.web.library.action.librarian;
 
+import com.epam.adk.web.library.exception.ActionException;
+import com.epam.adk.web.library.exception.ServiceException;
+import com.epam.adk.web.library.model.Order;
+import com.epam.adk.web.library.service.OrdersService;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.Date;
+
 /**
  * ShowHandleReturnBooksPageAction class created on 18.12.2016
  *
@@ -8,6 +17,37 @@ package com.epam.adk.web.library.action.librarian;
 public class ShowHandleReturnBooksPageAction extends AbstractShowHandlePageAction {
 
     private static final String HANDLE_RETURN_BOOKS_PAGE_NAME = "handle-return-books";
+    private static final String OPTION_TO_EXTEND_REQUEST_ATTRIBUTE = "optionToExtend";
+    private static final int ONE_DAY_DURATION = 86400000;
+
+    @Override
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
+
+        int orderID = Integer.parseInt(request.getParameter(ORDER_ID_PARAMETER));
+
+        OrdersService ordersService = new OrdersService();
+
+        try {
+            Order order = ordersService.getOrderById(orderID);
+
+            java.util.Date curDay = new java.util.Date();
+            Date today = new Date(curDay.getTime());
+
+            Date dateTo = order.getTo();
+
+            long diffTime = (dateTo.getTime() - today.getTime()) / ONE_DAY_DURATION;
+
+            boolean optionToExtend = false;
+            if (diffTime <= 0) {
+                optionToExtend = true;
+            }
+            request.setAttribute(OPTION_TO_EXTEND_REQUEST_ATTRIBUTE, optionToExtend);
+
+        } catch (ServiceException e) {
+            throw new ActionException("Error: ShowHandleReturnBooksPageAction class.", e);
+        }
+        return super.execute(request, response);
+    }
 
     @Override
     protected String getPage() {

@@ -56,7 +56,6 @@ public class LendOutAction implements Action {
 
             ordersService.update(order);
 
-
         } catch (ServiceException e) {
             throw new ActionException("Error: LendOutAction class, execute() method.", e);
         }

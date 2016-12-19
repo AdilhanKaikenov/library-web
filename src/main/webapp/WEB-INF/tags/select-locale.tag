@@ -10,12 +10,12 @@
 <table>
     <tr>
     <td>
-        <a href="${base}/do/?action=set-locale&region=ru"><img
-                src="../css/images/rus-flag.png"></a>
+        <h4>RU <a href="${base}/do/?action=set-locale&region=ru"><img
+                src="../css/images/rus-flag.png"></a></h4>
     </td>
     <td>
-        <a href="${base}/do/?action=set-locale&region=en"><img
-                src="../css/images/eng-flag.png"></a>
+        <h4>ENG <a href="${base}/do/?action=set-locale&region=en"><img
+                src="../css/images/eng-flag.png"></a></h4>
     </td>
     </tr>
 </table>

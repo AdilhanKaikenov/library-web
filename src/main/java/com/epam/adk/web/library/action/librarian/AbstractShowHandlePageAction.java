@@ -19,7 +19,7 @@ import java.util.List;
  **/
 public abstract class AbstractShowHandlePageAction implements Action {
 
-    private static final String ORDER_ID_PARAMETER = "orderID";
+    protected static final String ORDER_ID_PARAMETER = "orderID";
     private static final String ORDERS_BOOKS_REQUEST_ATTRIBUTE = "ordersBooks";
     private static final String ORDER_REQUEST_ATTRIBUTE = "order";
 

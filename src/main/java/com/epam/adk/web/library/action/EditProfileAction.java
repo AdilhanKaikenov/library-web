@@ -31,6 +31,7 @@ public class EditProfileAction implements Action {
     private static final String EDIT_PROFILE_PAGE_NAME = "edit-profile";
     private static final String PERSONAL_AREA_PAGE_NAME = "personal-area";
     private static final String INVALID_INFORMATION_REQUEST_ATTRIBUTE = "invalidInformation";
+    private static final String EDIT_PROFILE_FORM_NAME = "edit.profile";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -50,7 +51,7 @@ public class EditProfileAction implements Action {
 
         try {
             FormValidator formValidator = new FormValidator();
-            boolean isInvalid = formValidator.isInvalid("edit.profile", request);
+            boolean isInvalid = formValidator.isInvalid(EDIT_PROFILE_FORM_NAME, request);
             log.debug("Edit profile form validation, invalid = {}", isInvalid);
             if (isInvalid) {
                 return EDIT_PROFILE_PAGE_NAME;

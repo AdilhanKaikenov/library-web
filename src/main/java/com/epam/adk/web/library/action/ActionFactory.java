@@ -39,6 +39,7 @@ public class ActionFactory {
         actions.put("POST/order-request", new OrderRequestAction());
         actions.put("POST/remove-book-from-order", new DeleteBookFromOrderAction());
         actions.put("POST/remove-book-from-order-request", new DeleteBookFromOrderRequestAction());
+        actions.put("POST/extend-order", new ExtendOrderAction());
 
         actions.put("GET/logout", new LogoutAction());
         actions.put("GET/category", new CategoryAction());
