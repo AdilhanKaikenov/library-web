@@ -60,7 +60,8 @@ CREATE TABLE PUBLIC.orders_books
   user_id INT NOT NULL,
   book_id INT NOT NULL,
   order_id INT NOT NULL,
-  CONSTRAINT orders_books_user_id_book_id_pk PRIMARY KEY (user_id, book_id)
+  issued BOOLEAN NOT NULL DEFAULT FALSE,
+    CONSTRAINT orders_books_user_id_book_id_pk PRIMARY KEY (user_id, book_id)
 );
 
 CREATE TABLE PUBLIC.orders

@@ -111,6 +111,11 @@ public class JdbcOrders extends JdbcDao<Order> implements OrdersDao {
     }
 
     @Override
+    protected String getDeleteByIdQuery() {
+        return null;
+    }
+
+    @Override
     protected String getDeleteQuery() {
         return "DELETE FROM orders WHERE id LIKE ?";
     }

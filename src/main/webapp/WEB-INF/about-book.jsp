@@ -28,14 +28,16 @@
                             class="link-style"><ftm:message key="add.to.order"/></button>
                 </form>
             </c:if>
-            <c:if test="${not empty user && user.role == 'READER' && not empty requestScope.bookOrdered}">
-                <ftm:message key="${requestScope.bookOrdered}"/>
-            </c:if>
-            <c:if test="${not empty user && user.role == 'READER' && not empty requestScope.bookAddedToOrder}">
-                <ftm:message key="${requestScope.bookAddedToOrder}"/>
-            </c:if>
-            <c:if test="${not empty user && user.role == 'READER' && availableBookAmount == 0}">
-                <ftm:message key="book.no.available"/>
+            <c:if test="${not empty user && user.role == 'READER'}">
+                <c:if test="${not empty requestScope.bookOrdered}">
+                    <li><ftm:message key="${requestScope.bookOrdered}"/></li>
+                </c:if>
+                <c:if test="${not empty requestScope.bookAddedToOrder}">
+                    <li><ftm:message key="${requestScope.bookAddedToOrder}"/></li>
+                </c:if>
+                <c:if test="${availableBookAmount == 0}">
+                    <li><ftm:message key="book.no.available"/></li>
+                </c:if>
             </c:if>
         </div>
     </c:if>

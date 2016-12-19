@@ -76,19 +76,6 @@ public class BookService {
         return booksNumber;
     }
 
-    public int getAvailableBookAmount(int bookID) throws ServiceException {
-        log.debug("Entering BookService class getAvailableBookAmount() method.");
-        int amount;
-        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            BookDao bookDao = jdbcDaoFactory.getBookDao();
-            amount = bookDao.countAvailableAmount(bookID);
-            log.debug("Leaving BookService class getAvailableBookAmount() method.");
-        } catch (SQLException | DaoException e) {
-            throw new ServiceException("Error: BookService class, getAvailableBookAmount() method.", e);
-        }
-        return amount;
-    }
-
     public Book getBookById(int id) throws ServiceException {
         log.debug("Entering BookService class getBookById() method. Id = {}", id);
         Book book;

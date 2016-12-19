@@ -27,6 +27,7 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
 
     private static final Logger log = LoggerFactory.getLogger(JdbcOrdersBooksDao.class);
     private static final String TABLE_NAME = "orders";
+    private static final String SELECT_COUNT_AVAILABLE_AMOUNT = "SELECT book.total_amount - cnt FROM book, (SELECT COUNT(*) AS cnt FROM orders_books WHERE orders_books.book_id = ? AND orders_books.issued = TRUE) WHERE book.id = ?";
 
 
     public JdbcOrdersBooksDao(Connection connection) {
@@ -64,7 +65,7 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
                 order.setTo(resultSet.getDate("DATE_TO"));
                 order.setStatus(resultSet.getBoolean("STATUS"));
                 orderBook.setOrder(order);
-                orderBook.setAvailableBookAmount(resultSet.getInt("AVAILABLE_AMOUNT"));
+                orderBook.setAvailableBookAmount(countAvailableAmount(book.getId()));
                 log.debug("OrderBook successfully created in createFrom() method.");
                 result.add(orderBook);
             }
@@ -83,7 +84,7 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
-            preparedStatement = getConnection().prepareStatement("SELECT user.id AS user_id,  user.login, user.firstname,  user.surname, user.patronymic,  user.address, user.email,  user.mobile_phone, book.id AS book_id,  book.title, book.authors,  book.publish_year, book.total_amount - ordered_books.CNT AS available_amount,  orders.id AS order_id, orders.order_date,  orders.date_from,  orders.date_to, orders.status FROM orders_books, (SELECT orders_books.book_id, COUNT(*) AS CNT FROM orders_books GROUP BY orders_books.book_id) AS ordered_books INNER JOIN user ON orders_books.user_id = user.id INNER JOIN book ON orders_books.book_id = book.id INNER JOIN orders ON orders_books.order_id = orders.id WHERE book.id = ordered_books.book_id  AND orders_books.user_id = ? AND orders_books.book_id = ?");
+            preparedStatement = getConnection().prepareStatement("SELECT user.id AS user_id, user.login, user.firstname, user.surname, user.patronymic, user.address, user.email, user.mobile_phone, book.id AS book_id, book.title, book.authors, book.publish_year, orders.id AS order_id, orders.order_date, orders.date_from, orders.date_to, orders.status FROM orders_books INNER JOIN user ON orders_books.user_id = user.id INNER JOIN book ON orders_books.book_id = book.id INNER JOIN orders ON orders_books.order_id = orders.id WHERE orders_books.user_id = ? AND orders_books.book_id = ?");
             preparedStatement.setInt(1, userID);
             preparedStatement.setInt(2, bookID);
             resultSet = preparedStatement.executeQuery();
@@ -117,6 +118,28 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
     }
 
     @Override
+    public int countAvailableAmount(int bookID) throws DaoException {
+        log.debug("Entering JdbcBookDao class, countAvailableAmount() method. Book ID = {}", bookID);
+        int count = 0;
+        PreparedStatement preparedStatement;
+        ResultSet resultSet;
+        try {
+            preparedStatement = getConnection().prepareStatement(SELECT_COUNT_AVAILABLE_AMOUNT);
+            preparedStatement.setInt(1, bookID);
+            preparedStatement.setInt(2, bookID);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                count = resultSet.getInt(1);
+            }
+            log.debug("Leaving JdbcBookDao class, countAvailableAmount() method. Book amount = {}", count);
+        } catch (SQLException e) {
+            log.error("Error: JdbcBookDao class countAvailableAmount() method. {}", e);
+            throw new DaoException("Error: JdbcBookDao class countAvailableAmount() method.", e);
+        }
+        return count;
+    }
+
+    @Override
     public int countOrderedBooks(OrderBook order) throws DaoException {
         log.debug("Entering JdbcOrdersBooksDao class, countOrderedBooks() method");
         int count = 0;
@@ -144,8 +167,25 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
 
      @Override
     public int getNumberRowsByBookId(int bookID) throws DaoException {
-
-        return 0;
+         log.debug("Entering JdbcOrderDao class, getNumberRowsByStatusId() method. Book Id = {}", bookID);
+         int numberRows = 0;
+         PreparedStatement preparedStatement = null;
+         ResultSet resultSet = null;
+         try {
+             preparedStatement = getConnection().prepareStatement("SELECT COUNT(*) FROM orders_books WHERE book_id = ?");
+             preparedStatement = setFieldInCountNumberRowsByIdPreparedStatement(preparedStatement, bookID);
+             resultSet = preparedStatement.executeQuery();
+             if (resultSet.next()) {
+                 numberRows = resultSet.getInt(1);
+             }
+             log.debug("Leaving JdbcOrderDao class getNumberRowsByStatusId() method. Rows number = {}", numberRows);
+         } catch (SQLException e) {
+             log.error("Error: JdbcOrderDao class, getNumberRowsByStatusId() method. {}", e);
+             throw new DaoException("Error: JdbcOrderDao class, getNumberRowsByStatusId() method.", e);
+         } finally {
+             close(preparedStatement, resultSet);
+         }
+         return numberRows;
     }
 
     @Override
@@ -185,7 +225,15 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
 
     @Override
     protected PreparedStatement setFieldsInUpdateByEntityPreparedStatement(PreparedStatement preparedStatement, OrderBook orderBook) throws DaoException {
-
+        log.debug("Entering JdbcOrdersBooksDao class, setFieldsInUpdateByEntityPreparedStatement() method.");
+        try {
+            log.debug("Set is issued: {}", orderBook.getUser().getId());
+            preparedStatement.setBoolean(1, orderBook.isIssued());
+            log.debug("Leaving JdbcOrdersBooksDao class, setFieldsInUpdateByEntityPreparedStatement() method.");
+        } catch (SQLException e) {
+            log.error("Error: JdbcOrdersBooksDao class setFieldsInUpdateByEntityPreparedStatement() method. I can not set fields into statement. {}", e);
+            throw new DaoException("Error: JdbcOrdersBooksDao class setFieldsInCreatePreparedStatement() method. I can not set fields into statement.", e);
+        }
         return preparedStatement;
     }
 
@@ -195,8 +243,13 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
     }
 
     @Override
+    protected String getDeleteByIdQuery() {
+        return "DELETE FROM orders_books WHERE order_id = ?";
+    }
+
+    @Override
     protected String getUpdateByEntityQuery() {
-        return null;
+        return "UPDATE orders_books SET issued = ?";
     }
 
     @Override
@@ -231,7 +284,7 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
 
     @Override
     protected String getCountNumberRowsByIdParameterQuery() {
-        return null;
+        return "SELECT COUNT(*) FROM orders_books WHERE order_id = ?";
     }
 
     @Override
@@ -241,7 +294,7 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
 
     @Override
     protected String getReadAllByIdParameterQuery() {
-        return "SELECT user.id AS user_id,  user.login, user.firstname,  user.surname, user.patronymic,  user.address, user.email,  user.mobile_phone, book.id AS book_id,  book.title, book.authors,  book.publish_year, book.total_amount - ordered_books.CNT AS available_amount,  orders.id AS order_id, orders.order_date,  orders.date_from,  orders.date_to, orders.status FROM orders_books, (SELECT orders_books.book_id, COUNT(*) AS CNT FROM orders_books GROUP BY orders_books.book_id) AS ordered_books INNER JOIN user ON orders_books.user_id = user.id INNER JOIN book ON orders_books.book_id = book.id INNER JOIN orders ON orders_books.order_id = orders.id WHERE orders.id = ? AND book.id = ordered_books.book_id";
+        return "SELECT user.id AS user_id, user.login, user.firstname, user.surname, user.patronymic, user.address, user.email, user.mobile_phone, book.id AS book_id, book.title, book.authors, book.publish_year, orders.id AS order_id, orders.order_date, orders.date_from, orders.date_to, orders.status FROM orders_books INNER JOIN user ON orders_books.user_id = user.id INNER JOIN book ON orders_books.book_id = book.id INNER JOIN orders ON orders_books.order_id = orders.id WHERE orders.id = ?";
     }
 
     @Override

@@ -11,6 +11,7 @@ public class OrderBook extends BaseEntity {
     private Book book;
     private Order order;
     private int availableBookAmount;
+    private boolean issued;
 
     public OrderBook() {
         user = new User();
@@ -50,4 +51,11 @@ public class OrderBook extends BaseEntity {
         this.availableBookAmount = availableBookAmount;
     }
 
+    public boolean isIssued() {
+        return issued;
+    }
+
+    public void setIssued(boolean issued) {
+        this.issued = issued;
+    }
 }

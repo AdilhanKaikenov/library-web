@@ -149,6 +149,10 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
         return "DELETE FROM user WHERE id LIKE ?";
     }
 
+    @Override
+    protected String getDeleteByIdQuery() {
+        return null;
+    }
 
     @Override
     protected String getUpdateByEntityQuery() {

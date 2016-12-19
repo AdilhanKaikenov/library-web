@@ -19,5 +19,6 @@ public interface OrdersBooksDao extends Dao<OrderBook> {
 
     int getNumberRowsByBookId(int bookID) throws DaoException;
 
+    int countAvailableAmount(int bookID) throws DaoException;
 
 }

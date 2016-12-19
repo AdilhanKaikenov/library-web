@@ -30,6 +30,8 @@ public interface Dao<T extends BaseEntity> {
 
     void delete(T entity) throws DaoException;
 
+    void deleteByIdParameter(int id) throws DaoException;
+
     int getNumberRowsByIdParameter(int id) throws DaoException;
 
     int getNumberRows() throws DaoException;

@@ -39,6 +39,9 @@
                 <th width="100px">
                     <ftm:message key="date.order.request"/>
                 </th>
+                <th width="300px">
+                    <ftm:message key="period.of.books.use"/>
+                </th>
                 <th width="100px">
 
                 </th>
@@ -57,7 +60,15 @@
                             ${order.orderType.value}
                     </td>
                     <td width="200px">
-                            ${order.orderDate}
+                            <ftm:formatDate value="${order.orderDate}"/>
+                    </td>
+                    <td width="300px">
+                        <c:if test="${order.orderType == 'SUBSCRIPTION'}">
+                            <ftm:formatDate value="${order.from}"/> / <ftm:formatDate value="${order.to}"/>
+                        </c:if>
+                        <c:if test="${order.orderType == 'READING_ROOM'}">
+                            <ftm:formatDate value="${order.from}"/>
+                        </c:if>
                     </td>
                     <td width="200px">
                         <a href="${pageContext.request.contextPath}/do/?action=handle-return-books&orderID=${order.id}" class="link-style"><ftm:message key="handle.return.books"/></a>

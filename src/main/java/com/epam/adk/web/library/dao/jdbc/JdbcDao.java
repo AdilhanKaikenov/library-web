@@ -228,7 +228,22 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         }
     }
 
-    protected abstract String getDeleteQuery();
+    @Override
+    public void deleteByIdParameter(int id) throws DaoException {
+        log.debug("Entering JdbcDao class, delete() method. Entity ID = {}", id);
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(getDeleteByIdQuery());
+            preparedStatement = setFieldsInDeleteByIdParameter(preparedStatement, id);
+            preparedStatement.execute();
+            log.debug("Leaving JdbcDao class, delete() method.");
+        } catch (SQLException e) {
+            log.error("Error: JdbcDao class delete() method. I can not delete entity. {}", e);
+            throw new DaoException("Error: JdbcDao class delete() method. I can not delete entity. ", e);
+        } finally {
+            closePreparedStatement(preparedStatement);
+        }
+    }
 
     protected T createFrom(ResultSet resultSet) throws DaoException {
         log.debug("Entering JdbcDao class, createFrom() method");
@@ -286,7 +301,6 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         return numberRows;
     }
 
-
     private Integer getID(ResultSet generatedKeys) throws DaoException {
         log.debug("Entering JdbcDao class, getID() method.");
         Integer id = null;
@@ -341,6 +355,20 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         }
         return preparedStatement;
     }
+
+    private PreparedStatement setFieldsInDeleteByIdParameter(PreparedStatement preparedStatement, int id) throws DaoException {
+        log.debug("Entering JdbcDao class, setFieldsInDeleteByIdParameter() method. ID = {}", id);
+        try {
+            log.debug("Set id: {}", id);
+            preparedStatement.setInt(1, id);
+            log.debug("Leaving JdbcDao class, setFieldsInDeleteByIdParameter() method.");
+        } catch (SQLException e) {
+            log.error("Error: JdbcDao class setFieldsInDeleteByIdParameter() method. I can not set field into statement. {}", e);
+            throw new DaoException("Error: JdbcDao class setFieldsInDeleteByIdParameter() method. I can not set field into statement.", e);
+        }
+        return preparedStatement;
+    }
+
 
     protected PreparedStatement setFieldsInReadRangePreparedStatement(PreparedStatement preparedStatement, int offset, int limit) throws DaoException {
         log.debug("Entering JdbcDao class, setFieldsInReadRangePreparedStatement() method.");
@@ -416,6 +444,10 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     protected String getCountNumberRowsQuery() {
         return "SELECT COUNT(*) FROM " + getTableName();
     }
+
+    protected abstract String getDeleteByIdQuery();
+
+    protected abstract String getDeleteQuery();
 
     protected abstract String getUpdateByEntityQuery();
 

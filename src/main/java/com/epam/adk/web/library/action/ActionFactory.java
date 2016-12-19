@@ -35,8 +35,6 @@ public class ActionFactory {
         actions.put("POST/authorization", new AuthorizationAction());
         actions.put("POST/edit-book-amount", new EditBookAmountAction());
         actions.put("POST/reject-book-order", new RejectOrderAction());
-//        actions.put("POST/order-book-request", new BookOrderRequestAction());
-//        actions.put("POST/delete-old-order-requests", new DeleteOldOrderRequests());
         actions.put("POST/add-book-to-order", new AddBookToOrderAction());
         actions.put("POST/order-request", new OrderRequestAction());
         actions.put("POST/remove-book-from-order", new DeleteBookFromOrderAction());
@@ -54,10 +52,10 @@ public class ActionFactory {
         actions.put("GET/authorization", new AuthorizationAction());
         actions.put("GET/orders", new ShowAllAllowedOrdersAction());
         actions.put("GET/requests", new ShowAllOrderRequestsAction());
-//        actions.put("GET/rejected-orders", new ShowAllRejectedOrdersAction());
         actions.put("GET/my-order", new ShowMyOrderAction());
-        actions.put("GET/handle-order-request", new ShowOrderRequestAction());
+        actions.put("GET/handle-order-request", new ShowHandleOrderRequestPageAction());
         actions.put("GET/order-book-list", new ShowOrderBooksListAction());
+        actions.put("GET/handle-return-books", new ShowHandleReturnBooksPageAction());
 
         actions.put("GET/personal-area", new ShowPageAction("profile"));
         actions.put("GET/book-search", new ShowPageAction("book-search"));

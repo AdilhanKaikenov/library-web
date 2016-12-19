@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 /**
  * AddBookToOrderAction class created on 16.12.2016
@@ -51,15 +50,12 @@ public class AddBookToOrderAction implements Action {
             orderBook.setUser(user);
             orderBook.setBook(book);
 
-            List<Book> subscriptionBooks = user.getSubscriptionBooks();
-            List<Book> readingRoomBooks = user.getReadingRoomBooks();
-
             switch (orderType){
                 case READING_ROOM:
-                    readingRoomBooks.add(book);
+                    user.addReadingRoomBook(book);
                     break;
                 case SUBSCRIPTION:
-                    subscriptionBooks.add(book);
+                    user.addSubscriptionBook(book);
                     break;
             }
         } catch (ServiceException e) {

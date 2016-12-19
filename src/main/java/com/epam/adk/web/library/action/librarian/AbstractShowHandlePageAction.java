@@ -1,5 +1,6 @@
-package com.epam.adk.web.library.action;
+package com.epam.adk.web.library.action.librarian;
 
+import com.epam.adk.web.library.action.Action;
 import com.epam.adk.web.library.exception.ActionException;
 import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.Order;
@@ -12,14 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * ShowOrderRequestAction class created on 18.12.2016
+ *  AbstractShowHandlePageAction class created on 18.12.2016
  *
  * @author Kaikenov Adilhan
  **/
-public class ShowOrderRequestAction implements Action {
+public abstract class AbstractShowHandlePageAction implements Action {
 
     private static final String ORDER_ID_PARAMETER = "orderID";
-    private static final String HANDLE_ORDER_REQUEST_PAGE_NAME = "handle-order-request";
     private static final String ORDERS_BOOKS_REQUEST_ATTRIBUTE = "ordersBooks";
     private static final String ORDER_REQUEST_ATTRIBUTE = "order";
 
@@ -39,9 +39,12 @@ public class ShowOrderRequestAction implements Action {
             request.setAttribute(ORDER_REQUEST_ATTRIBUTE, order);
 
         } catch (ServiceException e) {
-            throw new ActionException("Error: ShowOrderRequestAction class, execute() method.", e);
+            throw new ActionException("Error: AbstractShowHandlePageAction class, execute() method.", e);
         }
 
-        return HANDLE_ORDER_REQUEST_PAGE_NAME;
+        return getPage();
     }
+
+    protected abstract String getPage();
+
 }

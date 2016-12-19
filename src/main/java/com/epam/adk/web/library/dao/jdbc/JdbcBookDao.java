@@ -33,7 +33,6 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     private static final String SELECT_COUNT_ROWS_QUERY = queryProperties.get("select.count.rows.number");
     private static final String SELECT_FOUND_QUERY_PART_ONE = queryProperties.get("select.found.books.part.one");
     private static final String SELECT_FOUND_QUERY_PART_TWO = queryProperties.get("select.found.books.part.two");
-    private static final String SELECT_COUNT_AVAILABLE_AMOUNT = "SELECT book.total_amount - cnt FROM book, (SELECT COUNT(*) AS cnt FROM orders_books WHERE orders_books.book_id = ?) WHERE book.id = ?";
 
     public JdbcBookDao(Connection connection) {
         super(connection);
@@ -86,28 +85,6 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
             closeResultSet(resultSet);
         }
         return result;
-    }
-
-    @Override
-    public int countAvailableAmount(int bookID) throws DaoException {
-        log.debug("Entering JdbcBookDao class, countAvailableAmount() method. Book ID = {}", bookID);
-        int count = 0;
-        PreparedStatement preparedStatement;
-        ResultSet resultSet;
-        try {
-            preparedStatement = getConnection().prepareStatement(SELECT_COUNT_AVAILABLE_AMOUNT);
-            preparedStatement.setInt(1, bookID);
-            preparedStatement.setInt(2, bookID);
-            resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                count = resultSet.getInt(1);
-            }
-            log.debug("Leaving JdbcBookDao class, countAvailableAmount() method. Book amount = {}", count);
-        } catch (SQLException e) {
-            log.error("Error: JdbcBookDao class countAvailableAmount() method. {}", e);
-            throw new DaoException("Error: JdbcBookDao class countAvailableAmount() method.", e);
-        }
-        return count;
     }
 
     @Override
@@ -164,6 +141,11 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
             throw new DaoException("Error: JdbcBookDao class setFieldsInCreatePreparedStatement() method. I can not set fields into statement.", e);
         }
         return preparedStatement;
+    }
+
+    @Override
+    protected String getDeleteByIdQuery() {
+        return null;
     }
 
     @Override

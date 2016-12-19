@@ -37,6 +37,8 @@ public class BookAboutAction implements Action {
     private static final String PAGES_NUMBER_REQUEST_ATTRIBUTE = "pagesNumber";
     private static final String BOOK_COMMENTS_REQUEST_ATTRIBUTE = "bookComments";
     private static final String AVAILABLE_BOOK_AMOUNT_REQUEST_ATTRIBUTE = "availableBookAmount";
+    private static final String BOOK_ORDERED_REQUEST_ATTRIBUTE = "bookOrdered";
+    private static final String BOOK_ADDED_TO_ORDER_REQUEST_ATTRIBUTE = "bookAddedToOrder";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -50,6 +52,7 @@ public class BookAboutAction implements Action {
 
         BookService bookService = new BookService();
         CommentService commentService = new CommentService();
+        OrdersBooksService ordersBooksService = new OrdersBooksService();
 
         int page = DEFAULT_PAGE_NUMBER;
         String pageParameter = request.getParameter(PAGE_PARAMETER);
@@ -61,7 +64,7 @@ public class BookAboutAction implements Action {
 
         try {
             Book book = bookService.getBookById(bookId);
-            int availableBookAmount = bookService.getAvailableBookAmount(bookId);
+            int availableBookAmount = ordersBooksService.getAvailableBookAmount(bookId);
             int commentsNumber = commentService.getCommentsNumberByBookId(bookId);
             log.debug("BookAboutAction: total comments number = {}", commentsNumber);
             Pagination pagination = new Pagination();
@@ -77,8 +80,6 @@ public class BookAboutAction implements Action {
             request.setAttribute(PAGES_NUMBER_REQUEST_ATTRIBUTE, pagesNumber);
             request.setAttribute(AVAILABLE_BOOK_AMOUNT_REQUEST_ATTRIBUTE, availableBookAmount);
 
-            OrdersBooksService ordersBooksService = new OrdersBooksService();
-
             if (user != null) {
 
                 OrderBook orderBook = new OrderBook();
@@ -91,11 +92,11 @@ public class BookAboutAction implements Action {
                 int orderedBooksNumber = ordersBooksService.getOrderedBooksNumber(orderBook);
 
                 if (orderedBooksNumber > 0) {
-                    request.setAttribute("bookOrdered", "book.already.ordered");
+                    request.setAttribute(BOOK_ORDERED_REQUEST_ATTRIBUTE, "book.already.ordered");
                 }
 
                 if (subscriptionBooks.contains(book) || readingRoomBooks.contains(book)) {
-                    request.setAttribute("bookAddedToOrder", "book.added.to.order");
+                    request.setAttribute(BOOK_ADDED_TO_ORDER_REQUEST_ATTRIBUTE, "book.added.to.order");
                 }
             }
 

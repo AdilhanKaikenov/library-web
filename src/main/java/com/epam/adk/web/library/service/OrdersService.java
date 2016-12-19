@@ -1,11 +1,13 @@
 package com.epam.adk.web.library.service;
 
 import com.epam.adk.web.library.dao.DaoFactory;
+import com.epam.adk.web.library.dao.OrdersBooksDao;
 import com.epam.adk.web.library.dao.OrdersDao;
 import com.epam.adk.web.library.dao.jdbc.JdbcDaoFactory;
 import com.epam.adk.web.library.exception.DaoException;
 import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.Order;
+import com.epam.adk.web.library.model.OrderBook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,20 +34,6 @@ public class OrdersService {
             throw new ServiceException("Error: OrdersService class, add() method.", e);
         }
         return addedOrder;
-    }
-
-    public List<Order> getPaginated(int pageNumber, int pageSize) throws ServiceException {
-        log.debug("Entering OrdersService class getPaginated() method. ");
-        List<Order> result;
-        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            OrdersDao ordersDao = jdbcDaoFactory.getOrdersDao();
-            int offset = pageSize * pageNumber - pageSize;
-            result = ordersDao.readRange(offset, pageSize);
-            log.debug("Leaving OrdersService class getPaginated() method. Amount of orders comment = {}", result.size());
-        } catch (SQLException | DaoException e) {
-            throw new ServiceException("Error: OrdersService class, getPaginated() method.", e);
-        }
-        return result;
     }
 
     public int getOrdersNumberByUserID(int id) throws ServiceException {
@@ -119,11 +107,47 @@ public class OrdersService {
     public void update(Order order) throws ServiceException {
         log.debug("Entering OrdersService class update() method. Order Id = {}", order.getId());
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            OrdersDao ordersDao = jdbcDaoFactory.getOrdersDao();
-            ordersDao.update(order);
+            try {
+                jdbcDaoFactory.beginTransaction();
+                OrdersDao ordersDao = jdbcDaoFactory.getOrdersDao();
+                ordersDao.update(order);
+
+                OrdersBooksDao ordersBooksDao = jdbcDaoFactory.getOrdersBooksDao();
+                List<OrderBook> ordersBooks = ordersBooksDao.readAllByIdParameter(order.getId());
+
+                for (OrderBook ordersBook : ordersBooks) {
+                    ordersBook.setIssued(order.isStatus());
+                    ordersBooksDao.update(ordersBook);
+                }
+
+            } catch (SQLException e){
+                jdbcDaoFactory.rollbackTransaction();
+                throw new ServiceException("Error: OrdersService class, update() method. TRANSACTION failed.", e);
+            }
             log.debug("Leaving OrdersService class update() method.");
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: OrdersService class, update() method.", e);
+        }
+    }
+
+    public void delete(Order order) throws ServiceException {
+        log.debug("Entering OrdersService class delete() method. Order Id = {}", order.getId());
+        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+            try {
+                jdbcDaoFactory.beginTransaction();
+                OrdersBooksDao ordersBooksDao = jdbcDaoFactory.getOrdersBooksDao();
+                ordersBooksDao.deleteByIdParameter(order.getId());
+
+                OrdersDao ordersDao = jdbcDaoFactory.getOrdersDao();
+                ordersDao.delete(order);
+                jdbcDaoFactory.endTransaction();
+            } catch (SQLException e){
+                jdbcDaoFactory.rollbackTransaction();
+                throw new ServiceException("Error: OrdersService class, delete() method. TRANSACTION failed.", e);
+            }
+            log.debug("Leaving OrdersService class delete() method.");
+        } catch (SQLException | DaoException e) {
+            throw new ServiceException("Error: OrdersService class, delete() method.", e);
         }
     }
 }

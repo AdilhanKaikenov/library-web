@@ -16,7 +16,9 @@ import java.util.List;
  **/
 public class ShowOrderBooksListAction implements Action {
 
-    public static final String ORDER_ID_PARAMETER = "orderID";
+    private static final String ORDER_ID_PARAMETER = "orderID";
+    private static final String ORDER_BOOK_LIST_PAGE_NAME = "order-book-list";
+    private static final String ORDERS_BOOKS_REQUEST_ATTRIBUTE = "ordersBooks";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -28,12 +30,12 @@ public class ShowOrderBooksListAction implements Action {
         try {
             List<OrderBook> ordersBooks = ordersBooksService.getOrdersBooks(orderID);
 
-            request.setAttribute("ordersBooks", ordersBooks);
+            request.setAttribute(ORDERS_BOOKS_REQUEST_ATTRIBUTE, ordersBooks);
 
         } catch (ServiceException e) {
             throw new ActionException("Error: ShowOrderBooksListAction class, execute() method.", e);
         }
 
-        return "order-book-list";
+        return ORDER_BOOK_LIST_PAGE_NAME;
     }
 }

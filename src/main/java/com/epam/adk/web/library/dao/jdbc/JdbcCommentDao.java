@@ -92,6 +92,11 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
     }
 
     @Override
+    protected String getDeleteByIdQuery() {
+        return null;
+    }
+
+    @Override
     protected String getTableName() {
         return TABLE_NAME;
     }

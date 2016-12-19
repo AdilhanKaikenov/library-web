@@ -48,7 +48,7 @@
                 <%--@elvariable id="order" type="com.epam.adk.web.library.model.Order"--%>
                 <tr align="center" class="tr">
                     <td width="200px">
-                        ${order.id}
+                            ${order.id}
                     </td>
                     <td width="200px">
                             ${order.user.surname} ${order.user.firstname} ${order.user.patronymic}
@@ -57,10 +57,11 @@
                             ${order.orderType.value}
                     </td>
                     <td width="200px">
-                            ${order.orderDate}
+                        <ftm:formatDate value="${order.orderDate}"/>
                     </td>
                     <td width="200px">
-                            <a href="${pageContext.request.contextPath}/do/?action=handle-order-request&orderID=${order.id}" class="link-style"><ftm:message key="handle.order"/></a>
+                        <a href="${pageContext.request.contextPath}/do/?action=handle-order-request&orderID=${order.id}"
+                           class="link-style"><ftm:message key="handle.order"/></a>
                     </td>
                 </tr>
             </c:forEach>
