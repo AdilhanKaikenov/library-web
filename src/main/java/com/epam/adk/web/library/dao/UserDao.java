@@ -9,5 +9,4 @@ import com.epam.adk.web.library.model.User;
  * @see Dao
  */
 public interface UserDao extends Dao<User> {
-
 }

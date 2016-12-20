@@ -41,6 +41,7 @@ public class OrderRequestAction implements Action {
         User user = ((User) session.getAttribute(USER_PARAMETER));
 
         OrderType orderType = OrderType.from(request.getParameter(ORDER_TYPE_PARAMETER));
+        log.debug("Order type = {}", orderType.getValue());
 
         java.util.Date currentDate = new java.util.Date();
         Date orderDate = new Date(currentDate.getTime());

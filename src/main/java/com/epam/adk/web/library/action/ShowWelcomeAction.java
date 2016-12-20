@@ -39,15 +39,15 @@ public class ShowWelcomeAction implements Action {
 
             if (pageParameter != null) {
                 page = Integer.parseInt(pageParameter);
-                log.debug("ShowWelcomeAction: page #{}", page);
+                log.debug("Page #{}", page);
             }
 
         try {
             int booksNumber = bookService.getBooksNumber();
-            log.debug("ShowWelcomeAction: total books number = {}", booksNumber);
+            log.debug("Total books number = {}", booksNumber);
             Pagination pagination = new Pagination();
             int pagesNumber = pagination.getPagesNumber(booksNumber, LINE_PER_PAGE_NUMBER);
-            log.debug("ShowWelcomeAction: total pages number = {}", pagesNumber);
+            log.debug("Total pages number = {}", pagesNumber);
             List<Book> books = bookService.getPaginated(page, LINE_PER_PAGE_NUMBER);
 
             request.setAttribute(PAGES_NUMBER_REQUEST_ATTRIBUTE, pagesNumber);

@@ -35,6 +35,7 @@ public class DeleteBookFromOrderAction implements Action {
 
         User user = ((User) session.getAttribute(USER_PARAMETER));
         int bookID = Integer.parseInt(request.getParameter(BOOK_ID_PARAMETER));
+        log.debug("Book ID = {}", bookID);
 
         BookService bookService = new BookService();
 

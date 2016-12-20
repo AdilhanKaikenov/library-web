@@ -20,6 +20,9 @@ public class Book extends BaseEntity {
     private int totalAmount;
     private boolean deleted;
 
+    public Book() {
+    }
+
     public String getTitle() {
         return title;
     }

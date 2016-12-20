@@ -24,6 +24,16 @@ import java.util.List;
 public class JdbcOrders extends JdbcDao<Order> implements OrdersDao {
 
     private static final Logger log = LoggerFactory.getLogger(JdbcOrders.class);
+    private static final String SELECT_COUNT_BY_STATUS_QUERY = "SELECT COUNT(*) FROM orders WHERE status = ?";
+    private static final String SELECT_RANGE_BY_STATUS_QUERY = "SELECT orders.id AS order_id, user.id AS user_id, user.login, user.firstname, user.surname, user.patronymic, user.address, user.email, user.mobile_phone, order_type.type AS order_type, orders.order_date, orders.date_from, orders.date_to, orders.status FROM orders INNER JOIN user ON orders.user_id = user.id INNER JOIN order_type ON orders.order_type = order_type.id WHERE orders.status = ? ORDER BY orders.order_date LIMIT ? OFFSET ?";
+    private static final String DELETE_QUERY = "DELETE FROM orders WHERE id LIKE ?";
+    private static final String SELECT_BY_ID_QUERY = "SELECT orders.id AS order_id, user.id AS user_id, user.login, user.firstname, user.surname, user.patronymic, user.address, user.email, user.mobile_phone, order_type.type AS order_type, orders.order_date, orders.date_from, orders.date_to, orders.status FROM orders INNER JOIN user ON orders.user_id = user.id INNER JOIN order_type ON orders.order_type = order_type.id WHERE orders.id = ?";
+    private static final String SELECT_RANGE_QUERY = "SELECT orders.id AS order_id, user.id AS user_id, user.login, user.firstname, user.surname, user.patronymic, user.address, user.email, user.mobile_phone, order_type.type AS order_type, orders.order_date, orders.date_from, orders.date_to, orders.status FROM orders INNER JOIN user ON orders.user_id = user.id INNER JOIN order_type ON orders.order_type = order_type.id ORDER BY orders.order_date LIMIT ? OFFSET ?";
+    private static final String UPDATE_QUERY = "UPDATE orders SET date_from = ?, date_to = ?, status = ? WHERE id LIKE ?";
+    private static final String TABLE_NAME = "orders";
+    private static final String INSERT_QUERY = "INSERT INTO orders(user_id, order_type, order_date, date_from, date_to) VALUES(?, ?, ?, ?, ?)";
+    private static final String SELECT_COUNT_BY_USER_ID_QUERY = "SELECT COUNT(*) FROM orders WHERE user_id = ?";
+    private static final String SELECT_RANGE_BY_USER_ID_QUERY = "SELECT orders.id AS order_id, user.id AS user_id, user.login, user.firstname, user.surname, user.patronymic, user.address, user.email, user.mobile_phone, order_type.type AS order_type, orders.order_date, orders.date_from, orders.date_to, orders.status FROM orders INNER JOIN user ON orders.user_id = user.id INNER JOIN order_type ON orders.order_type = order_type.id WHERE user.id = ? ORDER BY orders.order_date LIMIT ? OFFSET ?";
 
     public JdbcOrders(Connection connection) {
         super(connection);
@@ -71,7 +81,7 @@ public class JdbcOrders extends JdbcDao<Order> implements OrdersDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
-            preparedStatement = getConnection().prepareStatement("SELECT COUNT(*) FROM orders WHERE status = ?");
+            preparedStatement = getConnection().prepareStatement(SELECT_COUNT_BY_STATUS_QUERY);
             preparedStatement.setBoolean(1, status);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -94,7 +104,7 @@ public class JdbcOrders extends JdbcDao<Order> implements OrdersDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
-            preparedStatement = getConnection().prepareStatement("SELECT orders.id AS order_id, user.id AS user_id, user.login, user.firstname, user.surname, user.patronymic, user.address, user.email, user.mobile_phone, order_type.type AS order_type, orders.order_date, orders.date_from, orders.date_to, orders.status FROM orders INNER JOIN user ON orders.user_id = user.id INNER JOIN order_type ON orders.order_type = order_type.id WHERE orders.status = ? ORDER BY orders.order_date LIMIT ? OFFSET ?");
+            preparedStatement = getConnection().prepareStatement(SELECT_RANGE_BY_STATUS_QUERY);
             preparedStatement.setBoolean(1, status);
             preparedStatement.setInt(2, limit);
             preparedStatement.setInt(3, offset);
@@ -108,67 +118,6 @@ public class JdbcOrders extends JdbcDao<Order> implements OrdersDao {
             close(preparedStatement, resultSet);
         }
         return result;
-    }
-
-    @Override
-    protected String getDeleteByIdQuery() {
-        return null;
-    }
-
-    @Override
-    protected String getDeleteQuery() {
-        return "DELETE FROM orders WHERE id LIKE ?";
-    }
-
-
-    @Override
-    protected String getReadByIdQuery() {
-        return "SELECT orders.id AS order_id, user.id AS user_id, user.login, user.firstname, user.surname, user.patronymic, user.address, user.email, user.mobile_phone, order_type.type AS order_type, orders.order_date, orders.date_from, orders.date_to, orders.status FROM orders INNER JOIN user ON orders.user_id = user.id INNER JOIN order_type ON orders.order_type = order_type.id WHERE orders.id = ?";
-    }
-
-    @Override
-    protected String getReadAllQuery() {
-        return null;
-    }
-
-    @Override
-    protected String getReadRangeQuery() {
-        return "SELECT orders.id AS order_id, user.id AS user_id, user.login, user.firstname, user.surname, user.patronymic, user.address, user.email, user.mobile_phone, order_type.type AS order_type, orders.order_date, orders.date_from, orders.date_to, orders.status FROM orders INNER JOIN user ON orders.user_id = user.id INNER JOIN order_type ON orders.order_type = order_type.id ORDER BY orders.order_date LIMIT ? OFFSET ?";
-    }
-
-    @Override
-    protected String getUpdateByEntityQuery() {
-        return "UPDATE orders SET date_from = ?, date_to = ?, status = ? WHERE id LIKE ?";
-    }
-
-    @Override
-    protected String getTableName() {
-        return "orders";
-    }
-
-    @Override
-    protected String getCreateQuery() {
-        return "INSERT INTO orders(user_id, order_type, order_date, date_from, date_to) VALUES(?, ?, ?, ?, ?)";
-    }
-
-    @Override
-    protected String getReadByEntityQuery() {
-        return null;
-    }
-
-    @Override
-    protected String getCountNumberRowsByIdParameterQuery() {
-        return "SELECT COUNT(*) FROM orders WHERE user_id = ?";
-    }
-
-    @Override
-    protected String getReadRangeByIdParameterQuery() {
-        return "SELECT orders.id AS order_id, user.id AS user_id, user.login, user.firstname, user.surname, user.patronymic, user.address, user.email, user.mobile_phone, order_type.type AS order_type, orders.order_date, orders.date_from, orders.date_to, orders.status FROM orders INNER JOIN user ON orders.user_id = user.id INNER JOIN order_type ON orders.order_type = order_type.id WHERE user.id = ? ORDER BY orders.order_date LIMIT ? OFFSET ?";
-    }
-
-    @Override
-    protected String getReadAllByIdParameterQuery() {
-        return null;
     }
 
     @Override
@@ -211,6 +160,61 @@ public class JdbcOrders extends JdbcDao<Order> implements OrdersDao {
             throw new DaoException("Error: JdbcOrderDao class setFieldsInCreatePreparedStatement() method. I can not set fields into statement.", e);
         }
         return preparedStatement;
+    }
+
+    @Override
+    protected String getDeleteQuery() {
+        return DELETE_QUERY;
+    }
+
+    @Override
+    protected String getReadByIdQuery() {
+        return SELECT_BY_ID_QUERY;
+    }
+
+    @Override
+    protected String getReadRangeQuery() {
+        return SELECT_RANGE_QUERY;
+    }
+
+    @Override
+    protected String getUpdateByEntityQuery() {
+        return UPDATE_QUERY;
+    }
+
+    @Override
+    protected String getTableName() {
+        return TABLE_NAME;
+    }
+
+    @Override
+    protected String getCreateQuery() {
+        return INSERT_QUERY;
+    }
+
+    @Override
+    protected String getCountNumberRowsByIdParameterQuery() {
+        return SELECT_COUNT_BY_USER_ID_QUERY;
+    }
+
+    @Override
+    protected String getReadRangeByIdParameterQuery() {
+        return SELECT_RANGE_BY_USER_ID_QUERY;
+    }
+
+    @Override
+    protected String getReadByEntityQuery() {
+        return null;
+    }
+
+    @Override
+    protected String getDeleteByIdQuery() {
+        return null;
+    }
+
+    @Override
+    protected String getReadAllByIdParameterQuery() {
+        return null;
     }
 
     @Override

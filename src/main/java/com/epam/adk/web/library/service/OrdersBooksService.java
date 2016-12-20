@@ -108,17 +108,6 @@ public class OrdersBooksService {
         return orderBooksNumber;
     }
 
-    public void deleteAllOrderBooks(int orderID) throws ServiceException {
-        log.debug("Entering OrdersBooksService class deleteAllOrderBooks() method. ");
-        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            OrdersBooksDao orderDao = jdbcDaoFactory.getOrdersBooksDao();
-            orderDao.deleteByIdParameter(orderID);
-            log.debug("Leaving OrdersBooksService class deleteAllOrderBooks() method.");
-        } catch (SQLException | DaoException e) {
-            throw new ServiceException("Error: OrdersBooksService class, deleteAllOrderBooks() method.", e);
-        }
-    }
-
     public int getOrderBooksNumberByOrderId(int orderID) throws ServiceException {
         log.debug("Entering OrdersBooksService class getOrderBooksNumberByOrderId() method.");
         int orderBooksNumber;

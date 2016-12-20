@@ -52,7 +52,7 @@
                 <tr>
                     <td colspan="5" align="center">
                         <c:if test="${not empty requestScope.subscriptionBooks}">
-                            <form action="${pageContext.request.contextPath}/do/" method="post">
+                            <form action="${base}/do/" method="post">
                                 <input hidden="hidden" name="action" value="order-request">
                                 <input hidden="hidden" name="orderType" value="Subscription">
                                 <br>
@@ -107,7 +107,7 @@
                 <tr>
                     <td colspan="5" align="center">
                         <c:if test="${not empty requestScope.readingRoomBooks}">
-                            <form action="${pageContext.request.contextPath}/do/" method="post">
+                            <form action="${base}/do/" method="post">
                                 <input hidden="hidden" name="action" value="order-request">
                                 <input hidden="hidden" name="orderType" value="Reading room">
                                 <br>

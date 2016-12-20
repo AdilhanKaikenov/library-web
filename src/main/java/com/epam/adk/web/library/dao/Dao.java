@@ -18,8 +18,6 @@ public interface Dao<T extends BaseEntity> {
 
     T read(T entity) throws DaoException;
 
-    List<T> readAll() throws DaoException;
-
     List<T> readRange(int offset, int limit) throws DaoException;
 
     List<T> readAllByIdParameter(int id) throws DaoException;

@@ -10,7 +10,7 @@
 <div class="sidebar" align="center">
     <div class="inner-sidebar">
         <div style="height: 35px; padding: 15px;" align="center">
-            <form action="${pageContext.request.contextPath}/do/" method="post">
+            <form action="${base}/do/" method="post">
                 <input hidden="hidden" name="action" value="book-search">
                 <input style="float: left" type="text" name="dataForSearch" placeholder="Поиск" required>
                 <button type="submit" class="search-icon"></button>

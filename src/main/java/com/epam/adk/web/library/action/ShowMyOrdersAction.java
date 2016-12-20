@@ -44,17 +44,17 @@ public class ShowMyOrdersAction implements Action {
         String pageParameter = request.getParameter(PAGE_PARAMETER);
         if (pageParameter != null) {
             page = Integer.parseInt(pageParameter);
-            log.debug("ShowMyOrdersAction: page #{}", page);
+            log.debug("Page #{}", page);
         }
 
         OrdersService ordersService = new OrdersService();
 
         try {
             int userOrdersNumber = ordersService.getOrdersNumberByUserID(userID);
-            log.debug("ShowMyOrdersAction: total orders number = {}", userOrdersNumber);
+            log.debug("Total orders number = {}", userOrdersNumber);
             Pagination pagination = new Pagination();
             int pagesNumber = pagination.getPagesNumber(userOrdersNumber, LINE_PER_PAGE_NUMBER);
-            log.debug("ShowMyOrdersAction: total pages number = {}", pagesNumber);
+            log.debug("Total pages number = {}", pagesNumber);
 
             List<Order> userOrders = ordersService.getPaginatedUserOrders(userID, page, LINE_PER_PAGE_NUMBER);
             if (userOrders.size() != 0) {

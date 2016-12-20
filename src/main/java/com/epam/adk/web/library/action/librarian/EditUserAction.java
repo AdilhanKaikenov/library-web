@@ -32,8 +32,11 @@ public class EditUserAction implements Action {
         log.debug("The EditUserAction started execute.");
 
         int userID = Integer.parseInt(request.getParameter(USER_ID_PARAMETER));
+        log.debug("User ID = {}", userID);
         Role role = Role.valueOf(request.getParameter(ROLE_PARAMETER));
+        log.debug("User role = {}", role.getValue());
         boolean status = Boolean.valueOf(request.getParameter(STATUS_PARAMETER));
+        log.debug("User status = {}", status);
 
         UserService userService = new UserService();
 

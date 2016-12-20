@@ -23,7 +23,6 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     private static final Logger log = LoggerFactory.getLogger(JdbcBookDao.class);
 
     private static final String TABLE_NAME = "book";
-    private static final String SELECT_ALL = queryProperties.get("select.all.book");
     private static final String CREATE_QUERY = queryProperties.get("insert.book");
     private static final String SELECT_BY_ID = queryProperties.get("select.book.by.id");
     private static final String SELECT_RANGE_BY_GENRE = queryProperties.get("select.range.books.by.genre");
@@ -33,6 +32,7 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     private static final String SELECT_COUNT_ROWS_QUERY = queryProperties.get("select.count.rows.number");
     private static final String SELECT_FOUND_QUERY_PART_ONE = queryProperties.get("select.found.books.part.one");
     private static final String SELECT_FOUND_QUERY_PART_TWO = queryProperties.get("select.found.books.part.two");
+    public static final String DELETE_QUERY = "DELETE FROM book WHERE id LIKE ?";
 
     public JdbcBookDao(Connection connection) {
         super(connection);
@@ -144,13 +144,8 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     }
 
     @Override
-    protected String getDeleteByIdQuery() {
-        return null;
-    }
-
-    @Override
     protected String getDeleteQuery() {
-        return "DELETE FROM book WHERE id LIKE ?";
+        return DELETE_QUERY;
     }
 
     @Override
@@ -179,11 +174,6 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     }
 
     @Override
-    protected String getReadAllQuery() {
-        return SELECT_ALL;
-    }
-
-    @Override
     protected String getReadRangeByIdParameterQuery() {
         return SELECT_RANGE_BY_GENRE;
     }
@@ -196,6 +186,11 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     @Override
     protected String getCountNumberRowsByIdParameterQuery() {
         return SELECT_COUNT_BY_GENRE_ID;
+    }
+
+    @Override
+    protected String getDeleteByIdQuery() {
+        return null;
     }
 
     @Override

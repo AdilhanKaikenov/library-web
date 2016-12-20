@@ -24,12 +24,13 @@ public class ExtendOrderAction implements Action {
     private static final int ONE_WEEK_TIME_DURATION = 604800000;
     private static final String ORDER_ID_PARAMETER = "orderID";
     private static final String REDIRECT_PREFIX = "redirect:";
-    private static final String HANDLE_RETURN_BOOKS_ORDER_ID_PAGE_NAME = "handle-return-books&orderID=";
+    private static final String HANDLE_RETURN_BOOKS_ORDER_ID_PAGE_NAME = "process-return-books&orderID=";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
 
         int orderID = Integer.parseInt(request.getParameter(ORDER_ID_PARAMETER));
+        log.debug("Order ID = {}", orderID);
 
         OrdersService ordersService = new OrdersService();
 

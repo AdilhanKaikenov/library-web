@@ -71,7 +71,7 @@
                         </c:if>
                     </td>
                     <td width="200px">
-                        <a href="${pageContext.request.contextPath}/do/?action=handle-return-books&orderID=${order.id}" class="link-style"><ftm:message key="handle.return.books"/></a>
+                        <a href="${base}/do/?action=process-return-books&orderID=${order.id}" class="link-style"><ftm:message key="handle.return.books"/></a>
                     </td>
                 </tr>
             </c:forEach>

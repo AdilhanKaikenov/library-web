@@ -40,17 +40,17 @@ public class ShowUsersListAction implements Action {
 
         if (pageParameter != null) {
             page = Integer.parseInt(pageParameter);
-            log.debug("ShowUsersListAction: page #{}", page);
+            log.debug("Page #{}", page);
         }
 
         try {
             List<User> users = userService.getPaginated(page, LINE_PER_PAGE_NUMBER);
 
             int usersNumber = userService.getUsersNumber();
-            log.debug("ShowUsersListAction: total users number = {}", usersNumber);
+            log.debug("Total users number = {}", usersNumber);
             Pagination pagination = new Pagination();
             int pagesNumber = pagination.getPagesNumber(usersNumber, LINE_PER_PAGE_NUMBER);
-            log.debug("ShowUsersListAction: total pages number = {}", pagesNumber);
+            log.debug("Total pages number = {}", pagesNumber);
 
             request.setAttribute(USERS_REQUEST_ATTRIBUTE, users);
             request.setAttribute(PAGES_NUMBER_REQUEST_ATTRIBUTE, pagesNumber);

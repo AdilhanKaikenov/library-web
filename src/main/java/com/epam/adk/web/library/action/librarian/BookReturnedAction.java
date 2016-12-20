@@ -7,11 +7,11 @@ package com.epam.adk.web.library.action.librarian;
  **/
 public class BookReturnedAction extends AbstractDeleteBookFromOrder {
 
-    private static final String HANDLE_RETURN_BOOKS_ORDER_ID_PAGE_NAME = "handle-return-books&orderID=";
+    private static final String HANDLE_RETURN_BOOKS_ORDER_ID_PAGE_NAME = "process-return-books&orderID=";
     private static final String ORDERS_PAGE_NAME = "orders";
 
     @Override
-    protected String getHandlePage() {
+    protected String getOrderProcessPage() {
         return HANDLE_RETURN_BOOKS_ORDER_ID_PAGE_NAME;
     }
 

@@ -28,6 +28,15 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
     private static final Logger log = LoggerFactory.getLogger(JdbcOrdersBooksDao.class);
     private static final String TABLE_NAME = "orders";
     private static final String SELECT_COUNT_AVAILABLE_AMOUNT = "SELECT book.total_amount - cnt FROM book, (SELECT COUNT(*) AS cnt FROM orders_books WHERE orders_books.book_id = ? AND orders_books.issued = TRUE) WHERE book.id = ?";
+    private static final String SELECT_BY_USER_AND_BOOK_ID_QUERY = "SELECT user.id AS user_id, user.login, user.firstname, user.surname, user.patronymic, user.address, user.email, user.mobile_phone, book.id AS book_id, book.title, book.authors, book.publish_year, orders.id AS order_id, orders.order_date, orders.date_from, orders.date_to, orders.status FROM orders_books INNER JOIN user ON orders_books.user_id = user.id INNER JOIN book ON orders_books.book_id = book.id INNER JOIN orders ON orders_books.order_id = orders.id WHERE orders_books.user_id = ? AND orders_books.book_id = ?";
+    private static final String DELETE_QUERY = "DELETE FROM orders_books WHERE orders_books.user_id  LIKE ? AND orders_books.book_id LIKE ?";
+    private static final String SELECT_COUNT_QUERY = "SELECT COUNT(*) FROM orders_books WHERE book_id = ? AND user_id = ?";
+    private static final String SELECT_COUNT_BOOK_ID_QUERY = "SELECT COUNT(*) FROM orders_books WHERE book_id = ?";
+    private static final String DELETE_ORDER_ID_QUERY = "DELETE FROM orders_books WHERE order_id = ?";
+    private static final String UPDATE_QUERY = "UPDATE orders_books SET issued = ?";
+    private static final String INSERT_QUERY = "INSERT INTO orders_books(user_id, book_id, order_id) VALUES(?, ?, ?)";
+    private static final String SELECT_COUNT_BY_ORDER_ID_QUERY = "SELECT COUNT(*) FROM orders_books WHERE order_id = ?";
+    private static final String SELECT_ALL_BY_ID_QUERY = "SELECT user.id AS user_id, user.login, user.firstname, user.surname, user.patronymic, user.address, user.email, user.mobile_phone, book.id AS book_id, book.title, book.authors, book.publish_year, orders.id AS order_id, orders.order_date, orders.date_from, orders.date_to, orders.status FROM orders_books INNER JOIN user ON orders_books.user_id = user.id INNER JOIN book ON orders_books.book_id = book.id INNER JOIN orders ON orders_books.order_id = orders.id WHERE orders.id = ?";
 
 
     public JdbcOrdersBooksDao(Connection connection) {
@@ -84,7 +93,7 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
-            preparedStatement = getConnection().prepareStatement("SELECT user.id AS user_id, user.login, user.firstname, user.surname, user.patronymic, user.address, user.email, user.mobile_phone, book.id AS book_id, book.title, book.authors, book.publish_year, orders.id AS order_id, orders.order_date, orders.date_from, orders.date_to, orders.status FROM orders_books INNER JOIN user ON orders_books.user_id = user.id INNER JOIN book ON orders_books.book_id = book.id INNER JOIN orders ON orders_books.order_id = orders.id WHERE orders_books.user_id = ? AND orders_books.book_id = ?");
+            preparedStatement = getConnection().prepareStatement(SELECT_BY_USER_AND_BOOK_ID_QUERY);
             preparedStatement.setInt(1, userID);
             preparedStatement.setInt(2, bookID);
             resultSet = preparedStatement.executeQuery();
@@ -104,7 +113,7 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
         log.debug("Entering JdbcOrdersBooksDao class, delete(userID, bookID) method, User ID = {}, book ID = {}", userID, bookID);
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = getConnection().prepareStatement("DELETE FROM orders_books WHERE orders_books.user_id  LIKE ? AND orders_books.book_id LIKE ?");
+            preparedStatement = getConnection().prepareStatement(DELETE_QUERY);
             preparedStatement.setInt(1, userID);
             preparedStatement.setInt(2, bookID);
             preparedStatement.execute();
@@ -146,7 +155,7 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
-            preparedStatement = getConnection().prepareStatement("SELECT COUNT(*) FROM orders_books WHERE book_id = ? AND user_id = ?");
+            preparedStatement = getConnection().prepareStatement(SELECT_COUNT_QUERY);
             log.debug("Set book ID: {}", order.getUser().getId());
             preparedStatement.setInt(1, order.getBook().getId());
             log.debug("Set user ID: {}", order.getUser().getId());
@@ -172,7 +181,7 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
          PreparedStatement preparedStatement = null;
          ResultSet resultSet = null;
          try {
-             preparedStatement = getConnection().prepareStatement("SELECT COUNT(*) FROM orders_books WHERE book_id = ?");
+             preparedStatement = getConnection().prepareStatement(SELECT_COUNT_BOOK_ID_QUERY);
              preparedStatement = setFieldInCountNumberRowsByIdPreparedStatement(preparedStatement, bookID);
              resultSet = preparedStatement.executeQuery();
              if (resultSet.next()) {
@@ -239,32 +248,17 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
 
     @Override
     protected String getDeleteQuery() {
-        return "DELETE FROM orders_books WHERE orders_books.user_id LIKE ? AND orders_books.book_id LIKE ?";
+        return DELETE_QUERY;
     }
 
     @Override
     protected String getDeleteByIdQuery() {
-        return "DELETE FROM orders_books WHERE order_id = ?";
+        return DELETE_ORDER_ID_QUERY;
     }
 
     @Override
     protected String getUpdateByEntityQuery() {
-        return "UPDATE orders_books SET issued = ?";
-    }
-
-    @Override
-    protected String getReadByIdQuery() {
-        return null;
-    }
-
-    @Override
-    protected String getReadAllQuery() {
-        return null;
-    }
-
-    @Override
-    protected String getReadRangeQuery() {
-        return null;
+        return UPDATE_QUERY;
     }
 
     @Override
@@ -274,7 +268,17 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
 
     @Override
     protected String getCreateQuery() {
-        return "INSERT INTO orders_books(user_id, book_id, order_id) VALUES(?, ?, ?)";
+        return INSERT_QUERY;
+    }
+
+    @Override
+    protected String getCountNumberRowsByIdParameterQuery() {
+        return SELECT_COUNT_BY_ORDER_ID_QUERY;
+    }
+
+    @Override
+    protected String getReadAllByIdParameterQuery() {
+        return SELECT_ALL_BY_ID_QUERY;
     }
 
     @Override
@@ -283,18 +287,18 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
     }
 
     @Override
-    protected String getCountNumberRowsByIdParameterQuery() {
-        return "SELECT COUNT(*) FROM orders_books WHERE order_id = ?";
-    }
-
-    @Override
     protected String getReadRangeByIdParameterQuery() {
         return null;
     }
 
     @Override
-    protected String getReadAllByIdParameterQuery() {
-        return "SELECT user.id AS user_id, user.login, user.firstname, user.surname, user.patronymic, user.address, user.email, user.mobile_phone, book.id AS book_id, book.title, book.authors, book.publish_year, orders.id AS order_id, orders.order_date, orders.date_from, orders.date_to, orders.status FROM orders_books INNER JOIN user ON orders_books.user_id = user.id INNER JOIN book ON orders_books.book_id = book.id INNER JOIN orders ON orders_books.order_id = orders.id WHERE orders.id = ?";
+    protected String getReadByIdQuery() {
+        return null;
+    }
+
+    @Override
+    protected String getReadRangeQuery() {
+        return null;
     }
 
     @Override

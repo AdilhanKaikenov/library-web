@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +24,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     private static final Logger log = LoggerFactory.getLogger(JdbcDao.class);
 
     private static final int FIRST_COLUMN_INDEX = 1;
+    private static final String GENERAL_SELECT_COUNT_PLUS_TABLE_QUERY = "SELECT COUNT(*) FROM ";
     protected static PropertiesManager queryProperties;
 
     private Connection connection;
@@ -108,25 +108,6 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             throw new DaoException("Error: JdbcDao class, read() method. I can not read by entity:", e);
         } finally {
             close(preparedStatement, resultSet);
-        }
-        return result;
-    }
-
-    @Override
-    public List<T> readAll() throws DaoException {
-        log.debug("Entering JdbcDao class, readAll() method");
-        List<T> result = new ArrayList<>();
-        ResultSet resultSet = null;
-        try (Statement statement = connection.createStatement()) {
-            resultSet = statement.executeQuery(getReadAllQuery());
-            List<T> list = createListFrom(resultSet);
-            result.addAll(list);
-            log.debug("Leaving JdbcDao class, readAll() method. Amount of result = {}", result.size());
-        } catch (SQLException e) {
-            log.error("Error: JdbcDao class readAll() method. I can not read all entity from resultSet. {}", e);
-            throw new DaoException("Error: JdbcDao class readAll() method. I can not read all entity from resultSet.", e);
-        } finally {
-            closeResultSet(resultSet);
         }
         return result;
     }
@@ -442,7 +423,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     }
 
     protected String getCountNumberRowsQuery() {
-        return "SELECT COUNT(*) FROM " + getTableName();
+        return GENERAL_SELECT_COUNT_PLUS_TABLE_QUERY + getTableName();
     }
 
     protected abstract String getDeleteByIdQuery();
@@ -454,8 +435,6 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     protected abstract List<T> createListFrom(ResultSet resultSet) throws DaoException;
 
     protected abstract String getReadByIdQuery();
-
-    protected abstract String getReadAllQuery();
 
     protected abstract String getReadRangeQuery();
 

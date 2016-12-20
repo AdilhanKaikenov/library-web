@@ -10,7 +10,7 @@
 <t:page title="add.new.book">
 
     <div align="center">
-        <h3><ftm:message key="add.new.book"/></h3>${bli}
+        <h3><ftm:message key="add.new.book"/></h3>
         <li style="background: goldenrod"><ftm:message key="add.book.requirements.message.one"/></li>
         <li style="background: goldenrod"><ftm:message key="add.book.requirements.message.two"/></li>
         <form action="${base}/do/" method="post" enctype="multipart/form-data">

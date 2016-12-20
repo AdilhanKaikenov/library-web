@@ -36,17 +36,17 @@ public abstract class AbstractShowOrdersAction implements Action {
         String pageParameter = request.getParameter(PAGE_PARAMETER);
         if (pageParameter != null) {
             page = Integer.parseInt(pageParameter);
-            log.debug("AbstractShowOrdersAction: page #{}", page);
+            log.debug("Page #{}", page);
         }
 
         OrdersService ordersService = new OrdersService();
 
         try {
             int ordersNumber = ordersService.getOrdersNumberByStatus(getOrderStatus());
-            log.debug("AbstractShowOrdersAction: total orders number = {}", ordersNumber);
+            log.debug("Total orders number = {}", ordersNumber);
             Pagination pagination = new Pagination();
             int pagesNumber = pagination.getPagesNumber(ordersNumber, LINE_PER_PAGE_NUMBER);
-            log.debug("AbstractShowOrdersAction: total pages number = {}", pagesNumber);
+            log.debug("Total pages number = {}", pagesNumber);
 
             List<Order> orders = ordersService.getPaginatedByOrderStatus(getOrderStatus(), page, LINE_PER_PAGE_NUMBER);
 

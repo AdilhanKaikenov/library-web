@@ -48,7 +48,8 @@ public class BookAboutAction implements Action {
 
         User user = ((User) session.getAttribute(USER_PARAMETER));
 
-        int bookId = Integer.parseInt(request.getParameter(BOOK_ID_PARAMETER));
+        int bookID = Integer.parseInt(request.getParameter(BOOK_ID_PARAMETER));
+        log.debug("Book ID = {}", bookID);
 
         BookService bookService = new BookService();
         CommentService commentService = new CommentService();
@@ -59,18 +60,18 @@ public class BookAboutAction implements Action {
 
         if (pageParameter != null) {
             page = Integer.parseInt(pageParameter);
-            log.debug("BookAboutAction: page #{}", page);
+            log.debug("Page #{}", page);
         }
 
         try {
-            Book book = bookService.getBookById(bookId);
-            int availableBookAmount = ordersBooksService.getAvailableBookAmount(bookId);
-            int commentsNumber = commentService.getCommentsNumberByBookId(bookId);
-            log.debug("BookAboutAction: total comments number = {}", commentsNumber);
+            Book book = bookService.getBookById(bookID);
+            int availableBookAmount = ordersBooksService.getAvailableBookAmount(bookID);
+            int commentsNumber = commentService.getCommentsNumberByBookId(bookID);
+            log.debug("Total comments number = {}", commentsNumber);
             Pagination pagination = new Pagination();
             int pagesNumber = pagination.getPagesNumber(commentsNumber, LINE_PER_PAGE_NUMBER);
-            log.debug("BookAboutAction: total pages number = {}", pagesNumber);
-            List<Comment> bookComments = commentService.getPaginatedComments(bookId, page, LINE_PER_PAGE_NUMBER);
+            log.debug("Total pages number = {}", pagesNumber);
+            List<Comment> bookComments = commentService.getPaginatedComments(bookID, page, LINE_PER_PAGE_NUMBER);
 
             if (bookComments.size() != 0) {
                 request.setAttribute(BOOK_COMMENTS_REQUEST_ATTRIBUTE, bookComments);

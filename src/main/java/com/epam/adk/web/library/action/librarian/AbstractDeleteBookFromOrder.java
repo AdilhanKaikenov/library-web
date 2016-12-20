@@ -22,17 +22,21 @@ public abstract class AbstractDeleteBookFromOrder implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(AbstractDeleteBookFromOrder.class);
 
+    private static final String REDIRECT_PREFIX = "redirect:";
     private static final String USER_ID_PARAMETER = "userID";
     private static final String BOOK_ID_PARAMETER = "bookID";
     private static final String ORDER_ID_PARAMETER = "orderID";
-    private static final String REDIRECT_PREFIX = "redirect:";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
+        log.debug("The AbstractDeleteBookFromOrder started execute.");
 
         int userID = Integer.parseInt(request.getParameter(USER_ID_PARAMETER));
+        log.debug("User ID = {}", userID);
         int bookID = Integer.parseInt(request.getParameter(BOOK_ID_PARAMETER));
+        log.debug("Book ID = {}", bookID);
         int orderID = Integer.parseInt(request.getParameter(ORDER_ID_PARAMETER));
+        log.debug("Order ID = {}", orderID);
 
         OrdersService ordersService = new OrdersService();
 
@@ -54,11 +58,11 @@ public abstract class AbstractDeleteBookFromOrder implements Action {
         } catch (ServiceException e) {
             throw new ActionException("Error: DeleteBookFromOrderRequestAction class, execute() method.", e);
         }
-
-        return REDIRECT_PREFIX + getHandlePage() + orderID;
+        log.debug("The AbstractDeleteBookFromOrder class finished work. Return processing page = {}", getOrderProcessPage());
+        return REDIRECT_PREFIX + getOrderProcessPage() + orderID;
     }
 
-    protected abstract String getHandlePage();
+    protected abstract String getOrderProcessPage();
 
     protected abstract String getPage();
 

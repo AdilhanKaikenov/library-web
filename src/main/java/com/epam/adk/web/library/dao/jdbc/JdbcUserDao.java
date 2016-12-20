@@ -28,10 +28,10 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     private static final String TABLE_NAME = "user";
     private static final String CREATE_QUERY = queryProperties.get("insert.user");
     private static final String SELECT_BY_LOGIN_PASSWORD = queryProperties.get("select.by.login.password");
-    private static final String SELECT_ALL = queryProperties.get("select.all.users");
     private static final String SELECT_RANGE = queryProperties.get("select,range.users");
     private static final String SELECT_BY_ID = queryProperties.get("select.user.by.id");
     private static final String UPDATE_QUERY = queryProperties.get("update.user");
+    private static final String DELETE_QUERY = "DELETE FROM user WHERE id LIKE ?";
 
     public JdbcUserDao(Connection connection) {
         super(connection);
@@ -146,12 +146,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
 
     @Override
     protected String getDeleteQuery() {
-        return "DELETE FROM user WHERE id LIKE ?";
-    }
-
-    @Override
-    protected String getDeleteByIdQuery() {
-        return null;
+        return DELETE_QUERY;
     }
 
     @Override
@@ -170,11 +165,6 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     }
 
     @Override
-    protected String getReadAllQuery() {
-        return SELECT_ALL;
-    }
-
-    @Override
     protected String getReadByEntityQuery() {
         return SELECT_BY_LOGIN_PASSWORD;
     }
@@ -187,6 +177,11 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     @Override
     protected String getReadRangeQuery() {
         return SELECT_RANGE;
+    }
+
+    @Override
+    protected String getDeleteByIdQuery() {
+        return null;
     }
 
     @Override

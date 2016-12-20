@@ -17,5 +17,4 @@ public interface OrdersDao extends Dao<Order> {
 
     List<Order> readRangeByStatus(boolean status, int offset, int limit) throws DaoException;
 
-
 }

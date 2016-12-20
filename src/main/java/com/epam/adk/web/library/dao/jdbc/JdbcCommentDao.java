@@ -30,6 +30,7 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
     private static final String SELECT_ALL_BY_BOOK_ID_QUERY = queryProperties.get("select.all.by.book.id");
     private static final String SELECT_COUNT_BY_BOOK_ID = queryProperties.get("select.count.by.book.id");
     private static final String SELECT_RANGE_BY_ID_QUERY = queryProperties.get("select.range.comment.by.book.id");
+    public static final String DELETE_QUERY = "DELETE FROM comment WHERE id LIKE ?";
 
     public JdbcCommentDao(Connection connection) {
         super(connection);
@@ -88,12 +89,7 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
 
     @Override
     protected String getDeleteQuery() {
-        return "DELETE FROM comment WHERE id LIKE ?";
-    }
-
-    @Override
-    protected String getDeleteByIdQuery() {
-        return null;
+        return DELETE_QUERY;
     }
 
     @Override
@@ -122,6 +118,11 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
     }
 
     @Override
+    protected String getDeleteByIdQuery() {
+        return null;
+    }
+
+    @Override
     protected String getUpdateByEntityQuery() {
         return null;
     }
@@ -133,11 +134,6 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
 
     @Override
     protected String getReadByIdQuery() {
-        return null;
-    }
-
-    @Override
-    protected String getReadAllQuery() {
         return null;
     }
 

@@ -7,26 +7,32 @@ import com.epam.adk.web.library.model.Order;
 import com.epam.adk.web.library.model.OrderBook;
 import com.epam.adk.web.library.service.OrdersBooksService;
 import com.epam.adk.web.library.service.OrdersService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- *  AbstractShowHandlePageAction class created on 18.12.2016
+ *  AbstractShowOrderProcessPageAction class created on 18.12.2016
  *
  * @author Kaikenov Adilhan
  **/
-public abstract class AbstractShowHandlePageAction implements Action {
+public abstract class AbstractShowOrderProcessPageAction implements Action {
+
+    private static final Logger log = LoggerFactory.getLogger(AbstractDeleteBookFromOrder.class);
 
     protected static final String ORDER_ID_PARAMETER = "orderID";
-    private static final String ORDERS_BOOKS_REQUEST_ATTRIBUTE = "ordersBooks";
     private static final String ORDER_REQUEST_ATTRIBUTE = "order";
+    private static final String ORDERS_BOOKS_REQUEST_ATTRIBUTE = "ordersBooks";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
+        log.debug("The AbstractShowOrderProcessPageAction started execute.");
 
         int orderID = Integer.parseInt(request.getParameter(ORDER_ID_PARAMETER));
+        log.debug("Order ID = {}", orderID);
 
         OrdersBooksService ordersBooksService = new OrdersBooksService();
         OrdersService ordersService = new OrdersService();
@@ -39,9 +45,9 @@ public abstract class AbstractShowHandlePageAction implements Action {
             request.setAttribute(ORDER_REQUEST_ATTRIBUTE, order);
 
         } catch (ServiceException e) {
-            throw new ActionException("Error: AbstractShowHandlePageAction class, execute() method.", e);
+            throw new ActionException("Error: AbstractShowOrderProcessPageAction class, execute() method.", e);
         }
-
+        log.debug("The AbstractShowOrderProcessPageAction class finished work. Return page = {}", getPage());
         return getPage();
     }
 

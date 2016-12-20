@@ -32,6 +32,7 @@ public class LendOutAction implements Action {
         log.debug("The LendOutAction started execute.");
 
         int orderID = Integer.parseInt(request.getParameter(ORDER_ID_PARAMETER));
+        log.debug("Order ID = {}", orderID);
 
         OrdersService ordersService = new OrdersService();
 

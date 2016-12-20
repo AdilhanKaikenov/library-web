@@ -54,9 +54,9 @@ public class ActionFactory {
         actions.put("GET/orders", new ShowAllAllowedOrdersAction());
         actions.put("GET/requests", new ShowAllOrderRequestsAction());
         actions.put("GET/my-order", new ShowMyOrderAction());
-        actions.put("GET/handle-order-request", new ShowHandleOrderRequestPageAction());
+        actions.put("GET/process-order-request", new ShowProcessOrderRequestPageAction());
         actions.put("GET/order-book-list", new ShowOrderBooksListAction());
-        actions.put("GET/handle-return-books", new ShowHandleReturnBooksPageAction());
+        actions.put("GET/process-return-books", new ShowProcessReturnBooksPageAction());
 
         actions.put("GET/personal-area", new ShowPageAction("profile"));
         actions.put("GET/book-search", new ShowPageAction("book-search"));

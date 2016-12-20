@@ -35,6 +35,7 @@ public class CategoryAction implements Action {
         log.debug("The CategoryAction started execute.");
 
         int genreID = Integer.parseInt(request.getParameter(GENRE_PARAMETER));
+        log.debug("Genre ID = {}", genreID);
 
         BookService bookService = new BookService();
 
@@ -42,15 +43,15 @@ public class CategoryAction implements Action {
         String pageParameter = request.getParameter(PAGE_PARAMETER);
         if (pageParameter != null) {
             page = Integer.parseInt(pageParameter);
-            log.debug("CategoryAction: page #{}", page);
+            log.debug("Page #{}", page);
         }
 
         try {
             int booksNumber = bookService.getBooksNumberByGenre(genreID);
-            log.debug("CategoryAction: total books number = {}", booksNumber);
+            log.debug("Total books number = {}", booksNumber);
             Pagination pagination = new Pagination();
             int pagesNumber = pagination.getPagesNumber(booksNumber, LINE_PER_PAGE_NUMBER);
-            log.debug("CategoryAction: total pages number = {}", pagesNumber);
+            log.debug("Total pages number = {}", pagesNumber);
             List<Book> genreBooks = bookService.getPaginatedByGenre(genreID, page, LINE_PER_PAGE_NUMBER);
 
             request.setAttribute(PAGES_NUMBER_REQUEST_ATTRIBUTE, pagesNumber);

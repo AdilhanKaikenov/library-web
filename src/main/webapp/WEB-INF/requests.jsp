@@ -60,7 +60,7 @@
                         <ftm:formatDate value="${order.orderDate}"/>
                     </td>
                     <td width="200px">
-                        <a href="${pageContext.request.contextPath}/do/?action=handle-order-request&orderID=${order.id}"
+                        <a href="${base}/do/?action=process-order-request&orderID=${order.id}"
                            class="link-style"><ftm:message key="handle.order"/></a>
                     </td>
                 </tr>

@@ -27,7 +27,6 @@ public final class FrontControllerServlet extends HttpServlet {
     private static final String SERVLET_CONTEXT = "/do";
     private static final String REDIRECT_PREFIX = "redirect:";
     private static final String ACTION_PARAMETER = "action";
-    private static final String IMAGE_PATH = "D:\\images";
 
     private static ActionFactory factory;
 

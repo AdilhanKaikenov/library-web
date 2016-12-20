@@ -41,6 +41,7 @@ public class CommentAction implements Action {
         Timestamp time = new Timestamp(date.getTime());
         User user = ((User) session.getAttribute(USER_PARAMETER));
         int bookID = Integer.parseInt(request.getParameter(BOOK_ID_PARAMETER));
+        log.debug("Book ID = {}", bookID);
         String text = request.getParameter(COMMENT_PARAMETER).replaceAll(REGEX_ENTER, LINE_BREAK_HTML_TAG);
 
         Book book = new Book();

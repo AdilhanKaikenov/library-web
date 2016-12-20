@@ -31,6 +31,7 @@ public class ShowBookAmountAction implements Action {
         log.debug("The ShowBookAmountAction started execute.");
 
         int bookID = Integer.parseInt(request.getParameter(BOOK_ID_PARAMETER));
+        log.debug("Book ID = {}", bookID);
 
         BookService bookService = new BookService();
         OrdersBooksService ordersBooksService = new OrdersBooksService();

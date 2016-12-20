@@ -29,6 +29,7 @@ public class ShowEditUserAction implements Action {
         log.debug("The ShowEditUserAction started execute.");
 
         int userID = Integer.parseInt(request.getParameter(USER_ID_PARAMETER));
+        log.debug("User ID = {}", userID);
 
         UserService userService = new UserService();
 
