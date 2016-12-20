@@ -35,8 +35,9 @@ public class RegistrationAction implements Action {
     private static final String PATRONYMIC_PARAMETER = "patronymic";
     private static final String MOBILE_PHONE_PARAMETER = "mobile_phone";
     private static final String REGISTRATION_PAGE_NAME = "registration";
-    private static final String USER_EXIST_REQUEST_ATTRIBUTE = "userExist";
+    private static final String USER_EXIST_STORED_MESSAGE = "user.exist.message";
     private static final String SUCCESS_REGISTRATION_PAGE = "success-registration";
+    private static final String USER_EXIST_REQUEST_ATTRIBUTE = "userExist";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -94,7 +95,7 @@ public class RegistrationAction implements Action {
             log.debug("New User successfully registered User: id = {}, login = {}", registeredUser.getId(), registeredUser.getLogin());
         } catch (ServiceException e) {
             log.error("Error: RegistrationAction class, Can not register new user: {}", e);
-            request.setAttribute(USER_EXIST_REQUEST_ATTRIBUTE, "user.exist.message");
+            request.setAttribute(USER_EXIST_REQUEST_ATTRIBUTE, USER_EXIST_STORED_MESSAGE);
             return REGISTRATION_PAGE_NAME;
         }
         return REDIRECT_PREFIX + SUCCESS_REGISTRATION_PAGE;

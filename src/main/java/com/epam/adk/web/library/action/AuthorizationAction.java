@@ -26,9 +26,13 @@ public class AuthorizationAction implements Action {
     private static final String USER = "user";
     private static final String AUTH_LOGIN_PARAMETER = "login";
     private static final String REDIRECT_WELCOME_PAGE = "redirect:welcome";
+    private static final String AUTHORIZATION_FORM_NAME = "authorization";
     private static final String AUTH_PASSWORD_PARAMETER = "password";
     private static final String AUTHORIZATION_ERROR_PAGE = "authorization-error";
+    private static final String AUTH_ERROR_STORED_MESSAGE = "auth.error";
+    private static final String AUTH_ERROR_STORED_MESSAGE_ONE = "auth.error.message.one";
     private static final String INACTIVE_STATUS_REQUEST_ATTRIBUTE = "inactiveStatus";
+    private static final String USER_PROFILE_INACTIVE_STORED_MESSAGE = "user.profile.inactive";
     private static final String AUTHORIZATION_ERROR_REQUEST_ATTRIBUTE = "authorizationError";
     private static final String AUTHORIZATION_FORM_INCORRECT_REQUEST_ATTRIBUTE = "authorizationFormIncorrect";
 
@@ -44,10 +48,10 @@ public class AuthorizationAction implements Action {
 
         try {
             FormValidator formValidator = new FormValidator();
-            boolean isInvalid = formValidator.isInvalid("authorization", request);
+            boolean isInvalid = formValidator.isInvalid(AUTHORIZATION_FORM_NAME, request);
             log.debug("Authorization form validation, invalid = {}", isInvalid);
             if (isInvalid) {
-                request.setAttribute(AUTHORIZATION_FORM_INCORRECT_REQUEST_ATTRIBUTE, "auth.error.message.one");
+                request.setAttribute(AUTHORIZATION_FORM_INCORRECT_REQUEST_ATTRIBUTE, AUTH_ERROR_STORED_MESSAGE_ONE);
                 return AUTHORIZATION_ERROR_PAGE;
             }
         } catch (FormValidationException e) {
@@ -63,12 +67,12 @@ public class AuthorizationAction implements Action {
         try {
             user = userService.authorize(user);
             if (!user.isStatus()) {
-                request.setAttribute(INACTIVE_STATUS_REQUEST_ATTRIBUTE, "user.profile.inactive");
+                request.setAttribute(INACTIVE_STATUS_REQUEST_ATTRIBUTE, USER_PROFILE_INACTIVE_STORED_MESSAGE);
                 return AUTHORIZATION_ERROR_PAGE;
             }
             log.debug("User '{}' successfully authorized", user.getLogin());
         } catch (ServiceException e) {
-            request.setAttribute(AUTHORIZATION_ERROR_REQUEST_ATTRIBUTE, "auth.error");
+            request.setAttribute(AUTHORIZATION_ERROR_REQUEST_ATTRIBUTE, AUTH_ERROR_STORED_MESSAGE);
             return AUTHORIZATION_ERROR_PAGE;
         }
 

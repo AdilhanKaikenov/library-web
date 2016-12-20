@@ -24,16 +24,33 @@ import java.util.List;
 public class JdbcOrders extends JdbcDao<Order> implements OrdersDao {
 
     private static final Logger log = LoggerFactory.getLogger(JdbcOrders.class);
-    private static final String SELECT_COUNT_BY_STATUS_QUERY = "SELECT COUNT(*) FROM orders WHERE status = ?";
-    private static final String SELECT_RANGE_BY_STATUS_QUERY = "SELECT orders.id AS order_id, user.id AS user_id, user.login, user.firstname, user.surname, user.patronymic, user.address, user.email, user.mobile_phone, order_type.type AS order_type, orders.order_date, orders.date_from, orders.date_to, orders.status FROM orders INNER JOIN user ON orders.user_id = user.id INNER JOIN order_type ON orders.order_type = order_type.id WHERE orders.status = ? ORDER BY orders.order_date LIMIT ? OFFSET ?";
-    private static final String DELETE_QUERY = "DELETE FROM orders WHERE id LIKE ?";
-    private static final String SELECT_BY_ID_QUERY = "SELECT orders.id AS order_id, user.id AS user_id, user.login, user.firstname, user.surname, user.patronymic, user.address, user.email, user.mobile_phone, order_type.type AS order_type, orders.order_date, orders.date_from, orders.date_to, orders.status FROM orders INNER JOIN user ON orders.user_id = user.id INNER JOIN order_type ON orders.order_type = order_type.id WHERE orders.id = ?";
-    private static final String SELECT_RANGE_QUERY = "SELECT orders.id AS order_id, user.id AS user_id, user.login, user.firstname, user.surname, user.patronymic, user.address, user.email, user.mobile_phone, order_type.type AS order_type, orders.order_date, orders.date_from, orders.date_to, orders.status FROM orders INNER JOIN user ON orders.user_id = user.id INNER JOIN order_type ON orders.order_type = order_type.id ORDER BY orders.order_date LIMIT ? OFFSET ?";
-    private static final String UPDATE_QUERY = "UPDATE orders SET date_from = ?, date_to = ?, status = ? WHERE id LIKE ?";
+
     private static final String TABLE_NAME = "orders";
-    private static final String INSERT_QUERY = "INSERT INTO orders(user_id, order_type, order_date, date_from, date_to) VALUES(?, ?, ?, ?, ?)";
-    private static final String SELECT_COUNT_BY_USER_ID_QUERY = "SELECT COUNT(*) FROM orders WHERE user_id = ?";
-    private static final String SELECT_RANGE_BY_USER_ID_QUERY = "SELECT orders.id AS order_id, user.id AS user_id, user.login, user.firstname, user.surname, user.patronymic, user.address, user.email, user.mobile_phone, order_type.type AS order_type, orders.order_date, orders.date_from, orders.date_to, orders.status FROM orders INNER JOIN user ON orders.user_id = user.id INNER JOIN order_type ON orders.order_type = order_type.id WHERE user.id = ? ORDER BY orders.order_date LIMIT ? OFFSET ?";
+    private static final String INSERT_QUERY = queryProperties.get("insert.order");
+    private static final String DELETE_QUERY = queryProperties.get("delete.orders");
+    private static final String UPDATE_QUERY = queryProperties.get("update.order");
+    private static final String SELECT_BY_ID_QUERY = queryProperties.get("select.order.by.id");
+    private static final String SELECT_RANGE_QUERY = queryProperties.get("select.orders.range");
+    private static final String SELECT_COLUMNS_PART = queryProperties.get("select.orders.columns");
+    private static final String SELECT_COUNT_BY_STATUS_QUERY = queryProperties.get("select.count.orders.by.status");
+    private static final String SELECT_RANGE_BY_STATUS_QUERY = queryProperties.get("select.range.orders.by.status");
+    private static final String SELECT_COUNT_BY_USER_ID_QUERY = queryProperties.get("select.count.orders.by.user.id");
+    private static final String SELECT_RANGE_BY_USER_ID_QUERY = queryProperties.get("select.range.by.user.id");
+
+    private static final String ORDER_ID_COLUMN_NAME = "ORDER_ID";
+    private static final String USER_ID_COLUMN_NAME = "USER_ID";
+    private static final String LOGIN_COLUMN_NAME = "LOGIN";
+    private static final String FIRSTNAME_COLUMN_NAME = "FIRSTNAME";
+    private static final String SURNAME_COLUMN_NAME = "SURNAME";
+    private static final String PATRONYMIC_COLUMN_NAME = "PATRONYMIC";
+    private static final String ADDRESS_COLUMN_NAME = "ADDRESS";
+    private static final String EMAIL_COLUMN_NAME = "EMAIL";
+    private static final String MOBILE_PHONE_COLUMN_NAME = "MOBILE_PHONE";
+    private static final String ORDER_TYPE_COLUMN_NAME = "ORDER_TYPE";
+    private static final String ORDER_DATE_COLUMN_NAME = "ORDER_DATE";
+    private static final String DATE_FROM_COLUMN_NAME = "DATE_FROM";
+    private static final String DATE_TO_COLUMN_NAME = "DATE_TO";
+    private static final String STATUS_COLUMN_NAME = "STATUS";
 
     public JdbcOrders(Connection connection) {
         super(connection);
@@ -47,22 +64,22 @@ public class JdbcOrders extends JdbcDao<Order> implements OrdersDao {
             while (resultSet.next()) {
                 Order order = new Order();
                 log.debug("Creating order from resultSet");
-                order.setId(resultSet.getInt("ORDER_ID"));
+                order.setId(resultSet.getInt(ORDER_ID_COLUMN_NAME));
                 User user = new User();
-                user.setId(resultSet.getInt("USER_ID"));
-                user.setLogin(resultSet.getString("LOGIN"));
-                user.setFirstname(resultSet.getString("FIRSTNAME"));
-                user.setSurname(resultSet.getString("SURNAME"));
-                user.setPatronymic(resultSet.getString("PATRONYMIC"));
-                user.setAddress(resultSet.getString("ADDRESS"));
-                user.setEmail(resultSet.getString("EMAIL"));
-                user.setMobilePhone(resultSet.getString("MOBILE_PHONE"));
+                user.setId(resultSet.getInt(USER_ID_COLUMN_NAME));
+                user.setLogin(resultSet.getString(LOGIN_COLUMN_NAME));
+                user.setFirstname(resultSet.getString(FIRSTNAME_COLUMN_NAME));
+                user.setSurname(resultSet.getString(SURNAME_COLUMN_NAME));
+                user.setPatronymic(resultSet.getString(PATRONYMIC_COLUMN_NAME));
+                user.setAddress(resultSet.getString(ADDRESS_COLUMN_NAME));
+                user.setEmail(resultSet.getString(EMAIL_COLUMN_NAME));
+                user.setMobilePhone(resultSet.getString(MOBILE_PHONE_COLUMN_NAME));
                 order.setUser(user);
-                order.setOrderType(OrderType.from(resultSet.getString("ORDER_TYPE")));
-                order.setOrderDate(resultSet.getDate("ORDER_DATE"));
-                order.setFrom(resultSet.getDate("DATE_FROM"));
-                order.setTo(resultSet.getDate("DATE_TO"));
-                order.setStatus(resultSet.getBoolean("STATUS"));
+                order.setOrderType(OrderType.from(resultSet.getString(ORDER_TYPE_COLUMN_NAME)));
+                order.setOrderDate(resultSet.getDate(ORDER_DATE_COLUMN_NAME));
+                order.setFrom(resultSet.getDate(DATE_FROM_COLUMN_NAME));
+                order.setTo(resultSet.getDate(DATE_TO_COLUMN_NAME));
+                order.setStatus(resultSet.getBoolean(STATUS_COLUMN_NAME));
                 log.debug("Order successfully created in createFrom() method. Order id = {}", order.getId());
                 result.add(order);
             }
@@ -82,10 +99,10 @@ public class JdbcOrders extends JdbcDao<Order> implements OrdersDao {
         ResultSet resultSet = null;
         try {
             preparedStatement = getConnection().prepareStatement(SELECT_COUNT_BY_STATUS_QUERY);
-            preparedStatement.setBoolean(1, status);
+            preparedStatement.setBoolean(FIRST_PARAMETER_INDEX, status);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                numberRows = resultSet.getInt(1);
+                numberRows = resultSet.getInt(FIRST_COLUMN_INDEX);
             }
             log.debug("Leaving JdbcOrders class getNumberRowsByStatus() method. Rows number = {}", numberRows);
         } catch (SQLException e) {
@@ -104,10 +121,10 @@ public class JdbcOrders extends JdbcDao<Order> implements OrdersDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
-            preparedStatement = getConnection().prepareStatement(SELECT_RANGE_BY_STATUS_QUERY);
-            preparedStatement.setBoolean(1, status);
-            preparedStatement.setInt(2, limit);
-            preparedStatement.setInt(3, offset);
+            preparedStatement = getConnection().prepareStatement(SELECT_COLUMNS_PART + SELECT_RANGE_BY_STATUS_QUERY);
+            preparedStatement.setBoolean(FIRST_PARAMETER_INDEX, status);
+            preparedStatement.setInt(SECOND_PARAMETER_INDEX, limit);
+            preparedStatement.setInt(THIRD_PARAMETER_INDEX, offset);
             resultSet = preparedStatement.executeQuery();
             result = createListFrom(resultSet);
             log.debug("Leaving JdbcOrders class, readRangeByStatus() method.");
@@ -125,13 +142,13 @@ public class JdbcOrders extends JdbcDao<Order> implements OrdersDao {
         log.debug("Entering JdbcOrders class, setFieldsInUpdateByEntityPreparedStatement() method.");
         try {
             log.debug("Set order date from: {}", order.getFrom());
-            preparedStatement.setDate(1, order.getFrom());
+            preparedStatement.setDate(FIRST_PARAMETER_INDEX, order.getFrom());
             log.debug("Set order date to: {}", order.getTo());
-            preparedStatement.setDate(2, order.getTo());
+            preparedStatement.setDate(SECOND_PARAMETER_INDEX, order.getTo());
             log.debug("Set order status: {}", order.isStatus());
-            preparedStatement.setBoolean(3, order.isStatus());
+            preparedStatement.setBoolean(THIRD_PARAMETER_INDEX, order.isStatus());
             log.debug("Set order id: {}", order.getId());
-            preparedStatement.setInt(4, order.getId());
+            preparedStatement.setInt(FOURTH_PARAMETER_INDEX, order.getId());
             log.debug("Leaving JdbcOrders class, setFieldsInUpdateByEntityPreparedStatement() method.");
         } catch (SQLException e) {
             log.error("Error: JdbcOrders class setFieldsInUpdateByEntityPreparedStatement() method. I can not set fields into statement. {}", e);
@@ -145,15 +162,15 @@ public class JdbcOrders extends JdbcDao<Order> implements OrdersDao {
         log.debug("Entering JdbcOrders class, setFieldsInCreatePreparedStatement() method.");
         try {
             log.debug("Set user ID: {}", order.getUser().getId());
-            preparedStatement.setInt(1, order.getUser().getId());
+            preparedStatement.setInt(FIRST_PARAMETER_INDEX, order.getUser().getId());
             log.debug("Set order type: {}", order.getOrderType().getValue());
-            preparedStatement.setInt(2, order.getOrderType().ordinal());
+            preparedStatement.setInt(SECOND_PARAMETER_INDEX, order.getOrderType().ordinal());
             log.debug("Set order date: {}", order.getOrderDate());
-            preparedStatement.setDate(3, order.getOrderDate());
+            preparedStatement.setDate(THIRD_PARAMETER_INDEX, order.getOrderDate());
             log.debug("Set order date from: {}", order.getFrom());
-            preparedStatement.setDate(4, order.getFrom());
+            preparedStatement.setDate(FOURTH_PARAMETER_INDEX, order.getFrom());
             log.debug("Set order date to: {}", order.getTo());
-            preparedStatement.setDate(5, order.getTo());
+            preparedStatement.setDate(FIFTH_PARAMETER_INDEX, order.getTo());
             log.debug("Leaving JdbcOrders class, setFieldsInCreatePreparedStatement() method.");
         } catch (SQLException e) {
             log.error("Error: JdbcOrders class setFieldsInCreatePreparedStatement() method. I can not set fields into statement. {}", e);
@@ -169,12 +186,12 @@ public class JdbcOrders extends JdbcDao<Order> implements OrdersDao {
 
     @Override
     protected String getReadByIdQuery() {
-        return SELECT_BY_ID_QUERY;
+        return SELECT_COLUMNS_PART + SELECT_BY_ID_QUERY;
     }
 
     @Override
     protected String getReadRangeQuery() {
-        return SELECT_RANGE_QUERY;
+        return SELECT_COLUMNS_PART + SELECT_RANGE_QUERY;
     }
 
     @Override
@@ -199,7 +216,7 @@ public class JdbcOrders extends JdbcDao<Order> implements OrdersDao {
 
     @Override
     protected String getReadRangeByIdParameterQuery() {
-        return SELECT_RANGE_BY_USER_ID_QUERY;
+        return SELECT_COLUMNS_PART + SELECT_RANGE_BY_USER_ID_QUERY;
     }
 
     @Override

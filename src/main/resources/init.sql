@@ -21,10 +21,10 @@ CREATE TABLE PUBLIC.user
   surname VARCHAR(25) NOT NULL,
   patronymic VARCHAR(25) NOT NULL,
   gender INT NOT NULL,
-  address VARCHAR(25) NOT NULL,
+  address VARCHAR(100) NOT NULL,
   mobile_phone VARCHAR(11) NOT NULL,
   role INT NOT NULL,
-  status BOOLEAN
+  status BOOLEAN DEFAULT TRUE
 );
 CREATE UNIQUE INDEX "USER_ID_uindex" ON PUBLIC.user (id);
 CREATE UNIQUE INDEX "USER_LOGIN_uindex" ON PUBLIC.user (login);
@@ -171,3 +171,16 @@ INSERT INTO PUBLIC.order_status(id, type) VALUES
   (0, 'ALLOWED'),
   (1, 'REJECTED'),
   (2, 'CONSIDERED');
+
+INSERT INTO user (login, password, email, firstname, surname, patronymic, gender, address, mobile_phone, role)
+VALUES
+  ('UserReader1', '1234567', 'user_email_1@mail.ru', 'Zhdanov', 'Gelasius', 'Gelasevich', 0, 'Apt. 8, 1 Nurkena St., city of Karaganda, Kazakhstan', '87754715471', 1),
+  ('UserReader2', '1234567', 'user_email_2@mail.ru', 'Arseny', 'Likhachev', 'Stepanovich', 0, 'Apt. 8, 1 Lenina St., city of Karaganda, Kazakhstan', '87754715472', 1),
+  ('UserReader3', '1234567', 'user_email_3@mail.ru', 'Dorofeeva', 'Regina', 'Parfenevna', 1, 'Apt. 8, 1 Lenina St., city of Karaganda, Kazakhstan', '87754715473', 1),
+  ('UserReader4', '1234567', 'user_email_4@mail.ru', 'Volkova', 'Larisa', 'Semyonovna', 1, 'Apt. 8, 1 Lenina St., city of Karaganda, Kazakhstan', '87754715474', 1),
+  ('UserReader5', '1234567', 'user_email_5@mail.ru', 'Gorbachev', 'Antonin', 'Evgenyevich', 0, 'Apt. 8, 1 Lenina St., city of Karaganda, Kazakhstan', '87754715475', 1),
+  ('UserReader6', '1234567', 'user_email_6@mail.ru', 'Abramova', 'Akulina', 'Vadimovna', 1, 'Apt. 8, 1 Lenina St., city of Karaganda, Kazakhstan', '87754715476', 1),
+  ('Anuar', '1234567', 'user_email_7@mail.ru', 'Kadersizov', 'Anuar', 'Nurumovich', 0, '21\7 Abaya St., city of Karazhal, Kazakhstan', '87754715478', 1),
+  ('Maxim', '1234567', 'user_email_8@mail.ru', 'Maximov', 'Maxim', 'Maximovich', 0, '21\3 Abaya St., city of Karazhal, Kazakhstan', '87754715479', 1),
+  ('Adilhan', '1234567', 'adilhan_kai@mail.ru', 'Kaikenov', 'Adilhan', 'Dauletkhanovich', 0, '21\2 Abaya St., city of Karazhal, Kazakhstan', '87754715477', 0),
+  ('Karim', '1234567', 'user_email_9@mail.ru', 'Dochshanov', 'Karim', 'Gabdyzhauatovich', 0, '63 Main St., city of Arkalyk, Kazakhstan', '87754715480', 1);

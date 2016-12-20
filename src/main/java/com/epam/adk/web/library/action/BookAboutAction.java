@@ -37,6 +37,8 @@ public class BookAboutAction implements Action {
     private static final String PAGES_NUMBER_REQUEST_ATTRIBUTE = "pagesNumber";
     private static final String BOOK_ORDERED_REQUEST_ATTRIBUTE = "bookOrdered";
     private static final String BOOK_COMMENTS_REQUEST_ATTRIBUTE = "bookComments";
+    private static final String BOOK_ADDED_TO_ORDER_STORED_MESSAGE = "book.added.to.order";
+    private static final String BOOK_ALREADY_ORDERED_STORED_MESSAGE = "book.already.ordered";
     private static final String BOOK_ADDED_TO_ORDER_REQUEST_ATTRIBUTE = "bookAddedToOrder";
     private static final String AVAILABLE_BOOK_AMOUNT_REQUEST_ATTRIBUTE = "availableBookAmount";
 
@@ -93,11 +95,11 @@ public class BookAboutAction implements Action {
                 int orderedBooksNumber = ordersBooksService.getOrderedBooksNumber(orderBook);
 
                 if (orderedBooksNumber > 0) {
-                    request.setAttribute(BOOK_ORDERED_REQUEST_ATTRIBUTE, "book.already.ordered");
+                    request.setAttribute(BOOK_ORDERED_REQUEST_ATTRIBUTE, BOOK_ALREADY_ORDERED_STORED_MESSAGE);
                 }
 
                 if (subscriptionBooks.contains(book) || readingRoomBooks.contains(book)) {
-                    request.setAttribute(BOOK_ADDED_TO_ORDER_REQUEST_ATTRIBUTE, "book.added.to.order");
+                    request.setAttribute(BOOK_ADDED_TO_ORDER_REQUEST_ATTRIBUTE, BOOK_ADDED_TO_ORDER_STORED_MESSAGE);
                 }
             }
 

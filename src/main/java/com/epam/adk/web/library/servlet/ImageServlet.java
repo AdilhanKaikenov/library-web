@@ -26,6 +26,7 @@ public final class ImageServlet extends HttpServlet {
 
     private static final String IMAGE_PATH = "D:\\images";
     private static final String IMAGE_PARAMETER = "image";
+    private static final String DOT = ".";
 
     private static Map<String, String> contentTypes = new HashMap<>();
 
@@ -50,7 +51,7 @@ public final class ImageServlet extends HttpServlet {
             return;
         }
 
-        String format = image.substring(image.indexOf(".") + 1);
+        String format = image.substring(image.indexOf(DOT) + 1);
         String contentType = contentTypes.get(format);
 
         log.trace("ImageServlet class, doGet() method: format = {}, contentType = {}", format, contentType);

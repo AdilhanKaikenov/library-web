@@ -21,7 +21,7 @@
     <div align="center">
         <form action="${base}/do/" method="post">
             <input type="hidden" name="action" value="edit-user">
-            <table cellpadding="6">
+            <table cellpadding="3">
                 <tr><h3><ftm:message key="users.list.page"/></h3></tr>
                 <tr bgcolor="#deb887" class="th">
                     <th><ftm:message key="login.field"/></th>
@@ -36,7 +36,7 @@
 
                     <%--@elvariable id="users" type="java.util.List"--%>
                 <c:forEach items="${users}" var="user">
-                    <tr bgcolor="f0ffff" class="tr">
+                    <tr bgcolor="f0ffff" class="tr" align="center">
                         <td>${user.login}</td>
                         <td>${user.email}</td>
                         <td>${user.mobilePhone}</td>

@@ -26,12 +26,26 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     private static final Logger log = LoggerFactory.getLogger(JdbcUserDao.class);
 
     private static final String TABLE_NAME = "user";
+    private static final String SELECT_COLUMNS_PART = queryProperties.get("select.user.columns");
     private static final String CREATE_QUERY = queryProperties.get("insert.user");
     private static final String SELECT_BY_LOGIN_PASSWORD = queryProperties.get("select.by.login.password");
     private static final String SELECT_RANGE = queryProperties.get("select,range.users");
     private static final String SELECT_BY_ID = queryProperties.get("select.user.by.id");
     private static final String UPDATE_QUERY = queryProperties.get("update.user");
-    private static final String DELETE_QUERY = "DELETE FROM user WHERE id LIKE ?";
+    private static final String DELETE_QUERY = queryProperties.get("delete.user");
+
+    private static final String ID_COLUMN_NAME = "ID";
+    private static final String LOGIN_COLUMN_NAME = "LOGIN";
+    private static final String PASSWORD_COLUMN_NAME = "PASSWORD";
+    private static final String EMAIL_COLUMN_NAME = "EMAIL";
+    private static final String FIRSTNAME_COLUMN_NAME = "FIRSTNAME";
+    private static final String SURNAME_COLUMN_NAME = "SURNAME";
+    private static final String PATRONYMIC_COLUMN_NAME = "PATRONYMIC";
+    private static final String GENDER_COLUMN_NAME = "GENDER";
+    private static final String ADDRESS_COLUMN_NAME = "ADDRESS";
+    private static final String MOBILE_PHONE_COLUMN_NAME = "MOBILE_PHONE";
+    private static final String ROLE_COLUMN_NAME = "ROLE";
+    private static final String STATUS_COLUMN_NAME = "STATUS";
 
     public JdbcUserDao(Connection connection) {
         super(connection);
@@ -45,18 +59,18 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
             while (resultSet.next()) {
                 User user = new User();
                 log.debug("Creating user from resultSet");
-                user.setId(resultSet.getInt("ID"));
-                user.setLogin(resultSet.getString("LOGIN"));
-                user.setPassword(resultSet.getString("PASSWORD"));
-                user.setEmail(resultSet.getString("EMAIL"));
-                user.setFirstname(resultSet.getString("FIRSTNAME"));
-                user.setSurname(resultSet.getString("SURNAME"));
-                user.setPatronymic(resultSet.getString("PATRONYMIC"));
-                user.setGender(Gender.from(resultSet.getString("GENDER")));
-                user.setAddress(resultSet.getString("ADDRESS"));
-                user.setMobilePhone(resultSet.getString("MOBILE_PHONE"));
-                user.setRole(Role.from(resultSet.getString("ROLE")));
-                user.setStatus(resultSet.getBoolean("STATUS"));
+                user.setId(resultSet.getInt(ID_COLUMN_NAME));
+                user.setLogin(resultSet.getString(LOGIN_COLUMN_NAME));
+                user.setPassword(resultSet.getString(PASSWORD_COLUMN_NAME));
+                user.setEmail(resultSet.getString(EMAIL_COLUMN_NAME));
+                user.setFirstname(resultSet.getString(FIRSTNAME_COLUMN_NAME));
+                user.setSurname(resultSet.getString(SURNAME_COLUMN_NAME));
+                user.setPatronymic(resultSet.getString(PATRONYMIC_COLUMN_NAME));
+                user.setGender(Gender.from(resultSet.getString(GENDER_COLUMN_NAME)));
+                user.setAddress(resultSet.getString(ADDRESS_COLUMN_NAME));
+                user.setMobilePhone(resultSet.getString(MOBILE_PHONE_COLUMN_NAME));
+                user.setRole(Role.from(resultSet.getString(ROLE_COLUMN_NAME)));
+                user.setStatus(resultSet.getBoolean(STATUS_COLUMN_NAME));
                 log.debug("User successfully created in createListFrom() method. User id = {}", user.getId());
                 result.add(user);
             }
@@ -73,27 +87,25 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
         log.debug("Entering JdbcUserDao class, setFieldsInCreatePreparedStatement() method. User = {}", user.getLogin());
         try {
             log.debug("Set login: {}", user.getLogin());
-            preparedStatement.setString(1, user.getLogin());
+            preparedStatement.setString(FIRST_PARAMETER_INDEX, user.getLogin());
             log.debug("Set password: {}", user.getPassword());
-            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setString(SECOND_PARAMETER_INDEX, user.getPassword());
             log.debug("Set email: {}", user.getEmail());
-            preparedStatement.setString(3, user.getEmail());
+            preparedStatement.setString(THIRD_PARAMETER_INDEX, user.getEmail());
             log.debug("Set firstname: {}", user.getFirstname());
-            preparedStatement.setString(4, user.getFirstname());
+            preparedStatement.setString(FOURTH_PARAMETER_INDEX, user.getFirstname());
             log.debug("Set surname: {}", user.getSurname());
-            preparedStatement.setString(5, user.getSurname());
+            preparedStatement.setString(FIFTH_PARAMETER_INDEX, user.getSurname());
             log.debug("Set patronymic: {}", user.getPatronymic());
-            preparedStatement.setString(6, user.getPatronymic());
+            preparedStatement.setString(SIXTH_PARAMETER_INDEX, user.getPatronymic());
             log.debug("Set gender: {}",  user.getGender());
-            preparedStatement.setInt(7, user.getGender().ordinal());
+            preparedStatement.setInt(SEVENTH_PARAMETER_INDEX, user.getGender().ordinal());
             log.debug("Set address: {}", user.getAddress());
-            preparedStatement.setString(8, user.getAddress());
+            preparedStatement.setString(EIGHTH_PARAMETER_INDEX, user.getAddress());
             log.debug("Set mobile phone: {}", user.getMobilePhone());
-            preparedStatement.setString(9, user.getMobilePhone());
+            preparedStatement.setString(NINTH_PARAMETER_INDEX, user.getMobilePhone());
             log.debug("Set role: {}", user.getRole());
-            preparedStatement.setInt(10, user.getRole().ordinal());
-            log.debug("Set status, is active: {}", true);
-            preparedStatement.setBoolean(11, true);
+            preparedStatement.setInt(TENTH_PARAMETER_INDEX, user.getRole().ordinal());
             log.debug("Leaving JdbcUserDao class, setFieldsInCreatePreparedStatement() method.");
         } catch (SQLException e) {
             log.error("Error: JdbcUserDao class setFieldsInCreatePreparedStatement() method. I can not set fields into statement. {}", e);
@@ -107,9 +119,9 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
         log.debug("Entering JdbcUserDao class, setFieldsInReadByEntityPreparedStatement() method. User = {}", user.getLogin());
         try {
             log.debug("Set login: {}", user.getLogin());
-            preparedStatement.setString(1, user.getLogin());
+            preparedStatement.setString(FIRST_PARAMETER_INDEX, user.getLogin());
             log.debug("Set password: {}", user.getPassword());
-            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setString(SECOND_PARAMETER_INDEX, user.getPassword());
             log.debug("Leaving JdbcUserDao class, setFieldsInReadByEntityPreparedStatement() method");
         } catch (SQLException e) {
             log.error("Error: JdbcUserDao class setFieldsInReadByEntityPreparedStatement() method. I can not set fields into statement. {}", e);
@@ -123,19 +135,19 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
         log.debug("Entering JdbcUserDao class, setFieldsInUpdateByEntityPreparedStatement() method.");
         try {
             log.debug("Set password: {}", user.getPassword());
-            preparedStatement.setString(1, user.getPassword());
+            preparedStatement.setString(FIRST_PARAMETER_INDEX, user.getPassword());
             log.debug("Set email: {}", user.getEmail());
-            preparedStatement.setString(2, user.getEmail());
+            preparedStatement.setString(SECOND_PARAMETER_INDEX, user.getEmail());
             log.debug("Set address: {}", user.getAddress());
-            preparedStatement.setString(3, user.getAddress());
+            preparedStatement.setString(THIRD_PARAMETER_INDEX, user.getAddress());
             log.debug("Set mobile phone: {}", user.getMobilePhone());
-            preparedStatement.setString(4, user.getMobilePhone());
+            preparedStatement.setString(FOURTH_PARAMETER_INDEX, user.getMobilePhone());
             log.debug("Set role: {}", user.getRole());
-            preparedStatement.setInt(5, user.getRole().ordinal());
+            preparedStatement.setInt(FIFTH_PARAMETER_INDEX, user.getRole().ordinal());
             log.debug("Set status, is active: {}", user.isStatus());
-            preparedStatement.setBoolean(6, user.isStatus());
+            preparedStatement.setBoolean(SIXTH_PARAMETER_INDEX, user.isStatus());
             log.debug("Set user ID: {}", user.getId());
-            preparedStatement.setInt(7, user.getId());
+            preparedStatement.setInt(SEVENTH_PARAMETER_INDEX, user.getId());
             log.debug("Leaving JdbcUserDao class, setFieldsInUpdateByEntityPreparedStatement() method.");
         } catch (SQLException e) {
             log.error("Error: JdbcUserDao class setFieldsInUpdateByEntityPreparedStatement() method. I can not set fields into statement. {}", e);
@@ -161,12 +173,12 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
 
     @Override
     protected String getReadByIdQuery() {
-        return SELECT_BY_ID;
+        return SELECT_COLUMNS_PART + SELECT_BY_ID;
     }
 
     @Override
     protected String getReadByEntityQuery() {
-        return SELECT_BY_LOGIN_PASSWORD;
+        return SELECT_COLUMNS_PART + SELECT_BY_LOGIN_PASSWORD;
     }
 
     @Override
@@ -176,7 +188,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
 
     @Override
     protected String getReadRangeQuery() {
-        return SELECT_RANGE;
+        return SELECT_COLUMNS_PART + SELECT_RANGE;
     }
 
     @Override

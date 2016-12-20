@@ -32,6 +32,7 @@ public class EditProfileAction implements Action {
     private static final String EDIT_PROFILE_PAGE_NAME = "edit-profile";
     private static final String PERSONAL_AREA_PAGE_NAME = "personal-area";
     private static final String INVALID_INFORMATION_REQUEST_ATTRIBUTE = "invalidInformation";
+    private static final String CAN_NOT_UPDATE_USER_DATA_STORED_MESSAGE = "can.not.update.user.data.message";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -71,7 +72,7 @@ public class EditProfileAction implements Action {
             userService.updateUserData(user);
         } catch (ServiceException e) {
             log.error("Error: EditProfileAction class, Can not update user: {}", e);
-            request.setAttribute(INVALID_INFORMATION_REQUEST_ATTRIBUTE, "can.not.update.user.data.message");
+            request.setAttribute(INVALID_INFORMATION_REQUEST_ATTRIBUTE, CAN_NOT_UPDATE_USER_DATA_STORED_MESSAGE);
             return EDIT_PROFILE_PAGE_NAME;
         }
         return REDIRECT_PREFIX + PERSONAL_AREA_PAGE_NAME;

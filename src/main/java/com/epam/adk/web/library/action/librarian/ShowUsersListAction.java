@@ -23,7 +23,7 @@ public class ShowUsersListAction implements Action {
     private static final Logger log = LoggerFactory.getLogger(ShowUsersListAction.class);
 
     private static final int DEFAULT_PAGE_NUMBER = 1;
-    private static final int LINE_PER_PAGE_NUMBER = 2;
+    private static final int LINE_PER_PAGE_NUMBER = 5;
     private static final String PAGE_PARAMETER = "page";
     private static final String USERS_LIST_PAGE_NAME = "users-list";
     private static final String USERS_REQUEST_ATTRIBUTE = "users";

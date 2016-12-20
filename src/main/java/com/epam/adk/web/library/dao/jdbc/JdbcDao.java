@@ -23,9 +23,23 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
     private static final Logger log = LoggerFactory.getLogger(JdbcDao.class);
 
-    private static final int FIRST_COLUMN_INDEX = 1;
-    private static final String GENERAL_SELECT_COUNT_PLUS_TABLE_QUERY = "SELECT COUNT(*) FROM ";
     protected static PropertiesManager queryProperties;
+
+    private static final String QUERY_PROPERTIES_FILE_NAME = "query.properties";
+    private static final String GENERAL_SELECT_COUNT_PLUS_TABLE_QUERY = queryProperties.get("select.count.from");
+
+    protected static final int ZERO = 0;
+    protected static final int FIRST_COLUMN_INDEX = 1;
+    protected static final int FIRST_PARAMETER_INDEX = 1;
+    protected static final int SECOND_PARAMETER_INDEX = 2;
+    protected static final int THIRD_PARAMETER_INDEX = 3;
+    protected static final int FOURTH_PARAMETER_INDEX = 4;
+    protected static final int FIFTH_PARAMETER_INDEX = 5;
+    protected static final int SIXTH_PARAMETER_INDEX = 6;
+    protected static final int SEVENTH_PARAMETER_INDEX = 7;
+    protected static final int EIGHTH_PARAMETER_INDEX = 8;
+    protected static final int NINTH_PARAMETER_INDEX = 9;
+    protected static final int TENTH_PARAMETER_INDEX = 10;
 
     private Connection connection;
 
@@ -39,7 +53,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
     public static void configure() throws JdbcDaoConfigurationException {
         try {
-            queryProperties = new PropertiesManager("query.properties");
+            queryProperties = new PropertiesManager(QUERY_PROPERTIES_FILE_NAME);
         } catch (PropertyManagerException e) {
             throw new JdbcDaoConfigurationException("Error: JdbcDao class, configure() method.", e);
         }
@@ -230,11 +244,11 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         log.debug("Entering JdbcDao class, createFrom() method");
         T entity;
         List<T> entities = createListFrom(resultSet);
-        if (entities.size() == 0) {
+        if (entities.size() == ZERO) {
             throw new DaoException(MessageFormat.format(
                     "Error: JdbcDao class createFrom() method. I can not create entity from resultSet. Entities size = {0}", entities.size()));
         }
-        entity = entities.get(0);
+        entity = entities.get(ZERO);
         log.debug("Leaving JdbcDao class, createFrom() method.");
         return entity;
     }
@@ -250,7 +264,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             preparedStatement = setFieldInCountNumberRowsByIdPreparedStatement(preparedStatement, id);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                numberRows = resultSet.getInt(1);
+                numberRows = resultSet.getInt(FIRST_COLUMN_INDEX);
             }
             log.debug("Leaving JdbcDao class getNumberRowsByIdParameter() method. Rows number = {}", numberRows);
         } catch (SQLException e) {
@@ -270,7 +284,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         try (Statement statement = connection.createStatement()) {
             resultSet = statement.executeQuery(getCountNumberRowsQuery());
             if (resultSet.next()) {
-                numberRows = resultSet.getInt(1);
+                numberRows = resultSet.getInt(FIRST_COLUMN_INDEX);
             }
             log.debug("Leaving JdbcDao class getNumberRows() method. Rows number = {}", numberRows);
         } catch (SQLException e) {
@@ -328,7 +342,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         log.debug("Entering JdbcDao class, setFieldInReadByIdPreparedStatement() method. ID = {}", id);
         try {
             log.debug("Set id: {}", id);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(FIRST_PARAMETER_INDEX, id);
             log.debug("Leaving JdbcDao class, setFieldInReadByIdPreparedStatement() method.");
         } catch (SQLException e) {
             log.error("Error: JdbcDao class setFieldInReadByIdPreparedStatement() method. I can not set field into statement. {}", e);
@@ -341,7 +355,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         log.debug("Entering JdbcDao class, setFieldsInDeleteByIdParameter() method. ID = {}", id);
         try {
             log.debug("Set id: {}", id);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(FIRST_PARAMETER_INDEX, id);
             log.debug("Leaving JdbcDao class, setFieldsInDeleteByIdParameter() method.");
         } catch (SQLException e) {
             log.error("Error: JdbcDao class setFieldsInDeleteByIdParameter() method. I can not set field into statement. {}", e);
@@ -355,9 +369,9 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         log.debug("Entering JdbcDao class, setFieldsInReadRangePreparedStatement() method.");
         try {
             log.debug("Set limit: {}", limit);
-            preparedStatement.setInt(1, limit);
+            preparedStatement.setInt(FIRST_PARAMETER_INDEX, limit);
             log.debug("Set offset: {}", offset);
-            preparedStatement.setInt(2, offset);
+            preparedStatement.setInt(SECOND_PARAMETER_INDEX, offset);
             log.debug("Leaving JdbcDao class, setFieldsInReadRangePreparedStatement() method.");
         } catch (SQLException e) {
             log.error("Error: JdbcDao class setFieldsInReadRangePreparedStatement() method. I can not set fields into statement. {}", e);
@@ -370,11 +384,11 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         log.debug("Entering JdbcDao class, setFieldsInReadRangeByIdParameterPreparedStatement() method.");
         try {
             log.debug("Set id: {}", id);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(FIRST_PARAMETER_INDEX, id);
             log.debug("Set limit: {}", limit);
-            preparedStatement.setInt(2, limit);
+            preparedStatement.setInt(SECOND_PARAMETER_INDEX, limit);
             log.debug("Set offset: {}", offset);
-            preparedStatement.setInt(3, offset);
+            preparedStatement.setInt(THIRD_PARAMETER_INDEX, offset);
             log.debug("Leaving JdbcDao class, setFieldsInReadRangeByIdParameterPreparedStatement() method.");
         } catch (SQLException e) {
             log.error("Error: JdbcDao class setFieldsInReadRangeByIdParameterPreparedStatement() method. I can not set fields into statement. {}", e);
@@ -387,7 +401,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         log.debug("Entering JdbcDao class, setFieldInCountNumberRowsByIdPreparedStatement() method.");
         try {
             log.debug("Set id: {}", id);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(FIRST_PARAMETER_INDEX, id);
             log.debug("Leaving JdbcDao class, setFieldInCountNumberRowsByIdPreparedStatement() method.");
         } catch (SQLException e) {
             log.error("Error: JdbcDao class setFieldInCountNumberRowsByIdPreparedStatement() method. I can not set fields into statement. {}", e);
@@ -400,7 +414,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         log.debug("Entering JdbcDao class, setFieldInReadAllByIdParameterPreparedStatement() method.");
         try {
             log.debug("Set id: {}", id);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(FIRST_PARAMETER_INDEX, id);
             log.debug("Leaving JdbcDao class, setFieldInReadAllByIdParameterPreparedStatement() method.");
         } catch (SQLException e) {
             log.error("Error: JdbcDao class setFieldInReadAllByIdParameterPreparedStatement() method. I can not set fields into statement. {}", e);
@@ -413,7 +427,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         log.debug("Entering JdbcDao class, setFieldsInDeleteByEntityStatement() method.");
         try {
             log.debug("Set entity id: {}", entity.getId());
-            preparedStatement.setInt(1, entity.getId());
+            preparedStatement.setInt(FIRST_PARAMETER_INDEX, entity.getId());
             log.debug("Leaving JdbcDao class, setFieldsInDeleteByEntityStatement() method.");
         } catch (SQLException e) {
             log.error("Error: JdbcDao class setFieldsInDeleteByEntityStatement() method. I can not set fields into statement. {}", e);

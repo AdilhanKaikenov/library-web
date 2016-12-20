@@ -69,7 +69,7 @@ public final class RoleFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) resp;
 
         String actionName = getActionName(request);
-        log.debug("RoleFilter class, doFilter() method: actionName = {}", actionName);
+        log.debug("RoleFilter class: actionName = {}", actionName);
         HttpSession session = request.getSession(false);
 
         if (session != null) {

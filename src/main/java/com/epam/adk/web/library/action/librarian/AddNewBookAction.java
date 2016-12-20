@@ -48,6 +48,7 @@ public class AddNewBookAction implements Action {
         try {
             part = request.getPart(COVER_PARAMETER);
             cover = extractFileName(part);
+            log.debug("Cover filename = {}", cover);
             part.write(IMAGE_PATH + File.separator + cover);
         } catch (Exception e) {
             if (e.getCause() != null && e.getCause() instanceof FileUploadBase.FileSizeLimitExceededException) {
@@ -92,6 +93,12 @@ public class AddNewBookAction implements Action {
         return REDIRECT_PREFIX + WELCOME_PAGE_NAME;
     }
 
+    /**
+     * The method returns file name from item that was received within a multipart/form-data POST request.
+     *
+     * @param part part or from item
+     * @return (string) filename
+     */
     private String extractFileName(Part part) {
         String contentDisposition = part.getHeader(CONTENT_DISPOSITION_HEADER);
         String[] items = contentDisposition.split(";");

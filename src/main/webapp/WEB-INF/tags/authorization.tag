@@ -16,7 +16,7 @@
         </tr>
         <tr>
             <td><ftm:message key="auth.form.password.field"/></td>
-            <td><input type="password" name="password" value="adilhan"></td>
+            <td><input type="password" name="password" value="1234567"></td>
         </tr>
         <tr>
             <td><a href="${base}/do/?action=registration"><ftm:message key="registration.page"/></a></td>

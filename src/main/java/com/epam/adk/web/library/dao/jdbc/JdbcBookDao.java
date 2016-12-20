@@ -24,15 +24,25 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
 
     private static final String TABLE_NAME = "book";
     private static final String CREATE_QUERY = queryProperties.get("insert.book");
-    private static final String SELECT_BY_ID = queryProperties.get("select.book.by.id");
-    private static final String SELECT_RANGE_BY_GENRE = queryProperties.get("select.range.books.by.genre");
-    private static final String SELECT_COUNT_BY_GENRE_ID = queryProperties.get("select.count.by.genre.id");
-    private static final String SELECT_RANGE_QUERY = queryProperties.get("select.range.books");
+    private static final String DELETE_QUERY = queryProperties.get("delete.book");
     private static final String UPDATE_QUERY = queryProperties.get("update.book");
-    private static final String SELECT_COUNT_ROWS_QUERY = queryProperties.get("select.count.rows.number");
+    private static final String SELECT_BY_ID = queryProperties.get("select.book.by.id");
+    private static final String SELECT_RANGE_QUERY = queryProperties.get("select.range.books");
+    private static final String SELECT_COLUMNS_PART = queryProperties.get("select.book.columns");
+    private static final String SELECT_RANGE_BY_GENRE = queryProperties.get("select.range.books.by.genre");
+    private static final String SELECT_COUNT_ROWS_QUERY = queryProperties.get("select.count.books.rows.number");
+    private static final String SELECT_COUNT_BY_GENRE_ID = queryProperties.get("select.count.books.by.genre.id");
     private static final String SELECT_FOUND_QUERY_PART_ONE = queryProperties.get("select.found.books.part.one");
     private static final String SELECT_FOUND_QUERY_PART_TWO = queryProperties.get("select.found.books.part.two");
-    public static final String DELETE_QUERY = "DELETE FROM book WHERE id LIKE ?";
+
+    private static final String ID_COLUMN_NAME = "ID";
+    private static final String TITLE_COLUMN_NAME = "TITLE";
+    private static final String COVER_COLUMN_NAME = "COVER";
+    private static final String AUTHORS_COLUMN_NAME = "AUTHORS";
+    private static final String PUBLISH_YEAR_COLUMN_NAME = "PUBLISH_YEAR";
+    private static final String GENRE_COLUMN_NAME = "GENRE";
+    private static final String DESCRIPTION_COLUMN_NAME = "DESCRIPTION";
+    private static final String TOTAL_AMOUNT_COLUMN_NAME = "TOTAL_AMOUNT";
 
     public JdbcBookDao(Connection connection) {
         super(connection);
@@ -46,14 +56,14 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
             while (resultSet.next()) {
                 Book book = new Book();
                 log.debug("Creating book from resultSet");
-                book.setId(resultSet.getInt("ID"));
-                book.setTitle(resultSet.getString("TITLE"));
-                book.setCover(resultSet.getString("COVER"));
-                book.setAuthors(resultSet.getString("AUTHORS"));
-                book.setPublishYear(Year.of(resultSet.getInt("PUBLISH_YEAR")));
-                book.setGenre(Genre.from(resultSet.getString("GENRE")));
-                book.setDescription(resultSet.getString("DESCRIPTION"));
-                book.setTotalAmount(resultSet.getInt("TOTAL_AMOUNT"));
+                book.setId(resultSet.getInt(ID_COLUMN_NAME));
+                book.setTitle(resultSet.getString(TITLE_COLUMN_NAME));
+                book.setCover(resultSet.getString(COVER_COLUMN_NAME));
+                book.setAuthors(resultSet.getString(AUTHORS_COLUMN_NAME));
+                book.setPublishYear(Year.of(resultSet.getInt(PUBLISH_YEAR_COLUMN_NAME)));
+                book.setGenre(Genre.from(resultSet.getString(GENRE_COLUMN_NAME)));
+                book.setDescription(resultSet.getString(DESCRIPTION_COLUMN_NAME));
+                book.setTotalAmount(resultSet.getInt(TOTAL_AMOUNT_COLUMN_NAME));
                 log.debug("Book successfully created in createListFrom() method. Book id = {}", book.getId());
                 result.add(book);
             }
@@ -75,7 +85,7 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
             if (title.contains("'")) {
                 correctTitle = title.replaceAll("'", "''");
             }
-            resultSet = statement.executeQuery(SELECT_FOUND_QUERY_PART_ONE + correctTitle + SELECT_FOUND_QUERY_PART_TWO);
+            resultSet = statement.executeQuery(SELECT_COLUMNS_PART + SELECT_FOUND_QUERY_PART_ONE + correctTitle + SELECT_FOUND_QUERY_PART_TWO);
             result = createListFrom(resultSet);
             log.debug("Leaving JdbcBookDao class, findByTitle() method. Book found = {}", result.size());
         } catch (SQLException e) {
@@ -92,23 +102,23 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
         log.debug("Entering JdbcBookDao class, setFieldsInUpdateByEntityPreparedStatement() method.");
         try {
             log.debug("Set title: {}", book.getTitle());
-            preparedStatement.setString(1, book.getTitle());
+            preparedStatement.setString(FIRST_PARAMETER_INDEX, book.getTitle());
             log.debug("Set cover: {}", book.getCover());
-            preparedStatement.setString(2, book.getCover());
+            preparedStatement.setString(SECOND_PARAMETER_INDEX, book.getCover());
             log.debug("Set authors: {}", book.getAuthors());
-            preparedStatement.setString(3, book.getAuthors());
+            preparedStatement.setString(THIRD_PARAMETER_INDEX, book.getAuthors());
             log.debug("Set publish year: {}", book.getPublishYear());
-            preparedStatement.setInt(4, book.getPublishYear().getValue());
+            preparedStatement.setInt(FOURTH_PARAMETER_INDEX, book.getPublishYear().getValue());
             log.debug("Set genre: {}", book.getGenre());
-            preparedStatement.setInt(5, book.getGenre().ordinal());
+            preparedStatement.setInt(FIFTH_PARAMETER_INDEX, book.getGenre().ordinal());
             log.debug("Set description: length = {}", book.getDescription().length());
-            preparedStatement.setString(6, book.getDescription());
+            preparedStatement.setString(SIXTH_PARAMETER_INDEX, book.getDescription());
             log.debug("Set total amount: {}", book.getTotalAmount());
-            preparedStatement.setInt(7, book.getTotalAmount());
+            preparedStatement.setInt(SEVENTH_PARAMETER_INDEX, book.getTotalAmount());
             log.debug("Set boolean, is deleted: {}", book.isDeleted());
-            preparedStatement.setBoolean(8, book.isDeleted());
+            preparedStatement.setBoolean(EIGHTH_PARAMETER_INDEX, book.isDeleted());
             log.debug("Set id: {}", book.getId());
-            preparedStatement.setInt(9, book.getId());
+            preparedStatement.setInt(NINTH_PARAMETER_INDEX, book.getId());
             log.debug("Leaving JdbcBookDao class, setFieldsInUpdateByEntityPreparedStatement() method.");
         } catch (SQLException e) {
             log.error("Error: JdbcBookDao class setFieldsInUpdateByEntityPreparedStatement() method. I can not set fields into statement. {}", e);
@@ -122,19 +132,19 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
         log.debug("Entering JdbcBookDao class, setFieldsInCreatePreparedStatement() method.");
         try {
             log.debug("Set title: {}", book.getTitle());
-            preparedStatement.setString(1, book.getTitle());
+            preparedStatement.setString(FIRST_PARAMETER_INDEX, book.getTitle());
             log.debug("Set authors: {}", book.getAuthors());
-            preparedStatement.setString(2, book.getAuthors());
+            preparedStatement.setString(SECOND_PARAMETER_INDEX, book.getAuthors());
             log.debug("Set publish year: {}", book.getPublishYear());
-            preparedStatement.setInt(3, book.getPublishYear().getValue());
+            preparedStatement.setInt(THIRD_PARAMETER_INDEX, book.getPublishYear().getValue());
             log.debug("Set genre: {}", book.getGenre());
-            preparedStatement.setInt(4, book.getGenre().ordinal());
+            preparedStatement.setInt(FOURTH_PARAMETER_INDEX, book.getGenre().ordinal());
             log.debug("Set description: length = {}", book.getDescription().length());
-            preparedStatement.setString(5, book.getDescription());
+            preparedStatement.setString(FIFTH_PARAMETER_INDEX, book.getDescription());
             log.debug("Set total amount: {}", book.getTotalAmount());
-            preparedStatement.setInt(6, book.getTotalAmount());
+            preparedStatement.setInt(SIXTH_PARAMETER_INDEX, book.getTotalAmount());
             log.debug("Set cover: {}", book.getCover());
-            preparedStatement.setString(7, book.getCover());
+            preparedStatement.setString(SEVENTH_PARAMETER_INDEX, book.getCover());
             log.debug("Leaving JdbcBookDao class, setFieldsInCreatePreparedStatement() method.");
         } catch (SQLException e) {
             log.error("Error: JdbcBookDao class setFieldsInCreatePreparedStatement() method. I can not set fields into statement. {}", e);
@@ -170,17 +180,17 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
 
     @Override
     protected String getReadByIdQuery() {
-        return SELECT_BY_ID;
+        return SELECT_COLUMNS_PART + SELECT_BY_ID;
     }
 
     @Override
     protected String getReadRangeByIdParameterQuery() {
-        return SELECT_RANGE_BY_GENRE;
+        return SELECT_COLUMNS_PART + SELECT_RANGE_BY_GENRE;
     }
 
     @Override
     protected String getReadRangeQuery() {
-        return SELECT_RANGE_QUERY;
+        return SELECT_COLUMNS_PART + SELECT_RANGE_QUERY;
     }
 
     @Override
