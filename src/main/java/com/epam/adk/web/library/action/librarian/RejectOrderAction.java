@@ -20,8 +20,8 @@ public class RejectOrderAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(LendOutAction.class);
 
-    private static final String ORDER_ID_PARAMETER = "orderID";
     private static final String REDIRECT_PREFIX = "redirect:";
+    private static final String ORDER_ID_PARAMETER = "orderID";
     private static final String REQUESTS_PAGE_NAME = "requests";
 
     @Override

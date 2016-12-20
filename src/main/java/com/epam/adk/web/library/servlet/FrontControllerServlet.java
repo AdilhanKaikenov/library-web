@@ -24,9 +24,9 @@ public final class FrontControllerServlet extends HttpServlet {
     private static final String WEB_INF = "/WEB-INF/";
     private static final String PATH_INFO = "/?action=";
     private static final String JSP_EXPANSION = ".jsp";
-    private static final String SERVLET_CONTEXT = "/do";
     private static final String REDIRECT_PREFIX = "redirect:";
     private static final String ACTION_PARAMETER = "action";
+    private static final String FRONT_CONTROLLER_SERVLET_CONTEXT = "/do";
 
     private static ActionFactory factory;
 
@@ -69,7 +69,7 @@ public final class FrontControllerServlet extends HttpServlet {
     }
 
     private String getRedirectURL(HttpServletRequest request, String view) {
-        return request.getContextPath() + SERVLET_CONTEXT + PATH_INFO + view.substring(REDIRECT_PREFIX.length());
+        return request.getContextPath() + FRONT_CONTROLLER_SERVLET_CONTEXT + PATH_INFO + view.substring(REDIRECT_PREFIX.length());
     }
 
     /**

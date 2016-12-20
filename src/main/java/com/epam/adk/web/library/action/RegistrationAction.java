@@ -24,6 +24,7 @@ public class RegistrationAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(RegistrationAction.class);
 
+    private static final String REDIRECT_PREFIX = "redirect:";
     private static final String LOGIN_PARAMETER = "login";
     private static final String EMAIL_PARAMETER = "email";
     private static final String GENDER_PARAMETER = "gender";
@@ -35,7 +36,7 @@ public class RegistrationAction implements Action {
     private static final String MOBILE_PHONE_PARAMETER = "mobile_phone";
     private static final String REGISTRATION_PAGE_NAME = "registration";
     private static final String USER_EXIST_REQUEST_ATTRIBUTE = "userExist";
-    private static final String REDIRECT_SUCCESS_REGISTRATION_PAGE = "redirect:success-registration";
+    private static final String SUCCESS_REGISTRATION_PAGE = "success-registration";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -96,6 +97,6 @@ public class RegistrationAction implements Action {
             request.setAttribute(USER_EXIST_REQUEST_ATTRIBUTE, "user.exist.message");
             return REGISTRATION_PAGE_NAME;
         }
-        return REDIRECT_SUCCESS_REGISTRATION_PAGE;
+        return REDIRECT_PREFIX + SUCCESS_REGISTRATION_PAGE;
     }
 }

@@ -25,46 +25,46 @@ public class ActionFactory {
 
         actions.put("POST/comment", new CommentAction());
         actions.put("POST/edit-user", new EditUserAction());
+        actions.put("POST/lend-out-book", new LendOutAction());
         actions.put("POST/delete-book", new DeleteBookAction());
         actions.put("POST/book-search", new BookSearchAction());
         actions.put("POST/add-new-book", new AddNewBookAction());
         actions.put("POST/edit-profile", new EditProfileAction());
-        actions.put("POST/lend-out-book", new LendOutAction());
+        actions.put("POST/extend-order", new ExtendOrderAction());
         actions.put("POST/registration", new RegistrationAction());
+        actions.put("POST/order-request", new OrderRequestAction());
         actions.put("POST/book-returned", new BookReturnedAction());
         actions.put("POST/authorization", new AuthorizationAction());
-        actions.put("POST/edit-book-amount", new EditBookAmountAction());
         actions.put("POST/reject-book-order", new RejectOrderAction());
+        actions.put("POST/edit-book-amount", new EditBookAmountAction());
         actions.put("POST/add-book-to-order", new AddBookToOrderAction());
-        actions.put("POST/order-request", new OrderRequestAction());
         actions.put("POST/remove-book-from-order", new DeleteBookFromOrderAction());
         actions.put("POST/remove-book-from-order-request", new DeleteBookFromOrderRequestAction());
-        actions.put("POST/extend-order", new ExtendOrderAction());
 
         actions.put("GET/logout", new LogoutAction());
         actions.put("GET/category", new CategoryAction());
         actions.put("GET/users", new ShowUsersListAction());
         actions.put("GET/welcome", new ShowWelcomeAction());
+        actions.put("GET/my-order", new ShowMyOrderAction());
         actions.put("GET/about-book", new BookAboutAction());
         actions.put("GET/edit-user", new ShowEditUserAction());
-        actions.put("GET/set-locale", new SelectLocaleAction());
         actions.put("GET/my-orders", new ShowMyOrdersAction());
+        actions.put("GET/set-locale", new SelectLocaleAction());
         actions.put("GET/book-amount", new ShowBookAmountAction());
         actions.put("GET/authorization", new AuthorizationAction());
         actions.put("GET/orders", new ShowAllAllowedOrdersAction());
         actions.put("GET/requests", new ShowAllOrderRequestsAction());
-        actions.put("GET/my-order", new ShowMyOrderAction());
-        actions.put("GET/process-order-request", new ShowProcessOrderRequestPageAction());
         actions.put("GET/order-book-list", new ShowOrderBooksListAction());
         actions.put("GET/process-return-books", new ShowProcessReturnBooksPageAction());
+        actions.put("GET/process-order-request", new ShowProcessOrderRequestPageAction());
 
         actions.put("GET/personal-area", new ShowPageAction("profile"));
         actions.put("GET/book-search", new ShowPageAction("book-search"));
         actions.put("GET/registration", new ShowPageAction("registration"));
         actions.put("GET/add-new-book", new ShowPageAction("add-new-book"));
         actions.put("GET/edit-profile", new ShowPageAction("edit-profile"));
-        actions.put("GET/authorization-error", new ShowPageAction("authorization-error"));
         actions.put("GET/book-search-result", new ShowPageAction("book-search-result"));
+        actions.put("GET/authorization-error", new ShowPageAction("authorization-error"));
         actions.put("GET/success-registration", new ShowPageAction("success-registration"));
 
         log.debug("Action Factory class, actions SIZE {}", actions.size());

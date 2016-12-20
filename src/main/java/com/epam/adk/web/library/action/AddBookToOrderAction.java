@@ -24,9 +24,9 @@ public class AddBookToOrderAction implements Action {
     private static final Logger log = LoggerFactory.getLogger(AddBookToOrderAction.class);
 
     private static final String USER_PARAMETER = "user";
+    private static final String REDIRECT_PREFIX = "redirect:";
     private static final String BOOK_ID_PARAMETER = "bookID";
     private static final String ORDER_TYPE_PARAMETER = "order_type";
-    private static final String REDIRECT_PREFIX = "redirect:";
     private static final String ABOUT_BOOK_ID_PAGE_NAME = "about-book&id=";
 
     @Override

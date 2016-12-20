@@ -15,8 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * RoleFilter class created on 02.12.2016
@@ -27,43 +25,35 @@ public final class RoleFilter implements Filter {
 
     private static final Logger log = LoggerFactory.getLogger(RoleFilter.class);
 
+    private static final String PATH_INFO = "/?action=welcome";
+    private static final String READER_ROLE = "Reader";
+    private static final String ANONYMOUS_ROLE = "Anonymous";
+    private static final String LIBRARIAN_ROLE = "Librarian";
+    private static final String USER_PARAMETER = "user";
+    private static final String ACTION_PARAMETER = "action";
+    private static final String ACTIONS_PROPERTIES_FILE_NAME = "actions.properties";
+    private static final String FRONT_CONTROLLER_SERVLET_CONTEXT = "/do";
+
     private static Collection<String> librarianAvailableActions;
     private static Collection<String> readerAvailableActions;
     private static Collection<String> anonAvailableActions;
-
-    private static final String PATH_INFO = "/?action=welcome";
-    private static final String READER_ROLE = "Reader";
-    private static final String LIBRARIAN_ROLE = "Librarian";
-    private static final String USER_PARAMETER = "user";
-    private static final String SERVLET_CONTEXT = "/do";
-    private static final String ACTION_PARAMETER = "action";
-
-    private Set<String> librarianActions = new HashSet<>();
-    private Set<String> readerActions = new HashSet<>();
-    private Set<String> anonActions = new HashSet<>();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
         log.debug("LIBRARIAN Available Actions = {}", librarianAvailableActions.size());
         log.debug("READER Available Actions = {}", readerAvailableActions.size());
-        log.debug("ANON Available Actions = {}", anonAvailableActions.size());
-
-        librarianActions.addAll(librarianAvailableActions);
-        readerActions.addAll(readerAvailableActions);
-        anonActions.addAll(anonAvailableActions);
+        log.debug("ANONYMOUS Available Actions = {}", anonAvailableActions.size());
 
     }
 
     public static void configure() throws RoleFilterConfigurationException {
         try {
-            PropertiesManager libPropertiesManager = new PropertiesManager("/role_actions/librarian.actions.properties");
-            PropertiesManager readerPropertiesManager = new PropertiesManager("/role_actions/reader.actions.properties");
-            PropertiesManager anonPropertiesManager = new PropertiesManager("/role_actions/anon.actions.properties");
+            PropertiesManager propertiesManager = new PropertiesManager(ACTIONS_PROPERTIES_FILE_NAME);
 
-            librarianAvailableActions = libPropertiesManager.getAllValues();
-            readerAvailableActions = readerPropertiesManager.getAllValues();
-            anonAvailableActions = anonPropertiesManager.getAllValues();
+            librarianAvailableActions = propertiesManager.extractListByKeyPrefix(LIBRARIAN_ROLE);
+            readerAvailableActions = propertiesManager.extractListByKeyPrefix(READER_ROLE);
+            anonAvailableActions = propertiesManager.extractListByKeyPrefix(ANONYMOUS_ROLE);
         } catch (PropertyManagerException e) {
             throw new RoleFilterConfigurationException("Error: RoleFilter class, configure() method.", e);
         }
@@ -98,7 +88,7 @@ public final class RoleFilter implements Filter {
             log.debug("{}: Action = {}, AVAILABLE", role, actionName);
         } else {
             log.debug("{}: Action = {}, UNAVAILABLE", role, actionName);
-            response.sendRedirect(request.getContextPath() + SERVLET_CONTEXT + PATH_INFO);
+            response.sendRedirect(request.getContextPath() + FRONT_CONTROLLER_SERVLET_CONTEXT + PATH_INFO);
             return;
         }
         chain.doFilter(req, resp);
@@ -124,11 +114,11 @@ public final class RoleFilter implements Filter {
     private boolean isAvailableFor(Role role, String actionName) {
         switch (role.getValue()) {
             case LIBRARIAN_ROLE:
-                return librarianActions.contains(actionName);
+                return librarianAvailableActions.contains(actionName);
             case READER_ROLE:
-                return readerActions.contains(actionName);
+                return readerAvailableActions.contains(actionName);
             default:
-                return anonActions.contains(actionName);
+                return anonAvailableActions.contains(actionName);
         }
     }
 }

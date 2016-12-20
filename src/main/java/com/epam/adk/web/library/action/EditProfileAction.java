@@ -27,11 +27,11 @@ public class EditProfileAction implements Action {
     private static final String REDIRECT_PREFIX = "redirect:";
     private static final String ADDRESS_PARAMETER = "address";
     private static final String PASSWORD_PARAMETER = "password";
+    private static final String EDIT_PROFILE_FORM_NAME = "edit.profile";
     private static final String MOBILE_PHONE_PARAMETER = "mobile_phone";
     private static final String EDIT_PROFILE_PAGE_NAME = "edit-profile";
     private static final String PERSONAL_AREA_PAGE_NAME = "personal-area";
     private static final String INVALID_INFORMATION_REQUEST_ATTRIBUTE = "invalidInformation";
-    private static final String EDIT_PROFILE_FORM_NAME = "edit.profile";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {

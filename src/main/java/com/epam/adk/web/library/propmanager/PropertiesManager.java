@@ -48,26 +48,28 @@ public final class PropertiesManager {
     }
 
     /**
-     * Method to get all the values of the properties file as Collection.
+     * Method to get all the values of the properties file as List by key prefix.
      *
      * @return values from properties.
      */
-    public Collection<String> getAllValues() {
+    public List<String> extractListByKeyPrefix(String keyPrefix) {
         List<String> values = new ArrayList<>();
         Enumeration<?> enumeration = properties.propertyNames();
         while (enumeration.hasMoreElements()) {
             String key = (String) enumeration.nextElement();
-            String value = properties.getProperty(key);
-            values.add((value));
+            if (key.startsWith(keyPrefix.toLowerCase())) {
+                String value = properties.getProperty(key);
+                values.add((value));
+            }
         }
         return values;
     }
 
     /**
-     * Method to get the property key
+     * Method to get the property key.
      *
-     * @param key property key
-     * @return property value
+     * @param key property key.
+     * @return property value.
      */
     public String get(String key) {
         return properties.getProperty(key);

@@ -35,10 +35,10 @@ public class BookAboutAction implements Action {
     private static final String ABOUT_BOOK_PAGE = "about-book";
     private static final String BOOK_REQUEST_ATTRIBUTE = "book";
     private static final String PAGES_NUMBER_REQUEST_ATTRIBUTE = "pagesNumber";
-    private static final String BOOK_COMMENTS_REQUEST_ATTRIBUTE = "bookComments";
-    private static final String AVAILABLE_BOOK_AMOUNT_REQUEST_ATTRIBUTE = "availableBookAmount";
     private static final String BOOK_ORDERED_REQUEST_ATTRIBUTE = "bookOrdered";
+    private static final String BOOK_COMMENTS_REQUEST_ATTRIBUTE = "bookComments";
     private static final String BOOK_ADDED_TO_ORDER_REQUEST_ATTRIBUTE = "bookAddedToOrder";
+    private static final String AVAILABLE_BOOK_AMOUNT_REQUEST_ATTRIBUTE = "availableBookAmount";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
