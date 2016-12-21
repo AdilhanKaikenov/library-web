@@ -9,10 +9,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Created by Kaikenov Adilhan on 23.12.2015
+ * MD5 class created on 04.12.2016
  *
- * @author Kaikenov Adilhan on 23.12.2015
- */
+ * @author Kaikenov Adilhan
+ **/
 public class MD5 {
 
     private static final Logger log = LoggerFactory.getLogger(MD5.class);

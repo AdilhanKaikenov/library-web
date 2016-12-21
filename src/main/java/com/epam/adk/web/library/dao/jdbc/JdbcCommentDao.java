@@ -2,6 +2,7 @@ package com.epam.adk.web.library.dao.jdbc;
 
 import com.epam.adk.web.library.dao.CommentDao;
 import com.epam.adk.web.library.exception.DaoException;
+import com.epam.adk.web.library.exception.DaoUnsupportedOperationException;
 import com.epam.adk.web.library.model.Book;
 import com.epam.adk.web.library.model.Comment;
 import com.epam.adk.web.library.model.User;
@@ -26,6 +27,7 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
     private static final Logger log = LoggerFactory.getLogger(JdbcCommentDao.class);
 
     private static final String TABLE_NAME = "comment";
+    private static final String SELECT_COLUMNS_PART = queryProperties.get("select.comment.columns");
     private static final String CREATE_QUERY = queryProperties.get("insert.comment");
     private static final String SELECT_ALL_BY_BOOK_ID_QUERY = queryProperties.get("select.all.comments.by.book.id");
     private static final String SELECT_COUNT_BY_BOOK_ID = queryProperties.get("select.count.comments.by.book.id");
@@ -53,17 +55,27 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
             while (resultSet.next()) {
                 Comment comment = new Comment();
                 log.debug("Creating comment from resultSet");
+                log.debug("set id");
                 comment.setId(resultSet.getInt(ID_COLUMN_NAME));
                 User user = new User();
+                log.debug("set user id");
                 user.setId(resultSet.getInt(USER_ID_COLUMN_NAME));
+                log.debug("set user login");
                 user.setLogin(resultSet.getString(LOGIN_COLUMN_NAME));
+                log.debug("set firstname");
                 user.setFirstname(resultSet.getString(FIRSTNAME_COLUMN_NAME));
+                log.debug("set surname");
                 user.setSurname(resultSet.getString(SURNAME_COLUMN_NAME));
+                log.debug("set user");
                 comment.setUser(user);
                 Book book = new Book();
+                log.debug("set book id");
                 book.setId(resultSet.getInt(BOOK_ID_COLUMN_NAME));
+                log.debug("set book");
                 comment.setBook(book);
+                log.debug("set time");
                 comment.setTime(resultSet.getTimestamp(DATE_COLUMN_NAME));
+                log.debug("set text");
                 comment.setText(resultSet.getString(TEXT_COLUMN_NAME));
                 log.debug("Comment successfully created in createListFrom() method. Comment id = {}", comment.getId());
                 result.add(comment);
@@ -97,13 +109,13 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
     }
 
     @Override
-    protected String getDeleteQuery() {
-        return DELETE_QUERY;
+    protected String getTableName() {
+        return TABLE_NAME;
     }
 
     @Override
-    protected String getTableName() {
-        return TABLE_NAME;
+    protected String getDeleteQuery() {
+        return DELETE_QUERY;
     }
 
     @Override
@@ -112,8 +124,13 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
     }
 
     @Override
+    protected String getReadRangeByIdParameterQuery() {
+        return SELECT_COLUMNS_PART + SELECT_RANGE_BY_ID_QUERY;
+    }
+
+    @Override
     protected String getReadAllByIdParameterQuery() {
-        return SELECT_ALL_BY_BOOK_ID_QUERY;
+        return SELECT_COLUMNS_PART + SELECT_ALL_BY_BOOK_ID_QUERY;
     }
 
     @Override
@@ -121,44 +138,36 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
         return SELECT_COUNT_BY_BOOK_ID;
     }
 
-    @Override
-    protected String getReadRangeByIdParameterQuery() {
-        return SELECT_RANGE_BY_ID_QUERY;
-    }
-
-    @Override
-    protected String getDeleteByIdQuery() {
-        return null;
-    }
-
-    @Override
-    protected String getUpdateByEntityQuery() {
-        return null;
-    }
-
-    @Override
-    protected String getReadByEntityQuery() {
-        return null;
-    }
-
-    @Override
     protected String getReadByIdQuery() {
-        return null;
+        throw new DaoUnsupportedOperationException("Not implemented yet");
     }
 
     @Override
     protected String getReadRangeQuery() {
-        return null;
+        throw new DaoUnsupportedOperationException("Not implemented yet");
+    }
+    @Override
+    protected String getDeleteByIdQuery() {
+        throw new DaoUnsupportedOperationException("Not implemented yet");
     }
 
     @Override
-    protected PreparedStatement setFieldsInReadByEntityPreparedStatement(PreparedStatement preparedStatement, Comment entity) throws DaoException {
-        return null;
+    protected String getReadByEntityQuery() {
+        throw new DaoUnsupportedOperationException("Not implemented yet");
+    }
+
+    @Override
+    protected String getUpdateByEntityQuery() {
+        throw new DaoUnsupportedOperationException("Not implemented yet");
     }
 
     @Override
     protected PreparedStatement setFieldsInUpdateByEntityPreparedStatement(PreparedStatement preparedStatement, Comment entity) {
-        return null;
+        throw new DaoUnsupportedOperationException("Not implemented yet");
     }
 
+    @Override
+    protected PreparedStatement setFieldsInReadByEntityPreparedStatement(PreparedStatement preparedStatement, Comment entity) throws DaoException {
+        throw new DaoUnsupportedOperationException("Not implemented yet");
+    }
 }

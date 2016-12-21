@@ -11,7 +11,4 @@ public class ConnectionPoolInitializationException extends ConnectionPoolExcepti
         super(message, cause);
     }
 
-    public ConnectionPoolInitializationException(Throwable cause) {
-        super(cause);
-    }
 }

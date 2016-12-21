@@ -7,7 +7,7 @@
 
 <c:set value="${pageContext.request.contextPath}" var="base"/>
 
-<t:page title="handle request">
+<t:page title="book.return.processing.page">
 
     <%--@elvariable id="order" type="com.epam.adk.web.library.model.Order"--%>
     <div align="center">
@@ -65,7 +65,7 @@
                         <input hidden="hidden" name="bookID" value="${orderBook.book.id}">
                         <input hidden="hidden" name="orderID" value="${order.id}">
                         <button type="submit"
-                                onclick="return confirm('<ftm:message key="confirm.warning"/>')"
+                                onclick="return confirm('<ftm:message key="confirm.return.book"/>')"
                                 class="link-style"><ftm:message key="book.returned"/></button>
                     </form>
                 </td>
@@ -73,14 +73,16 @@
         </c:forEach>
         <tr>
             <td colspan="5" align="center">
+            <c:if test="${order.orderType == 'SUBSCRIPTION'}">
                 <c:if test="${requestScope.optionToExtend == true}">
                     <form action="${base}/do/" method="post">
                         <input hidden="hidden" name="action" value="extend-order">
                         <input hidden="hidden" name="orderID" value="${order.id}">
                         <button type="submit"
-                                onclick="return confirm('<ftm:message key="confirm.warning"/>')"
+                                onclick="return confirm('<ftm:message key="confirm.extend.subscription"/>')"
                                 class="link-style"><ftm:message key="extend.order"/></button>
                     </form>
+                </c:if>
                 </c:if>
                 <a href="${base}/do/?action=orders" class="link-style"><ftm:message key="back.button"/></a>
             </td>

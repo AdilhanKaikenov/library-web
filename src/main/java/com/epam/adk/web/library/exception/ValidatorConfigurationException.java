@@ -15,7 +15,4 @@ public class ValidatorConfigurationException extends FormValidationException {
         super(message, cause);
     }
 
-    public ValidatorConfigurationException(Throwable cause) {
-        super(cause);
-    }
 }

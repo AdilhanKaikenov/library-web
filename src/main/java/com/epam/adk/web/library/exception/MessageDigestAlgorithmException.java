@@ -15,7 +15,4 @@ public class MessageDigestAlgorithmException extends RuntimeException {
         super(message, cause);
     }
 
-    public MessageDigestAlgorithmException(Throwable cause) {
-        super(cause);
-    }
 }

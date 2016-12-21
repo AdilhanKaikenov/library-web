@@ -23,6 +23,9 @@ public final class CharsetFilter implements Filter {
         log.debug("The CharsetFilter is initialized");
     }
 
+    /**
+     * Change encoding to UTF-8.
+     */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         request.setCharacterEncoding(ENCODING);

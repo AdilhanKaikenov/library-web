@@ -36,17 +36,17 @@ public class OrdersService {
         return addedOrder;
     }
 
-    public int getOrdersNumberByUserID(int id) throws ServiceException {
-        log.debug("Entering OrdersService class getOrdersNumberByUserID() method.");
-        int ordersNumber;
+    public Order getOrderById(int orderID) throws ServiceException {
+        log.debug("Entering OrdersService class getOrderBookById() method. Order Id = {}", orderID);
+        Order order;
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
             OrdersDao ordersDao = jdbcDaoFactory.getOrdersDao();
-            ordersNumber = ordersDao.getNumberRowsByIdParameter(id);
-            log.debug("Leaving OrdersService class getOrdersNumberByUserID() method.");
+            order = ordersDao.read(orderID);
+            log.debug("Leaving OrdersService class getOrderBookById() method.");
         } catch (SQLException | DaoException e) {
-            throw new ServiceException("Error: OrdersService class, getOrdersNumberByUserID() method.", e);
+            throw new ServiceException("Error: OrdersService class, getOrderBookById() method.", e);
         }
-        return ordersNumber;
+        return order;
     }
 
     public List<Order> getPaginatedUserOrders(int userID, int pageNumber, int pageSize) throws ServiceException {
@@ -61,19 +61,6 @@ public class OrdersService {
             throw new ServiceException("Error: OrdersService class, getPaginatedUserOrders() method.", e);
         }
         return result;
-    }
-
-    public int getOrdersNumberByStatus(boolean status) throws ServiceException {
-        log.debug("Entering OrdersService class getOrdersNumberByStatus() method.");
-        int ordersNumber;
-        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            OrdersDao ordersDao = jdbcDaoFactory.getOrdersDao();
-            ordersNumber = ordersDao.getNumberRowsByStatus(status);
-            log.debug("Leaving OrdersService class getOrdersNumberByStatus() method.");
-        } catch (SQLException | DaoException e) {
-            throw new ServiceException("Error: OrdersService class, getOrdersNumberByStatus() method.", e);
-        }
-        return ordersNumber;
     }
 
     public List<Order> getPaginatedByOrderStatus(boolean status, int pageNumber, int pageSize) throws ServiceException {
@@ -91,19 +78,6 @@ public class OrdersService {
         return result;
     }
 
-    public Order getOrderById(int orderID) throws ServiceException {
-        log.debug("Entering OrdersService class getOrderBookById() method. Order Id = {}", orderID);
-        Order order;
-        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            OrdersDao ordersDao = jdbcDaoFactory.getOrdersDao();
-            order = ordersDao.read(orderID);
-            log.debug("Leaving OrdersService class getOrderBookById() method.");
-        } catch (SQLException | DaoException e) {
-            throw new ServiceException("Error: OrdersService class, getOrderBookById() method.", e);
-        }
-        return order;
-    }
-
     public void update(Order order) throws ServiceException {
         log.debug("Entering OrdersService class update() method. Order Id = {}", order.getId());
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
@@ -111,15 +85,13 @@ public class OrdersService {
                 jdbcDaoFactory.beginTransaction();
                 OrdersDao ordersDao = jdbcDaoFactory.getOrdersDao();
                 ordersDao.update(order);
-
                 OrdersBooksDao ordersBooksDao = jdbcDaoFactory.getOrdersBooksDao();
                 List<OrderBook> ordersBooks = ordersBooksDao.readAllByIdParameter(order.getId());
-
+                log.debug("Orders books size = {}", ordersBooks.size());
                 for (OrderBook ordersBook : ordersBooks) {
                     ordersBook.setIssued(order.isStatus());
                     ordersBooksDao.update(ordersBook);
                 }
-
             } catch (SQLException e){
                 jdbcDaoFactory.rollbackTransaction();
                 throw new ServiceException("Error: OrdersService class, update() method. TRANSACTION failed.", e);
@@ -137,7 +109,6 @@ public class OrdersService {
                 jdbcDaoFactory.beginTransaction();
                 OrdersBooksDao ordersBooksDao = jdbcDaoFactory.getOrdersBooksDao();
                 ordersBooksDao.deleteByIdParameter(order.getId());
-
                 OrdersDao ordersDao = jdbcDaoFactory.getOrdersDao();
                 ordersDao.delete(order);
                 jdbcDaoFactory.endTransaction();
@@ -149,5 +120,32 @@ public class OrdersService {
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: OrdersService class, delete() method.", e);
         }
+    }
+
+
+    public int getOrdersNumberByUserID(int id) throws ServiceException {
+        log.debug("Entering OrdersService class getOrdersNumberByUserID() method.");
+        int ordersNumber;
+        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+            OrdersDao ordersDao = jdbcDaoFactory.getOrdersDao();
+            ordersNumber = ordersDao.getNumberRowsByIdParameter(id);
+            log.debug("Leaving OrdersService class getOrdersNumberByUserID() method.");
+        } catch (SQLException | DaoException e) {
+            throw new ServiceException("Error: OrdersService class, getOrdersNumberByUserID() method.", e);
+        }
+        return ordersNumber;
+    }
+
+    public int getOrdersNumberByStatus(boolean status) throws ServiceException {
+        log.debug("Entering OrdersService class getOrdersNumberByStatus() method.");
+        int ordersNumber;
+        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+            OrdersDao ordersDao = jdbcDaoFactory.getOrdersDao();
+            ordersNumber = ordersDao.getNumberRowsByStatus(status);
+            log.debug("Leaving OrdersService class getOrdersNumberByStatus() method.");
+        } catch (SQLException | DaoException e) {
+            throw new ServiceException("Error: OrdersService class, getOrdersNumberByStatus() method.", e);
+        }
+        return ordersNumber;
     }
 }

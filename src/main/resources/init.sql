@@ -1,13 +1,13 @@
-DROP TABLE IF EXISTS book;
-DROP TABLE IF EXISTS comment;
-DROP TABLE IF EXISTS gender;
-DROP TABLE IF EXISTS genre;
-DROP TABLE IF EXISTS order_status;
-DROP TABLE IF EXISTS order_type;
-DROP TABLE IF EXISTS orders;
-DROP TABLE IF EXISTS orders_history;
-DROP TABLE IF EXISTS role;
 DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS book;
+DROP TABLE IF EXISTS role;
+DROP TABLE IF EXISTS genre;
+DROP TABLE IF EXISTS gender;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS comment;
+DROP TABLE IF EXISTS order_type;
+DROP TABLE IF EXISTS order_status;
+DROP TABLE IF EXISTS orders_books;
 
 
 /////////////////////////////////////////////////
@@ -88,7 +88,6 @@ CREATE TABLE PUBLIC.orders_history
 );
 CREATE UNIQUE INDEX "ORDERS_HISTORY_ID_uindex" ON PUBLIC.orders_history (id);
 
-
 //////////////////////////////////////////////
 ////////////// REFERENCE TABLES //////////////
 //////////////////////////////////////////////
@@ -131,7 +130,6 @@ CREATE TABLE PUBLIC.order_status
 );
 CREATE UNIQUE INDEX "ORDER_STATUS_id_uindex" ON PUBLIC.order_status (id);
 CREATE UNIQUE INDEX "ORDER_STATUS_type_uindex" ON PUBLIC.order_status (type);
-
 
 //////////////////////////////////////////////
 //////////////// DATA INSERT /////////////////

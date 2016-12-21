@@ -29,10 +29,10 @@ public class BookAboutAction implements Action {
 
     private static final int DEFAULT_PAGE_NUMBER = 1;
     private static final int LINE_PER_PAGE_NUMBER = 4;
-    private static final String BOOK_ID_PARAMETER = "id";
     private static final String USER_PARAMETER = "user";
     private static final String PAGE_PARAMETER = "page";
     private static final String ABOUT_BOOK_PAGE = "about-book";
+    private static final String BOOK_ID_PARAMETER = "id";
     private static final String BOOK_REQUEST_ATTRIBUTE = "book";
     private static final String PAGES_NUMBER_REQUEST_ATTRIBUTE = "pagesNumber";
     private static final String BOOK_ORDERED_REQUEST_ATTRIBUTE = "bookOrdered";

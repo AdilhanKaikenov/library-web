@@ -24,15 +24,22 @@ public final class ImageServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(ImageServlet.class);
 
-    private static final String IMAGE_PATH = "D:\\images";
-    private static final String IMAGE_PARAMETER = "image";
     private static final String DOT = ".";
+    private static final String IMAGE_PATH = "D:\\images";
+    private static final String JPG_EXPANSION = "jpg";
+    private static final String PNG_EXPANSION = "png";
+    private static final String IMAGE_PARAMETER = "image";
+    private static final String IMAGE_PNG_CONTENT_TYPE = "image/png";
+    private static final String IMAGE_JPEG_CONTENT_TYPE = "image/jpeg";
+    private static final String CONTENT_TYPE_HEADER_NAME = "Content-Type";
+    private static final String CONTENT_LENGTH_HEADER_NAME = "Content-Length";
+    private static final String CONTENT_DISPOSITION_HEADER_NAME = "Content-Disposition";
 
     private static Map<String, String> contentTypes = new HashMap<>();
 
     static {
-        contentTypes.put("jpg", "image/jpeg");
-        contentTypes.put("png", "image/png");
+        contentTypes.put(JPG_EXPANSION, IMAGE_JPEG_CONTENT_TYPE);
+        contentTypes.put(PNG_EXPANSION, IMAGE_PNG_CONTENT_TYPE);
     }
 
     @Override
@@ -64,9 +71,9 @@ public final class ImageServlet extends HttpServlet {
 
         File file = new File(IMAGE_PATH, image);
 
-        response.setHeader("Content-Type", getServletContext().getMimeType(image));
-        response.setHeader("Content-Length", String.valueOf(file.length()));
-        response.setHeader("Content-Disposition", "inline; filename=\"" + file.getName() + "\"");
+        response.setHeader(CONTENT_TYPE_HEADER_NAME, getServletContext().getMimeType(image));
+        response.setHeader(CONTENT_LENGTH_HEADER_NAME, String.valueOf(file.length()));
+        response.setHeader(CONTENT_DISPOSITION_HEADER_NAME, "inline; filename=\"" + file.getName() + "\"");
 
         Path filePath = file.toPath();
 

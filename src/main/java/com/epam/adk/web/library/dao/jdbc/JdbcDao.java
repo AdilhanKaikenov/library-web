@@ -26,7 +26,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     protected static PropertiesManager queryProperties;
 
     private static final String QUERY_PROPERTIES_FILE_NAME = "query.properties";
-    private static final String GENERAL_SELECT_COUNT_PLUS_TABLE_QUERY = queryProperties.get("select.count.from");
+    private String GENERAL_SELECT_COUNT_PLUS_TABLE_QUERY = queryProperties.get("select.count.from");
 
     protected static final int ZERO = 0;
     protected static final int FIRST_COLUMN_INDEX = 1;
@@ -191,7 +191,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
     @Override
     public void update(T entity) throws DaoException {
-        log.debug("Entering JdbcDao class, update() method. Entity ID = {}", entity.getId());
+        log.debug("Entering JdbcDao class, update() method. ");
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(getUpdateByEntityQuery());
@@ -440,35 +440,34 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         return GENERAL_SELECT_COUNT_PLUS_TABLE_QUERY + getTableName();
     }
 
-    protected abstract String getDeleteByIdQuery();
+    protected abstract String getTableName();
 
     protected abstract String getDeleteQuery();
 
-    protected abstract String getUpdateByEntityQuery();
-
-    protected abstract List<T> createListFrom(ResultSet resultSet) throws DaoException;
+    protected abstract String getCreateQuery();
 
     protected abstract String getReadByIdQuery();
 
     protected abstract String getReadRangeQuery();
 
-    protected abstract String getTableName();
-
-    protected abstract String getCreateQuery();
+    protected abstract String getDeleteByIdQuery();
 
     protected abstract String getReadByEntityQuery();
 
-    protected abstract String getCountNumberRowsByIdParameterQuery();
-
-    protected abstract String getReadRangeByIdParameterQuery();
+    protected abstract String getUpdateByEntityQuery();
 
     protected abstract String getReadAllByIdParameterQuery();
 
-    protected abstract PreparedStatement setFieldsInUpdateByEntityPreparedStatement(PreparedStatement preparedStatement, T entity) throws DaoException;
+    protected abstract String getReadRangeByIdParameterQuery();
+
+    protected abstract String getCountNumberRowsByIdParameterQuery();
+
+    protected abstract List<T> createListFrom(ResultSet resultSet) throws DaoException;
 
     protected abstract PreparedStatement setFieldsInCreatePreparedStatement(PreparedStatement preparedStatement, T entity) throws DaoException;
 
     protected abstract PreparedStatement setFieldsInReadByEntityPreparedStatement(PreparedStatement preparedStatement, T entity) throws DaoException;
 
+    protected abstract PreparedStatement setFieldsInUpdateByEntityPreparedStatement(PreparedStatement preparedStatement, T entity) throws DaoException;
 }
 

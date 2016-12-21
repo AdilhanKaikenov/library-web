@@ -2,6 +2,7 @@ package com.epam.adk.web.library.dao.jdbc;
 
 import com.epam.adk.web.library.dao.UserDao;
 import com.epam.adk.web.library.exception.DaoException;
+import com.epam.adk.web.library.exception.DaoUnsupportedOperationException;
 import com.epam.adk.web.library.model.User;
 import com.epam.adk.web.library.model.enums.Gender;
 import com.epam.adk.web.library.model.enums.Role;
@@ -59,17 +60,29 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
             while (resultSet.next()) {
                 User user = new User();
                 log.debug("Creating user from resultSet");
+                log.debug("set id");
                 user.setId(resultSet.getInt(ID_COLUMN_NAME));
+                log.debug("set login");
                 user.setLogin(resultSet.getString(LOGIN_COLUMN_NAME));
+                log.debug("set password");
                 user.setPassword(resultSet.getString(PASSWORD_COLUMN_NAME));
+                log.debug("set email");
                 user.setEmail(resultSet.getString(EMAIL_COLUMN_NAME));
+                log.debug("set firstname");
                 user.setFirstname(resultSet.getString(FIRSTNAME_COLUMN_NAME));
+                log.debug("set surname");
                 user.setSurname(resultSet.getString(SURNAME_COLUMN_NAME));
+                log.debug("set patronymic");
                 user.setPatronymic(resultSet.getString(PATRONYMIC_COLUMN_NAME));
+                log.debug("set gender");
                 user.setGender(Gender.from(resultSet.getString(GENDER_COLUMN_NAME)));
+                log.debug("set address");
                 user.setAddress(resultSet.getString(ADDRESS_COLUMN_NAME));
+                log.debug("set mobile phone");
                 user.setMobilePhone(resultSet.getString(MOBILE_PHONE_COLUMN_NAME));
+                log.debug("set role");
                 user.setRole(Role.from(resultSet.getString(ROLE_COLUMN_NAME)));
+                log.debug("set status");
                 user.setStatus(resultSet.getBoolean(STATUS_COLUMN_NAME));
                 log.debug("User successfully created in createListFrom() method. User id = {}", user.getId());
                 result.add(user);
@@ -157,6 +170,16 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     }
 
     @Override
+    protected String getTableName() {
+        return TABLE_NAME;
+    }
+
+    @Override
+    protected String getCreateQuery() {
+        return CREATE_QUERY;
+    }
+
+    @Override
     protected String getDeleteQuery() {
         return DELETE_QUERY;
     }
@@ -167,23 +190,8 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     }
 
     @Override
-    protected String getTableName() {
-        return TABLE_NAME;
-    }
-
-    @Override
     protected String getReadByIdQuery() {
         return SELECT_COLUMNS_PART + SELECT_BY_ID;
-    }
-
-    @Override
-    protected String getReadByEntityQuery() {
-        return SELECT_COLUMNS_PART + SELECT_BY_LOGIN_PASSWORD;
-    }
-
-    @Override
-    protected String getCreateQuery() {
-        return CREATE_QUERY;
     }
 
     @Override
@@ -192,23 +200,27 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     }
 
     @Override
-    protected String getDeleteByIdQuery() {
-        return null;
+    protected String getReadByEntityQuery() {
+        return SELECT_COLUMNS_PART + SELECT_BY_LOGIN_PASSWORD;
     }
 
     @Override
-    protected String getCountNumberRowsByIdParameterQuery() {
-        return null;
+    protected String getDeleteByIdQuery() {
+        throw new DaoUnsupportedOperationException("Not implemented yet");
     }
 
     @Override
     protected String getReadAllByIdParameterQuery() {
-        return null;
+        throw new DaoUnsupportedOperationException("Not implemented yet");
     }
 
     @Override
     protected String getReadRangeByIdParameterQuery() {
-        return null;
+        throw new DaoUnsupportedOperationException("Not implemented yet");
     }
 
+    @Override
+    protected String getCountNumberRowsByIdParameterQuery() {
+        throw new DaoUnsupportedOperationException("Not implemented yet");
+    }
 }

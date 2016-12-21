@@ -63,17 +63,6 @@ public class UserService {
         return user;
     }
 
-    public void updateUserData(User user) throws ServiceException {
-        log.debug("Entering UserService class updateUserData() method. User Id = {}", user.getId());
-        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            UserDao userDao = jdbcDaoFactory.getUserDao();
-            userDao.update(user);
-            log.debug("Leaving UserService class updateUserData() method.");
-        } catch (SQLException | DaoException e) {
-            throw new ServiceException("Error: UserService class, updateUserData() method.", e);
-        }
-    }
-
     public List<User> getPaginated(int pageNumber, int pageSize) throws ServiceException {
         log.debug("Entering UserService class getPaginated() method.");
         List<User> result;
@@ -87,6 +76,17 @@ public class UserService {
             throw new ServiceException("Error: UserService class, getPaginated() method.", e);
         }
         return result;
+    }
+
+    public void updateUserData(User user) throws ServiceException {
+        log.debug("Entering UserService class updateUserData() method. User Id = {}", user.getId());
+        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+            UserDao userDao = jdbcDaoFactory.getUserDao();
+            userDao.update(user);
+            log.debug("Leaving UserService class updateUserData() method.");
+        } catch (SQLException | DaoException e) {
+            throw new ServiceException("Error: UserService class, updateUserData() method.", e);
+        }
     }
 
     public int getUsersNumber() throws ServiceException {

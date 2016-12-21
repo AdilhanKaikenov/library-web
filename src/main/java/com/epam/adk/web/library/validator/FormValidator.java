@@ -44,6 +44,14 @@ public class FormValidator {
         }
     }
 
+    /**
+     * The method for checking fields of form by validators described in Property File.
+     *
+     * @param formName the name of the form that a validator checks.
+     * @param request HttpServletRequest.
+     * @return (true) if a form is invalid and (false) if the form is valid.
+     * @throws FormValidationException
+     */
     public boolean isInvalid(String formName, HttpServletRequest request) throws FormValidationException {
         log.debug("Entering FormValidator class, isInvalid() method. Form is {}", formName);
         Map<String, List<Validator>> fieldsValidators = getFieldsValidators(formName, request);
@@ -71,6 +79,14 @@ public class FormValidator {
         return !(result);
     }
 
+    /**
+     * The method returns a map containing all the fields and all its validators.
+     *
+     * @param formName the name of the form that a validator checks.
+     * @param request HttpServletRequest.
+     * @return Map: field and its list validators.
+     * @throws FormValidationException
+     */
     private Map<String, List<Validator>> getFieldsValidators(String formName, HttpServletRequest request) throws FormValidationException {
         log.debug("Entering getFieldsValidators() method.");
         Map<String, List<Validator>> result = new HashMap<>();
@@ -85,6 +101,14 @@ public class FormValidator {
         return result;
     }
 
+    /**
+     * This method returns all the validators that are described for him in Property file.
+     *
+     * @param formName the name of the form that a validator checks.
+     * @param fieldName field name of form.
+     * @return List of field validators.
+     * @throws FormValidationException
+     */
     private List<Validator> getValidators(String formName, String fieldName) throws FormValidationException {
         log.debug("Entering getValidators() method. Form = {}, field of form  = {}", formName, fieldName);
         List<Validator> validators = new ArrayList<>();
@@ -108,6 +132,14 @@ public class FormValidator {
         return validators;
     }
 
+    /**
+     * This method returns a validator that is described in the property file.
+     *
+     * @param validatorIdentifier part of the key describing the validator class
+     * @param keyValue the value of a validator class key.
+     * @return Validator.
+     * @throws FormValidationException
+     */
     private Validator getValidator(String validatorIdentifier, String keyValue) throws FormValidationException {
         log.debug("Entering getValidator() method. Validator class: {}", keyValue);
         Class clazz;
@@ -124,6 +156,13 @@ public class FormValidator {
         return validator;
     }
 
+    /**
+     * Method sets all of the values described in the property file, corresponding to fields of validator.
+     *
+     * @param validator Validator.
+     * @param validatorIdentifier part of the key describing a validator class.
+     * @throws FormValidationException
+     */
     private void setValidatorFields(Validator validator, String validatorIdentifier) throws FormValidationException {
         log.debug("Entering setValidatorFields() method.");
         Set<Map.Entry<String, String>> entries = properties.entrySet();

@@ -54,7 +54,9 @@
                 </tr>
                 <tr align="center">
                     <td colspan="2">
-                        <button type="submit" class="link-style"><ftm:message key="add.button"/></button>
+                        <button type="submit"
+                                onclick="return confirm('<ftm:message key="confirm.warning"/>')"
+                                class="link-style"><ftm:message key="add.button"/></button>
                     </td>
                 </tr>
             </table>

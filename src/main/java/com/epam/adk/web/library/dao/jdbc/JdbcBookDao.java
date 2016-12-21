@@ -2,6 +2,7 @@ package com.epam.adk.web.library.dao.jdbc;
 
 import com.epam.adk.web.library.dao.BookDao;
 import com.epam.adk.web.library.exception.DaoException;
+import com.epam.adk.web.library.exception.DaoUnsupportedOperationException;
 import com.epam.adk.web.library.model.Book;
 import com.epam.adk.web.library.model.enums.Genre;
 import org.slf4j.Logger;
@@ -44,6 +45,9 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     private static final String DESCRIPTION_COLUMN_NAME = "DESCRIPTION";
     private static final String TOTAL_AMOUNT_COLUMN_NAME = "TOTAL_AMOUNT";
 
+    private static final String SINGLE_QUOTE = "'";
+    private static final String DOUBLE_QUOTE = "''";
+
     public JdbcBookDao(Connection connection) {
         super(connection);
     }
@@ -56,13 +60,21 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
             while (resultSet.next()) {
                 Book book = new Book();
                 log.debug("Creating book from resultSet");
+                log.debug("set id");
                 book.setId(resultSet.getInt(ID_COLUMN_NAME));
+                log.debug("set title");
                 book.setTitle(resultSet.getString(TITLE_COLUMN_NAME));
+                log.debug("set cover");
                 book.setCover(resultSet.getString(COVER_COLUMN_NAME));
+                log.debug("set authors");
                 book.setAuthors(resultSet.getString(AUTHORS_COLUMN_NAME));
+                log.debug("set publish year");
                 book.setPublishYear(Year.of(resultSet.getInt(PUBLISH_YEAR_COLUMN_NAME)));
+                log.debug("set genre");
                 book.setGenre(Genre.from(resultSet.getString(GENRE_COLUMN_NAME)));
+                log.debug("set description");
                 book.setDescription(resultSet.getString(DESCRIPTION_COLUMN_NAME));
+                log.debug("set total amount");
                 book.setTotalAmount(resultSet.getInt(TOTAL_AMOUNT_COLUMN_NAME));
                 log.debug("Book successfully created in createListFrom() method. Book id = {}", book.getId());
                 result.add(book);
@@ -82,8 +94,8 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
         String correctTitle = title;
         ResultSet resultSet = null;
         try (Statement statement = getConnection().createStatement()) {
-            if (title.contains("'")) {
-                correctTitle = title.replaceAll("'", "''");
+            if (title.contains(SINGLE_QUOTE)) {
+                correctTitle = title.replaceAll(SINGLE_QUOTE, DOUBLE_QUOTE);
             }
             resultSet = statement.executeQuery(SELECT_COLUMNS_PART + SELECT_FOUND_QUERY_PART_ONE + correctTitle + SELECT_FOUND_QUERY_PART_TWO);
             result = createListFrom(resultSet);
@@ -154,23 +166,13 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     }
 
     @Override
-    protected String getDeleteQuery() {
-        return DELETE_QUERY;
-    }
-
-    @Override
-    protected String getCountNumberRowsQuery() {
-        return SELECT_COUNT_ROWS_QUERY;
-    }
-
-    @Override
-    protected String getUpdateByEntityQuery() {
-        return UPDATE_QUERY;
-    }
-
-    @Override
     protected String getTableName() {
         return TABLE_NAME;
+    }
+
+    @Override
+    protected String getDeleteQuery() {
+        return DELETE_QUERY;
     }
 
     @Override
@@ -179,13 +181,18 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     }
 
     @Override
-    protected String getReadByIdQuery() {
-        return SELECT_COLUMNS_PART + SELECT_BY_ID;
+    protected String getUpdateByEntityQuery() {
+        return UPDATE_QUERY;
     }
 
     @Override
-    protected String getReadRangeByIdParameterQuery() {
-        return SELECT_COLUMNS_PART + SELECT_RANGE_BY_GENRE;
+    protected String getCountNumberRowsQuery() {
+        return SELECT_COUNT_ROWS_QUERY;
+    }
+
+    @Override
+    protected String getReadByIdQuery() {
+        return SELECT_COLUMNS_PART + SELECT_BY_ID;
     }
 
     @Override
@@ -199,23 +206,27 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     }
 
     @Override
+    protected String getReadRangeByIdParameterQuery() {
+        return SELECT_COLUMNS_PART + SELECT_RANGE_BY_GENRE;
+    }
+
+    @Override
     protected String getDeleteByIdQuery() {
-        return null;
+        throw new DaoUnsupportedOperationException("Not implemented yet");
     }
 
     @Override
     protected String getReadByEntityQuery() {
-        return null;
+        throw new DaoUnsupportedOperationException("Not implemented yet");
     }
 
     @Override
     protected String getReadAllByIdParameterQuery() {
-        return null;
+        throw new DaoUnsupportedOperationException("Not implemented yet");
     }
 
     @Override
     protected PreparedStatement setFieldsInReadByEntityPreparedStatement(PreparedStatement preparedStatement, Book entity) throws DaoException {
-        return null;
+        throw new DaoUnsupportedOperationException("Not implemented yet");
     }
-
 }

@@ -27,6 +27,7 @@ public final class ConnectionPool {
     private static final Logger log = LoggerFactory.getLogger(ConnectionPool.class);
     private static final int DEFAULT_MIN_POOL_SIZE = 10;
     private static final int DEFAULT_MAX_POOL_SIZE = 50;
+    private static final String H2DB_PROPERTIES_FILE_NAME = "h2db.properties";
 
     private static String JDBC_URL;
     private static String H2_DRIVER;
@@ -42,6 +43,11 @@ public final class ConnectionPool {
     private ConnectionPool() {
     }
 
+    /**
+     * Method for initialization ConnectionPool.
+     *
+     * @throws ConnectionPoolInitializationException
+     */
     public void init() throws ConnectionPoolInitializationException {
         try {
             log.debug("Creating connection pool.");
@@ -65,7 +71,7 @@ public final class ConnectionPool {
     public static void configure() throws ConnectionPoolConfigurationException {
         PropertiesManager propertiesManager;
         try {
-            propertiesManager = new PropertiesManager("h2db.properties");
+            propertiesManager = new PropertiesManager(H2DB_PROPERTIES_FILE_NAME);
         } catch (PropertyManagerException e) {
             throw new ConnectionPoolConfigurationException("Error: ConnectionPool class, configure() method.", e);
         }
@@ -78,6 +84,13 @@ public final class ConnectionPool {
         TIMEOUT = Long.parseLong(propertiesManager.get("timeout.milliseconds"));
     }
 
+    /**
+     * The method parses a string and returns a numeric representation, or in the event of an error by a default value.
+     *
+     * @param string
+     * @param defaultValue
+     * @return
+     */
     private static int getInt(String string, int defaultValue) {
         int result = defaultValue;
         try {
@@ -139,6 +152,11 @@ public final class ConnectionPool {
         return connection;
     }
 
+    /**
+     * The method accepts the connection and returns it back to the pool.
+     *
+     * @param connection
+     */
     public void returnConnection(Connection connection) {
         if (connection != null && freeConnections.size() < MAX_POOL_SIZE) {
             log.debug("ConnectionPool class, returnConnection() method, return '{}' back.", connection);
@@ -150,6 +168,11 @@ public final class ConnectionPool {
         return freeConnections.size();
     }
 
+    /**
+     * The method covers all the free compound and then clears the connections pool.
+     *
+     * @throws ConnectionPoolException
+     */
     public void shutDown() throws ConnectionPoolException {
 
         for (Connection connection : freeConnections) {
@@ -162,6 +185,4 @@ public final class ConnectionPool {
         freeConnections.clear();
         log.debug("ConnectionPool class, shutDown() method, Pool successfully closed. Pool size = {}.", freeConnectionsNumber());
     }
-
-
 }

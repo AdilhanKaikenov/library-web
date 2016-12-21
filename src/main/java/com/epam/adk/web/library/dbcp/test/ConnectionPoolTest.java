@@ -1,7 +1,9 @@
 package com.epam.adk.web.library.dbcp.test;
 
 import com.epam.adk.web.library.dbcp.ConnectionPool;
+import com.epam.adk.web.library.exception.ConnectionPoolConfigurationException;
 import com.epam.adk.web.library.exception.ConnectionPoolException;
+import com.epam.adk.web.library.exception.ConnectionPoolInitializationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +24,10 @@ public final class ConnectionPoolTest {
     private static final int TIMEOUT_MINUTES = 5;
     private static final int N_THREADS = 15;
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, ConnectionPoolInitializationException, ConnectionPoolConfigurationException {
+
+        ConnectionPool.configure();
+        ConnectionPool.getInstance().init();
 
         final int NUMBERS_OF_THREAD = 45;
 

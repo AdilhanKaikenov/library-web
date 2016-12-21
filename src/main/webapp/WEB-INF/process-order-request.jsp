@@ -7,7 +7,7 @@
 
 <c:set value="${pageContext.request.contextPath}" var="base"/>
 
-<t:page title="handle request">
+<t:page title="request.processing.page">
 
     <%--@elvariable id="order" type="com.epam.adk.web.library.model.Order"--%>
     <div align="center">
@@ -77,7 +77,7 @@
                             <input hidden="hidden" name="action" value="lend-out-book">
                             <input hidden="hidden" name="orderID" value="${order.id}">
                             <button type="submit"
-                                    onclick="return confirm('<ftm:message key="confirm.warning"/>')"
+                                    onclick="return confirm('<ftm:message key="confirm.lend.out.books"/>')"
                                     class="link-style"><ftm:message key="lend.out"/></button>
                         </form>
                     </c:if>

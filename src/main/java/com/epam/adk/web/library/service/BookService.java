@@ -34,6 +34,19 @@ public class BookService {
         return addedBook;
     }
 
+    public Book getBookById(int bookID) throws ServiceException {
+        log.debug("Entering BookService class getBookById() method. Book ID = {}", bookID);
+        Book book;
+        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+            BookDao bookDao = jdbcDaoFactory.getBookDao();
+            book = bookDao.read(bookID);
+            log.debug("Leaving BookService class getBookById() method.");
+        } catch (SQLException | DaoException e) {
+            throw new ServiceException("Error: BookService class, getBookById() method.", e);
+        }
+        return book;
+    }
+
     public List<Book> getPaginated(int pageNumber, int pageSize) throws ServiceException {
         log.debug("Entering BookService class getPaginated() method.");
         List<Book> result;
@@ -48,45 +61,6 @@ public class BookService {
             throw new ServiceException("Error: BookService class, getPaginated() method.", e);
         }
         return result;
-    }
-
-    public int getBooksNumber() throws ServiceException {
-        log.debug("Entering BookService class getBooksNumber() method.");
-        int booksNumber;
-        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            BookDao bookDao = jdbcDaoFactory.getBookDao();
-            booksNumber = bookDao.getNumberRows();
-            log.debug("Leaving BookService class getBooksNumber() method.");
-        } catch (SQLException | DaoException e) {
-            throw new ServiceException("Error: BookService class, getBooksNumber() method.", e);
-        }
-        return booksNumber;
-    }
-
-    public int getBooksNumberByGenre(int id) throws ServiceException {
-        log.debug("Entering BookService class getBooksNumberByGenre() method.");
-        int booksNumber;
-        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            BookDao bookDao = jdbcDaoFactory.getBookDao();
-            booksNumber = bookDao.getNumberRowsByIdParameter(id);
-            log.debug("Leaving BookService class getBooksNumberByGenre() method.");
-        } catch (SQLException | DaoException e) {
-            throw new ServiceException("Error: BookService class, getBooksNumberByGenre() method.", e);
-        }
-        return booksNumber;
-    }
-
-    public Book getBookById(int id) throws ServiceException {
-        log.debug("Entering BookService class getBookById() method. Id = {}", id);
-        Book book;
-        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            BookDao bookDao = jdbcDaoFactory.getBookDao();
-            book = bookDao.read(id);
-            log.debug("Leaving BookService class getBookById() method.");
-        } catch (SQLException | DaoException e) {
-            throw new ServiceException("Error: BookService class, getBookById() method.", e);
-        }
-        return book;
     }
 
     public List<Book> getPaginatedByGenre(int genreId, int pageNumber, int pageSize) throws ServiceException {
@@ -126,5 +100,31 @@ public class BookService {
             throw new ServiceException("Error: BookService class, findByTitle() method.", e);
         }
         return result;
+    }
+
+    public int getBooksNumber() throws ServiceException {
+        log.debug("Entering BookService class getBooksNumber() method.");
+        int booksNumber;
+        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+            BookDao bookDao = jdbcDaoFactory.getBookDao();
+            booksNumber = bookDao.getNumberRows();
+            log.debug("Leaving BookService class getBooksNumber() method.");
+        } catch (SQLException | DaoException e) {
+            throw new ServiceException("Error: BookService class, getBooksNumber() method.", e);
+        }
+        return booksNumber;
+    }
+
+    public int getBooksNumberByGenre(int id) throws ServiceException {
+        log.debug("Entering BookService class getBooksNumberByGenre() method.");
+        int booksNumber;
+        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+            BookDao bookDao = jdbcDaoFactory.getBookDao();
+            booksNumber = bookDao.getNumberRowsByIdParameter(id);
+            log.debug("Leaving BookService class getBooksNumberByGenre() method.");
+        } catch (SQLException | DaoException e) {
+            throw new ServiceException("Error: BookService class, getBooksNumberByGenre() method.", e);
+        }
+        return booksNumber;
     }
 }

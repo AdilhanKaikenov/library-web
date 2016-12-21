@@ -15,7 +15,4 @@ public class FormValidationException extends Exception {
         super(message, cause);
     }
 
-    public FormValidationException(Throwable cause) {
-        super(cause);
-    }
 }

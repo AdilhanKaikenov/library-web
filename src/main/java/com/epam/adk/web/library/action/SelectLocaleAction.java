@@ -16,6 +16,7 @@ import javax.servlet.jsp.jstl.core.Config;
 public class SelectLocaleAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(SelectLocaleAction.class);
+
     private static final String REFERER = "referer";
     private static final String REDIRECT_PREFIX = "redirect:";
     private static final String REGION_PARAMETER = "region";

@@ -2,6 +2,7 @@ package com.epam.adk.web.library.dao.jdbc;
 
 import com.epam.adk.web.library.dao.OrdersBooksDao;
 import com.epam.adk.web.library.exception.DaoException;
+import com.epam.adk.web.library.exception.DaoUnsupportedOperationException;
 import com.epam.adk.web.library.model.Book;
 import com.epam.adk.web.library.model.Order;
 import com.epam.adk.web.library.model.OrderBook;
@@ -31,7 +32,7 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
     private static final String SELECT_COLUMNS_PART = queryProperties.get("select.order.book.columns");
     private static final String DELETE_QUERY = queryProperties.get("delete.order.book");
     private static final String INSERT_QUERY = queryProperties.get("insert.order.book");
-    private static final String UPDATE_QUERY = queryProperties.get("update.orders.books");
+    private static final String UPDATE_QUERY = queryProperties.get("update.order.book");
     private static final String DELETE_ORDER_ID_QUERY = queryProperties.get("delete.orders.books");
     private static final String SELECT_COUNT_QUERY = queryProperties.get("select.orders.books.count");
     private static final String SELECT_BY_USER_AND_BOOK_ID_QUERY = queryProperties.get("select.by.user.and.book.id");
@@ -71,28 +72,49 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
                 OrderBook orderBook = new OrderBook();
                 log.debug("Creating book of order from resultSet");
                 User user = new User();
+                log.debug("set user id");
                 user.setId(resultSet.getInt(USER_ID_COLUMN_NAME));
+                log.debug("set user login");
                 user.setLogin(resultSet.getString(LOGIN_COLUMN_NAME));
+                log.debug("set firstname");
                 user.setFirstname(resultSet.getString(FIRSTNAME_COLUMN_NAME));
+                log.debug("set surname");
                 user.setSurname(resultSet.getString(SURNAME_COLUMN_NAME));
+                log.debug("set patronymic");
                 user.setPatronymic(resultSet.getString(PATRONYMIC_COLUMN_NAME));
+                log.debug("set address");
                 user.setAddress(resultSet.getString(ADDRESS_COLUMN_NAME));
+                log.debug("set email");
                 user.setEmail(resultSet.getString(EMAIL_COLUMN_NAME));
+                log.debug("set mobile phone");
                 user.setMobilePhone(resultSet.getString(MOBILE_PHONE_COLUMN_NAME));
+                log.debug("set user");
                 orderBook.setUser(user);
                 Book book = new Book();
+                log.debug("set book id");
                 book.setId(resultSet.getInt(BOOK_ID_COLUMN_NAME));
+                log.debug("set book title");
                 book.setTitle(resultSet.getString(TITLE_COLUMN_NAME));
+                log.debug("set authors");
                 book.setAuthors(resultSet.getString(AUTHORS_COLUMN_NAME));
+                log.debug("set publish year");
                 book.setPublishYear(Year.of(resultSet.getInt(PUBLISH_YEAR_COLUMN_NAME)));
+                log.debug("set book");
                 orderBook.setBook(book);
                 Order order = new Order();
+                log.debug("set order id");
                 order.setId(resultSet.getInt(ORDER_ID_COLUMN_NAME));
+                log.debug("set order date");
                 order.setOrderDate(resultSet.getDate(ORDER_DATE_COLUMN_NAME));
+                log.debug("set date from");
                 order.setFrom(resultSet.getDate(DATE_FROM_COLUMN_NAME));
+                log.debug("set date to");
                 order.setTo(resultSet.getDate(DATE_TO_COLUMN_NAME));
+                log.debug("set status");
                 order.setStatus(resultSet.getBoolean(STATUS_COLUMN_NAME));
+                log.debug("set order");
                 orderBook.setOrder(order);
+                log.debug("set available amount books");
                 orderBook.setAvailableBookAmount(countAvailableAmount(book.getId()));
                 log.debug("OrderBook successfully created in createFrom() method.");
                 result.add(orderBook);
@@ -113,7 +135,9 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
         ResultSet resultSet = null;
         try {
             preparedStatement = getConnection().prepareStatement(SELECT_COLUMNS_PART + SELECT_BY_USER_AND_BOOK_ID_QUERY);
+            log.debug("Set user ID: {}", userID);
             preparedStatement.setInt(FIRST_PARAMETER_INDEX, userID);
+            log.debug("Set book ID: {}", bookID);
             preparedStatement.setInt(SECOND_PARAMETER_INDEX, bookID);
             resultSet = preparedStatement.executeQuery();
             result = createFrom(resultSet);
@@ -133,7 +157,9 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = getConnection().prepareStatement(DELETE_QUERY);
+            log.debug("Set user ID: {}", userID);
             preparedStatement.setInt(FIRST_PARAMETER_INDEX, userID);
+            log.debug("Set book ID: {}", bookID);
             preparedStatement.setInt(SECOND_PARAMETER_INDEX, bookID);
             preparedStatement.execute();
             log.debug("Leaving JdbcOrdersBooksDao class, delete(userID, bookID) method.");
@@ -153,7 +179,9 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
         ResultSet resultSet;
         try {
             preparedStatement = getConnection().prepareStatement(SELECT_COUNT_AVAILABLE_AMOUNT);
+            log.debug("Set book ID: {}", bookID);
             preparedStatement.setInt(FIRST_PARAMETER_INDEX, bookID);
+            log.debug("Set book ID: {}", bookID);
             preparedStatement.setInt(SECOND_PARAMETER_INDEX, bookID);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -255,29 +283,18 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
     protected PreparedStatement setFieldsInUpdateByEntityPreparedStatement(PreparedStatement preparedStatement, OrderBook orderBook) throws DaoException {
         log.debug("Entering JdbcOrdersBooksDao class, setFieldsInUpdateByEntityPreparedStatement() method.");
         try {
-            log.debug("Set is issued: {}", orderBook.getUser().getId());
+            log.debug("Set is issued: {}", orderBook.isIssued());
             preparedStatement.setBoolean(FIRST_PARAMETER_INDEX, orderBook.isIssued());
+            log.debug("Set user ID: {}", orderBook.getUser().getId());
+            preparedStatement.setInt(SECOND_PARAMETER_INDEX, orderBook.getUser().getId());
+            log.debug("Set book ID: {}", orderBook.getBook().getId());
+            preparedStatement.setInt(THIRD_PARAMETER_INDEX, orderBook.getBook().getId());
             log.debug("Leaving JdbcOrdersBooksDao class, setFieldsInUpdateByEntityPreparedStatement() method.");
         } catch (SQLException e) {
             log.error("Error: JdbcOrdersBooksDao class setFieldsInUpdateByEntityPreparedStatement() method. I can not set fields into statement. {}", e);
             throw new DaoException("Error: JdbcOrdersBooksDao class setFieldsInCreatePreparedStatement() method. I can not set fields into statement.", e);
         }
         return preparedStatement;
-    }
-
-    @Override
-    protected String getDeleteQuery() {
-        return DELETE_QUERY;
-    }
-
-    @Override
-    protected String getDeleteByIdQuery() {
-        return DELETE_ORDER_ID_QUERY;
-    }
-
-    @Override
-    protected String getUpdateByEntityQuery() {
-        return UPDATE_QUERY;
     }
 
     @Override
@@ -288,6 +305,21 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
     @Override
     protected String getCreateQuery() {
         return INSERT_QUERY;
+    }
+
+    @Override
+    protected String getDeleteQuery() {
+        return DELETE_QUERY;
+    }
+
+    @Override
+    protected String getUpdateByEntityQuery() {
+        return UPDATE_QUERY;
+    }
+
+    @Override
+    protected String getDeleteByIdQuery() {
+        return DELETE_ORDER_ID_QUERY;
     }
 
     @Override
@@ -302,26 +334,26 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
 
     @Override
     protected String getReadByEntityQuery() {
-        return null;
-    }
-
-    @Override
-    protected String getReadRangeByIdParameterQuery() {
-        return null;
+        throw new DaoUnsupportedOperationException("Not implemented yet");
     }
 
     @Override
     protected String getReadByIdQuery() {
-        return null;
+        throw new DaoUnsupportedOperationException("Not implemented yet");
     }
 
     @Override
     protected String getReadRangeQuery() {
-        return null;
+        throw new DaoUnsupportedOperationException("Not implemented yet");
+    }
+
+    @Override
+    protected String getReadRangeByIdParameterQuery() {
+        throw new DaoUnsupportedOperationException("Not implemented yet");
     }
 
     @Override
     protected PreparedStatement setFieldsInReadByEntityPreparedStatement(PreparedStatement preparedStatement, OrderBook orderBook) throws DaoException {
-        return null;
+        throw new DaoUnsupportedOperationException("Not implemented yet");
     }
 }

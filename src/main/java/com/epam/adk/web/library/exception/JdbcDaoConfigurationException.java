@@ -15,7 +15,4 @@ public class JdbcDaoConfigurationException extends DaoException {
         super(message, cause);
     }
 
-    public JdbcDaoConfigurationException(Throwable cause) {
-        super(cause);
-    }
 }

@@ -11,7 +11,4 @@ public class ActionException extends Exception {
         super(message, cause);
     }
 
-    public ActionException(Throwable cause) {
-        super(cause);
-    }
 }

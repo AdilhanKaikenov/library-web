@@ -34,13 +34,13 @@ public class CommentService {
         return addedComment;
     }
 
-    public List<Comment> getPaginatedComments(int id, int pageNumber, int pageSize) throws ServiceException {
-        log.debug("Entering CommentService class getPaginatedComments() method. Book id = {}", id);
+    public List<Comment> getPaginatedComments(int bookID, int pageNumber, int pageSize) throws ServiceException {
+        log.debug("Entering CommentService class getPaginatedComments() method. Book id = {}", bookID);
         List<Comment> result;
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
             CommentDao commentDao = jdbcDaoFactory.getCommentDao();
             int offset = pageSize * pageNumber - pageSize;
-            result = commentDao.readRangeByIdParameter(id, offset, pageSize);
+            result = commentDao.readRangeByIdParameter(bookID, offset, pageSize);
             log.debug("Leaving CommentService class getPaginatedComments() method. Amount of books comment = {}", result.size());
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: CommentService class, getPaginatedComments() method.", e);

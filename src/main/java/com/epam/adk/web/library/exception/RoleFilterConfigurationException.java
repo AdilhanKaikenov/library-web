@@ -15,7 +15,4 @@ public class RoleFilterConfigurationException extends Exception {
         super(message, cause);
     }
 
-    public RoleFilterConfigurationException(Throwable cause) {
-        super(cause);
-    }
 }

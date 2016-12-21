@@ -11,7 +11,4 @@ public class ConnectionPoolConfigurationException extends ConnectionPoolExceptio
         super(message, cause);
     }
 
-    public ConnectionPoolConfigurationException(Throwable cause) {
-        super(cause);
-    }
 }

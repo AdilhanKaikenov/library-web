@@ -15,7 +15,4 @@ public class PropertyManagerException extends Exception {
         super(message, cause);
     }
 
-    public PropertyManagerException(Throwable cause) {
-        super(cause);
-    }
 }

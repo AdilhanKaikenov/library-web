@@ -34,17 +34,17 @@ public class OrdersBooksService {
         return orderRequest;
     }
 
-    public int getOrderedBooksNumber(OrderBook order) throws ServiceException {
-        log.debug("Entering OrdersBooksService class getOrderNumber() method.");
-        int orderNumber;
+    public OrderBook getOrderBookById(int userID, int bookID) throws ServiceException {
+        log.debug("Entering OrdersBooksService class getOrderBookById() method. user Id = {}, book Id = {}", userID, bookID);
+        OrderBook order;
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
             OrdersBooksDao orderDao = jdbcDaoFactory.getOrdersBooksDao();
-            orderNumber = orderDao.countOrderedBooks(order);
-            log.debug("Leaving OrdersBooksService class getOrderNumber() method.");
+            order = orderDao.read(userID, bookID);
+            log.debug("Leaving OrdersBooksService class getOrderBookById() method.");
         } catch (SQLException | DaoException e) {
-            throw new ServiceException("Error: OrdersBooksService class, getOrderNumber() method.", e);
+            throw new ServiceException("Error: OrdersBooksService class, getOrderBookById() method.", e);
         }
-        return orderNumber;
+        return order;
     }
 
     public List<OrderBook> getOrdersBooks(int orderID) throws ServiceException {
@@ -60,17 +60,15 @@ public class OrdersBooksService {
         return result;
     }
 
-    public OrderBook getOrderBookById(int userID, int bookID) throws ServiceException {
-        log.debug("Entering OrdersBooksService class getOrderBookById() method. user Id = {}, book Id = {}", userID, bookID);
-        OrderBook order;
+    public void update(OrderBook orderBook) throws ServiceException {
+        log.debug("Entering OrdersBooksService class update() method. OrderBook Id = {}", orderBook.getId());
         try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            OrdersBooksDao orderDao = jdbcDaoFactory.getOrdersBooksDao();
-            order = orderDao.read(userID, bookID);
-            log.debug("Leaving OrdersBooksService class getOrderBookById() method.");
+            OrdersBooksDao ordersBooksDao = jdbcDaoFactory.getOrdersBooksDao();
+            ordersBooksDao.update(orderBook);
+            log.debug("Leaving OrdersBooksService class update() method.");
         } catch (SQLException | DaoException e) {
-            throw new ServiceException("Error: OrdersBooksService class, getOrderBookById() method.", e);
+            throw new ServiceException("Error: OrdersBooksService class, update() method.", e);
         }
-        return order;
     }
 
     public void delete(OrderBook order) throws ServiceException {
@@ -81,17 +79,6 @@ public class OrdersBooksService {
             log.debug("Leaving OrdersBooksService class delete() method.");
         } catch (SQLException | DaoException e) {
             throw new ServiceException("Error: OrdersBooksService class, delete() method.", e);
-        }
-    }
-
-    public void update(OrderBook orderBook) throws ServiceException {
-        log.debug("Entering OrdersBooksService class update() method. OrderBook Id = {}", orderBook.getId());
-        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
-            OrdersBooksDao ordersBooksDao = jdbcDaoFactory.getOrdersBooksDao();
-            ordersBooksDao.update(orderBook);
-            log.debug("Leaving OrdersBooksService class update() method.");
-        } catch (SQLException | DaoException e) {
-            throw new ServiceException("Error: OrdersBooksService class, update() method.", e);
         }
     }
 
@@ -119,6 +106,19 @@ public class OrdersBooksService {
             throw new ServiceException("Error: OrdersBooksService class, getOrderBooksNumberByOrderId() method.", e);
         }
         return orderBooksNumber;
+    }
+
+    public int getOrderedBooksNumber(OrderBook order) throws ServiceException {
+        log.debug("Entering OrdersBooksService class getOrderNumber() method.");
+        int orderNumber;
+        try (JdbcDaoFactory jdbcDaoFactory = DaoFactory.newInstance(JdbcDaoFactory.class)) {
+            OrdersBooksDao orderDao = jdbcDaoFactory.getOrdersBooksDao();
+            orderNumber = orderDao.countOrderedBooks(order);
+            log.debug("Leaving OrdersBooksService class getOrderNumber() method.");
+        } catch (SQLException | DaoException e) {
+            throw new ServiceException("Error: OrdersBooksService class, getOrderNumber() method.", e);
+        }
+        return orderNumber;
     }
 
     public int getAvailableBookAmount(int bookID) throws ServiceException {
