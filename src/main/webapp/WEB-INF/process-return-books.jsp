@@ -73,8 +73,7 @@
         </c:forEach>
         <tr>
             <td colspan="5" align="center">
-            <c:if test="${order.orderType == 'SUBSCRIPTION'}">
-                <c:if test="${requestScope.optionToExtend == true}">
+                <c:if test="${order.orderType == 'SUBSCRIPTION' && requestScope.optionToExtend == true}">
                     <form action="${base}/do/" method="post">
                         <input hidden="hidden" name="action" value="extend-order">
                         <input hidden="hidden" name="orderID" value="${order.id}">
@@ -82,7 +81,6 @@
                                 onclick="return confirm('<ftm:message key="confirm.extend.subscription"/>')"
                                 class="link-style"><ftm:message key="extend.order"/></button>
                     </form>
-                </c:if>
                 </c:if>
                 <a href="${base}/do/?action=orders" class="link-style"><ftm:message key="back.button"/></a>
             </td>

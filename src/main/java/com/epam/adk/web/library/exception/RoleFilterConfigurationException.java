@@ -7,10 +7,6 @@ package com.epam.adk.web.library.exception;
  **/
 public class RoleFilterConfigurationException extends Exception {
 
-    public RoleFilterConfigurationException(String message) {
-        super(message);
-    }
-
     public RoleFilterConfigurationException(String message, Throwable cause) {
         super(message, cause);
     }

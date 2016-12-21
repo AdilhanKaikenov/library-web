@@ -3,6 +3,9 @@ package com.epam.adk.web.library.servlet;
 import com.epam.adk.web.library.action.Action;
 import com.epam.adk.web.library.action.ActionFactory;
 import com.epam.adk.web.library.exception.ActionException;
+import com.epam.adk.web.library.exception.PropertyManagerException;
+import com.epam.adk.web.library.exception.ServletConfigurationException;
+import com.epam.adk.web.library.propmanager.PropertiesManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,19 +24,30 @@ public final class FrontControllerServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(FrontControllerServlet.class);
 
-    private static final String WEB_INF = "/WEB-INF/";
-    private static final String PATH_INFO = "/?action=";
     private static final String JSP_EXPANSION = ".jsp";
-    private static final String REDIRECT_PREFIX = "redirect:";
     private static final String ACTION_PARAMETER = "action";
-    private static final String FRONT_CONTROLLER_SERVLET_CONTEXT = "/do";
+    private static final String REDIRECT_PREFIX = "redirect:";
+    private static final String FRONT_CONTROLLER_SERVLET_PROPERTIES_FILE_NAME = "front.controller.servlet.properties";
 
     private static ActionFactory factory;
+    private static PropertiesManager propertiesManager;
+
+    private String pathInfo = propertiesManager.get("path.info");
+    private String servletContext = propertiesManager.get("servlet.context");
+    private String webInfDirectory = propertiesManager.get("web.inf.directory");
 
     @Override
     public void init() throws ServletException {
         factory = ActionFactory.getInstance();
         log.debug("Start FrontControllerServlet initialization servlet.");
+    }
+
+    public static void configure() throws ServletConfigurationException {
+        try {
+            propertiesManager = new PropertiesManager(FRONT_CONTROLLER_SERVLET_PROPERTIES_FILE_NAME);
+        } catch (PropertyManagerException e) {
+            throw new ServletConfigurationException("Error: FrontControllerServlet class, configure() method.", e);
+        }
     }
 
     @Override
@@ -48,6 +62,7 @@ public final class FrontControllerServlet extends HttpServlet {
         String view;
         try {
             view = action.execute(request, response);
+            log.debug("View = {}", view);
         } catch (ActionException e) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
@@ -64,12 +79,12 @@ public final class FrontControllerServlet extends HttpServlet {
         if (view.contains(REDIRECT_PREFIX)){
             response.sendRedirect(getRedirectURL(request, view));
         } else {
-            request.getRequestDispatcher(WEB_INF + view + JSP_EXPANSION).forward(request, response);
+            request.getRequestDispatcher(webInfDirectory + view + JSP_EXPANSION).forward(request, response);
         }
     }
 
     private String getRedirectURL(HttpServletRequest request, String view) {
-        return request.getContextPath() + FRONT_CONTROLLER_SERVLET_CONTEXT + PATH_INFO + view.substring(REDIRECT_PREFIX.length());
+        return request.getContextPath() + servletContext + pathInfo + view.substring(REDIRECT_PREFIX.length());
     }
 
     /**

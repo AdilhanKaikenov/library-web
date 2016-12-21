@@ -17,7 +17,7 @@ import javax.servlet.ServletContextListener;
 public final class ConnectionPoolListener implements ServletContextListener {
 
     private static final Logger log = LoggerFactory.getLogger(ConnectionPoolListener.class);
-    private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
+    private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {

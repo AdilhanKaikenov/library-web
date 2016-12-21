@@ -7,10 +7,6 @@ package com.epam.adk.web.library.exception;
  **/
 public class MessageDigestAlgorithmException extends RuntimeException {
 
-    public MessageDigestAlgorithmException(String msg) {
-        super(msg);
-    }
-
     public MessageDigestAlgorithmException(String message, Throwable cause) {
         super(message, cause);
     }

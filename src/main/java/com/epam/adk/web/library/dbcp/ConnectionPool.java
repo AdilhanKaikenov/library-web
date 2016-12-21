@@ -25,20 +25,21 @@ import java.util.concurrent.locks.ReentrantLock;
 public final class ConnectionPool {
 
     private static final Logger log = LoggerFactory.getLogger(ConnectionPool.class);
+
     private static final int DEFAULT_MIN_POOL_SIZE = 10;
     private static final int DEFAULT_MAX_POOL_SIZE = 50;
     private static final String H2DB_PROPERTIES_FILE_NAME = "h2db.properties";
+    private static final Lock lock = new ReentrantLock();
 
-    private static String JDBC_URL;
-    private static String H2_DRIVER;
-    private static String DB_LOGIN;
-    private static String DB_PASSWORD;
-    private static int DEFAULT_POOL_SIZE;
-    private static int MAX_POOL_SIZE;
-    private static long TIMEOUT;
+    private static String jdbcUrl;
+    private static String h2Driver;
+    private static String dbLogin;
+    private static String dbPassword;
+    private static int defaultPoolSize;
+    private static int maxPoolSize;
+    private static long timeout;
 
     private BlockingQueue<Connection> freeConnections = null;
-    private final Lock lock = new ReentrantLock();
 
     private ConnectionPool() {
     }
@@ -51,10 +52,10 @@ public final class ConnectionPool {
     public void init() throws ConnectionPoolInitializationException {
         try {
             log.debug("Creating connection pool.");
-            log.debug("Database driver: {}", H2_DRIVER);
-            Class.forName(H2_DRIVER);
-            freeConnections = new ArrayBlockingQueue<>(MAX_POOL_SIZE, true);
-            for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
+            log.debug("Database driver: {}", h2Driver);
+            Class.forName(h2Driver);
+            freeConnections = new ArrayBlockingQueue<>(maxPoolSize, true);
+            for (int i = 0; i < defaultPoolSize; i++) {
                 Connection connection = newConnection();
                 freeConnections.add(connection);
                 log.debug("Connection #{} - {}", i, connection);
@@ -75,13 +76,13 @@ public final class ConnectionPool {
         } catch (PropertyManagerException e) {
             throw new ConnectionPoolConfigurationException("Error: ConnectionPool class, configure() method.", e);
         }
-        JDBC_URL = propertiesManager.get("jdbc.url");
-        H2_DRIVER = propertiesManager.get("h2.driver");
-        DB_LOGIN = propertiesManager.get("db.login");
-        DB_PASSWORD = propertiesManager.get("db.password");
-        DEFAULT_POOL_SIZE = getInt(propertiesManager.get("default.pool.size"), DEFAULT_MIN_POOL_SIZE);
-        MAX_POOL_SIZE = getInt(propertiesManager.get("max.pool.size"), DEFAULT_MAX_POOL_SIZE);
-        TIMEOUT = Long.parseLong(propertiesManager.get("timeout.milliseconds"));
+        jdbcUrl = propertiesManager.get("jdbc.url");
+        h2Driver = propertiesManager.get("h2.driver");
+        dbLogin = propertiesManager.get("db.login");
+        dbPassword = propertiesManager.get("db.password");
+        defaultPoolSize = getInt(propertiesManager.get("default.pool.size"), DEFAULT_MIN_POOL_SIZE);
+        maxPoolSize = getInt(propertiesManager.get("max.pool.size"), DEFAULT_MAX_POOL_SIZE);
+        timeout = Long.parseLong(propertiesManager.get("timeout.milliseconds"));
     }
 
     /**
@@ -102,7 +103,7 @@ public final class ConnectionPool {
     }
 
     private Connection newConnection() throws SQLException {
-        return DriverManager.getConnection(JDBC_URL, DB_LOGIN, DB_PASSWORD);
+        return DriverManager.getConnection(jdbcUrl, dbLogin, dbPassword);
     }
 
     /**
@@ -131,10 +132,10 @@ public final class ConnectionPool {
         Connection connection;
         lock.lock();
         try {
-            connection = freeConnections.poll(TIMEOUT, TimeUnit.MILLISECONDS);
+            connection = freeConnections.poll(timeout, TimeUnit.MILLISECONDS);
             log.debug("Connection: {}", connection);
 
-            if (connection == null && freeConnections.size() < MAX_POOL_SIZE) {
+            if (connection == null && freeConnections.size() < maxPoolSize) {
                 log.debug("Creating new connection.");
                 connection = newConnection();
                 freeConnections.add(connection);
@@ -158,7 +159,7 @@ public final class ConnectionPool {
      * @param connection
      */
     public void returnConnection(Connection connection) {
-        if (connection != null && freeConnections.size() < MAX_POOL_SIZE) {
+        if (connection != null && freeConnections.size() < maxPoolSize) {
             log.debug("ConnectionPool class, returnConnection() method, return '{}' back.", connection);
             freeConnections.add(connection);
         }

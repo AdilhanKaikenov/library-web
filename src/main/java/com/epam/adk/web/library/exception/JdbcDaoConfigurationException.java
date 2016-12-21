@@ -7,10 +7,6 @@ package com.epam.adk.web.library.exception;
  **/
 public class JdbcDaoConfigurationException extends DaoException {
 
-    public JdbcDaoConfigurationException(String message) {
-        super(message);
-    }
-
     public JdbcDaoConfigurationException(String message, Throwable cause) {
         super(message, cause);
     }

@@ -7,10 +7,6 @@ package com.epam.adk.web.library.exception;
  **/
 public class ValidatorConfigurationException extends FormValidationException {
 
-    public ValidatorConfigurationException(String message) {
-        super(message);
-    }
-
     public ValidatorConfigurationException(String message, Throwable cause) {
         super(message, cause);
     }
