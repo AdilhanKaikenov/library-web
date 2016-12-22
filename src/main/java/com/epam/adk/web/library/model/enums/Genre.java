@@ -1,8 +1,5 @@
 package com.epam.adk.web.library.model.enums;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Genre enumeration created on 1.12.2016
  *
@@ -16,7 +13,6 @@ public enum Genre {
     COMPUTERS_AND_INTERNET("Computers and Internet"),
     SCIENCE_AND_EDUCATION("Science and education");
 
-    private static final Logger log = LoggerFactory.getLogger(Genre.class);
     private String value;
 
     Genre(String value) {
@@ -28,8 +24,6 @@ public enum Genre {
     }
 
     public static Genre from(String value) {
-        log.debug("{}", value);
-
         for (Genre genre : Genre.values()) {
             if (value != null && genre.getValue().equalsIgnoreCase(value)) {
                 return genre;

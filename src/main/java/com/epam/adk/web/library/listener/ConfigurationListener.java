@@ -18,7 +18,7 @@ import javax.servlet.ServletContextListener;
  *
  * @author Kaikenov Adilhan
  **/
-public class ConfigurationListener implements ServletContextListener {
+public final class ConfigurationListener implements ServletContextListener {
 
     private static final Logger log = LoggerFactory.getLogger(ConfigurationListener.class);
 

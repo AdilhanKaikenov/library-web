@@ -17,7 +17,7 @@ import java.io.IOException;
  *
  * @author Kaikenov Adilhan
  */
-public class ErrorHandler extends HttpServlet {
+public final class ErrorHandler extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(ErrorHandler.class);
 

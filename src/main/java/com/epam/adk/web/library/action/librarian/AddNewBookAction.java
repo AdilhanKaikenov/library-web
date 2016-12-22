@@ -25,6 +25,8 @@ public class AddNewBookAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(AddNewBookAction.class);
 
+    private static final String EQUAL_SIGN = "=";
+    private static final String SIGN_SEMICOLON = ";";
     private static final String IMAGE_PATH = "D:\\images";
     private static final String GENRE_PARAMETER = "genre";
     private static final String TITLE_PARAMETER = "title";
@@ -38,6 +40,7 @@ public class AddNewBookAction implements Action {
     private static final String PUBLISH_YEAR_PARAMETER = "publishYear";
     private static final String TOTAL_AMOUNT_PARAMETER = "totalAmount";
     private static final String CONTENT_DISPOSITION_HEADER = "content-disposition";
+
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -101,10 +104,10 @@ public class AddNewBookAction implements Action {
      */
     private String extractFileName(Part part) {
         String contentDisposition = part.getHeader(CONTENT_DISPOSITION_HEADER);
-        String[] items = contentDisposition.split(";");
+        String[] items = contentDisposition.split(SIGN_SEMICOLON);
         for (String s : items) {
             if (s.trim().startsWith(FILENAME_PARAMETER)) {
-                return s.substring(s.indexOf("=") + 2, s.length() - 1);
+                return s.substring(s.indexOf(EQUAL_SIGN) + 2, s.length() - 1);
             }
         }
         return "";

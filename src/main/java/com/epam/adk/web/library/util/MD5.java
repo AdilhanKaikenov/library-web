@@ -13,9 +13,15 @@ import java.security.NoSuchAlgorithmException;
  *
  * @author Kaikenov Adilhan
  **/
-public class MD5 {
+public final class MD5 {
 
     private static final Logger log = LoggerFactory.getLogger(MD5.class);
+
+    private static final int SIGNUM = 1;
+    private static final int HEX_RADIX = 16;
+    private static final int HASH_LENGTH = 32;
+    private static final String ZERO_PREFIX = "0";
+    private static final String MD_5_ALGORITHM = "MD5";
 
     /**
      * The algorithm for password encryption.
@@ -27,7 +33,7 @@ public class MD5 {
         MessageDigest md5;
         byte[] digest;
         try{
-            md5 = MessageDigest.getInstance("MD5");
+            md5 = MessageDigest.getInstance(MD_5_ALGORITHM);
             md5.reset();
             md5.update(password.getBytes());
             digest = md5.digest();
@@ -35,11 +41,10 @@ public class MD5 {
             log.error("Error in MD5 in get method: {}",  e);
             throw new MessageDigestAlgorithmException("Error in MD5 in get method:",  e);
         }
-        BigInteger bigInt = new BigInteger(1, digest);
-        String md5Hex = bigInt.toString(16);
-
-        while (md5Hex.length() < 32){
-            md5Hex = "0" + md5Hex;
+        BigInteger bigInt = new BigInteger(SIGNUM, digest);
+        String md5Hex = bigInt.toString(HEX_RADIX);
+        while (md5Hex.length() < HASH_LENGTH){
+            md5Hex = ZERO_PREFIX + md5Hex;
         }
         return md5Hex;
     }

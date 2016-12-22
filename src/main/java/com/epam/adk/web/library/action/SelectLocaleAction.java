@@ -18,6 +18,7 @@ public class SelectLocaleAction implements Action {
     private static final Logger log = LoggerFactory.getLogger(SelectLocaleAction.class);
 
     private static final String REFERER = "referer";
+    private static final String EQUAL_SIGN = "=";
     private static final String REDIRECT_PREFIX = "redirect:";
     private static final String REGION_PARAMETER = "region";
     private static final String ACTION_PARAMETER = "action";
@@ -38,7 +39,7 @@ public class SelectLocaleAction implements Action {
         }
 
         if (referer.contains(ACTION_PARAMETER)) {
-            String currentPage = referer.substring(referer.indexOf("=") + 1);
+            String currentPage = referer.substring(referer.indexOf(EQUAL_SIGN) + 1);
             log.debug("PAY ATTENTION: Current page '{}'", currentPage);
             return REDIRECT_PREFIX + currentPage;
         }

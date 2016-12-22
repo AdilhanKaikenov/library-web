@@ -5,7 +5,7 @@ package com.epam.adk.web.library.util;
  *
  * @author Kaikenov Adilhan
  **/
-public class Pagination {
+public final class Pagination {
 
     /**
      * The method for calculating the total number of pages.

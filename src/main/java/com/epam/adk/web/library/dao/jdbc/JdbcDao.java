@@ -26,7 +26,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     protected static PropertiesManager queryProperties;
 
     private static final String QUERY_PROPERTIES_FILE_NAME = "query.properties";
-    private String GENERAL_SELECT_COUNT_PLUS_TABLE_QUERY = queryProperties.get("select.count.from");
+    private String GENERAL_SELECT_COUNT_PLUS_TABLE_QUERY = queryProperties.get("select.count.from.plus.table");
 
     protected static final int ZERO = 0;
     protected static final int FIRST_COLUMN_INDEX = 1;
@@ -225,16 +225,16 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
     @Override
     public void deleteByIdParameter(int id) throws DaoException {
-        log.debug("Entering JdbcDao class, delete() method. Entity ID = {}", id);
+        log.debug("Entering JdbcDao class, deleteByIdParameter() method. Entity ID = {}", id);
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(getDeleteByIdQuery());
             preparedStatement = setFieldsInDeleteByIdParameter(preparedStatement, id);
             preparedStatement.execute();
-            log.debug("Leaving JdbcDao class, delete() method.");
+            log.debug("Leaving JdbcDao class, deleteByIdParameter() method.");
         } catch (SQLException e) {
-            log.error("Error: JdbcDao class delete() method. I can not delete entity. {}", e);
-            throw new DaoException("Error: JdbcDao class delete() method. I can not delete entity. ", e);
+            log.error("Error: JdbcDao class deleteByIdParameter() method. I can not delete entity. {}", e);
+            throw new DaoException("Error: JdbcDao class deleteByIdParameter() method. I can not delete entity. ", e);
         } finally {
             closePreparedStatement(preparedStatement);
         }
@@ -321,8 +321,8 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
-                log.error("Error: JdbcDao class, close() method. Can not close preparedStatement. {}", e);
-                throw new DaoException("Error: JdbcDao class, close() method. Can not close preparedStatement.", e);
+                log.error("Error: JdbcDao class, closePreparedStatement() method. Can not close preparedStatement. {}", e);
+                throw new DaoException("Error: JdbcDao class, closePreparedStatement() method. Can not close preparedStatement.", e);
             }
         }
     }
@@ -332,8 +332,8 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             try {
                 resultSet.close();
             } catch (SQLException e) {
-                log.error("Error: JdbcDao class, close() method. Can not close resultSet. {}", e);
-                throw new DaoException("Error: JdbcDao class, close() method. Can not close resultSet.", e);
+                log.error("Error: JdbcDao class, closeResultSet() method. Can not close resultSet. {}", e);
+                throw new DaoException("Error: JdbcDao class, closeResultSet() method. Can not close resultSet.", e);
             }
         }
     }

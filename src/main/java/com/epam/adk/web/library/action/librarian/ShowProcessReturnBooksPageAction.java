@@ -41,6 +41,7 @@ public class ShowProcessReturnBooksPageAction extends AbstractShowOrderProcessPa
 
             Date dateTo = order.getTo();
 
+            // diffTime - the number of days till the last day of the subscription period
             long diffTime = (dateTo.getTime() - today.getTime()) / ONE_DAY_DURATION;
             log.debug("diffTime = {}", diffTime);
             boolean optionToExtend = false;
