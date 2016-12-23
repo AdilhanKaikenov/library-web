@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@attribute name="book" type="com.epam.adk.web.library.model.Book" required="true" %>
+<%@taglib uri="custom" prefix="ct"%>
 
 <ftm:setBundle basename="i18n"/>
 
@@ -28,8 +29,8 @@
                     key="about.book"/></a>
         </div>
         <%--@elvariable id="user" type="com.epam.adk.web.library.model.User"--%>
-        <c:if test="${not empty user && user.role == 'LIBRARIAN'}">
-            <div style="float: left;">
+        <ct:hasRole user="${user}" role="LIBRARIAN">
+        <div style="float: left;">
                 <a href="${base}/do/?action=book-amount&bookID=${book.id}"
                    class="link-style"><ftm:message key="edit.book.amount.button"/></a>
             </div>
@@ -40,6 +41,6 @@
                     <button type="submit" class="link-style"><ftm:message key="delete.button"/></button>
                 </form>
             </div>
-        </c:if>
+        </ct:hasRole>
     </div>
 </div>

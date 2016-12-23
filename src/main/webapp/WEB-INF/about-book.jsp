@@ -2,6 +2,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="ftm" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib uri="custom" prefix="ct" %>
 
 <ftm:setBundle basename="i18n"/>
 
@@ -12,7 +13,7 @@
 
     <t:book book="${book}"/>
 
-    <c:if test="${not empty user && user.role == 'READER'}">
+    <ct:hasRole user="${user}" role="READER">
         <%--@elvariable id="availableBookAmount" type="java.lang.Integer"--%>
         <div class="reader-requests-links-section" align="center">
             <c:if test="${availableBookAmount != 0 && empty requestScope.bookAddedToOrder && empty requestScope.bookOrdered}">
@@ -28,7 +29,7 @@
                             class="link-style"><ftm:message key="add.to.order"/></button>
                 </form>
             </c:if>
-            <c:if test="${not empty user && user.role == 'READER'}">
+            <ct:hasRole user="${user}" role="READER">
                 <c:if test="${not empty requestScope.bookOrdered}">
                     <li><ftm:message key="${requestScope.bookOrdered}"/></li>
                 </c:if>
@@ -38,9 +39,9 @@
                 <c:if test="${availableBookAmount == 0}">
                     <li><ftm:message key="book.no.available"/></li>
                 </c:if>
-            </c:if>
+            </ct:hasRole>
         </div>
-    </c:if>
+    </ct:hasRole>
     <div style="float: left; width: 100%;" align="center">
         <h1><ftm:message key="short.book.info.header"/></h1>
     </div>

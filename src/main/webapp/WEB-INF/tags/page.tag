@@ -4,6 +4,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@attribute name="title" type="java.lang.String" required="true" %>
 <%@attribute name="optionalTitle" type="java.lang.String" required="false" %>
+<%@taglib uri="custom" prefix="ct"%>
 
 <ftm:setBundle basename="i18n"/>
 

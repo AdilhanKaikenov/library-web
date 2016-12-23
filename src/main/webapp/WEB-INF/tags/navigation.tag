@@ -2,6 +2,7 @@
 <%@ taglib prefix="ftm" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@taglib uri="custom" prefix="ct"%>
 
 <ftm:setBundle basename="i18n"/>
 
@@ -12,16 +13,16 @@
         <div>
             <a href="${base}/do/?action=welcome" class="link-style"><ftm:message key="home.page"/></a>
             <%--@elvariable id="user" type="com.epam.adk.web.library.model.User"--%>
-            <c:if test="${not empty user && user.role == 'READER'}">
+            <ct:hasRole user="${user}" role="READER">
                 <a href="${base}/do/?action=my-order" class="link-style"><ftm:message key="my.order"/></a>
                 <a href="${base}/do/?action=my-orders" class="link-style"><ftm:message key="my.orders.page"/></a>
-            </c:if>
-            <c:if test="${not empty user && user.role == 'LIBRARIAN'}">
+            </ct:hasRole>
+            <ct:hasRole user="${user}" role="LIBRARIAN">
                 <a href="${base}/do/?action=requests" class="link-style"><ftm:message key="requests"/></a>
                 <a href="${base}/do/?action=orders" class="link-style"><ftm:message key="orders"/></a>
                 <a href="${base}/do/?action=users" class="link-style"><ftm:message key="users.list.page"/></a>
                 <a href="${base}/do/?action=add-new-book" class="link-style"><ftm:message key="add.new.book"/></a>
-            </c:if>
+            </ct:hasRole>
         </div>
 
     </div>
