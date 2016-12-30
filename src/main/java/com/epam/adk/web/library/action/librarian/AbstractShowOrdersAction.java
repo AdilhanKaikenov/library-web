@@ -50,7 +50,7 @@ public abstract class AbstractShowOrdersAction implements Action {
 
             List<Order> orders = ordersService.getPaginatedByOrderStatus(getOrderStatus(), page, LINE_PER_PAGE_NUMBER);
 
-            if (orders.size() != 0) {
+            if (!orders.isEmpty()) {
                 request.setAttribute(ORDERS_REQUEST_ATTRIBUTE, orders);
             }
 

@@ -18,7 +18,12 @@
             <table>
                 <tr>
                     <td><ftm:message key="book.title"/></td>
-                    <td><input name="title" type="text" size="50" required></td>
+                    <td><input name="title" type="text" size="50" value="${param.title}" required></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><c:if test="${not empty requestScope.fileSizeIncorrect}">
+                        <li style="color: red"><ftm:message key="${requestScope.fileSizeIncorrect}"/>
+                    </c:if></td>
                 </tr>
                 <tr>
                     <td><ftm:message key="book.cover.field"/></td>
@@ -26,11 +31,12 @@
                 </tr>
                 <tr>
                     <td><ftm:message key="book.authors.field"/></td>
-                    <td><input name="authors" type="text" size="50" required></td>
+                    <td><input name="authors" type="text" size="50" value="${param.authors}" required></td>
                 </tr>
                 <tr>
                     <td><ftm:message key="book.publish.year.field"/></td>
-                    <td><input style="width: 50px" name="publishYear" type="number" min="1900" max="2016" required></td>
+                    <td><input style="width: 50px" name="publishYear" type="number" min="1900" max="2016"
+                               value="${param.publishYear}" required></td>
                 </tr>
                 <tr>
                     <td><ftm:message key="book.genre.field"/></td>
@@ -50,7 +56,8 @@
                 </tr>
                 <tr>
                     <td><ftm:message key="book.amount"/></td>
-                    <td><input style="width: 50px" name="totalAmount" type="number" min="0" required></td>
+                    <td><input style="width: 50px" name="totalAmount" type="number" min="0" value="${param.totalAmount}"
+                               required></td>
                 </tr>
                 <tr align="center">
                     <td colspan="2">

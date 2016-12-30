@@ -31,7 +31,7 @@ public class FormValidator {
     private static final String DOT = ".";
     private static final String CLASS = "class";
 
-    private static Map<String, String> properties;
+    protected static Map<String, String> properties;
 
     public static void configure() throws ValidatorConfigurationException {
         if (properties == null) {

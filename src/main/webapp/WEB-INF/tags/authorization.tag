@@ -12,11 +12,11 @@
         <input hidden="hidden" name="action" value="authorization">
         <tr>
             <td><ftm:message key="auth.form.login.field"/></td>
-            <td><input type="text" name="login" value="Adilhan"></td>
+            <td><input type="text" name="login"></td>
         </tr>
         <tr>
             <td><ftm:message key="auth.form.password.field"/></td>
-            <td><input type="password" name="password" value="1234567"></td>
+            <td><input type="password" name="password"></td>
         </tr>
         <tr>
             <td><a href="${base}/do/?action=registration"><ftm:message key="registration.page"/></a></td>

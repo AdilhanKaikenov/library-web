@@ -244,7 +244,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         log.debug("Entering JdbcDao class, createFrom() method");
         T entity;
         List<T> entities = createListFrom(resultSet);
-        if (entities.size() == ZERO) {
+        if (entities.isEmpty()) {
             throw new DaoException(MessageFormat.format(
                     "Error: JdbcDao class createFrom() method. I can not create entity from resultSet. Entities size = {0}", entities.size()));
         }

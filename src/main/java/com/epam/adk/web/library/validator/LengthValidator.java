@@ -6,7 +6,7 @@ package com.epam.adk.web.library.validator;
  * @author Kaikenov Adilhan
  * @see Validator
  **/
-public class LengthValidator extends AbstractValidator implements Validator {
+public class LengthValidator extends AbstractValidator {
 
     private int minLength;
     private int maxLength;

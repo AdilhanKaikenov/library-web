@@ -6,14 +6,16 @@ import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.Book;
 import com.epam.adk.web.library.model.enums.Genre;
 import com.epam.adk.web.library.service.BookService;
-import org.apache.commons.fileupload.FileUploadBase;
+import com.epam.adk.web.library.validator.ImageFileSizeValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.File;
+import java.io.IOException;
 import java.time.Year;
 
 /**
@@ -33,31 +35,38 @@ public class AddNewBookAction implements Action {
     private static final String COVER_PARAMETER = "cover";
     private static final String REDIRECT_PREFIX = "redirect:";
     private static final String WELCOME_PAGE_NAME = "welcome";
-    private static final String DEFAULT_COVER_JPG = "default_cover.jpg";
     private static final String AUTHORS_PARAMETER = "authors";
     private static final String FILENAME_PARAMETER = "filename";
     private static final String DESCRIPTION_PARAMETER = "description";
+    private static final String ADD_NEW_BOOK_PAGE_NAME = "add-new-book";
     private static final String PUBLISH_YEAR_PARAMETER = "publishYear";
     private static final String TOTAL_AMOUNT_PARAMETER = "totalAmount";
     private static final String CONTENT_DISPOSITION_HEADER = "content-disposition";
+    private static final String FILE_SIZE_INCORRECT_REQUEST_ATTRIBUTE = "fileSizeIncorrect";
+    public static final String IMAGE_FILE_SIZE_INCORRECT_STORED_MESSAGE = "image.file.size.incorrect";
 
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
         log.debug("The AddNewBookAction started execute.");
 
-        Part part;
-        String cover = null;
+        String cover;
         try {
-            part = request.getPart(COVER_PARAMETER);
+            Part part = request.getPart(COVER_PARAMETER);
             cover = extractFileName(part);
             log.debug("Cover filename = {}", cover);
-            part.write(IMAGE_PATH + File.separator + cover);
-        } catch (Exception e) {
-            if (e.getCause() != null && e.getCause() instanceof FileUploadBase.FileSizeLimitExceededException) {
-                throw new ActionException("Error: AddNewBookAction class. Called getPart() method failed.", e);
+            ImageFileSizeValidator sizeValidator = new ImageFileSizeValidator();
+            long coverFileSize = part.getSize();
+            log.debug("Cover file size = {}", coverFileSize);
+            if (!sizeValidator.isValid(coverFileSize)) {
+                request.setAttribute(FILE_SIZE_INCORRECT_REQUEST_ATTRIBUTE, IMAGE_FILE_SIZE_INCORRECT_STORED_MESSAGE);
+                return ADD_NEW_BOOK_PAGE_NAME;
             }
+            part.write(IMAGE_PATH + File.separator + cover);
+        } catch (ServletException | IOException e) {
+            throw new ActionException("Error: AddNewBookAction class.", e);
         }
+
 
         String title = request.getParameter(TITLE_PARAMETER);
         log.debug("New book title: {}", title);
@@ -74,11 +83,7 @@ public class AddNewBookAction implements Action {
 
         Book book = new Book();
         book.setTitle(title);
-        if (cover != null) {
-            book.setCover(cover);
-        } else {
-            book.setCover(DEFAULT_COVER_JPG);
-        }
+        book.setCover(cover);
         book.setAuthors(authors);
         book.setPublishYear(publishYear);
         book.setGenre(genre);

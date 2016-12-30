@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
  * @author Kaikenov Adilhan
  * @see Validator
  **/
-public class RegexValidator extends AbstractValidator implements Validator {
+public class RegexValidator extends AbstractValidator {
 
     private Pattern pattern;
 

@@ -57,7 +57,7 @@ public class ShowMyOrdersAction implements Action {
             log.debug("Total pages number = {}", pagesNumber);
 
             List<Order> userOrders = ordersService.getPaginatedUserOrders(userID, page, LINE_PER_PAGE_NUMBER);
-            if (userOrders.size() != 0) {
+            if (!userOrders.isEmpty()) {
                 request.setAttribute(USER_ORDERS_REQUEST_ATTRIBUTE, userOrders);
             }
 

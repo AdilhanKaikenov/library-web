@@ -6,11 +6,21 @@ package com.epam.adk.web.library.validator;
  *
  * @author Kaikenov Adilhan
  */
-public abstract class AbstractValidator {
+public abstract class AbstractValidator implements Validator {
 
     private String message;
 
     public AbstractValidator() {
+    }
+
+    @Override
+    public boolean isValid(String field) {
+        throw new UnsupportedOperationException("Do not support.");
+    }
+
+    @Override
+    public boolean isValid(Long value) {
+        throw new UnsupportedOperationException("Do not support.");
     }
 
     public String getMessage() {

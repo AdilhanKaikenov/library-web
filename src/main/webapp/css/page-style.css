@@ -66,7 +66,7 @@ hr {
 
 .horizontal-bar{
     float: right;
-    width: 60%;
+    width: 45%;
     margin-bottom: 10px;
     position: relative;
     right: 465px;
@@ -288,6 +288,7 @@ hr {
     background: #dddddd;
     padding: 15px;
     width: 920px;
+    border-radius: 30px;
 }
 
 .library-system-section {

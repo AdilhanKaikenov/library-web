@@ -9,5 +9,7 @@ public interface Validator {
 
     boolean isValid(String field);
 
+    boolean isValid(Long value);
+
     String getMessage();
 }
