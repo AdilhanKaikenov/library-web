@@ -1,5 +1,6 @@
 package com.epam.adk.web.library.listener;
 
+import com.epam.adk.web.library.action.ActionFactory;
 import com.epam.adk.web.library.dao.jdbc.JdbcDao;
 import com.epam.adk.web.library.dbcp.ConnectionPool;
 import com.epam.adk.web.library.filter.RoleFilter;
@@ -30,6 +31,8 @@ public final class ConfigurationListener implements ServletContextListener {
             log.debug("ConnectionPool configured");
             JdbcDao.configure();
             log.debug("JdbcDao configured");
+            ActionFactory.configure();
+            log.debug("ActionFactory configured");
             RoleFilter.configure();
             log.debug("RoleFilter configured");
             FormValidator.configure();

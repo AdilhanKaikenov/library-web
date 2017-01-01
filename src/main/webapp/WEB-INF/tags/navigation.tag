@@ -11,17 +11,17 @@
 <div class="horizontal-bar">
     <div class="inner-horizontal-bar">
         <div>
-            <a href="${base}/do/?action=welcome" class="link-style"><ftm:message key="home.page"/></a>
+            <a href="${base}/do/?action=welcome" class="navigation-link-style"><ftm:message key="home.page"/></a>
             <%--@elvariable id="user" type="com.epam.adk.web.library.model.User"--%>
             <ct:hasRole user="${user}" role="READER">
-                <a href="${base}/do/?action=my-order" class="link-style"><ftm:message key="my.order"/></a>
-                <a href="${base}/do/?action=my-orders" class="link-style"><ftm:message key="my.orders.page"/></a>
+                <a href="${base}/do/?action=my-order" class="navigation-link-style"><ftm:message key="my.order"/></a>
+                <a href="${base}/do/?action=my-orders" class="navigation-link-style"><ftm:message key="my.orders.page"/></a>
             </ct:hasRole>
             <ct:hasRole user="${user}" role="LIBRARIAN">
-                <a href="${base}/do/?action=requests" class="link-style"><ftm:message key="requests"/></a>
-                <a href="${base}/do/?action=orders" class="link-style"><ftm:message key="orders"/></a>
-                <a href="${base}/do/?action=users" class="link-style"><ftm:message key="users.list.page"/></a>
-                <a href="${base}/do/?action=add-new-book" class="link-style"><ftm:message key="add.new.book"/></a>
+                <a href="${base}/do/?action=requests" class="navigation-link-style"><ftm:message key="requests"/></a>
+                <a href="${base}/do/?action=orders" class="navigation-link-style"><ftm:message key="orders"/></a>
+                <a href="${base}/do/?action=users" class="navigation-link-style"><ftm:message key="users.list.page"/></a>
+                <a href="${base}/do/?action=add-new-book" class="navigation-link-style"><ftm:message key="add.new.book"/></a>
             </ct:hasRole>
         </div>
 

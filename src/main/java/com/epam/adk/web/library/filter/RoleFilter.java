@@ -31,7 +31,7 @@ public final class RoleFilter implements Filter {
     private static final String LIBRARIAN_ROLE = "Librarian";
     private static final String USER_PARAMETER = "user";
     private static final String ACTION_PARAMETER = "action";
-    private static final String ACTIONS_PROPERTIES_FILE_NAME = "actions.properties";
+    private static final String ACTIONS_PROPERTIES_FILE_NAME = "role.actions.properties";
     private static final String FRONT_CONTROLLER_SERVLET_CONTEXT = "/do";
 
     private static Collection<String> librarianAvailableActions;

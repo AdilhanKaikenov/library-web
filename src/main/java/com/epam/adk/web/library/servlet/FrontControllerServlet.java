@@ -3,6 +3,7 @@ package com.epam.adk.web.library.servlet;
 import com.epam.adk.web.library.action.Action;
 import com.epam.adk.web.library.action.ActionFactory;
 import com.epam.adk.web.library.exception.ActionException;
+import com.epam.adk.web.library.exception.ActionFactoryException;
 import com.epam.adk.web.library.exception.PropertyManagerException;
 import com.epam.adk.web.library.exception.ServletConfigurationException;
 import com.epam.adk.web.library.propmanager.PropertiesManager;
@@ -53,7 +54,13 @@ public final class FrontControllerServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        Action action = factory.getAction(getActionName(request));
+        Action action = null;
+        try {
+            action = factory.getAction(getActionName(request));
+        } catch (ActionFactoryException e) {
+            log.error("ActionFactory getAction() method failed. {}", e);
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+        }
         if (action == null) {
             log.error("Error: FrontControllerServlet class, service() method: action = NULL");
             response.sendError(HttpServletResponse.SC_NOT_FOUND);

@@ -1,10 +1,12 @@
 package com.epam.adk.web.library.action;
 
-import com.epam.adk.web.library.action.librarian.*;
+import com.epam.adk.web.library.exception.ActionFactoryConfigurationException;
+import com.epam.adk.web.library.exception.ActionFactoryException;
+import com.epam.adk.web.library.exception.PropertyManagerException;
+import com.epam.adk.web.library.propmanager.PropertiesManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -15,59 +17,23 @@ import java.util.Map;
 public class ActionFactory {
 
     private static final Logger log = LoggerFactory.getLogger(ActionFactory.class);
-    private static final ActionFactory instance = new ActionFactory();
 
-    private static Map<String, Action> actions;
+    private static final ActionFactory instance = new ActionFactory();
+    public static final String ACTION_PROPERTIES_FILE_NAME = "action.properties";
+
+    private static Map<String, String> actions;
 
     private ActionFactory() {
-        log.debug("Entering constructor ActionFactory class");
-        actions = new HashMap<>();
+    }
 
-        actions.put("POST/comment", new CommentAction());
-        actions.put("POST/edit-user", new EditUserAction());
-        actions.put("POST/lend-out-book", new LendOutAction());
-        actions.put("POST/delete-book", new DeleteBookAction());
-        actions.put("POST/book-search", new BookSearchAction());
-        actions.put("POST/add-new-book", new AddNewBookAction());
-        actions.put("POST/edit-profile", new EditProfileAction());
-        actions.put("POST/extend-order", new ExtendOrderAction());
-        actions.put("POST/registration", new RegistrationAction());
-        actions.put("POST/order-request", new OrderRequestAction());
-        actions.put("POST/book-returned", new BookReturnedAction());
-        actions.put("POST/authorization", new AuthorizationAction());
-        actions.put("POST/reject-book-order", new RejectOrderAction());
-        actions.put("POST/edit-book-amount", new EditBookAmountAction());
-        actions.put("POST/add-book-to-order", new AddBookToOrderAction());
-        actions.put("POST/remove-book-from-order", new DeleteBookFromOrderAction());
-        actions.put("POST/remove-book-from-order-request", new DeleteBookFromOrderRequestAction());
-
-        actions.put("GET/logout", new LogoutAction());
-        actions.put("GET/category", new CategoryAction());
-        actions.put("GET/users", new ShowUsersListAction());
-        actions.put("GET/welcome", new ShowWelcomeAction());
-        actions.put("GET/my-order", new ShowMyOrderAction());
-        actions.put("GET/about-book", new BookAboutAction());
-        actions.put("GET/edit-user", new ShowEditUserAction());
-        actions.put("GET/my-orders", new ShowMyOrdersAction());
-        actions.put("GET/set-locale", new SelectLocaleAction());
-        actions.put("GET/book-amount", new ShowBookAmountAction());
-        actions.put("GET/authorization", new AuthorizationAction());
-        actions.put("GET/orders", new ShowAllAllowedOrdersAction());
-        actions.put("GET/requests", new ShowAllOrderRequestsAction());
-        actions.put("GET/order-book-list", new ShowOrderBooksListAction());
-        actions.put("GET/process-return-books", new ShowProcessReturnBooksPageAction());
-        actions.put("GET/process-order-request", new ShowProcessOrderRequestPageAction());
-
-        actions.put("GET/personal-area", new ShowPageAction("profile"));
-        actions.put("GET/book-search", new ShowPageAction("book-search"));
-        actions.put("GET/registration", new ShowPageAction("registration"));
-        actions.put("GET/add-new-book", new ShowPageAction("add-new-book"));
-        actions.put("GET/edit-profile", new ShowPageAction("edit-profile"));
-        actions.put("GET/book-search-result", new ShowPageAction("book-search-result"));
-        actions.put("GET/authorization-error", new ShowPageAction("authorization-error"));
-        actions.put("GET/success-registration", new ShowPageAction("success-registration"));
-
-        log.debug("Action Factory class, actions SIZE {}", actions.size());
+    public static void configure() throws ActionFactoryConfigurationException {
+        try {
+            PropertiesManager propertiesManager = new PropertiesManager(ACTION_PROPERTIES_FILE_NAME);
+            actions = propertiesManager.getPropertiesAsMap();
+            log.debug("Action Factory class, actions SIZE {}", actions.size());
+        } catch (PropertyManagerException e) {
+            throw new ActionFactoryConfigurationException("Error: ActionFactory class, configure() method.", e);
+        }
     }
 
     public static ActionFactory getInstance(){
@@ -80,7 +46,15 @@ public class ActionFactory {
      * @param actionName string key to determine the object is an Action.
      * @return Action.
      */
-    public Action getAction(String actionName){
-        return actions.get(actionName);
+    public Action getAction(String actionName) throws ActionFactoryException {
+        Action action;
+        String clazz = actions.get(actionName);
+        try {
+            Class<?> actionClass = Class.forName(clazz);
+            action = (Action) actionClass.newInstance();
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            throw new ActionFactoryException("Error: ActionFactory class, getAction() method.", e);
+        }
+        return action;
     }
 }
