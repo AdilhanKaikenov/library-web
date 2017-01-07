@@ -51,7 +51,7 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
     private static final String MOBILE_PHONE_COLUMN_NAME = "MOBILE_PHONE";
     private static final String BOOK_ID_COLUMN_NAME = "BOOK_ID";
     private static final String TITLE_COLUMN_NAME = "TITLE";
-    private static final String AUTHORS_COLUMN_NAME = "AUTHORS";
+    private static final String AUTHOR_COLUMN_NAME = "AUTHOR";
     private static final String PUBLISH_YEAR_COLUMN_NAME = "PUBLISH_YEAR";
     private static final String ORDER_ID_COLUMN_NAME = "ORDER_ID";
     private static final String ORDER_DATE_COLUMN_NAME = "ORDER_DATE";
@@ -95,8 +95,8 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
                 book.setId(resultSet.getInt(BOOK_ID_COLUMN_NAME));
                 log.debug("set book title");
                 book.setTitle(resultSet.getString(TITLE_COLUMN_NAME));
-                log.debug("set authors");
-                book.setAuthors(resultSet.getString(AUTHORS_COLUMN_NAME));
+                log.debug("set author");
+                book.getAuthor().setName(resultSet.getString(AUTHOR_COLUMN_NAME));
                 log.debug("set publish year");
                 book.setPublishYear(Year.of(resultSet.getInt(PUBLISH_YEAR_COLUMN_NAME)));
                 log.debug("set book");

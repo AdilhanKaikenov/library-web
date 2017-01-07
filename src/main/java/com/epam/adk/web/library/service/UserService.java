@@ -63,6 +63,14 @@ public class UserService {
         return user;
     }
 
+    /**
+     * This method returns all the users in parts according to page number.
+     *
+     * @param pageNumber number of pages
+     * @param pageSize the number of users per page
+     * @return List of users
+     * @throws ServiceException
+     */
     public List<User> getPaginated(int pageNumber, int pageSize) throws ServiceException {
         log.debug("Entering UserService class getPaginated() method.");
         List<User> result;

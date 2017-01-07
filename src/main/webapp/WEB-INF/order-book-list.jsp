@@ -23,7 +23,7 @@
                 <ftm:message key="book.publish.year.field"/>
             </th>
             <th width="300px">
-                <ftm:message key="book.authors.field"/>
+                <ftm:message key="book.author.field"/>
             </th>
         </tr>
         <c:forEach items="${ordersBooks}" var="orderBook">
@@ -36,7 +36,7 @@
                         ${orderBook.book.publishYear}
                 </td>
                 <td width="200px">
-                        ${orderBook.book.authors}
+                        ${orderBook.book.author.name}
                 </td>
             </tr>
         </c:forEach>

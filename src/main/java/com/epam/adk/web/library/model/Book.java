@@ -13,7 +13,7 @@ public class Book extends BaseEntity {
 
     private String title;
     private String cover;
-    private String authors;
+    private Author author;
     private Year publishYear;
     private Genre genre;
     private String description;
@@ -21,6 +21,7 @@ public class Book extends BaseEntity {
     private boolean deleted;
 
     public Book() {
+        author = new Author();
     }
 
     public String getTitle() {
@@ -39,12 +40,12 @@ public class Book extends BaseEntity {
         this.cover = cover;
     }
 
-    public String getAuthors() {
-        return authors;
+    public Author getAuthor() {
+        return author;
     }
 
-    public void setAuthors(String authors) {
-        this.authors = authors;
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 
     public Year getPublishYear() {

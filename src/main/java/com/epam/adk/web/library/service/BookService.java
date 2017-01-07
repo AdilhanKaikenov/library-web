@@ -47,6 +47,14 @@ public class BookService {
         return book;
     }
 
+    /**
+     * This method returns all the books in parts according to page number.
+     *
+     * @param pageNumber number of pages
+     * @param pageSize the number of books per page
+     * @return List of books
+     * @throws ServiceException
+     */
     public List<Book> getPaginated(int pageNumber, int pageSize) throws ServiceException {
         log.debug("Entering BookService class getPaginated() method.");
         List<Book> result;
@@ -63,6 +71,14 @@ public class BookService {
         return result;
     }
 
+    /**
+     * This method returns all the books related to the genre of argument in parts according to the page number.
+     *
+     * @param pageNumber number of pages
+     * @param pageSize the number of books per page
+     * @return List of books
+     * @throws ServiceException
+     */
     public List<Book> getPaginatedByGenre(int genreId, int pageNumber, int pageSize) throws ServiceException {
         log.debug("Entering BookService class getPaginatedByGenre() method. Genre Id = {}", genreId);
         List<Book> result;

@@ -48,7 +48,7 @@ public abstract class AbstractDeleteBookFromOrder implements Action {
 
             int orderBooksNumber = ordersBooksService.getOrderBooksNumberByOrderId(orderID);
 
-            if (orderBooksNumber == 0){
+            if (orderBooksNumber == 0){ // if there are no books
                 Order order = new Order();
                 order.setId(orderID);
                 ordersService.delete(order);

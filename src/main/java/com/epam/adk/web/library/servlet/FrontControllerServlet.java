@@ -25,6 +25,7 @@ public final class FrontControllerServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(FrontControllerServlet.class);
 
+    private static final String RIGHT_SLASH = "/";
     private static final String JSP_EXPANSION = ".jsp";
     private static final String ACTION_PARAMETER = "action";
     private static final String REDIRECT_PREFIX = "redirect:";
@@ -101,6 +102,6 @@ public final class FrontControllerServlet extends HttpServlet {
      * @return String
      */
     private String getActionName(HttpServletRequest request) {
-        return request.getMethod() + "/" + request.getParameter(ACTION_PARAMETER);
+        return request.getMethod() + RIGHT_SLASH + request.getParameter(ACTION_PARAMETER);
     }
 }

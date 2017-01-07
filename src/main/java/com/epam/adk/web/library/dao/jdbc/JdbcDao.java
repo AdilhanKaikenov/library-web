@@ -296,7 +296,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         return numberRows;
     }
 
-    private Integer getID(ResultSet generatedKeys) throws DaoException {
+    protected Integer getID(ResultSet generatedKeys) throws DaoException {
         log.debug("Entering JdbcDao class, getID() method.");
         Integer id = null;
         try {

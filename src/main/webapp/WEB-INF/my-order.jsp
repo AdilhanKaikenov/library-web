@@ -18,7 +18,7 @@
                         <ftm:message key="book.title"/>
                     </th>
                     <th width="300px">
-                        <ftm:message key="book.authors.field"/>
+                        <ftm:message key="book.author.field"/>
                     </th>
                     <th width="100px">
                         <ftm:message key="book.publish.year.field"/>
@@ -35,7 +35,7 @@
                     <%--@elvariable id="book" type="com.epam.adk.web.library.model.Book"--%>
                     <tr align="center" class="tr">
                         <td>${book.title}</td>
-                        <td>${book.authors}</td>
+                        <td>${book.author.name}</td>
                         <td>${book.publishYear}</td>
                         <td>${book.genre.value}</td>
                         <td>
@@ -73,7 +73,7 @@
                         <ftm:message key="book.title"/>
                     </th>
                     <th width="300px">
-                        <ftm:message key="book.authors.field"/>
+                        <ftm:message key="book.author.field"/>
                     </th>
                     <th width="100px">
                         <ftm:message key="book.publish.year.field"/>
@@ -90,7 +90,7 @@
                     <%--@elvariable id="book" type="com.epam.adk.web.library.model.Book"--%>
                     <tr align="center" class="tr">
                         <td>${book.title}</td>
-                        <td>${book.authors}</td>
+                        <td>${book.author.name}</td>
                         <td>${book.publishYear}</td>
                         <td>${book.genre.value}</td>
                         <td>

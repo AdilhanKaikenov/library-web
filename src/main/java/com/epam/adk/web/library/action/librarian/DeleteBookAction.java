@@ -40,7 +40,7 @@ public class DeleteBookAction implements Action {
         try {
             int bookOrderNumber = ordersBooksService.getOrdersNumberByBookID(bookID);
 
-            if (bookOrderNumber != 0){
+            if (bookOrderNumber != 0){ // if a book is in the orders
                 request.setAttribute(IMPOSSIBLE_TO_REMOVE_ATTRIBUTE, BOOK_DELETE_FAILED_STORED_MESSAGE);
                 return BOOK_DELETE_RESULT_PAGE_NAME;
             }

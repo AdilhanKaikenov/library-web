@@ -12,7 +12,8 @@
         <div style="height: 35px; padding: 15px;" align="center">
             <form action="${base}/do/" method="post">
                 <input hidden="hidden" name="action" value="book-search">
-                <input style="float: left" type="text" name="dataForSearch" placeholder="Поиск" required>
+                <ftm:message key="search" var="search"/>
+                <input style="float: left" type="text" name="dataForSearch" placeholder="${search}" required>
                 <button type="submit" class="search-icon"></button>
             </form>
         </div>

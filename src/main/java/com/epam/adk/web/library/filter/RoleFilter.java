@@ -26,6 +26,7 @@ public final class RoleFilter implements Filter {
     private static final Logger log = LoggerFactory.getLogger(RoleFilter.class);
 
     private static final String PATH_INFO = "/?action=welcome";
+    private static final String RIGHT_SLASH = "/";
     private static final String READER_ROLE = "Reader";
     private static final String ANONYMOUS_ROLE = "Anonymous";
     private static final String LIBRARIAN_ROLE = "Librarian";
@@ -105,7 +106,7 @@ public final class RoleFilter implements Filter {
      * @return String
      */
     private String getActionName(HttpServletRequest request) {
-        return request.getMethod() + "/" + request.getParameter(ACTION_PARAMETER);
+        return request.getMethod() + RIGHT_SLASH + request.getParameter(ACTION_PARAMETER);
     }
 
     /**

@@ -49,6 +49,14 @@ public class OrdersService {
         return order;
     }
 
+    /**
+     * This method returns all the orders of the user in parts according to page number.
+     *
+     * @param pageNumber number of pages
+     * @param pageSize the number of orders per page
+     * @return List of orders
+     * @throws ServiceException
+     */
     public List<Order> getPaginatedUserOrders(int userID, int pageNumber, int pageSize) throws ServiceException {
         log.debug("Entering OrdersService class getPaginatedUserOrders() method. User id = {}", userID);
         List<Order> result;
@@ -63,6 +71,14 @@ public class OrdersService {
         return result;
     }
 
+    /**
+     * This method returns all the books has a certain status in parts according to page number.
+     *
+     * @param pageNumber number of pages
+     * @param pageSize the number of orders per page
+     * @return List of orders
+     * @throws ServiceException
+     */
     public List<Order> getPaginatedByOrderStatus(boolean status, int pageNumber, int pageSize) throws ServiceException {
         log.debug("Entering OrdersService class getPaginated() method.");
         List<Order> result;

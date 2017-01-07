@@ -30,8 +30,8 @@
                     <td><input name="cover" type="file" accept="image/jpeg,image/png"></td>
                 </tr>
                 <tr>
-                    <td><ftm:message key="book.authors.field"/></td>
-                    <td><input name="authors" type="text" size="50" value="${param.authors}" required></td>
+                    <td><ftm:message key="book.author.field"/></td>
+                    <td><input name="author" type="text" size="50" value="${param.author}" required></td>
                 </tr>
                 <tr>
                     <td><ftm:message key="book.publish.year.field"/></td>

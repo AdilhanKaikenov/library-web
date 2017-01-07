@@ -45,7 +45,7 @@ public class ShowProcessReturnBooksPageAction extends AbstractShowOrderProcessPa
             long diffTime = (dateTo.getTime() - today.getTime()) / ONE_DAY_DURATION;
             log.debug("diffTime = {}", diffTime);
             boolean optionToExtend = false;
-            if (diffTime <= 0) {
+            if (diffTime <= 0) { // If the subscription has expired
                 optionToExtend = true;
             }
             request.setAttribute(OPTION_TO_EXTEND_REQUEST_ATTRIBUTE, optionToExtend);

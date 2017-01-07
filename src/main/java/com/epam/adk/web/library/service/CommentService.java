@@ -34,6 +34,14 @@ public class CommentService {
         return addedComment;
     }
 
+    /**
+     * This method returns all the comments related the book in parts according to page number.
+     *
+     * @param pageNumber number of pages
+     * @param pageSize the number of comments per page
+     * @return List of comments
+     * @throws ServiceException
+     */
     public List<Comment> getPaginatedComments(int bookID, int pageNumber, int pageSize) throws ServiceException {
         log.debug("Entering CommentService class getPaginatedComments() method. Book id = {}", bookID);
         List<Comment> result;

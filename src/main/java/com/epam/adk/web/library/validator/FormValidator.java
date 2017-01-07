@@ -118,9 +118,9 @@ public class FormValidator {
             String key = entry.getKey();
             String value = entry.getValue();
 
-            String[] split = key.split(DOT_REGEX);
-
-            String validatorNumber = split[split.length - 2];
+            String[] keyParts = key.split(DOT_REGEX);
+            // an appeal to an element in the array which is the number of validator
+            String validatorNumber = keyParts[keyParts.length - 2];
             String validatorIdentifier = formName + DOT + fieldName + DOT + validatorNumber;
 
             if (key.contains(validatorIdentifier) && key.contains(CLASS)) {
@@ -170,6 +170,7 @@ public class FormValidator {
             String key = entry.getKey();
             String value = entry.getValue();
             String[] keyParts = key.split(DOT_REGEX);
+            // an appeal to the last element in the array which is potentially a field of validator
             String validatorField = keyParts[keyParts.length - 1];
 
             if (key.contains(validatorIdentifier)) {

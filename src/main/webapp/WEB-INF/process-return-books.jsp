@@ -40,7 +40,7 @@
                 <ftm:message key="book.publish.year.field"/>
             </th>
             <th width="200px">
-                <ftm:message key="book.authors.field"/>
+                <ftm:message key="book.author.field"/>
             </th>
             <th width="200px">
 
@@ -56,7 +56,7 @@
                         ${orderBook.book.publishYear}
                 </td>
                 <td width="200px">
-                        ${orderBook.book.authors}
+                        ${orderBook.book.author.name}
                 </td>
                 <td width="200px">
                     <form action="${base}/do/" method="post">

@@ -35,7 +35,7 @@ public class AddNewBookAction implements Action {
     private static final String COVER_PARAMETER = "cover";
     private static final String REDIRECT_PREFIX = "redirect:";
     private static final String WELCOME_PAGE_NAME = "welcome";
-    private static final String AUTHORS_PARAMETER = "authors";
+    private static final String AUTHOR_PARAMETER = "author";
     private static final String FILENAME_PARAMETER = "filename";
     private static final String DESCRIPTION_PARAMETER = "description";
     private static final String ADD_NEW_BOOK_PAGE_NAME = "add-new-book";
@@ -70,8 +70,8 @@ public class AddNewBookAction implements Action {
 
         String title = request.getParameter(TITLE_PARAMETER);
         log.debug("New book title: {}", title);
-        String authors = request.getParameter(AUTHORS_PARAMETER);
-        log.debug("New book authors: {}", authors);
+        String author = request.getParameter(AUTHOR_PARAMETER);
+        log.debug("New book author: {}", author);
         Year publishYear = Year.of(Integer.parseInt(request.getParameter(PUBLISH_YEAR_PARAMETER)));
         log.debug("New book publishYear: {}", publishYear);
         Genre genre = Genre.from(request.getParameter(GENRE_PARAMETER));
@@ -84,7 +84,7 @@ public class AddNewBookAction implements Action {
         Book book = new Book();
         book.setTitle(title);
         book.setCover(cover);
-        book.setAuthors(authors);
+        book.getAuthor().setName(author.trim());
         book.setPublishYear(publishYear);
         book.setGenre(genre);
         book.setDescription(description);
@@ -108,11 +108,18 @@ public class AddNewBookAction implements Action {
      * @return (string) filename
      */
     private String extractFileName(Part part) {
+        log.debug("Entering extractFileName() method");
         String contentDisposition = part.getHeader(CONTENT_DISPOSITION_HEADER);
         String[] items = contentDisposition.split(SIGN_SEMICOLON);
-        for (String s : items) {
-            if (s.trim().startsWith(FILENAME_PARAMETER)) {
-                return s.substring(s.indexOf(EQUAL_SIGN) + 2, s.length() - 1);
+        for (String paramKeyAndValue : items) {
+            if (paramKeyAndValue.trim().startsWith(FILENAME_PARAMETER)) {
+                // obtaining substring value without quotes
+                String filename = paramKeyAndValue.substring(
+                        paramKeyAndValue.indexOf(EQUAL_SIGN) + 2,
+                        paramKeyAndValue.length() - 1);
+                log.debug(paramKeyAndValue);
+                log.debug("Leaving extractFileName(): filename = {}", filename);
+                return filename;
             }
         }
         return "";

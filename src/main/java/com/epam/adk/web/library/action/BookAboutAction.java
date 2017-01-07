@@ -75,7 +75,7 @@ public class BookAboutAction implements Action {
             log.debug("Total pages number = {}", pagesNumber);
             List<Comment> bookComments = commentService.getPaginatedComments(bookID, page, LINE_PER_PAGE_NUMBER);
 
-            if (bookComments.size() != 0) {
+            if (!bookComments.isEmpty()) {
                 request.setAttribute(BOOK_COMMENTS_REQUEST_ATTRIBUTE, bookComments);
             }
 
@@ -94,7 +94,7 @@ public class BookAboutAction implements Action {
 
                 int orderedBooksNumber = ordersBooksService.getOrderedBooksNumber(orderBook);
 
-                if (orderedBooksNumber > 0) {
+                if (orderedBooksNumber > 0) { // If the book is already ordered
                     request.setAttribute(BOOK_ORDERED_REQUEST_ATTRIBUTE, BOOK_ALREADY_ORDERED_STORED_MESSAGE);
                 }
 
