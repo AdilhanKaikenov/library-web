@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.epam.adk.web.library.util.ConstantsHolder.*;
+
 /**
  * FrontControllerServlet class created on 18.11.2016
  *
@@ -25,10 +27,7 @@ public final class FrontControllerServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(FrontControllerServlet.class);
 
-    private static final String RIGHT_SLASH = "/";
     private static final String JSP_EXPANSION = ".jsp";
-    private static final String ACTION_PARAMETER = "action";
-    private static final String REDIRECT_PREFIX = "redirect:";
     private static final String FRONT_CONTROLLER_SERVLET_PROPERTIES_FILE_NAME = "front.controller.servlet.properties";
 
     private static ActionFactory factory;

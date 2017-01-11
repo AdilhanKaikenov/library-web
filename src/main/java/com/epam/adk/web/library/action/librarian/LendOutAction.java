@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
 
+import static com.epam.adk.web.library.util.ConstantsHolder.*;
+
 /**
  * LendOutAction class created on 07.12.2016
  *
@@ -23,10 +25,6 @@ public class LendOutAction implements Action {
     private static final Logger log = LoggerFactory.getLogger(LendOutAction.class);
 
     private static final int TWO_WEEKS_TIME_DURATION = 1209600000;
-    private static final String REDIRECT_PREFIX = "redirect:";
-    private static final String ORDER_ID_PARAMETER = "orderID";
-    private static final String REQUESTS_PAGE_NAME = "requests";
-
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
         log.debug("The LendOutAction started execute.");

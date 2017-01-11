@@ -11,6 +11,9 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static com.epam.adk.web.library.util.ConstantsHolder.BOOK_ID_PARAMETER;
+import static com.epam.adk.web.library.util.ConstantsHolder.REDIRECT_PREFIX;
+
 /**
  * EditBookAmountAction class created on 09.12.2016
  *
@@ -20,8 +23,6 @@ public class EditBookAmountAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(EditBookAmountAction.class);
 
-    private static final String REDIRECT_PREFIX = "redirect:";
-    private static final String BOOK_ID_PARAMETER = "bookID";
     private static final String BOOK_AMOUNT_PARAMETER = "bookAmount";
     private static final String BOOK_AMOUNT_BOOK_ID_PAGE_NAME = "book-amount&bookID=";
 

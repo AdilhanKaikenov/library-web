@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+import static com.epam.adk.web.library.util.ConstantsHolder.ORDER_ID_PARAMETER;
+
 /**
  *  AbstractShowOrderProcessPageAction class created on 18.12.2016
  *
@@ -23,7 +25,6 @@ public abstract class AbstractShowOrderProcessPageAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(AbstractDeleteBookFromOrder.class);
 
-    protected static final String ORDER_ID_PARAMETER = "orderID";
     private static final String ORDER_REQUEST_ATTRIBUTE = "order";
     private static final String ORDERS_BOOKS_REQUEST_ATTRIBUTE = "ordersBooks";
 

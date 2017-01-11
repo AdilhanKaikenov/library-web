@@ -41,24 +41,6 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
     private static final String SELECT_COUNT_BY_BOOK_ID_QUERY = queryProperties.get("select.count.orders.books.by.book.id");
     private static final String SELECT_COUNT_BY_ORDER_ID_QUERY = queryProperties.get("select.count.orders.books.by.order.id");
 
-    private static final String USER_ID_COLUMN_NAME = "USER_ID";
-    private static final String LOGIN_COLUMN_NAME = "LOGIN";
-    private static final String FIRSTNAME_COLUMN_NAME = "FIRSTNAME";
-    private static final String SURNAME_COLUMN_NAME = "SURNAME";
-    private static final String PATRONYMIC_COLUMN_NAME = "PATRONYMIC";
-    private static final String ADDRESS_COLUMN_NAME = "ADDRESS";
-    private static final String EMAIL_COLUMN_NAME = "EMAIL";
-    private static final String MOBILE_PHONE_COLUMN_NAME = "MOBILE_PHONE";
-    private static final String BOOK_ID_COLUMN_NAME = "BOOK_ID";
-    private static final String TITLE_COLUMN_NAME = "TITLE";
-    private static final String AUTHOR_COLUMN_NAME = "AUTHOR";
-    private static final String PUBLISH_YEAR_COLUMN_NAME = "PUBLISH_YEAR";
-    private static final String ORDER_ID_COLUMN_NAME = "ORDER_ID";
-    private static final String ORDER_DATE_COLUMN_NAME = "ORDER_DATE";
-    private static final String DATE_FROM_COLUMN_NAME = "DATE_FROM";
-    private static final String DATE_TO_COLUMN_NAME = "DATE_TO";
-    private static final String STATUS_COLUMN_NAME = "STATUS";
-
     public JdbcOrdersBooksDao(Connection connection) {
         super(connection);
     }

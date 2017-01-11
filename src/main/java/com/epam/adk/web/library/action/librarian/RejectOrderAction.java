@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static com.epam.adk.web.library.util.ConstantsHolder.*;
+
 /**
  * RejectOrderAction class created on 07.12.2016
  *
@@ -19,10 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 public class RejectOrderAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(LendOutAction.class);
-
-    private static final String REDIRECT_PREFIX = "redirect:";
-    private static final String ORDER_ID_PARAMETER = "orderID";
-    private static final String REQUESTS_PAGE_NAME = "requests";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {

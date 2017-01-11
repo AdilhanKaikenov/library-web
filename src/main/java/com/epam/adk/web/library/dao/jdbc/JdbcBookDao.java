@@ -39,15 +39,6 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     private static final String SELECT_FOUND_QUERY_PART_TWO = queryProperties.get("select.found.books.part.two");
     private static final String SELECT_AUTHOR_BY_NAME_QUERY = queryProperties.get("select.author.by.name");
 
-    private static final String ID_COLUMN_NAME = "ID";
-    private static final String TITLE_COLUMN_NAME = "TITLE";
-    private static final String COVER_COLUMN_NAME = "COVER";
-    private static final String AUTHOR_COLUMN_NAME = "AUTHOR";
-    private static final String PUBLISH_YEAR_COLUMN_NAME = "PUBLISH_YEAR";
-    private static final String GENRE_COLUMN_NAME = "GENRE";
-    private static final String DESCRIPTION_COLUMN_NAME = "DESCRIPTION";
-    private static final String TOTAL_AMOUNT_COLUMN_NAME = "TOTAL_AMOUNT";
-
     private static final String SINGLE_QUOTE = "'";
     private static final String DOUBLE_QUOTE = "''";
 

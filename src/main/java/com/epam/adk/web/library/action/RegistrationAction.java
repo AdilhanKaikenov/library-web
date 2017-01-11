@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static com.epam.adk.web.library.util.ConstantsHolder.*;
+
 /**
  * RegistrationAction class created on 27.11.2016
  *
@@ -24,17 +26,6 @@ public class RegistrationAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(RegistrationAction.class);
 
-    private static final String REDIRECT_PREFIX = "redirect:";
-    private static final String LOGIN_PARAMETER = "login";
-    private static final String EMAIL_PARAMETER = "email";
-    private static final String GENDER_PARAMETER = "gender";
-    private static final String SURNAME_PARAMETER = "surname";
-    private static final String ADDRESS_PARAMETER = "address";
-    private static final String PASSWORD_PARAMETER = "password";
-    private static final String FIRSTNAME_PARAMETER = "firstname";
-    private static final String PATRONYMIC_PARAMETER = "patronymic";
-    private static final String MOBILE_PHONE_PARAMETER = "mobile_phone";
-    private static final String REGISTRATION_PAGE_NAME = "registration";
     private static final String USER_EXIST_STORED_MESSAGE = "user.exist.message";
     private static final String SUCCESS_REGISTRATION_PAGE = "success-registration";
     private static final String USER_EXIST_REQUEST_ATTRIBUTE = "userExist";

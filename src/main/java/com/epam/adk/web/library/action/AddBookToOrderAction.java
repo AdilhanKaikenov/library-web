@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import static com.epam.adk.web.library.util.ConstantsHolder.*;
+
 /**
  * AddBookToOrderAction class created on 16.12.2016
  *
@@ -22,12 +24,6 @@ import javax.servlet.http.HttpSession;
 public class AddBookToOrderAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(AddBookToOrderAction.class);
-
-    private static final String USER_PARAMETER = "user";
-    private static final String REDIRECT_PREFIX = "redirect:";
-    private static final String BOOK_ID_PARAMETER = "bookID";
-    private static final String ORDER_TYPE_PARAMETER = "order_type";
-    private static final String ABOUT_BOOK_ID_PAGE_NAME = "about-book&id=";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {

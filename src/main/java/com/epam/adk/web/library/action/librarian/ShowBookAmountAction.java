@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static com.epam.adk.web.library.util.ConstantsHolder.BOOK_ID_PARAMETER;
+
 /**
  * ShowBookAmountAction class created on 09.12.2016
  *
@@ -21,7 +23,6 @@ public class ShowBookAmountAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(ShowBookAmountAction.class);
 
-    private static final String BOOK_ID_PARAMETER = "bookID";
     private static final String BOOK_REQUEST_ATTRIBUTE = "book";
     private static final String EDIT_BOOK_AMOUNT_PAGE_NAME = "edit-book-amount";
     private static final String ORDERED_BOOK_NUMBER_REQUEST_ATTRIBUTE = "orderedBookNumber";

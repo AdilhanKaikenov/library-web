@@ -34,15 +34,6 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
     private static final String SELECT_RANGE_BY_ID_QUERY = queryProperties.get("select.range.comments.by.book.id");
     private static final String DELETE_QUERY = queryProperties.get("delete.comment");
 
-    private static final String ID_COLUMN_NAME = "ID";
-    private static final String USER_ID_COLUMN_NAME = "USER_ID";
-    private static final String LOGIN_COLUMN_NAME = "LOGIN";
-    private static final String FIRSTNAME_COLUMN_NAME = "FIRSTNAME";
-    private static final String SURNAME_COLUMN_NAME = "SURNAME";
-    private static final String BOOK_ID_COLUMN_NAME = "BOOK_ID";
-    private static final String DATE_COLUMN_NAME = "DATE";
-    private static final String TEXT_COLUMN_NAME = "TEXT";
-
     public JdbcCommentDao(Connection connection) {
         super(connection);
     }

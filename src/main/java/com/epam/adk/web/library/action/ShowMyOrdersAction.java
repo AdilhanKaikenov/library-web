@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+import static com.epam.adk.web.library.util.ConstantsHolder.*;
+
 /**
  * BookAboutAction class created on 06.12.2016
  *
@@ -25,11 +27,8 @@ public class ShowMyOrdersAction implements Action {
 
     private static final int DEFAULT_PAGE_NUMBER = 1;
     private static final int LINE_PER_PAGE_NUMBER = 5;
-    private static final String USER_PARAMETER = "user";
-    private static final String PAGE_PARAMETER = "page";
     private static final String USER_ORDERS_PAGE_NAME = "my-orders";
     private static final String USER_ORDERS_REQUEST_ATTRIBUTE = "userOrders";
-    private static final String PAGES_NUMBER_REQUEST_ATTRIBUTE = "pagesNumber";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {

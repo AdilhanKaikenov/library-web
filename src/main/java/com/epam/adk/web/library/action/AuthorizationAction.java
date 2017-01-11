@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import static com.epam.adk.web.library.util.ConstantsHolder.*;
+
 /**
  * AuthorizationAction class created on 28.11.2016
  *
@@ -23,18 +25,14 @@ public class AuthorizationAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(AuthorizationAction.class);
 
-    private static final String USER = "user";
-    private static final String AUTH_LOGIN_PARAMETER = "login";
-    private static final String REDIRECT_WELCOME_PAGE = "redirect:welcome";
-    private static final String AUTHORIZATION_FORM_NAME = "authorization";
-    private static final String AUTH_PASSWORD_PARAMETER = "password";
-    private static final String AUTHORIZATION_ERROR_PAGE = "authorization-error";
-    private static final String AUTH_ERROR_STORED_MESSAGE = "auth.error";
-    private static final String AUTH_ERROR_STORED_MESSAGE_ONE = "auth.error.message.one";
-    private static final String INACTIVE_STATUS_REQUEST_ATTRIBUTE = "inactiveStatus";
-    private static final String USER_PROFILE_INACTIVE_STORED_MESSAGE = "user.profile.inactive";
-    private static final String AUTHORIZATION_ERROR_REQUEST_ATTRIBUTE = "authorizationError";
-    private static final String AUTHORIZATION_FORM_INCORRECT_REQUEST_ATTRIBUTE = "authorizationFormIncorrect";
+    public static final String AUTHORIZATION_FORM_NAME = "authorization";
+    public static final String AUTHORIZATION_ERROR_PAGE = "authorization-error";
+    public static final String AUTH_ERROR_STORED_MESSAGE = "auth.error";
+    public static final String AUTH_ERROR_STORED_MESSAGE_ONE = "auth.error.message.one";
+    public static final String INACTIVE_STATUS_REQUEST_ATTRIBUTE = "inactiveStatus";
+    public static final String USER_PROFILE_INACTIVE_STORED_MESSAGE = "user.profile.inactive";
+    public static final String AUTHORIZATION_ERROR_REQUEST_ATTRIBUTE = "authorizationError";
+    public static final String AUTHORIZATION_FORM_INCORRECT_REQUEST_ATTRIBUTE = "authorizationFormIncorrect";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -42,8 +40,8 @@ public class AuthorizationAction implements Action {
 
         HttpSession session = request.getSession();
 
-        String login = request.getParameter(AUTH_LOGIN_PARAMETER);
-        String password = request.getParameter(AUTH_PASSWORD_PARAMETER);
+        String login = request.getParameter(LOGIN_PARAMETER);
+        String password = request.getParameter(PASSWORD_PARAMETER);
         log.debug("User login = {}", login);
 
         try {
@@ -76,8 +74,8 @@ public class AuthorizationAction implements Action {
             return AUTHORIZATION_ERROR_PAGE;
         }
 
-        session.setAttribute(USER, user);
+        session.setAttribute(USER_PARAMETER, user);
 
-        return REDIRECT_WELCOME_PAGE;
+        return REDIRECT_PREFIX + WELCOME_PAGE;
     }
 }

@@ -15,6 +15,8 @@ import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import static com.epam.adk.web.library.util.ConstantsHolder.*;
+
 /**
  * CommentAction class created on 03.12.2016
  *
@@ -25,12 +27,8 @@ public class CommentAction implements Action {
     private static final Logger log = LoggerFactory.getLogger(CommentAction.class);
 
     private static final String REGEX_ENTER = "\\r";
-    private static final String USER_PARAMETER = "user";
-    private static final String REDIRECT_PREFIX = "redirect:";
-    private static final String BOOK_ID_PARAMETER = "bookID";
     private static final String COMMENT_PARAMETER = "comment";
     private static final String LINE_BREAK_HTML_TAG = "<p>";
-    private static final String ABOUT_BOOK_PAGE_ID_PARAMETER = "about-book&&id=";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
@@ -66,6 +64,6 @@ public class CommentAction implements Action {
             throw new ActionException("Error: CommentAction class, execute() method. Called CommentService class, writeComment() failed.", e);
         }
 
-        return REDIRECT_PREFIX + ABOUT_BOOK_PAGE_ID_PARAMETER + bookID;
+        return REDIRECT_PREFIX + ABOUT_BOOK_ID_PAGE_NAME + bookID;
     }
 }

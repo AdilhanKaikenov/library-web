@@ -18,6 +18,9 @@ import java.io.File;
 import java.io.IOException;
 import java.time.Year;
 
+import static com.epam.adk.web.library.util.ConstantsHolder.REDIRECT_PREFIX;
+import static com.epam.adk.web.library.util.ConstantsHolder.WELCOME_PAGE;
+
 /**
  * AddNewBookAction class created on 10.12.2016
  *
@@ -33,8 +36,6 @@ public class AddNewBookAction implements Action {
     private static final String GENRE_PARAMETER = "genre";
     private static final String TITLE_PARAMETER = "title";
     private static final String COVER_PARAMETER = "cover";
-    private static final String REDIRECT_PREFIX = "redirect:";
-    private static final String WELCOME_PAGE_NAME = "welcome";
     private static final String AUTHOR_PARAMETER = "author";
     private static final String FILENAME_PARAMETER = "filename";
     private static final String DESCRIPTION_PARAMETER = "description";
@@ -98,7 +99,7 @@ public class AddNewBookAction implements Action {
             throw new ActionException("Error: AddNewBookAction class. ", e);
         }
 
-        return REDIRECT_PREFIX + WELCOME_PAGE_NAME;
+        return REDIRECT_PREFIX + WELCOME_PAGE;
     }
 
     /**

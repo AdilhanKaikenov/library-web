@@ -1,6 +1,5 @@
 package com.epam.adk.web.library.filter;
 
-
 import com.epam.adk.web.library.exception.PropertyManagerException;
 import com.epam.adk.web.library.exception.RoleFilterConfigurationException;
 import com.epam.adk.web.library.model.User;
@@ -16,6 +15,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Collection;
 
+import static com.epam.adk.web.library.util.ConstantsHolder.*;
+
 /**
  * RoleFilter class created on 02.12.2016
  *
@@ -26,12 +27,9 @@ public final class RoleFilter implements Filter {
     private static final Logger log = LoggerFactory.getLogger(RoleFilter.class);
 
     private static final String PATH_INFO = "/?action=welcome";
-    private static final String RIGHT_SLASH = "/";
     private static final String READER_ROLE = "Reader";
     private static final String ANONYMOUS_ROLE = "Anonymous";
     private static final String LIBRARIAN_ROLE = "Librarian";
-    private static final String USER_PARAMETER = "user";
-    private static final String ACTION_PARAMETER = "action";
     private static final String ACTIONS_PROPERTIES_FILE_NAME = "role.actions.properties";
     private static final String FRONT_CONTROLLER_SERVLET_CONTEXT = "/do";
 

@@ -77,7 +77,7 @@
         <c:if test="${pagesNumber != 1}">
             <c:forEach var="i" begin="${1}" end="${pagesNumber}">
                 <%--@elvariable id="genreID" type="java.lang.Integer"--%>
-                <a href="${base}/do/?action=about-book&id=${book.id}&page=${i}"
+                <a href="${base}/do/?action=about-book&bookID=${book.id}&page=${i}"
                    class="link-style">${i}</a>
             </c:forEach>
         </c:if>

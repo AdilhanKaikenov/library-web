@@ -38,21 +38,6 @@ public class JdbcOrders extends JdbcDao<Order> implements OrdersDao {
     private static final String SELECT_COUNT_BY_USER_ID_QUERY = queryProperties.get("select.count.orders.by.user.id");
     private static final String SELECT_RANGE_BY_USER_ID_QUERY = queryProperties.get("select.range.by.user.id");
 
-    private static final String ORDER_ID_COLUMN_NAME = "ORDER_ID";
-    private static final String USER_ID_COLUMN_NAME = "USER_ID";
-    private static final String LOGIN_COLUMN_NAME = "LOGIN";
-    private static final String FIRSTNAME_COLUMN_NAME = "FIRSTNAME";
-    private static final String SURNAME_COLUMN_NAME = "SURNAME";
-    private static final String PATRONYMIC_COLUMN_NAME = "PATRONYMIC";
-    private static final String ADDRESS_COLUMN_NAME = "ADDRESS";
-    private static final String EMAIL_COLUMN_NAME = "EMAIL";
-    private static final String MOBILE_PHONE_COLUMN_NAME = "MOBILE_PHONE";
-    private static final String ORDER_TYPE_COLUMN_NAME = "ORDER_TYPE";
-    private static final String ORDER_DATE_COLUMN_NAME = "ORDER_DATE";
-    private static final String DATE_FROM_COLUMN_NAME = "DATE_FROM";
-    private static final String DATE_TO_COLUMN_NAME = "DATE_TO";
-    private static final String STATUS_COLUMN_NAME = "STATUS";
-
     public JdbcOrders(Connection connection) {
         super(connection);
     }

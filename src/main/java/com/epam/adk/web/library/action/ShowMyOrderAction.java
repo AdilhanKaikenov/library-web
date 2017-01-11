@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+import static com.epam.adk.web.library.util.ConstantsHolder.MY_ORDER_PAGE_NAME;
+import static com.epam.adk.web.library.util.ConstantsHolder.USER_PARAMETER;
+
 /**
  * ShowMyOrderAction class created on 16.12.2016
  *
@@ -20,8 +23,6 @@ public class ShowMyOrderAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(ShowMyOrderAction.class);
 
-    private static final String USER_PARAMETER = "user";
-    private static final String MY_ORDER_PAGE_NAME = "my-order";
     private static final String SUBSCRIPTION_BOOKS_REQUEST_ATTRIBUTE = "subscriptionBooks";
     private static final String READING_ROOM_BOOKS_REQUEST_ATTRIBUTE = "readingRoomBooks";
 

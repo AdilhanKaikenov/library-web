@@ -1,5 +1,7 @@
 package com.epam.adk.web.library.action.librarian;
 
+import static com.epam.adk.web.library.util.ConstantsHolder.REQUESTS_PAGE_NAME;
+
 /**
  * ShowAllOrderRequestsAction class created on 06.12.2016
  *
@@ -8,7 +10,6 @@ package com.epam.adk.web.library.action.librarian;
 public class ShowAllOrderRequestsAction extends AbstractShowOrdersAction {
 
     private static final boolean CONSIDERED_STATUS = false;
-    private static final String REQUESTS_PAGE_NAME = "requests";
 
     @Override
     protected String getPage() {

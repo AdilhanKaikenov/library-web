@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+import static com.epam.adk.web.library.util.ConstantsHolder.*;
+
 /**
  * ShowWelcomeAction class created on 01.12.2016
  *
@@ -23,10 +25,7 @@ public class ShowWelcomeAction implements Action {
 
     private static final int DEFAULT_PAGE_NUMBER = 1;
     private static final int LINE_PER_PAGE_NUMBER = 6;
-    private static final String WELCOME_PAGE = "welcome";
-    private static final String PAGE_PARAMETER = "page";
     private static final String BOOKS_REQUEST_ATTRIBUTE = "books";
-    private static final String PAGES_NUMBER_REQUEST_ATTRIBUTE = "pagesNumber";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {

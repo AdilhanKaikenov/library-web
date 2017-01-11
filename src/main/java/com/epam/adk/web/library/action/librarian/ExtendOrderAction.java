@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
 
+import static com.epam.adk.web.library.util.ConstantsHolder.ORDER_ID_PARAMETER;
+import static com.epam.adk.web.library.util.ConstantsHolder.REDIRECT_PREFIX;
+
 /**
  * ExtendOrderAction class created on 19.12.2016
  *
@@ -22,8 +25,6 @@ public class ExtendOrderAction implements Action {
     private static final Logger log = LoggerFactory.getLogger(ExtendOrderAction.class);
 
     private static final int ONE_WEEK_TIME_DURATION = 604800000;
-    private static final String REDIRECT_PREFIX = "redirect:";
-    private static final String ORDER_ID_PARAMETER = "orderID";
     private static final String HANDLE_RETURN_BOOKS_ORDER_ID_PAGE_NAME = "process-return-books&orderID=";
 
     @Override

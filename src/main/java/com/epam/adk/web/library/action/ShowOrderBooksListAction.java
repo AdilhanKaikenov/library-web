@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+import static com.epam.adk.web.library.util.ConstantsHolder.ORDER_ID_PARAMETER;
+
 /**
  * ShowOrderBooksListAction class created on 18.12.2016
  *
@@ -16,7 +18,6 @@ import java.util.List;
  **/
 public class ShowOrderBooksListAction implements Action {
 
-    private static final String ORDER_ID_PARAMETER = "orderID";
     private static final String ORDER_BOOK_LIST_PAGE_NAME = "order-book-list";
     private static final String ORDERS_BOOKS_REQUEST_ATTRIBUTE = "ordersBooks";
 

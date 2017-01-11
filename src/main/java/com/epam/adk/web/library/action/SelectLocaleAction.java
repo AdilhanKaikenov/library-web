@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.jstl.core.Config;
 
+import static com.epam.adk.web.library.util.ConstantsHolder.*;
+
 /**
  * SelectLocaleAction class created on 30.11.2016
  *
@@ -19,10 +21,7 @@ public class SelectLocaleAction implements Action {
 
     private static final String REFERER = "referer";
     private static final String EQUAL_SIGN = "=";
-    private static final String REDIRECT_PREFIX = "redirect:";
     private static final String REGION_PARAMETER = "region";
-    private static final String ACTION_PARAMETER = "action";
-    private static final String REDIRECT_WELCOME_PAGE = "redirect:welcome";
     private static final String SELECT_LOCALE_PATH_INFO = "/?action=set-locale&region=";
 
     @Override
@@ -35,7 +34,7 @@ public class SelectLocaleAction implements Action {
         String referer = request.getHeader(REFERER);
 
         if (referer.contains(SELECT_LOCALE_PATH_INFO)){
-            return REDIRECT_WELCOME_PAGE;
+            return REDIRECT_PREFIX + WELCOME_PAGE;
         }
 
         if (referer.contains(ACTION_PARAMETER)) {
@@ -43,6 +42,6 @@ public class SelectLocaleAction implements Action {
             log.debug("PAY ATTENTION: Current page '{}'", currentPage);
             return REDIRECT_PREFIX + currentPage;
         }
-        return REDIRECT_WELCOME_PAGE;
+        return REDIRECT_PREFIX + WELCOME_PAGE;
     }
 }

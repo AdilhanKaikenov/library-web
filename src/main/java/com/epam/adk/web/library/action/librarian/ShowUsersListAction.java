@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+import static com.epam.adk.web.library.util.ConstantsHolder.PAGES_NUMBER_REQUEST_ATTRIBUTE;
+import static com.epam.adk.web.library.util.ConstantsHolder.PAGE_PARAMETER;
+
 /**
  * ShowUsersListAction class created on 09.12.2016
  *
@@ -24,10 +27,8 @@ public class ShowUsersListAction implements Action {
 
     private static final int DEFAULT_PAGE_NUMBER = 1;
     private static final int LINE_PER_PAGE_NUMBER = 5;
-    private static final String PAGE_PARAMETER = "page";
     private static final String USERS_LIST_PAGE_NAME = "users-list";
     private static final String USERS_REQUEST_ATTRIBUTE = "users";
-    private static final String PAGES_NUMBER_REQUEST_ATTRIBUTE = "pagesNumber";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {

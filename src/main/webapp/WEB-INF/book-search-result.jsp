@@ -27,7 +27,7 @@
         <c:forEach items="${foundBooks}" var="book">
             <%--@elvariable id="book" type="com.epam.adk.web.library.model.Book"--%>
             <div style="margin: 20px;position: relative; bottom: 25px;">
-                <br><a href="${base}/do/?action=about-book&id=${book.id}">${book.title}</a>
+                <br><a href="${base}/do/?action=about-book&bookID=${book.id}">${book.title}</a>
             </div>
         </c:forEach>
     </c:if>

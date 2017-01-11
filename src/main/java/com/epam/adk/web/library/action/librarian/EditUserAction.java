@@ -12,6 +12,9 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static com.epam.adk.web.library.util.ConstantsHolder.REDIRECT_PREFIX;
+import static com.epam.adk.web.library.util.ConstantsHolder.USER_ID_PARAMETER;
+
 /**
  * EditUserAction class created on 09.12.2016
  *
@@ -24,8 +27,6 @@ public class EditUserAction implements Action {
     private static final String ROLE_PARAMETER = "role";
     private static final String USERS_PAGE_NAME = "users";
     private static final String STATUS_PARAMETER = "status";
-    private static final String USER_ID_PARAMETER = "userID";
-    private static final String REDIRECT_PREFIX = "redirect:";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {

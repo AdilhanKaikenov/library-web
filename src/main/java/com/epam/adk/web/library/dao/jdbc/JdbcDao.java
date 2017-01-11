@@ -41,6 +41,35 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     protected static final int NINTH_PARAMETER_INDEX = 9;
     protected static final int TENTH_PARAMETER_INDEX = 10;
 
+    protected static final String ID_COLUMN_NAME = "ID";
+    protected static final String TEXT_COLUMN_NAME = "TEXT";
+    protected static final String ROLE_COLUMN_NAME = "ROLE";
+    protected static final String DATE_COLUMN_NAME = "DATE";
+    protected static final String COVER_COLUMN_NAME = "COVER";
+    protected static final String GENRE_COLUMN_NAME = "GENRE";
+    protected static final String EMAIL_COLUMN_NAME = "EMAIL";
+    protected static final String LOGIN_COLUMN_NAME = "LOGIN";
+    protected static final String TITLE_COLUMN_NAME = "TITLE";
+    protected static final String AUTHOR_COLUMN_NAME = "AUTHOR";
+    protected static final String STATUS_COLUMN_NAME = "STATUS";
+    protected static final String GENDER_COLUMN_NAME = "GENDER";
+    protected static final String ADDRESS_COLUMN_NAME = "ADDRESS";
+    protected static final String SURNAME_COLUMN_NAME = "SURNAME";
+    protected static final String BOOK_ID_COLUMN_NAME = "BOOK_ID";
+    protected static final String USER_ID_COLUMN_NAME = "USER_ID";
+    protected static final String DATE_TO_COLUMN_NAME = "DATE_TO";
+    protected static final String ORDER_ID_COLUMN_NAME = "ORDER_ID";
+    protected static final String PASSWORD_COLUMN_NAME = "PASSWORD";
+    protected static final String FIRSTNAME_COLUMN_NAME = "FIRSTNAME";
+    protected static final String DATE_FROM_COLUMN_NAME = "DATE_FROM";
+    protected static final String ORDER_TYPE_COLUMN_NAME = "ORDER_TYPE";
+    protected static final String ORDER_DATE_COLUMN_NAME = "ORDER_DATE";
+    protected static final String PATRONYMIC_COLUMN_NAME = "PATRONYMIC";
+    protected static final String DESCRIPTION_COLUMN_NAME = "DESCRIPTION";
+    protected static final String TOTAL_AMOUNT_COLUMN_NAME = "TOTAL_AMOUNT";
+    protected static final String MOBILE_PHONE_COLUMN_NAME = "MOBILE_PHONE";
+    protected static final String PUBLISH_YEAR_COLUMN_NAME = "PUBLISH_YEAR";
+
     private Connection connection;
 
     public JdbcDao(Connection connection) {

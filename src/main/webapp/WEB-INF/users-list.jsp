@@ -50,7 +50,7 @@
                                 <c:when test="${not user.status}"><ftm:message key="inactive.false"/></c:when>
                             </c:choose>
                         </td>
-                        <td width="200px"><a href="${base}/do/?action=edit-user&id=${user.id}"
+                        <td width="200px"><a href="${base}/do/?action=edit-user&userID=${user.id}"
                                class="link-style"><ftm:message key="change.button"/></a></td>
                     </tr>
                 </c:forEach>

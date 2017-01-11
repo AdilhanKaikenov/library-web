@@ -35,19 +35,6 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     private static final String UPDATE_QUERY = queryProperties.get("update.user");
     private static final String DELETE_QUERY = queryProperties.get("delete.user");
 
-    private static final String ID_COLUMN_NAME = "ID";
-    private static final String LOGIN_COLUMN_NAME = "LOGIN";
-    private static final String PASSWORD_COLUMN_NAME = "PASSWORD";
-    private static final String EMAIL_COLUMN_NAME = "EMAIL";
-    private static final String FIRSTNAME_COLUMN_NAME = "FIRSTNAME";
-    private static final String SURNAME_COLUMN_NAME = "SURNAME";
-    private static final String PATRONYMIC_COLUMN_NAME = "PATRONYMIC";
-    private static final String GENDER_COLUMN_NAME = "GENDER";
-    private static final String ADDRESS_COLUMN_NAME = "ADDRESS";
-    private static final String MOBILE_PHONE_COLUMN_NAME = "MOBILE_PHONE";
-    private static final String ROLE_COLUMN_NAME = "ROLE";
-    private static final String STATUS_COLUMN_NAME = "STATUS";
-
     public JdbcUserDao(Connection connection) {
         super(connection);
     }

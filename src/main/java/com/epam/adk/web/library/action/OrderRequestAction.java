@@ -18,6 +18,8 @@ import javax.servlet.http.HttpSession;
 import java.sql.Date;
 import java.util.List;
 
+import static com.epam.adk.web.library.util.ConstantsHolder.*;
+
 /**
  * OrderRequestAction class created on 16.12.2016
  *
@@ -27,9 +29,6 @@ public class OrderRequestAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(OrderRequestAction.class);
 
-    private static final String USER_PARAMETER = "user";
-    private static final String REDIRECT_PREFIX = "redirect:";
-    private static final String MY_ORDER_PAGE_NAME = "my-order";
     private static final String ORDER_TYPE_PARAMETER = "orderType";
 
     @Override

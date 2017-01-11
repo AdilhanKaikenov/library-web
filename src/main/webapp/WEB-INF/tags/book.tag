@@ -25,7 +25,7 @@
     </div>
     <div class="book-links-section">
         <div style="float: left; margin-right: 20px;">
-            <a href="${base}/do/?action=about-book&id=${book.id}" class="link-style"><ftm:message
+            <a href="${base}/do/?action=about-book&bookID=${book.id}" class="link-style"><ftm:message
                     key="about.book"/></a>
         </div>
         <%--@elvariable id="user" type="com.epam.adk.web.library.model.User"--%>
