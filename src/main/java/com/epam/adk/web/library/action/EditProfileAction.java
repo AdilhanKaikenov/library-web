@@ -38,7 +38,8 @@ public class EditProfileAction implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
         log.debug("The EditProfileAction started execute.");
 
-        HttpSession session = request.getSession(false);
+        boolean isCreated = false;
+        HttpSession session = request.getSession(isCreated);
         User user = ((User) session.getAttribute(USER_PARAMETER));
 
         String password = request.getParameter(PASSWORD_PARAMETER);

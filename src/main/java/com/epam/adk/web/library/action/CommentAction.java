@@ -36,7 +36,8 @@ public class CommentAction implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
         log.debug("The CommentAction started execute.");
 
-        HttpSession session = request.getSession(false);
+        boolean isCreated = false;
+        HttpSession session = request.getSession(isCreated);
 
         Date date = new Date();
         Timestamp time = new Timestamp(date.getTime());

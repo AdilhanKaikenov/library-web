@@ -33,7 +33,8 @@ public class AddBookToOrderAction implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
         log.debug("The AddBookToOrderAction started execute.");
 
-        HttpSession session = request.getSession(false);
+        boolean isCreated = false;
+        HttpSession session = request.getSession(isCreated);
 
         User user = ((User) session.getAttribute(USER_PARAMETER));
         int bookID = Integer.parseInt(request.getParameter(BOOK_ID_PARAMETER));

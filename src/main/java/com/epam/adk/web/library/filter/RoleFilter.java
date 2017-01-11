@@ -71,7 +71,8 @@ public final class RoleFilter implements Filter {
 
         String actionName = getActionName(request);
         log.debug("RoleFilter class: actionName = {}", actionName);
-        HttpSession session = request.getSession(false);
+        boolean isCreated = false;
+        HttpSession session = request.getSession(isCreated);
 
         if (session != null) {
             user = ((User) session.getAttribute(USER_PARAMETER));

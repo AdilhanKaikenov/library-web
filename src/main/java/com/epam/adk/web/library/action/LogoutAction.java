@@ -24,7 +24,8 @@ public class LogoutAction implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
         log.debug("The LogoutAction started execute.");
 
-        HttpSession session = request.getSession(false);
+        boolean isCreated = false;
+        HttpSession session = request.getSession(isCreated);
         if (session != null)
             session.invalidate();
 

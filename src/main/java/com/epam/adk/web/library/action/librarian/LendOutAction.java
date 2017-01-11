@@ -39,7 +39,8 @@ public class LendOutAction implements Action {
         try {
             Order order = ordersService.getOrderById(orderID);
 
-            order.setStatus(true);
+            boolean isIssued = true;
+            order.setStatus(isIssued);
 
             java.util.Date today = new java.util.Date();
             Date fromDate = new Date(today.getTime());

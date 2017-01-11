@@ -35,7 +35,8 @@ public class ShowMyOrdersAction implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
         log.debug("The ShowMyOrdersAction started execute.");
 
-        HttpSession session = request.getSession(false);
+        boolean isCreated = false;
+        HttpSession session = request.getSession(isCreated);
 
         User user = ((User) session.getAttribute(USER_PARAMETER));
         int userID = user.getId();

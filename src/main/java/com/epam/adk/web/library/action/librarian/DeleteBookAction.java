@@ -46,7 +46,8 @@ public class DeleteBookAction implements Action {
             }
 
             Book book = bookService.getBookById(bookID);
-            book.setDeleted(true);
+            boolean isDeleted = true;
+            book.setDeleted(isDeleted);
 
             bookService.updateBook(book);
 
