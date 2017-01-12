@@ -4,7 +4,6 @@ import com.epam.adk.web.library.action.ActionFactory;
 import com.epam.adk.web.library.dao.jdbc.JdbcDao;
 import com.epam.adk.web.library.dbcp.ConnectionPool;
 import com.epam.adk.web.library.filter.RoleFilter;
-import com.epam.adk.web.library.servlet.ErrorHandler;
 import com.epam.adk.web.library.servlet.FrontControllerServlet;
 import com.epam.adk.web.library.servlet.ImageServlet;
 import com.epam.adk.web.library.validator.FormValidator;
@@ -41,8 +40,6 @@ public final class ConfigurationListener implements ServletContextListener {
             log.debug("FrontControllerServlet configured");
             ImageServlet.configure();
             log.debug("ImageServlet configured");
-            ErrorHandler.configure();
-            log.debug("ErrorHandler configured");
         } catch (Exception e) {
             log.error("Error: ConfigurationListener class, called configure{} method failed.", e);
         }
