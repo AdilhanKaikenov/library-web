@@ -19,7 +19,7 @@ public class ActionFactory {
     private static final Logger log = LoggerFactory.getLogger(ActionFactory.class);
 
     private static final ActionFactory instance = new ActionFactory();
-    public static final String ACTION_PROPERTIES_FILE_NAME = "action.properties";
+    private static final String ACTION_PROPERTIES_FILE_NAME = "action.properties";
 
     private static Map<String, String> actions;
 

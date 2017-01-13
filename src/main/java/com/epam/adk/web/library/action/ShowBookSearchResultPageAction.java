@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
  **/
 public class ShowBookSearchResultPageAction implements Action {
 
-    public static final String BOOK_SEARCH_RESULT_PAGE_NAME = "book-search-result";
+    private static final String BOOK_SEARCH_RESULT_PAGE_NAME = "book-search-result";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {

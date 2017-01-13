@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
  **/
 public class ShowEditProfilePageAction implements Action {
 
-    public static final String EDIT_PROFILE_PAGE_NAME = "edit-profile";
+    private static final String EDIT_PROFILE_PAGE_NAME = "edit-profile";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {

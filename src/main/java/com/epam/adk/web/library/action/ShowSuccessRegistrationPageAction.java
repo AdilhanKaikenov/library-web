@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
  **/
 public class ShowSuccessRegistrationPageAction implements Action {
 
-    public static final String SUCCESS_REGISTRATION_PAGE_NAME = "success-registration";
+    private static final String SUCCESS_REGISTRATION_PAGE_NAME = "success-registration";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {

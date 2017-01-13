@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
  **/
 public class ShowProfileAction implements Action {
 
-    public static final String PROFILE_PAGE_NAME = "profile";
+    private static final String PROFILE_PAGE_NAME = "profile";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {

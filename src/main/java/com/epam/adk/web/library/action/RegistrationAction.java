@@ -76,8 +76,8 @@ public class RegistrationAction implements Action {
         user.setRole(Role.READER);
         user.setAddress(address);
         user.setMobilePhone(mobilePhone);
-        boolean isActiv = true;
-        user.setStatus(isActiv);
+        boolean isActive = true;
+        user.setStatus(isActive);
 
         UserService userService = new UserService();
 

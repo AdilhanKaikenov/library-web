@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
  **/
 public class ShowAuthorizationErrorPageAction implements Action {
 
-    public static final String AUTHORIZATION_ERROR_PAGE_NAME = "authorization-error";
+    private static final String AUTHORIZATION_ERROR_PAGE_NAME = "authorization-error";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {

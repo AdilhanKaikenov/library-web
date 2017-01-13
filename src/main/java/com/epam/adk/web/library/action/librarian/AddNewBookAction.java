@@ -44,7 +44,7 @@ public class AddNewBookAction implements Action {
     private static final String TOTAL_AMOUNT_PARAMETER = "totalAmount";
     private static final String CONTENT_DISPOSITION_HEADER = "content-disposition";
     private static final String FILE_SIZE_INCORRECT_REQUEST_ATTRIBUTE = "fileSizeIncorrect";
-    public static final String IMAGE_FILE_SIZE_INCORRECT_STORED_MESSAGE = "image.file.size.incorrect";
+    private static final String IMAGE_FILE_SIZE_INCORRECT_STORED_MESSAGE = "image.file.size.incorrect";
 
 
     @Override

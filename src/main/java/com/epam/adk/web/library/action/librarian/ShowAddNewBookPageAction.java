@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
  **/
 public class ShowAddNewBookPageAction implements Action {
 
-    public static final String ADD_NEW_BOOK_PAGE_NAME = "add-new-book";
+    private static final String ADD_NEW_BOOK_PAGE_NAME = "add-new-book";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {

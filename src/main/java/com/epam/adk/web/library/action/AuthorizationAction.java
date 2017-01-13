@@ -25,14 +25,14 @@ public class AuthorizationAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(AuthorizationAction.class);
 
-    public static final String AUTHORIZATION_FORM_NAME = "authorization";
-    public static final String AUTHORIZATION_ERROR_PAGE = "authorization-error";
-    public static final String AUTH_ERROR_STORED_MESSAGE = "auth.error";
-    public static final String AUTH_ERROR_STORED_MESSAGE_ONE = "auth.error.message.one";
-    public static final String INACTIVE_STATUS_REQUEST_ATTRIBUTE = "inactiveStatus";
-    public static final String USER_PROFILE_INACTIVE_STORED_MESSAGE = "user.profile.inactive";
-    public static final String AUTHORIZATION_ERROR_REQUEST_ATTRIBUTE = "authorizationError";
-    public static final String AUTHORIZATION_FORM_INCORRECT_REQUEST_ATTRIBUTE = "authorizationFormIncorrect";
+    private static final String AUTHORIZATION_FORM_NAME = "authorization";
+    private static final String AUTHORIZATION_ERROR_PAGE = "authorization-error";
+    private static final String AUTH_ERROR_STORED_MESSAGE = "auth.error";
+    private static final String AUTH_ERROR_STORED_MESSAGE_ONE = "auth.error.message.one";
+    private static final String INACTIVE_STATUS_REQUEST_ATTRIBUTE = "inactiveStatus";
+    private static final String USER_PROFILE_INACTIVE_STORED_MESSAGE = "user.profile.inactive";
+    private static final String AUTHORIZATION_ERROR_REQUEST_ATTRIBUTE = "authorizationError";
+    private static final String AUTHORIZATION_FORM_INCORRECT_REQUEST_ATTRIBUTE = "authorizationFormIncorrect";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
