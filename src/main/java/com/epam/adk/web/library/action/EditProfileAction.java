@@ -46,16 +46,7 @@ public class EditProfileAction implements Action {
         String mobilePhone = request.getParameter(MOBILE_PHONE_PARAMETER);
         log.debug("Mobile phone: {}", mobilePhone);
 
-        try {
-            FormValidator formValidator = new FormValidator();
-            boolean isInvalid = formValidator.isInvalid(EDIT_PROFILE_FORM_NAME, request);
-            log.debug("Edit profile form validation, invalid = {}", isInvalid);
-            if (isInvalid) {
-                return EDIT_PROFILE_PAGE_NAME;
-            }
-        } catch (FormValidationException e) {
-            throw new ActionException("Error: EditProfileAction class. Validation failed:", e);
-        }
+        if (isFormInvalid(request)) return EDIT_PROFILE_PAGE_NAME;
 
         user.setPassword(password);
         user.setEmail(email);
@@ -72,5 +63,19 @@ public class EditProfileAction implements Action {
             return EDIT_PROFILE_PAGE_NAME;
         }
         return REDIRECT_PREFIX + PERSONAL_AREA_PAGE_NAME;
+    }
+
+    private boolean isFormInvalid(HttpServletRequest request) throws ActionException {
+        try {
+            FormValidator formValidator = new FormValidator();
+            boolean isInvalid = formValidator.isInvalid(EDIT_PROFILE_FORM_NAME, request);
+            log.debug("Edit profile form validation, invalid = {}", isInvalid);
+            if (isInvalid) {
+                return true;
+            }
+        } catch (FormValidationException e) {
+            throw new ActionException("Error: EditProfileAction class. Validation failed:", e);
+        }
+        return false;
     }
 }

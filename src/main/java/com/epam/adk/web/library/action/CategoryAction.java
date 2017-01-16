@@ -38,27 +38,31 @@ public class CategoryAction implements Action {
 
         BookService bookService = new BookService();
 
-        int page = DEFAULT_PAGE_NUMBER;
-        String pageParameter = request.getParameter(PAGE_PARAMETER);
-        if (pageParameter != null) {
-            page = Integer.parseInt(pageParameter);
-            log.debug("Page #{}", page);
-        }
-
         try {
-            int booksNumber = bookService.getBooksNumberByGenre(genreID);
-            log.debug("Total books number = {}", booksNumber);
-            Pagination pagination = new Pagination();
-            int pagesNumber = pagination.getPagesNumber(booksNumber, LINE_PER_PAGE_NUMBER);
-            log.debug("Total pages number = {}", pagesNumber);
-            List<Book> genreBooks = bookService.getPaginatedByGenre(genreID, page, LINE_PER_PAGE_NUMBER);
+            int pageNumber = getPageNumber(request, genreID, bookService);
+            List<Book> genreBooks = bookService.getPaginatedByGenre(genreID, pageNumber, LINE_PER_PAGE_NUMBER);
 
-            request.setAttribute(PAGES_NUMBER_REQUEST_ATTRIBUTE, pagesNumber);
             request.setAttribute(GENRE_BOOKS_REQUEST_ATTRIBUTE, genreBooks);
             request.setAttribute(GENRE_ID_REQUEST_ATTRIBUTE, genreID);
         } catch (ServiceException e) {
             throw new ActionException("Error: CategoryAction class, execute() method.", e);
         }
         return CATEGORY_PAGE;
+    }
+
+    private int getPageNumber(HttpServletRequest request, int genreID, BookService bookService) throws ServiceException {
+        int page = DEFAULT_PAGE_NUMBER;
+        String pageParameter = request.getParameter(PAGE_PARAMETER);
+        if (pageParameter != null) {
+            page = Integer.parseInt(pageParameter);
+            log.debug("Page #{}", page);
+        }
+        int booksNumber = bookService.getBooksNumberByGenre(genreID);
+        log.debug("Total books number = {}", booksNumber);
+        Pagination pagination = new Pagination();
+        int pagesNumber = pagination.getPagesNumber(booksNumber, LINE_PER_PAGE_NUMBER);
+        log.debug("Total pages number = {}", pagesNumber);
+        request.setAttribute(PAGES_NUMBER_REQUEST_ATTRIBUTE, pagesNumber);
+        return page;
     }
 }

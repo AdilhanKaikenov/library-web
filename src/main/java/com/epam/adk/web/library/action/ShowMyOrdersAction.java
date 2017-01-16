@@ -40,32 +40,35 @@ public class ShowMyOrdersAction implements Action {
         User user = ((User) session.getAttribute(USER_PARAMETER));
         int userID = user.getId();
 
-        int page = DEFAULT_PAGE_NUMBER;
-        String pageParameter = request.getParameter(PAGE_PARAMETER);
-        if (pageParameter != null) {
-            page = Integer.parseInt(pageParameter);
-            log.debug("Page #{}", page);
-        }
-
         OrdersService ordersService = new OrdersService();
 
         try {
-            int userOrdersNumber = ordersService.getOrdersNumberByUserID(userID);
-            log.debug("Total orders number = {}", userOrdersNumber);
-            Pagination pagination = new Pagination();
-            int pagesNumber = pagination.getPagesNumber(userOrdersNumber, LINE_PER_PAGE_NUMBER);
-            log.debug("Total pages number = {}", pagesNumber);
+            int page = getPageNumber(request, userID, ordersService);
 
             List<Order> userOrders = ordersService.getPaginatedUserOrders(userID, page, LINE_PER_PAGE_NUMBER);
             if (!userOrders.isEmpty()) {
                 request.setAttribute(USER_ORDERS_REQUEST_ATTRIBUTE, userOrders);
             }
 
-            request.setAttribute(PAGES_NUMBER_REQUEST_ATTRIBUTE, pagesNumber);
-
         } catch (ServiceException e) {
             throw new ActionException("Error: ShowMyOrdersAction class, execute() method.", e);
         }
         return USER_ORDERS_PAGE_NAME;
+    }
+
+    private int getPageNumber(HttpServletRequest request, int userID, OrdersService ordersService) throws ServiceException {
+        int page = DEFAULT_PAGE_NUMBER;
+        String pageParameter = request.getParameter(PAGE_PARAMETER);
+        if (pageParameter != null) {
+            page = Integer.parseInt(pageParameter);
+            log.debug("Page #{}", page);
+        }
+        int userOrdersNumber = ordersService.getOrdersNumberByUserID(userID);
+        log.debug("Total orders number = {}", userOrdersNumber);
+        Pagination pagination = new Pagination();
+        int pagesNumber = pagination.getPagesNumber(userOrdersNumber, LINE_PER_PAGE_NUMBER);
+        log.debug("Total pages number = {}", pagesNumber);
+        request.setAttribute(PAGES_NUMBER_REQUEST_ATTRIBUTE, pagesNumber);
+        return page;
     }
 }

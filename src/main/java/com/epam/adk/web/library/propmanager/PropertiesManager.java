@@ -16,8 +16,6 @@ import java.util.*;
  */
 public final class PropertiesManager {
 
-    private static final Logger log = LoggerFactory.getLogger(PropertiesManager.class);
-
     private Properties properties;
 
     public PropertiesManager(String propertyFileName) throws PropertyManagerException {

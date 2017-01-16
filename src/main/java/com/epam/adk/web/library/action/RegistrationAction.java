@@ -52,31 +52,9 @@ public class RegistrationAction implements Action {
         String mobilePhone = request.getParameter(MOBILE_PHONE_PARAMETER);
         log.debug("Mobile Phone: {}", mobilePhone);
 
-        try {
-            FormValidator validator = new FormValidator();
-            boolean isInvalid = validator.isInvalid(REGISTRATION_PAGE_NAME, request);
-            log.debug("Registration form validation, invalid = {}", isInvalid);
-            if (isInvalid){
-                return REGISTRATION_PAGE_NAME;
-            }
+        if (isFormInvalid(request)) return REGISTRATION_PAGE_NAME;
 
-        } catch (FormValidationException e) {
-            throw new ActionException("Error: RegistrationAction class. Validation failed:", e);
-        }
-
-        User user = new User();
-        user.setLogin(login);
-        user.setPassword(MD5.get(password));
-        user.setEmail(email);
-        user.setFirstname(firstname);
-        user.setSurname(surname);
-        user.setPatronymic(patronymic);
-        user.setGender(gender);
-        user.setRole(Role.READER);
-        user.setAddress(address);
-        user.setMobilePhone(mobilePhone);
-        boolean isActive = true;
-        user.setStatus(isActive);
+        User user = createNewUser(login, password, email, firstname, surname, patronymic, gender, address, mobilePhone);
 
         UserService userService = new UserService();
 
@@ -90,5 +68,37 @@ public class RegistrationAction implements Action {
             return REGISTRATION_PAGE_NAME;
         }
         return REDIRECT_PREFIX + SUCCESS_REGISTRATION_PAGE;
+    }
+
+    private boolean isFormInvalid(HttpServletRequest request) throws ActionException {
+        try {
+            FormValidator validator = new FormValidator();
+            boolean isInvalid = validator.isInvalid(REGISTRATION_PAGE_NAME, request);
+            log.debug("Registration form validation, invalid = {}", isInvalid);
+            if (isInvalid){
+                return true;
+            }
+
+        } catch (FormValidationException e) {
+            throw new ActionException("Error: RegistrationAction class. Validation failed:", e);
+        }
+        return false;
+    }
+
+    private User createNewUser(String login, String password, String email, String firstname, String surname, String patronymic, Gender gender, String address, String mobilePhone) {
+        User user = new User();
+        user.setLogin(login);
+        user.setPassword(MD5.get(password));
+        user.setEmail(email);
+        user.setFirstname(firstname);
+        user.setSurname(surname);
+        user.setPatronymic(patronymic);
+        user.setGender(gender);
+        user.setRole(Role.READER);
+        user.setAddress(address);
+        user.setMobilePhone(mobilePhone);
+        boolean isActive = true;
+        user.setStatus(isActive);
+        return user;
     }
 }

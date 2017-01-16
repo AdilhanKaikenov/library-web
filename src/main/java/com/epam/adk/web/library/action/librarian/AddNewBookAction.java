@@ -68,7 +68,6 @@ public class AddNewBookAction implements Action {
             throw new ActionException("Error: AddNewBookAction class.", e);
         }
 
-
         String title = request.getParameter(TITLE_PARAMETER);
         log.debug("New book title: {}", title);
         String author = request.getParameter(AUTHOR_PARAMETER);
@@ -82,14 +81,7 @@ public class AddNewBookAction implements Action {
         int totalAmount = Integer.parseInt(request.getParameter(TOTAL_AMOUNT_PARAMETER));
         log.debug("New totalAmount title: {}", totalAmount);
 
-        Book book = new Book();
-        book.setTitle(title);
-        book.setCover(cover);
-        book.getAuthor().setName(author.trim());
-        book.setPublishYear(publishYear);
-        book.setGenre(genre);
-        book.setDescription(description);
-        book.setTotalAmount(totalAmount);
+        Book book = createNewBook(cover, title, author, publishYear, genre, description, totalAmount);
 
         try {
             BookService bookService = new BookService();
@@ -100,6 +92,18 @@ public class AddNewBookAction implements Action {
         }
 
         return REDIRECT_PREFIX + WELCOME_PAGE;
+    }
+
+    private Book createNewBook(String cover, String title, String author, Year publishYear, Genre genre, String description, int totalAmount) {
+        Book book = new Book();
+        book.setTitle(title);
+        book.setCover(cover);
+        book.getAuthor().setName(author.trim());
+        book.setPublishYear(publishYear);
+        book.setGenre(genre);
+        book.setDescription(description);
+        book.setTotalAmount(totalAmount);
+        return book;
     }
 
     /**

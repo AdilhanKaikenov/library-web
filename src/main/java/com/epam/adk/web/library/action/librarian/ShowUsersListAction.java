@@ -36,28 +36,31 @@ public class ShowUsersListAction implements Action {
 
         UserService userService = new UserService();
 
-        int page = DEFAULT_PAGE_NUMBER;
-        String pageParameter = request.getParameter(PAGE_PARAMETER);
-
-        if (pageParameter != null) {
-            page = Integer.parseInt(pageParameter);
-            log.debug("Page #{}", page);
-        }
-
         try {
-            List<User> users = userService.getPaginated(page, LINE_PER_PAGE_NUMBER);
+            int pageNumber = getPageNumber(request, userService);
 
-            int usersNumber = userService.getUsersNumber();
-            log.debug("Total users number = {}", usersNumber);
-            Pagination pagination = new Pagination();
-            int pagesNumber = pagination.getPagesNumber(usersNumber, LINE_PER_PAGE_NUMBER);
-            log.debug("Total pages number = {}", pagesNumber);
+            List<User> users = userService.getPaginated(pageNumber, LINE_PER_PAGE_NUMBER);
 
             request.setAttribute(USERS_REQUEST_ATTRIBUTE, users);
-            request.setAttribute(PAGES_NUMBER_REQUEST_ATTRIBUTE, pagesNumber);
         } catch (ServiceException e) {
             throw new ActionException("Error: ShowUsersListAction class. ", e);
         }
         return USERS_LIST_PAGE_NAME;
+    }
+
+    private int getPageNumber(HttpServletRequest request, UserService userService) throws ServiceException {
+        int page = DEFAULT_PAGE_NUMBER;
+        String pageParameter = request.getParameter(PAGE_PARAMETER);
+        if (pageParameter != null) {
+            page = Integer.parseInt(pageParameter);
+            log.debug("Page #{}", page);
+        }
+        int usersNumber = userService.getUsersNumber();
+        log.debug("Total users number = {}", usersNumber);
+        Pagination pagination = new Pagination();
+        int pagesNumber = pagination.getPagesNumber(usersNumber, LINE_PER_PAGE_NUMBER);
+        log.debug("Total pages number = {}", pagesNumber);
+        request.setAttribute(PAGES_NUMBER_REQUEST_ATTRIBUTE, pagesNumber);
+        return page;
     }
 }

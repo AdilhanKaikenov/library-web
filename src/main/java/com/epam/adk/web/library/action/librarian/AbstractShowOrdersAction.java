@@ -33,21 +33,10 @@ public abstract class AbstractShowOrdersAction implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
         log.debug("The AbstractShowOrdersAction started execute.");
 
-        int page = DEFAULT_PAGE_NUMBER;
-        String pageParameter = request.getParameter(PAGE_PARAMETER);
-        if (pageParameter != null) {
-            page = Integer.parseInt(pageParameter);
-            log.debug("Page #{}", page);
-        }
-
         OrdersService ordersService = new OrdersService();
 
         try {
-            int ordersNumber = ordersService.getOrdersNumberByStatus(getOrderStatus());
-            log.debug("Total orders number = {}", ordersNumber);
-            Pagination pagination = new Pagination();
-            int pagesNumber = pagination.getPagesNumber(ordersNumber, LINE_PER_PAGE_NUMBER);
-            log.debug("Total pages number = {}", pagesNumber);
+            int page = getPageNumber(request, ordersService);
 
             List<Order> orders = ordersService.getPaginatedByOrderStatus(getOrderStatus(), page, LINE_PER_PAGE_NUMBER);
 
@@ -55,13 +44,27 @@ public abstract class AbstractShowOrdersAction implements Action {
                 request.setAttribute(ORDERS_REQUEST_ATTRIBUTE, orders);
             }
 
-            request.setAttribute(PAGES_NUMBER_REQUEST_ATTRIBUTE, pagesNumber);
-
         } catch (ServiceException e) {
             throw new ActionException("Error: AbstractShowOrdersAction class, execute() method.", e);
         }
         log.debug("The AbstractShowOrdersAction class finished work. Return page = {}", getPage());
         return getPage();
+    }
+
+    private int getPageNumber(HttpServletRequest request, OrdersService ordersService) throws ServiceException {
+        int page = DEFAULT_PAGE_NUMBER;
+        String pageParameter = request.getParameter(PAGE_PARAMETER);
+        if (pageParameter != null) {
+            page = Integer.parseInt(pageParameter);
+            log.debug("Page #{}", page);
+        }
+        int ordersNumber = ordersService.getOrdersNumberByStatus(getOrderStatus());
+        log.debug("Total orders number = {}", ordersNumber);
+        Pagination pagination = new Pagination();
+        int pagesNumber = pagination.getPagesNumber(ordersNumber, LINE_PER_PAGE_NUMBER);
+        log.debug("Total pages number = {}", pagesNumber);
+        request.setAttribute(PAGES_NUMBER_REQUEST_ATTRIBUTE, pagesNumber);
+        return page;
     }
 
     protected abstract String getPage();

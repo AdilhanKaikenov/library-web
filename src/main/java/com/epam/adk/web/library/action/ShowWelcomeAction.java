@@ -32,28 +32,30 @@ public class ShowWelcomeAction implements Action {
         log.debug("The ShowWelcomeAction started execute.");
         BookService bookService = new BookService();
 
-            int page = DEFAULT_PAGE_NUMBER;
-
-            String pageParameter = request.getParameter(PAGE_PARAMETER);
-
-            if (pageParameter != null) {
-                page = Integer.parseInt(pageParameter);
-                log.debug("Page #{}", page);
-            }
-
         try {
-            int booksNumber = bookService.getBooksNumber();
-            log.debug("Total books number = {}", booksNumber);
-            Pagination pagination = new Pagination();
-            int pagesNumber = pagination.getPagesNumber(booksNumber, LINE_PER_PAGE_NUMBER);
-            log.debug("Total pages number = {}", pagesNumber);
+            int page = getPageNumber(request, bookService);
             List<Book> books = bookService.getPaginated(page, LINE_PER_PAGE_NUMBER);
 
-            request.setAttribute(PAGES_NUMBER_REQUEST_ATTRIBUTE, pagesNumber);
             request.setAttribute(BOOKS_REQUEST_ATTRIBUTE, books);
         } catch (ServiceException e) {
             throw new ActionException("Error: ShowWelcomeAction class, execute() method.", e);
         }
         return WELCOME_PAGE;
+    }
+
+    private int getPageNumber(HttpServletRequest request, BookService bookService) throws ServiceException {
+        int page = DEFAULT_PAGE_NUMBER;
+        String pageParameter = request.getParameter(PAGE_PARAMETER);
+        if (pageParameter != null) {
+            page = Integer.parseInt(pageParameter);
+            log.debug("Page #{}", page);
+        }
+        int booksNumber = bookService.getBooksNumber();
+        log.debug("Total books number = {}", booksNumber);
+        Pagination pagination = new Pagination();
+        int pagesNumber = pagination.getPagesNumber(booksNumber, LINE_PER_PAGE_NUMBER);
+        log.debug("Total pages number = {}", pagesNumber);
+        request.setAttribute(PAGES_NUMBER_REQUEST_ATTRIBUTE, pagesNumber);
+        return page;
     }
 }

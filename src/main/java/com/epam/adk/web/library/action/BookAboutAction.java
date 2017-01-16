@@ -55,6 +55,45 @@ public class BookAboutAction implements Action {
         CommentService commentService = new CommentService();
         OrdersBooksService ordersBooksService = new OrdersBooksService();
 
+        try {
+            Book book = bookService.getBookById(bookID);
+
+            int pageNumber = getPageNumber(request, commentService, ordersBooksService, book);
+
+            List<Comment> bookComments = commentService.getPaginatedComments(bookID, pageNumber, LINE_PER_PAGE_NUMBER);
+            if (!bookComments.isEmpty()) {
+                request.setAttribute(BOOK_COMMENTS_REQUEST_ATTRIBUTE, bookComments);
+            }
+
+            proceedTo(request, user, ordersBooksService, book);
+
+        } catch (ServiceException e) {
+            throw new ActionException("Error: BookAboutAction class, execute() method. Can not give info about book:", e);
+        }
+        return ABOUT_BOOK_PAGE;
+    }
+
+    private void proceedTo(HttpServletRequest request, User user, OrdersBooksService ordersBooksService, Book book) throws ServiceException {
+        if (user != null) {
+
+            OrderBook orderBook = createOrderBook(user, book);
+
+            List<Book> subscriptionBooks = user.getSubscriptionBooks();
+            List<Book> readingRoomBooks = user.getReadingRoomBooks();
+
+            int orderedBooksNumber = ordersBooksService.getOrderedBooksNumber(orderBook);
+
+            if (orderedBooksNumber > 0) { // If the book is already ordered
+                request.setAttribute(BOOK_ORDERED_REQUEST_ATTRIBUTE, BOOK_ALREADY_ORDERED_STORED_MESSAGE);
+            }
+
+            if (subscriptionBooks.contains(book) || readingRoomBooks.contains(book)) {
+                request.setAttribute(BOOK_ADDED_TO_ORDER_REQUEST_ATTRIBUTE, BOOK_ADDED_TO_ORDER_STORED_MESSAGE);
+            }
+        }
+    }
+
+    private int getPageNumber(HttpServletRequest request, CommentService commentService, OrdersBooksService ordersBooksService, Book book) throws ServiceException {
         int page = DEFAULT_PAGE_NUMBER;
         String pageParameter = request.getParameter(PAGE_PARAMETER);
         if (pageParameter != null) {
@@ -62,47 +101,23 @@ public class BookAboutAction implements Action {
             log.debug("Page #{}", page);
         }
 
-        try {
-            Book book = bookService.getBookById(bookID);
-            int availableBookAmount = ordersBooksService.getAvailableBookAmount(bookID);
-            int commentsNumber = commentService.getCommentsNumberByBookId(bookID);
-            log.debug("Total comments number = {}", commentsNumber);
-            Pagination pagination = new Pagination();
-            int pagesNumber = pagination.getPagesNumber(commentsNumber, LINE_PER_PAGE_NUMBER);
-            log.debug("Total pages number = {}", pagesNumber);
+        int availableBookAmount = ordersBooksService.getAvailableBookAmount(book.getId());
+        int commentsNumber = commentService.getCommentsNumberByBookId(book.getId());
+        log.debug("Total comments number = {}", commentsNumber);
+        Pagination pagination = new Pagination();
+        int pagesNumber = pagination.getPagesNumber(commentsNumber, LINE_PER_PAGE_NUMBER);
+        log.debug("Total pages number = {}", pagesNumber);
 
-            List<Comment> bookComments = commentService.getPaginatedComments(bookID, page, LINE_PER_PAGE_NUMBER);
-            if (!bookComments.isEmpty()) {
-                request.setAttribute(BOOK_COMMENTS_REQUEST_ATTRIBUTE, bookComments);
-            }
+        request.setAttribute(BOOK_REQUEST_ATTRIBUTE, book);
+        request.setAttribute(PAGES_NUMBER_REQUEST_ATTRIBUTE, pagesNumber);
+        request.setAttribute(AVAILABLE_BOOK_AMOUNT_REQUEST_ATTRIBUTE, availableBookAmount);
+        return page;
+    }
 
-            request.setAttribute(BOOK_REQUEST_ATTRIBUTE, book);
-            request.setAttribute(PAGES_NUMBER_REQUEST_ATTRIBUTE, pagesNumber);
-            request.setAttribute(AVAILABLE_BOOK_AMOUNT_REQUEST_ATTRIBUTE, availableBookAmount);
-
-            if (user != null) {
-
-                OrderBook orderBook = new OrderBook();
-                orderBook.setUser(user);
-                orderBook.setBook(book);
-
-                List<Book> subscriptionBooks = user.getSubscriptionBooks();
-                List<Book> readingRoomBooks = user.getReadingRoomBooks();
-
-                int orderedBooksNumber = ordersBooksService.getOrderedBooksNumber(orderBook);
-
-                if (orderedBooksNumber > 0) { // If the book is already ordered
-                    request.setAttribute(BOOK_ORDERED_REQUEST_ATTRIBUTE, BOOK_ALREADY_ORDERED_STORED_MESSAGE);
-                }
-
-                if (subscriptionBooks.contains(book) || readingRoomBooks.contains(book)) {
-                    request.setAttribute(BOOK_ADDED_TO_ORDER_REQUEST_ATTRIBUTE, BOOK_ADDED_TO_ORDER_STORED_MESSAGE);
-                }
-            }
-
-        } catch (ServiceException e) {
-            throw new ActionException("Error: BookAboutAction class, execute() method. Can not give info about book:", e);
-        }
-        return ABOUT_BOOK_PAGE;
+    private OrderBook createOrderBook(User user, Book book) {
+        OrderBook orderBook = new OrderBook();
+        orderBook.setUser(user);
+        orderBook.setBook(book);
+        return orderBook;
     }
 }

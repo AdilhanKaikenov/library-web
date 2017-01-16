@@ -44,17 +44,7 @@ public class AuthorizationAction implements Action {
         String password = request.getParameter(PASSWORD_PARAMETER);
         log.debug("User login = {}", login);
 
-        try {
-            FormValidator formValidator = new FormValidator();
-            boolean isInvalid = formValidator.isInvalid(AUTHORIZATION_FORM_NAME, request);
-            log.debug("Authorization form validation, invalid = {}", isInvalid);
-            if (isInvalid) {
-                request.setAttribute(AUTHORIZATION_FORM_INCORRECT_REQUEST_ATTRIBUTE, AUTH_ERROR_STORED_MESSAGE_ONE);
-                return AUTHORIZATION_ERROR_PAGE;
-            }
-        } catch (FormValidationException e) {
-            throw new ActionException("Error: AuthorizationAction class. Validation failed:", e);
-        }
+        if (isFormInvalid(request)) return AUTHORIZATION_ERROR_PAGE;
 
         User user = new User();
         user.setLogin(login);
@@ -77,5 +67,20 @@ public class AuthorizationAction implements Action {
         session.setAttribute(USER_PARAMETER, user);
 
         return REDIRECT_PREFIX + WELCOME_PAGE;
+    }
+
+    private boolean isFormInvalid(HttpServletRequest request) throws ActionException {
+        try {
+            FormValidator formValidator = new FormValidator();
+            boolean isInvalid = formValidator.isInvalid(AUTHORIZATION_FORM_NAME, request);
+            log.debug("Authorization form validation, invalid = {}", isInvalid);
+            if (isInvalid) {
+                request.setAttribute(AUTHORIZATION_FORM_INCORRECT_REQUEST_ATTRIBUTE, AUTH_ERROR_STORED_MESSAGE_ONE);
+                return true;
+            }
+        } catch (FormValidationException e) {
+            throw new ActionException("Error: AuthorizationAction class. Validation failed:", e);
+        }
+        return false;
     }
 }
