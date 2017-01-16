@@ -39,7 +39,6 @@ public class EditProfileAction implements Action {
         User user = ((User) session.getAttribute(USER_PARAMETER));
 
         String password = request.getParameter(PASSWORD_PARAMETER);
-        log.debug("Password: {}", password);
         String email = request.getParameter(EMAIL_PARAMETER);
         log.debug("Email: {}", email);
         String address = request.getParameter(ADDRESS_PARAMETER);

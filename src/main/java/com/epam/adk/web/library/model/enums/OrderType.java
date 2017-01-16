@@ -20,12 +20,12 @@ public enum OrderType {
         return value;
     }
 
-    public static OrderType from(String value){
+    public static OrderType getFromValue(String value){
         for (OrderType order : OrderType.values()){
             if (value != null && order.getValue().equalsIgnoreCase(value)){
                 return order;
             }
         }
-        throw new IllegalArgumentException("Error: OrderType enum class, from() method: illegal argument.");
+        throw new IllegalArgumentException("Error: OrderType enum class, getFromValue() method: illegal argument.");
     }
 }

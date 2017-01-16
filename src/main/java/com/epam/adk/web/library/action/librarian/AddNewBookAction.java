@@ -75,7 +75,7 @@ public class AddNewBookAction implements Action {
         log.debug("New book author: {}", author);
         Year publishYear = Year.of(Integer.parseInt(request.getParameter(PUBLISH_YEAR_PARAMETER)));
         log.debug("New book publishYear: {}", publishYear);
-        Genre genre = Genre.from(request.getParameter(GENRE_PARAMETER));
+        Genre genre = Genre.getFromValue(request.getParameter(GENRE_PARAMETER));
         log.debug("New book genre: {}", genre);
         String description = request.getParameter(DESCRIPTION_PARAMETER);
         log.debug("New book description length: {}", description.length());
@@ -103,9 +103,9 @@ public class AddNewBookAction implements Action {
     }
 
     /**
-     * The method returns file name from item that was received within a multipart/form-data POST request.
+     * The method returns file name getFromValue item that was received within a multipart/form-data POST request.
      *
-     * @param part part or from item
+     * @param part part or getFromValue item
      * @return (string) filename
      */
     private String extractFileName(Part part) {

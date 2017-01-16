@@ -21,12 +21,12 @@ public enum  Role {
         return value;
     }
 
-    public static Role from(String value){
+    public static Role getFromValue(String value){
         for (Role role : Role.values()){
             if (value != null && role.getValue().equalsIgnoreCase(value)){
                 return role;
             }
         }
-        throw new IllegalArgumentException("Error: Role enum class, from() method: illegal argument.");
+        throw new IllegalArgumentException("Error: Role enum class, getFromValue() method: illegal argument.");
     }
 }

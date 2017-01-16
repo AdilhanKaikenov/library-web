@@ -61,11 +61,9 @@ public final class ConnectionPool {
                 log.debug("Connection #{} - {}", i, connection);
             }
         } catch (ClassNotFoundException e) {
-            log.error("Error: Driver class not found error: {}", e);
             throw new ConnectionPoolInitializationException("Error: Driver class not found error:", e);
         } catch (SQLException e) {
-            log.error("Error: Get connection from database failed. Called newConnection() method failed: {}", e);
-            throw new ConnectionPoolInitializationException("Error: Get connection from database failed. Called newConnection() method failed:", e);
+            throw new ConnectionPoolInitializationException("Error: Get connection getFromValue database failed. Called newConnection() method failed:", e);
         }
     }
 
@@ -123,7 +121,7 @@ public final class ConnectionPool {
     }
 
     /**
-     * The method returns the free connection from pool of freeConnections, or creates a new one if there is no free freeConnections.
+     * The method returns the free connection getFromValue pool of freeConnections, or creates a new one if there is no free freeConnections.
      *
      * @return free connection.
      */
@@ -142,11 +140,9 @@ public final class ConnectionPool {
             }
             log.debug("Leaving ConnectionPool class getConnection() method.");
         } catch (InterruptedException e) {
-            log.error("Error: getConnection() method. Called poll() method failed: {}", e);
             throw new ConnectionPoolException("Error: getConnection() method. Called poll() method failed:", e);
         } catch (SQLException e) {
-            log.error("Error: getConnection() method, get connection from database failed. Called newConnection() method failed: {}", e);
-            throw new ConnectionPoolException("Error: getConnection() method, get connection from database failed. Called newConnection() method failed:", e);
+            throw new ConnectionPoolException("Error: getConnection() method, get connection getFromValue database failed. Called newConnection() method failed:", e);
         } finally {
             lock.unlock();
         }

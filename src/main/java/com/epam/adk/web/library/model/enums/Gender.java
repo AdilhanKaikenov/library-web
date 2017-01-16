@@ -20,12 +20,12 @@ public enum Gender {
         return value;
     }
 
-    public static Gender from(String value){
+    public static Gender getFromValue(String value){
         for (Gender gender : Gender.values()){
             if (value != null && gender.getValue().equalsIgnoreCase(value)){
                 return gender;
             }
         }
-        throw new IllegalArgumentException("Error: Gender enum class, from() method: illegal argument.");
+        throw new IllegalArgumentException("Error: Gender enum class, getFromValue() method: illegal argument.");
     }
 }

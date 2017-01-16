@@ -25,7 +25,6 @@ public final class PropertiesManager {
             properties = new Properties();
             properties.load(inputStream);
         } catch (IOException e) {
-            log.error("Error: Failed to load properties file {}. Check the file name.: {}", propertyFileName, e);
             throw new PropertyManagerException(MessageFormat.format(
                     "Error: Failed to load properties file {0}. Check the file name.: {1}", propertyFileName, e));
         }
@@ -34,7 +33,7 @@ public final class PropertiesManager {
     /**
      * Method to get all the values of the properties file as Map.
      *
-     * @return values from properties.
+     * @return values getFromValue properties.
      */
     public Map<String, String> getPropertiesAsMap() {
         Map<String, String> propertiesMap = new TreeMap<>();
@@ -50,7 +49,7 @@ public final class PropertiesManager {
     /**
      * Method to get all the values of the properties file as List by key prefix.
      *
-     * @return values from properties.
+     * @return values getFromValue properties.
      */
     public List<String> extractListByKeyPrefix(String keyPrefix) {
         List<String> values = new ArrayList<>();

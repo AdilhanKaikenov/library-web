@@ -99,7 +99,7 @@ public final class RoleFilter implements Filter {
     }
 
     /**
-     * The method to get action name from request.
+     * The method to get action name getFromValue request.
      *
      * @param request
      * @return String

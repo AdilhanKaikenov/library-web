@@ -57,7 +57,6 @@ public class BookAboutAction implements Action {
 
         int page = DEFAULT_PAGE_NUMBER;
         String pageParameter = request.getParameter(PAGE_PARAMETER);
-
         if (pageParameter != null) {
             page = Integer.parseInt(pageParameter);
             log.debug("Page #{}", page);
@@ -71,8 +70,8 @@ public class BookAboutAction implements Action {
             Pagination pagination = new Pagination();
             int pagesNumber = pagination.getPagesNumber(commentsNumber, LINE_PER_PAGE_NUMBER);
             log.debug("Total pages number = {}", pagesNumber);
-            List<Comment> bookComments = commentService.getPaginatedComments(bookID, page, LINE_PER_PAGE_NUMBER);
 
+            List<Comment> bookComments = commentService.getPaginatedComments(bookID, page, LINE_PER_PAGE_NUMBER);
             if (!bookComments.isEmpty()) {
                 request.setAttribute(BOOK_COMMENTS_REQUEST_ATTRIBUTE, bookComments);
             }

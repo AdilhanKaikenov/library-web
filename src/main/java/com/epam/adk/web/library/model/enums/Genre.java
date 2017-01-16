@@ -23,12 +23,12 @@ public enum Genre {
         return value;
     }
 
-    public static Genre from(String value) {
+    public static Genre getFromValue(String value) {
         for (Genre genre : Genre.values()) {
             if (value != null && genre.getValue().equalsIgnoreCase(value)) {
                 return genre;
             }
         }
-        throw new IllegalArgumentException("Error: Genre enum class, from() method: illegal argument.");
+        throw new IllegalArgumentException("Error: Genre enum class, getFromValue() method: illegal argument.");
     }
 }

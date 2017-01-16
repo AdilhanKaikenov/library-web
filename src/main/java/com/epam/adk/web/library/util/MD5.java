@@ -15,8 +15,6 @@ import java.security.NoSuchAlgorithmException;
  **/
 public final class MD5 {
 
-    private static final Logger log = LoggerFactory.getLogger(MD5.class);
-
     private static final int SIGNUM = 1;
     private static final int HEX_RADIX = 16;
     private static final int HASH_LENGTH = 32;
@@ -38,7 +36,6 @@ public final class MD5 {
             md5.update(password.getBytes());
             digest = md5.digest();
         } catch (NoSuchAlgorithmException e) {
-            log.error("Error in MD5 in get method: {}",  e);
             throw new MessageDigestAlgorithmException("Error in MD5 in get method:",  e);
         }
         BigInteger bigInt = new BigInteger(SIGNUM, digest);

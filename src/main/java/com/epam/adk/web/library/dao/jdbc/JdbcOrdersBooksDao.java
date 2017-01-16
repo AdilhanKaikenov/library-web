@@ -52,7 +52,7 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
         try {
             while (resultSet.next()) {
                 OrderBook orderBook = new OrderBook();
-                log.debug("Creating book of order from resultSet");
+                log.debug("Creating book of order getFromValue resultSet");
                 User user = new User();
                 log.debug("set user id");
                 user.setId(resultSet.getInt(USER_ID_COLUMN_NAME));
@@ -88,7 +88,7 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
                 order.setId(resultSet.getInt(ORDER_ID_COLUMN_NAME));
                 log.debug("set order date");
                 order.setOrderDate(resultSet.getDate(ORDER_DATE_COLUMN_NAME));
-                log.debug("set date from");
+                log.debug("set date getFromValue");
                 order.setFrom(resultSet.getDate(DATE_FROM_COLUMN_NAME));
                 log.debug("set date to");
                 order.setTo(resultSet.getDate(DATE_TO_COLUMN_NAME));
@@ -103,8 +103,7 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
             }
             log.debug("Leaving JdbcOrdersBooksDao class, createListFrom() method. Amount of orders books = {}", result.size());
         } catch (SQLException e) {
-            log.error("Error: JdbcOrdersBooksDao class createListFrom() method. I can not create List of orders books from resultSet. {}", e);
-            throw new DaoException("Error: JdbcOrdersBooksDao class createListFrom() method. I can not create List of orders books from resultSet.", e);
+            throw new DaoException("Error: JdbcOrdersBooksDao class createListFrom() method. I can not create List of orders books getFromValue resultSet.", e);
         }
         return result;
     }
@@ -125,8 +124,7 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
             result = createFrom(resultSet);
             log.debug("Leaving JdbcOrdersBooksDao class, read(userID, bookID) method.");
         } catch (SQLException e) {
-            log.error("Error: JdbcOrdersBooksDao class read(userID, bookID) method. I can not read book of order by id from resultSet. {}", e);
-            throw new DaoException("Error: JdbcOrdersBooksDao class read(userID, bookID) method. I can not read book of order by id from resultSet.", e);
+            throw new DaoException("Error: JdbcOrdersBooksDao class read(userID, bookID) method. I can not read book of order by id getFromValue resultSet.", e);
         } finally {
             close(preparedStatement, resultSet);
         }
@@ -146,7 +144,6 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
             preparedStatement.execute();
             log.debug("Leaving JdbcOrdersBooksDao class, delete(userID, bookID) method.");
         } catch (SQLException e) {
-            log.error("Error: JdbcOrdersBooksDao class delete(userID, bookID) method. I can not delete book of order by id. {}", e);
             throw new DaoException("Error: JdbcOrdersBooksDao class delete(userID, bookID) method. I can not delete book of order by id.", e);
         } finally {
             closePreparedStatement(preparedStatement);
@@ -171,7 +168,6 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
             }
             log.debug("Leaving JdbcBookDao class, countAvailableAmount() method. Book amount = {}", count);
         } catch (SQLException e) {
-            log.error("Error: JdbcBookDao class countAvailableAmount() method. {}", e);
             throw new DaoException("Error: JdbcBookDao class countAvailableAmount() method.", e);
         }
         return count;
@@ -195,7 +191,6 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
             }
             log.debug("Leaving JdbcOrdersBooksDao class, countOrderedBooks() method.");
         } catch (SQLException e) {
-            log.error("Error: JdbcOrdersBooksDao class countOrderedBooks() method.", e);
             throw new DaoException("Error: JdbcOrdersBooksDao class countOrderedBooks() method.", e);
         } finally {
             close(preparedStatement, resultSet);
@@ -218,7 +213,6 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
              }
              log.debug("Leaving JdbcOrderDao class getNumberRowsByStatusId() method. Rows number = {}", numberRows);
          } catch (SQLException e) {
-             log.error("Error: JdbcOrderDao class, getNumberRowsByStatusId() method. {}", e);
              throw new DaoException("Error: JdbcOrderDao class, getNumberRowsByStatusId() method.", e);
          } finally {
              close(preparedStatement, resultSet);
@@ -239,7 +233,6 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
 
             log.debug("Leaving JdbcOrdersBooksDao class, setFieldsInCreatePreparedStatement() method.");
         } catch (SQLException e) {
-            log.error("Error: JdbcOrdersBooksDao class setFieldsInCreatePreparedStatement() method. I can not set fields into statement. {}", e);
             throw new DaoException("Error: JdbcOrdersBooksDao class setFieldsInCreatePreparedStatement() method. I can not set fields into statement.", e);
         }
         return preparedStatement;
@@ -255,7 +248,6 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
             preparedStatement.setInt(SECOND_PARAMETER_INDEX, orderBook.getBook().getId());
             log.debug("Leaving JdbcOrdersBooksDao class, setFieldsInDeleteByEntityStatement() method.");
         } catch (SQLException e) {
-            log.error("Error: JdbcOrdersBooksDao class setFieldsInDeleteByEntityStatement() method. I can not set fields into statement. {}", e);
             throw new DaoException("Error: JdbcOrdersBooksDao class setFieldsInDeleteByEntityStatement() method. I can not set fields into statement.", e);
         }
         return preparedStatement;
@@ -273,7 +265,6 @@ public class JdbcOrdersBooksDao extends JdbcDao<OrderBook> implements OrdersBook
             preparedStatement.setInt(THIRD_PARAMETER_INDEX, orderBook.getBook().getId());
             log.debug("Leaving JdbcOrdersBooksDao class, setFieldsInUpdateByEntityPreparedStatement() method.");
         } catch (SQLException e) {
-            log.error("Error: JdbcOrdersBooksDao class setFieldsInUpdateByEntityPreparedStatement() method. I can not set fields into statement. {}", e);
             throw new DaoException("Error: JdbcOrdersBooksDao class setFieldsInCreatePreparedStatement() method. I can not set fields into statement.", e);
         }
         return preparedStatement;

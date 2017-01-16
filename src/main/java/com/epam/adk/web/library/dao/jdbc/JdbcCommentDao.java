@@ -45,7 +45,7 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
         try {
             while (resultSet.next()) {
                 Comment comment = new Comment();
-                log.debug("Creating comment from resultSet");
+                log.debug("Creating comment getFromValue resultSet");
                 log.debug("set id");
                 comment.setId(resultSet.getInt(ID_COLUMN_NAME));
                 User user = new User();
@@ -73,8 +73,7 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
             }
             log.debug("Leaving JdbcCommentDao class, createListFrom() method.");
         } catch (SQLException e) {
-            log.error("Error: JdbcCommentDao class createListFrom() method. I can not create List of comments from resultSet. {}", e);
-            throw new DaoException("Error: JdbcCommentDao class createListFrom() method. I can not create List of comments from resultSet.", e);
+            throw new DaoException("Error: JdbcCommentDao class createListFrom() method. I can not create List of comments getFromValue resultSet.", e);
         }
         return result;
     }
@@ -93,7 +92,6 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
             preparedStatement.setString(FOURTH_PARAMETER_INDEX, comment.getText());
             log.debug("Leaving JdbcCommentDao class, setFieldsInCreatePreparedStatement() method.");
         } catch (SQLException e) {
-            log.error("Error: JdbcCommentDao class setFieldsInCreatePreparedStatement() method. I can not set fields into statement. {}", e);
             throw new DaoException("Error: JdbcCommentDao class setFieldsInCreatePreparedStatement() method. I can not set fields into statement.", e);
         }
         return preparedStatement;

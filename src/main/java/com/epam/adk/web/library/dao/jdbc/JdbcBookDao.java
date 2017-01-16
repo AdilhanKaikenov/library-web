@@ -53,7 +53,7 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
         try {
             while (resultSet.next()) {
                 Book book = new Book();
-                log.debug("Creating book from resultSet");
+                log.debug("Creating book getFromValue resultSet");
                 log.debug("set id");
                 book.setId(resultSet.getInt(ID_COLUMN_NAME));
                 log.debug("set title");
@@ -67,7 +67,7 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
                 log.debug("set publish year");
                 book.setPublishYear(Year.of(resultSet.getInt(PUBLISH_YEAR_COLUMN_NAME)));
                 log.debug("set genre");
-                book.setGenre(Genre.from(resultSet.getString(GENRE_COLUMN_NAME)));
+                book.setGenre(Genre.getFromValue(resultSet.getString(GENRE_COLUMN_NAME)));
                 log.debug("set description");
                 book.setDescription(resultSet.getString(DESCRIPTION_COLUMN_NAME));
                 log.debug("set total amount");
@@ -77,8 +77,7 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
             }
             log.debug("Leaving JdbcBookDao class, createListFrom() method. Amount of books = {}", result.size());
         } catch (SQLException e) {
-            log.error("Error: JdbcBookDao class createListFrom() method. I can not create List of books from resultSet. {}", e);
-            throw new DaoException("Error: JdbcBookDao class createListFrom() method. I can not create List of books from resultSet.", e);
+            throw new DaoException("Error: JdbcBookDao class createListFrom() method. I can not create List of books getFromValue resultSet.", e);
         }
         return result;
     }
@@ -106,7 +105,6 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
             log.debug("New author successfully created, type = {}, id = {}", author.getId());
             log.debug("Leaving JdbcBookDao class, createAuthor() method.");
         } catch (SQLException e) {
-            log.error("Error: JdbcBookDao class, createAuthor() method. {}", e);
             throw new DaoException("Error: JdbcBookDao class, createAuthor() method.", e);
         } finally {
             close(preparedStatement, resultSet);
@@ -115,7 +113,7 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     }
 
     /**
-     * The method of reading the author from the reference table.
+     * The method of reading the author getFromValue the reference table.
      *
      * @param author
      * @return Author
@@ -136,7 +134,6 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
             }
             log.debug("Leaving JdbcBookDao class, readAuthorByName() method.");
         } catch (SQLException e) {
-            log.error("Error: JdbcBookDao class readAuthorByName() method. I can not read author. {}", e);
             throw new DaoException("Error: JdbcBookDao class readAuthorByName() method. I can not read author.", e);
         } finally {
             close(preparedStatement, resultSet);
@@ -158,7 +155,6 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
             result = createListFrom(resultSet);
             log.debug("Leaving JdbcBookDao class, findByTitle() method. Book found = {}", result.size());
         } catch (SQLException e) {
-            log.error("Error: JdbcBookDao class findByTitle() method. I can not find books. {}", e);
             throw new DaoException("Error: JdbcBookDao class findByTitle() method. I can not find books.", e);
         } finally {
             closeResultSet(resultSet);
@@ -190,7 +186,6 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
             preparedStatement.setInt(NINTH_PARAMETER_INDEX, book.getId());
             log.debug("Leaving JdbcBookDao class, setFieldsInUpdateByEntityPreparedStatement() method.");
         } catch (SQLException e) {
-            log.error("Error: JdbcBookDao class setFieldsInUpdateByEntityPreparedStatement() method. I can not set fields into statement. {}", e);
             throw new DaoException("Error: JdbcBookDao class setFieldsInUpdateByEntityPreparedStatement() method. I can not set fields into statement.", e);
         }
         return preparedStatement;
@@ -221,7 +216,6 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
             preparedStatement.setString(SEVENTH_PARAMETER_INDEX, book.getCover());
             log.debug("Leaving JdbcBookDao class, setFieldsInCreatePreparedStatement() method.");
         } catch (SQLException e) {
-            log.error("Error: JdbcBookDao class setFieldsInCreatePreparedStatement() method. I can not set fields into statement. {}", e);
             throw new DaoException("Error: JdbcBookDao class setFieldsInCreatePreparedStatement() method. I can not set fields into statement.", e);
         }
         return preparedStatement;

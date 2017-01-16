@@ -49,7 +49,7 @@ public class JdbcOrders extends JdbcDao<Order> implements OrdersDao {
         try {
             while (resultSet.next()) {
                 Order order = new Order();
-                log.debug("Creating order from resultSet");
+                log.debug("Creating order getFromValue resultSet");
                 log.debug("set id");
                 order.setId(resultSet.getInt(ORDER_ID_COLUMN_NAME));
                 User user = new User();
@@ -72,10 +72,10 @@ public class JdbcOrders extends JdbcDao<Order> implements OrdersDao {
                 log.debug("set user");
                 order.setUser(user);
                 log.debug("set order type");
-                order.setOrderType(OrderType.from(resultSet.getString(ORDER_TYPE_COLUMN_NAME)));
+                order.setOrderType(OrderType.getFromValue(resultSet.getString(ORDER_TYPE_COLUMN_NAME)));
                 log.debug("set order date");
                 order.setOrderDate(resultSet.getDate(ORDER_DATE_COLUMN_NAME));
-                log.debug("set date from");
+                log.debug("set date getFromValue");
                 order.setFrom(resultSet.getDate(DATE_FROM_COLUMN_NAME));
                 log.debug("set date to");
                 order.setTo(resultSet.getDate(DATE_TO_COLUMN_NAME));
@@ -86,8 +86,7 @@ public class JdbcOrders extends JdbcDao<Order> implements OrdersDao {
             }
             log.debug("Leaving JdbcOrders class, createListFrom() method. Amount of orders = {}", result.size());
         } catch (SQLException e) {
-            log.error("Error: JdbcOrders class createListFrom() method. I can not create List of orders from resultSet. {}", e);
-            throw new DaoException("Error: JdbcOrders class createListFrom() method. I can not create List of orders from resultSet.", e);
+            throw new DaoException("Error: JdbcOrders class createListFrom() method. I can not create List of orders getFromValue resultSet.", e);
         }
         return result;
     }
@@ -108,7 +107,6 @@ public class JdbcOrders extends JdbcDao<Order> implements OrdersDao {
             }
             log.debug("Leaving JdbcOrders class getNumberRowsByStatus() method. Rows number = {}", numberRows);
         } catch (SQLException e) {
-            log.error("Error: JdbcOrders class, getNumberRowsByStatus() method. {}", e);
             throw new DaoException("Error: JdbcOrders class, getNumberRowsByStatus() method.", e);
         } finally {
             close(preparedStatement, resultSet);
@@ -134,7 +132,6 @@ public class JdbcOrders extends JdbcDao<Order> implements OrdersDao {
             result = createListFrom(resultSet);
             log.debug("Leaving JdbcOrders class, readRangeByStatus() method.");
         } catch (SQLException e) {
-            log.error("Error: JdbcOrders class readRangeByStatus() method. {}", e);
             throw new DaoException("Error: JdbcOrders class readRangeByStatus() method. ", e);
         } finally {
             close(preparedStatement, resultSet);
@@ -146,7 +143,7 @@ public class JdbcOrders extends JdbcDao<Order> implements OrdersDao {
     protected PreparedStatement setFieldsInUpdateByEntityPreparedStatement(PreparedStatement preparedStatement, Order order) throws DaoException {
         log.debug("Entering JdbcOrders class, setFieldsInUpdateByEntityPreparedStatement() method.");
         try {
-            log.debug("Set order date from: {}", order.getFrom());
+            log.debug("Set order date getFromValue: {}", order.getFrom());
             preparedStatement.setDate(FIRST_PARAMETER_INDEX, order.getFrom());
             log.debug("Set order date to: {}", order.getTo());
             preparedStatement.setDate(SECOND_PARAMETER_INDEX, order.getTo());
@@ -156,7 +153,6 @@ public class JdbcOrders extends JdbcDao<Order> implements OrdersDao {
             preparedStatement.setInt(FOURTH_PARAMETER_INDEX, order.getId());
             log.debug("Leaving JdbcOrders class, setFieldsInUpdateByEntityPreparedStatement() method.");
         } catch (SQLException e) {
-            log.error("Error: JdbcOrders class setFieldsInUpdateByEntityPreparedStatement() method. I can not set fields into statement. {}", e);
             throw new DaoException("Error: JdbcOrderDao class setFieldsInUpdateByEntityPreparedStatement() method. I can not set fields into statement.", e);
         }
         return preparedStatement;
@@ -172,13 +168,12 @@ public class JdbcOrders extends JdbcDao<Order> implements OrdersDao {
             preparedStatement.setInt(SECOND_PARAMETER_INDEX, order.getOrderType().ordinal());
             log.debug("Set order date: {}", order.getOrderDate());
             preparedStatement.setDate(THIRD_PARAMETER_INDEX, order.getOrderDate());
-            log.debug("Set order date from: {}", order.getFrom());
+            log.debug("Set order date getFromValue: {}", order.getFrom());
             preparedStatement.setDate(FOURTH_PARAMETER_INDEX, order.getFrom());
             log.debug("Set order date to: {}", order.getTo());
             preparedStatement.setDate(FIFTH_PARAMETER_INDEX, order.getTo());
             log.debug("Leaving JdbcOrders class, setFieldsInCreatePreparedStatement() method.");
         } catch (SQLException e) {
-            log.error("Error: JdbcOrders class setFieldsInCreatePreparedStatement() method. I can not set fields into statement. {}", e);
             throw new DaoException("Error: JdbcOrderDao class setFieldsInCreatePreparedStatement() method. I can not set fields into statement.", e);
         }
         return preparedStatement;

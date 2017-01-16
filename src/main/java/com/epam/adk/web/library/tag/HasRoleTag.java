@@ -30,7 +30,7 @@ public class HasRoleTag extends ConditionalTagSupport {
     }
 
     public void setRole(String role) {
-        this.role = Role.from(role);
+        this.role = Role.getFromValue(role);
     }
 
     @Override

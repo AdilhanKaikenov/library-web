@@ -134,7 +134,7 @@ public final class FrontControllerServlet extends HttpServlet {
     }
 
     /**
-     * The method to get action name from request.
+     * The method to get action name getFromValue request.
      *
      * @param request
      * @return String

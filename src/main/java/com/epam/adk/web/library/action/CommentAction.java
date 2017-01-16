@@ -44,6 +44,29 @@ public class CommentAction implements Action {
         log.debug("Book ID = {}", bookID);
         String text = request.getParameter(COMMENT_PARAMETER).replaceAll(REGEX_ENTER, LINE_BREAK_HTML_TAG);
 
+        Comment comment = createComment(time, user, bookID, text);
+
+        CommentService commentService = new CommentService();
+
+        try {
+            commentService.writeComment(comment);
+        } catch (ServiceException e) {
+            throw new ActionException("Error: CommentAction class, execute() method. Called CommentService class, writeComment() failed.", e);
+        }
+
+        return REDIRECT_PREFIX + ABOUT_BOOK_ID_PAGE_NAME + bookID;
+    }
+
+    /**
+     * Creating Comment based on data from the request.
+     *
+     * @param time
+     * @param user User from session
+     * @param bookID
+     * @param text text of comment
+     * @return Comment
+     */
+    private Comment createComment(Timestamp time, User user, int bookID, String text) {
         Book book = new Book();
         book.setId(bookID);
 
@@ -55,15 +78,6 @@ public class CommentAction implements Action {
         comment.setBook(book);
         comment.setTime(time);
         comment.setText(text);
-
-        CommentService commentService = new CommentService();
-
-        try {
-            commentService.writeComment(comment);
-        } catch (ServiceException e) {
-            throw new ActionException("Error: CommentAction class, execute() method. Called CommentService class, writeComment() failed.", e);
-        }
-
-        return REDIRECT_PREFIX + ABOUT_BOOK_ID_PAGE_NAME + bookID;
+        return comment;
     }
 }

@@ -40,7 +40,7 @@ public class OrderRequestAction implements Action {
 
         User user = ((User) session.getAttribute(USER_PARAMETER));
 
-        OrderType orderType = OrderType.from(request.getParameter(ORDER_TYPE_PARAMETER));
+        OrderType orderType = OrderType.getFromValue(request.getParameter(ORDER_TYPE_PARAMETER));
         log.debug("Order type = {}", orderType.getValue());
 
         java.util.Date currentDate = new java.util.Date();
@@ -48,34 +48,59 @@ public class OrderRequestAction implements Action {
 
         OrdersService registerOrderService = new OrdersService();
 
-        Order order = new Order();
-
-        order.setUser(user);
-        order.setOrderDate(orderDate);
-        order.setOrderType(orderType);
+        Order order = createOrder(user, orderType, orderDate);
 
         try {
             Order addedOrder = registerOrderService.add(order);
 
-            List<Book> subscriptionBooks = user.getSubscriptionBooks();
-            List<Book> readingRoomBooks = user.getReadingRoomBooks();
-
-            switch (orderType) {
-                case SUBSCRIPTION:
-                    submitOrdersBooks(user, addedOrder, subscriptionBooks);
-                    subscriptionBooks.clear();
-                    break;
-                case READING_ROOM:
-                    submitOrdersBooks(user, addedOrder, readingRoomBooks);
-                    readingRoomBooks.clear();
-                    break;
-            }
+            submitBooksAccordingOrderType(user, orderType, addedOrder);
 
         } catch (ServiceException e) {
             throw new ActionException("Error: OrderRequestAction class, execute() method.", e);
         }
 
         return REDIRECT_PREFIX + MY_ORDER_PAGE_NAME;
+    }
+
+    /**
+     * Creating Order.
+     *
+     * @param user User from session
+     * @param orderType Type of order (subscription or reading room)
+     * @param orderDate date of order
+     * @return Order
+     */
+    private Order createOrder(User user, OrderType orderType, Date orderDate) {
+        Order order = new Order();
+
+        order.setUser(user);
+        order.setOrderDate(orderDate);
+        order.setOrderType(orderType);
+        return order;
+    }
+
+    /**
+     * Method sends the books according to the order type.
+     *
+     * @param user User from session
+     * @param orderType Type of order (subscription or reading room)
+     * @param addedOrder Order
+     * @throws ServiceException
+     */
+    private void submitBooksAccordingOrderType(User user, OrderType orderType, Order addedOrder) throws ServiceException {
+        List<Book> subscriptionBooks = user.getSubscriptionBooks();
+        List<Book> readingRoomBooks = user.getReadingRoomBooks();
+
+        switch (orderType) {
+            case SUBSCRIPTION:
+                submitOrdersBooks(user, addedOrder, subscriptionBooks);
+                subscriptionBooks.clear();
+                break;
+            case READING_ROOM:
+                submitOrdersBooks(user, addedOrder, readingRoomBooks);
+                readingRoomBooks.clear();
+                break;
+        }
     }
 
     private void submitOrdersBooks(User user, Order order, List<Book> books) throws ServiceException {

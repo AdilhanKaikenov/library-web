@@ -46,7 +46,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
         try {
             while (resultSet.next()) {
                 User user = new User();
-                log.debug("Creating user from resultSet");
+                log.debug("Creating user getFromValue resultSet");
                 log.debug("set id");
                 user.setId(resultSet.getInt(ID_COLUMN_NAME));
                 log.debug("set login");
@@ -62,13 +62,13 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
                 log.debug("set patronymic");
                 user.setPatronymic(resultSet.getString(PATRONYMIC_COLUMN_NAME));
                 log.debug("set gender");
-                user.setGender(Gender.from(resultSet.getString(GENDER_COLUMN_NAME)));
+                user.setGender(Gender.getFromValue(resultSet.getString(GENDER_COLUMN_NAME)));
                 log.debug("set address");
                 user.setAddress(resultSet.getString(ADDRESS_COLUMN_NAME));
                 log.debug("set mobile phone");
                 user.setMobilePhone(resultSet.getString(MOBILE_PHONE_COLUMN_NAME));
                 log.debug("set role");
-                user.setRole(Role.from(resultSet.getString(ROLE_COLUMN_NAME)));
+                user.setRole(Role.getFromValue(resultSet.getString(ROLE_COLUMN_NAME)));
                 log.debug("set status");
                 user.setStatus(resultSet.getBoolean(STATUS_COLUMN_NAME));
                 log.debug("User successfully created in createListFrom() method. User id = {}", user.getId());
@@ -76,8 +76,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
             }
             log.debug("Leaving JdbcUserDao class, createListFrom() method.");
         } catch (SQLException e) {
-            log.error("Error: JdbcUserDao class createListFrom() method. I can not create List of users from resultSet. {}", e);
-            throw new DaoException("Error: JdbcUserDao class createListFrom() method. I can not create List of users from resultSet.", e);
+            throw new DaoException("Error: JdbcUserDao class createListFrom() method. I can not create List of users getFromValue resultSet.", e);
         }
         return result;
     }
@@ -108,7 +107,6 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
             preparedStatement.setInt(TENTH_PARAMETER_INDEX, user.getRole().ordinal());
             log.debug("Leaving JdbcUserDao class, setFieldsInCreatePreparedStatement() method.");
         } catch (SQLException e) {
-            log.error("Error: JdbcUserDao class setFieldsInCreatePreparedStatement() method. I can not set fields into statement. {}", e);
             throw new DaoException("Error: JdbcUserDao class setFieldsInCreatePreparedStatement() method. I can not set fields into statement.", e);
         }
         return preparedStatement;
@@ -124,7 +122,6 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
             preparedStatement.setString(SECOND_PARAMETER_INDEX, user.getPassword());
             log.debug("Leaving JdbcUserDao class, setFieldsInReadByEntityPreparedStatement() method");
         } catch (SQLException e) {
-            log.error("Error: JdbcUserDao class setFieldsInReadByEntityPreparedStatement() method. I can not set fields into statement. {}", e);
             throw new DaoException("Error: JdbcUserDao class setFieldsInReadByEntityPreparedStatement() method. I can not set fields into statement.", e);
         }
         return preparedStatement;
@@ -150,7 +147,6 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
             preparedStatement.setInt(SEVENTH_PARAMETER_INDEX, user.getId());
             log.debug("Leaving JdbcUserDao class, setFieldsInUpdateByEntityPreparedStatement() method.");
         } catch (SQLException e) {
-            log.error("Error: JdbcUserDao class setFieldsInUpdateByEntityPreparedStatement() method. I can not set fields into statement. {}", e);
             throw new DaoException("Error: JdbcUserDao class setFieldsInUpdateByEntityPreparedStatement() method. I can not set fields into statement.", e);
         }
         return preparedStatement;

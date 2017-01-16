@@ -37,7 +37,6 @@ public class RegistrationAction implements Action {
         String login = request.getParameter(LOGIN_PARAMETER);
         log.debug("Login: {}", login);
         String password = request.getParameter(PASSWORD_PARAMETER);
-        log.debug("Password: {}", password);
         String email = request.getParameter(EMAIL_PARAMETER);
         log.debug("Email: {}", email);
         String firstname = request.getParameter(FIRSTNAME_PARAMETER);
@@ -46,7 +45,7 @@ public class RegistrationAction implements Action {
         log.debug("Surname: {}", surname);
         String patronymic = request.getParameter(PATRONYMIC_PARAMETER);
         log.debug("Patronymic: {}", patronymic);
-        Gender gender = Gender.from(request.getParameter(GENDER_PARAMETER));
+        Gender gender = Gender.getFromValue(request.getParameter(GENDER_PARAMETER));
         log.debug("Gender: {}", gender);
         String address = request.getParameter(ADDRESS_PARAMETER);
         log.debug("Address: {}", address);
