@@ -95,8 +95,16 @@
                     <td><input type="text" name="address" value="${param.address}" placeholder="Abaya street 21\2"></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><c:if test="${not empty requestScope.mobile_phoneIncorrect}">
-                        <li style="color: red"><ftm:message key="${requestScope.mobile_phoneIncorrect}"/></c:if></td>
+                    <td colspan="2">
+                        <c:if test="${not empty requestScope.mobile_phoneIncorrect}">
+                        <li style="color: red">
+                                <ftm:message key="${requestScope.mobile_phoneIncorrect}"/>
+                            </c:if>
+                            <c:if test="${not empty requestScope.mobile_phoneLengthIncorrect}">
+                        <li style="color: red">
+                                <ftm:message key="${requestScope.mobile_phoneLengthIncorrect}"/>
+                            </c:if>
+                    </td>
                 </tr>
                 <tr>
                     <td align="right"><ftm:message key="mobphone.field"/>:</td>

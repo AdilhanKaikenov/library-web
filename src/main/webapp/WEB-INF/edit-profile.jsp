@@ -15,7 +15,8 @@
                 <tr>
                     <td colspan="2">
                         <c:if test="${not empty requestScope.invalidInformation}">
-                            <li style="color: red"><ftm:message key="${requestScope.invalidInformation}"/></li></c:if>
+                            <li style="color: red"><ftm:message key="${requestScope.invalidInformation}"/></li>
+                        </c:if>
                     </td>
                 </tr>
                 <tr>
@@ -42,9 +43,16 @@
                     <td><input type="text" name="email" value="${user.email}"></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><c:if test="${not empty requestScope.mobile_phoneIncorrect || not empty requestScope.mobile_phoneLengthIncorrect}">
+                    <td colspan="2">
+                        <c:if test="${not empty requestScope.mobile_phoneIncorrect}">
                         <li style="color: red">
-                        <ftm:message key="mobileNumber.incorrect"/></c:if></td>
+                                <ftm:message key="${requestScope.mobile_phoneIncorrect}"/>
+                            </c:if>
+                            <c:if test="${not empty requestScope.mobile_phoneLengthIncorrect}">
+                        <li style="color: red">
+                                <ftm:message key="${requestScope.mobile_phoneLengthIncorrect}"/>
+                            </c:if>
+                    </td>
                 </tr>
                 <tr>
                     <th align="right"><ftm:message key="new.phone"/></th>
