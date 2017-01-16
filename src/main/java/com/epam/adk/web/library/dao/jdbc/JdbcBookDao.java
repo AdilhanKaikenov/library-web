@@ -54,23 +54,15 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
             while (resultSet.next()) {
                 Book book = new Book();
                 log.debug("Creating book getFromValue resultSet");
-                log.debug("set id");
                 book.setId(resultSet.getInt(ID_COLUMN_NAME));
-                log.debug("set title");
                 book.setTitle(resultSet.getString(TITLE_COLUMN_NAME));
-                log.debug("set cover");
                 book.setCover(resultSet.getString(COVER_COLUMN_NAME));
-                log.debug("set author");
                 Author authorInstance = new Author();
                 authorInstance.setName(resultSet.getString(AUTHOR_COLUMN_NAME));
                 book.setAuthor(readAuthorByName(authorInstance));
-                log.debug("set publish year");
                 book.setPublishYear(Year.of(resultSet.getInt(PUBLISH_YEAR_COLUMN_NAME)));
-                log.debug("set genre");
                 book.setGenre(Genre.getFromValue(resultSet.getString(GENRE_COLUMN_NAME)));
-                log.debug("set description");
                 book.setDescription(resultSet.getString(DESCRIPTION_COLUMN_NAME));
-                log.debug("set total amount");
                 book.setTotalAmount(resultSet.getInt(TOTAL_AMOUNT_COLUMN_NAME));
                 log.debug("Book successfully created in createListFrom() method. Book id = {}", book.getId());
                 result.add(book);
@@ -166,23 +158,14 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     protected PreparedStatement setFieldsInUpdateByEntityPreparedStatement(PreparedStatement preparedStatement, Book book) throws DaoException {
         log.debug("Entering JdbcBookDao class, setFieldsInUpdateByEntityPreparedStatement() method.");
         try {
-            log.debug("Set title: {}", book.getTitle());
             preparedStatement.setString(FIRST_PARAMETER_INDEX, book.getTitle());
-            log.debug("Set cover: {}", book.getCover());
             preparedStatement.setString(SECOND_PARAMETER_INDEX, book.getCover());
-            log.debug("Set author: {}", book.getAuthor());
             preparedStatement.setInt(THIRD_PARAMETER_INDEX, book.getAuthor().getId());
-            log.debug("Set publish year: {}", book.getPublishYear());
             preparedStatement.setInt(FOURTH_PARAMETER_INDEX, book.getPublishYear().getValue());
-            log.debug("Set genre: {}", book.getGenre());
             preparedStatement.setInt(FIFTH_PARAMETER_INDEX, book.getGenre().ordinal());
-            log.debug("Set description: length = {}", book.getDescription().length());
             preparedStatement.setString(SIXTH_PARAMETER_INDEX, book.getDescription());
-            log.debug("Set total amount: {}", book.getTotalAmount());
             preparedStatement.setInt(SEVENTH_PARAMETER_INDEX, book.getTotalAmount());
-            log.debug("Set boolean, is deleted: {}", book.isDeleted());
             preparedStatement.setBoolean(EIGHTH_PARAMETER_INDEX, book.isDeleted());
-            log.debug("Set id: {}", book.getId());
             preparedStatement.setInt(NINTH_PARAMETER_INDEX, book.getId());
             log.debug("Leaving JdbcBookDao class, setFieldsInUpdateByEntityPreparedStatement() method.");
         } catch (SQLException e) {
@@ -195,24 +178,17 @@ public class JdbcBookDao extends JdbcDao<Book> implements BookDao {
     protected PreparedStatement setFieldsInCreatePreparedStatement(PreparedStatement preparedStatement, Book book) throws DaoException {
         log.debug("Entering JdbcBookDao class, setFieldsInCreatePreparedStatement() method.");
         try {
-            log.debug("Set title: {}", book.getTitle());
             preparedStatement.setString(FIRST_PARAMETER_INDEX, book.getTitle());
-            log.debug("Set author: {}", book.getAuthor());
             Author authorInstance = book.getAuthor();
             Author author = readAuthorByName(authorInstance);
             if (author == null){
                 author = createAuthor(authorInstance);
             }
             preparedStatement.setInt(SECOND_PARAMETER_INDEX, author.getId());
-            log.debug("Set publish year: {}", book.getPublishYear());
             preparedStatement.setInt(THIRD_PARAMETER_INDEX, book.getPublishYear().getValue());
-            log.debug("Set genre: {}", book.getGenre());
             preparedStatement.setInt(FOURTH_PARAMETER_INDEX, book.getGenre().ordinal());
-            log.debug("Set description: length = {}", book.getDescription().length());
             preparedStatement.setString(FIFTH_PARAMETER_INDEX, book.getDescription());
-            log.debug("Set total amount: {}", book.getTotalAmount());
             preparedStatement.setInt(SIXTH_PARAMETER_INDEX, book.getTotalAmount());
-            log.debug("Set cover: {}", book.getCover());
             preparedStatement.setString(SEVENTH_PARAMETER_INDEX, book.getCover());
             log.debug("Leaving JdbcBookDao class, setFieldsInCreatePreparedStatement() method.");
         } catch (SQLException e) {

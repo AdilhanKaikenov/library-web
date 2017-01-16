@@ -46,27 +46,17 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
             while (resultSet.next()) {
                 Comment comment = new Comment();
                 log.debug("Creating comment getFromValue resultSet");
-                log.debug("set id");
                 comment.setId(resultSet.getInt(ID_COLUMN_NAME));
                 User user = new User();
-                log.debug("set user id");
                 user.setId(resultSet.getInt(USER_ID_COLUMN_NAME));
-                log.debug("set user login");
                 user.setLogin(resultSet.getString(LOGIN_COLUMN_NAME));
-                log.debug("set firstname");
                 user.setFirstname(resultSet.getString(FIRSTNAME_COLUMN_NAME));
-                log.debug("set surname");
                 user.setSurname(resultSet.getString(SURNAME_COLUMN_NAME));
-                log.debug("set user");
                 comment.setUser(user);
                 Book book = new Book();
-                log.debug("set book id");
                 book.setId(resultSet.getInt(BOOK_ID_COLUMN_NAME));
-                log.debug("set book");
                 comment.setBook(book);
-                log.debug("set time");
                 comment.setTime(resultSet.getTimestamp(DATE_COLUMN_NAME));
-                log.debug("set text");
                 comment.setText(resultSet.getString(TEXT_COLUMN_NAME));
                 log.debug("Comment successfully created in createListFrom() method. Comment id = {}", comment.getId());
                 result.add(comment);
@@ -82,13 +72,9 @@ public class JdbcCommentDao extends JdbcDao<Comment> implements CommentDao {
     protected PreparedStatement setFieldsInCreatePreparedStatement(PreparedStatement preparedStatement, Comment comment) throws DaoException {
         log.debug("Entering JdbcCommentDao class, setFieldsInCreatePreparedStatement() method.");
         try {
-            log.debug("Set user ID: {}", comment.getUser().getId());
             preparedStatement.setInt(FIRST_PARAMETER_INDEX, comment.getUser().getId());
-            log.debug("Set book ID: {}", comment.getBook().getId());
             preparedStatement.setInt(SECOND_PARAMETER_INDEX, comment.getBook().getId());
-            log.debug("Set time: {}", comment.getTime());
             preparedStatement.setTimestamp(THIRD_PARAMETER_INDEX, comment.getTime());
-            log.debug("Set text:length = {}", comment.getText().length());
             preparedStatement.setString(FOURTH_PARAMETER_INDEX, comment.getText());
             log.debug("Leaving JdbcCommentDao class, setFieldsInCreatePreparedStatement() method.");
         } catch (SQLException e) {

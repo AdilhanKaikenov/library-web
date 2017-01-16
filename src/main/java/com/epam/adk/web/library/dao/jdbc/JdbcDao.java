@@ -356,7 +356,6 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     protected PreparedStatement setFieldInReadByIdPreparedStatement(PreparedStatement preparedStatement, int id) throws DaoException {
         log.debug("Entering JdbcDao class, setFieldInReadByIdPreparedStatement() method. ID = {}", id);
         try {
-            log.debug("Set id: {}", id);
             preparedStatement.setInt(FIRST_PARAMETER_INDEX, id);
             log.debug("Leaving JdbcDao class, setFieldInReadByIdPreparedStatement() method.");
         } catch (SQLException e) {
@@ -368,7 +367,6 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     private PreparedStatement setFieldsInDeleteByIdParameter(PreparedStatement preparedStatement, int id) throws DaoException {
         log.debug("Entering JdbcDao class, setFieldsInDeleteByIdParameter() method. ID = {}", id);
         try {
-            log.debug("Set id: {}", id);
             preparedStatement.setInt(FIRST_PARAMETER_INDEX, id);
             log.debug("Leaving JdbcDao class, setFieldsInDeleteByIdParameter() method.");
         } catch (SQLException e) {
@@ -381,9 +379,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     protected PreparedStatement setFieldsInReadRangePreparedStatement(PreparedStatement preparedStatement, int offset, int limit) throws DaoException {
         log.debug("Entering JdbcDao class, setFieldsInReadRangePreparedStatement() method.");
         try {
-            log.debug("Set limit: {}", limit);
             preparedStatement.setInt(FIRST_PARAMETER_INDEX, limit);
-            log.debug("Set offset: {}", offset);
             preparedStatement.setInt(SECOND_PARAMETER_INDEX, offset);
             log.debug("Leaving JdbcDao class, setFieldsInReadRangePreparedStatement() method.");
         } catch (SQLException e) {
@@ -395,11 +391,8 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     protected PreparedStatement setFieldsInReadRangeByIdParameterPreparedStatement(PreparedStatement preparedStatement, int id, int offset, int limit) throws DaoException {
         log.debug("Entering JdbcDao class, setFieldsInReadRangeByIdParameterPreparedStatement() method.");
         try {
-            log.debug("Set id: {}", id);
             preparedStatement.setInt(FIRST_PARAMETER_INDEX, id);
-            log.debug("Set limit: {}", limit);
             preparedStatement.setInt(SECOND_PARAMETER_INDEX, limit);
-            log.debug("Set offset: {}", offset);
             preparedStatement.setInt(THIRD_PARAMETER_INDEX, offset);
             log.debug("Leaving JdbcDao class, setFieldsInReadRangeByIdParameterPreparedStatement() method.");
         } catch (SQLException e) {
@@ -411,7 +404,6 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     protected PreparedStatement setFieldInCountNumberRowsByIdPreparedStatement(PreparedStatement preparedStatement, int id) throws DaoException {
         log.debug("Entering JdbcDao class, setFieldInCountNumberRowsByIdPreparedStatement() method.");
         try {
-            log.debug("Set id: {}", id);
             preparedStatement.setInt(FIRST_PARAMETER_INDEX, id);
             log.debug("Leaving JdbcDao class, setFieldInCountNumberRowsByIdPreparedStatement() method.");
         } catch (SQLException e) {
@@ -423,7 +415,6 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     protected PreparedStatement setFieldInReadAllByIdParameterPreparedStatement(PreparedStatement preparedStatement, int id) throws DaoException {
         log.debug("Entering JdbcDao class, setFieldInReadAllByIdParameterPreparedStatement() method.");
         try {
-            log.debug("Set id: {}", id);
             preparedStatement.setInt(FIRST_PARAMETER_INDEX, id);
             log.debug("Leaving JdbcDao class, setFieldInReadAllByIdParameterPreparedStatement() method.");
         } catch (SQLException e) {
@@ -435,7 +426,6 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     protected PreparedStatement setFieldsInDeleteByEntityStatement(PreparedStatement preparedStatement, T entity) throws DaoException {
         log.debug("Entering JdbcDao class, setFieldsInDeleteByEntityStatement() method.");
         try {
-            log.debug("Set entity id: {}", entity.getId());
             preparedStatement.setInt(FIRST_PARAMETER_INDEX, entity.getId());
             log.debug("Leaving JdbcDao class, setFieldsInDeleteByEntityStatement() method.");
         } catch (SQLException e) {

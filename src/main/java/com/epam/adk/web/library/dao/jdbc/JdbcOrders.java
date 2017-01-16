@@ -50,36 +50,21 @@ public class JdbcOrders extends JdbcDao<Order> implements OrdersDao {
             while (resultSet.next()) {
                 Order order = new Order();
                 log.debug("Creating order getFromValue resultSet");
-                log.debug("set id");
                 order.setId(resultSet.getInt(ORDER_ID_COLUMN_NAME));
                 User user = new User();
-                log.debug("set user id");
                 user.setId(resultSet.getInt(USER_ID_COLUMN_NAME));
-                log.debug("set user login");
                 user.setLogin(resultSet.getString(LOGIN_COLUMN_NAME));
-                log.debug("set firstname");
                 user.setFirstname(resultSet.getString(FIRSTNAME_COLUMN_NAME));
-                log.debug("set surname");
                 user.setSurname(resultSet.getString(SURNAME_COLUMN_NAME));
-                log.debug("set patronymic");
                 user.setPatronymic(resultSet.getString(PATRONYMIC_COLUMN_NAME));
-                log.debug("set address");
                 user.setAddress(resultSet.getString(ADDRESS_COLUMN_NAME));
-                log.debug("set email");
                 user.setEmail(resultSet.getString(EMAIL_COLUMN_NAME));
-                log.debug("set mobile phone");
                 user.setMobilePhone(resultSet.getString(MOBILE_PHONE_COLUMN_NAME));
-                log.debug("set user");
                 order.setUser(user);
-                log.debug("set order type");
                 order.setOrderType(OrderType.getFromValue(resultSet.getString(ORDER_TYPE_COLUMN_NAME)));
-                log.debug("set order date");
                 order.setOrderDate(resultSet.getDate(ORDER_DATE_COLUMN_NAME));
-                log.debug("set date getFromValue");
                 order.setFrom(resultSet.getDate(DATE_FROM_COLUMN_NAME));
-                log.debug("set date to");
                 order.setTo(resultSet.getDate(DATE_TO_COLUMN_NAME));
-                log.debug("set status");
                 order.setStatus(resultSet.getBoolean(STATUS_COLUMN_NAME));
                 log.debug("Order successfully created in createFrom() method. Order id = {}", order.getId());
                 result.add(order);
@@ -99,7 +84,6 @@ public class JdbcOrders extends JdbcDao<Order> implements OrdersDao {
         ResultSet resultSet = null;
         try {
             preparedStatement = getConnection().prepareStatement(SELECT_COUNT_BY_STATUS_QUERY);
-            log.debug("Set order status: {}",status);
             preparedStatement.setBoolean(FIRST_PARAMETER_INDEX, status);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -122,11 +106,8 @@ public class JdbcOrders extends JdbcDao<Order> implements OrdersDao {
         ResultSet resultSet = null;
         try {
             preparedStatement = getConnection().prepareStatement(SELECT_COLUMNS_PART + SELECT_RANGE_BY_STATUS_QUERY);
-            log.debug("Set order status: {}",status);
             preparedStatement.setBoolean(FIRST_PARAMETER_INDEX, status);
-            log.debug("Set limit: {}", limit);
             preparedStatement.setInt(SECOND_PARAMETER_INDEX, limit);
-            log.debug("Set offset: {}", offset);
             preparedStatement.setInt(THIRD_PARAMETER_INDEX, offset);
             resultSet = preparedStatement.executeQuery();
             result = createListFrom(resultSet);
@@ -143,13 +124,9 @@ public class JdbcOrders extends JdbcDao<Order> implements OrdersDao {
     protected PreparedStatement setFieldsInUpdateByEntityPreparedStatement(PreparedStatement preparedStatement, Order order) throws DaoException {
         log.debug("Entering JdbcOrders class, setFieldsInUpdateByEntityPreparedStatement() method.");
         try {
-            log.debug("Set order date getFromValue: {}", order.getFrom());
             preparedStatement.setDate(FIRST_PARAMETER_INDEX, order.getFrom());
-            log.debug("Set order date to: {}", order.getTo());
             preparedStatement.setDate(SECOND_PARAMETER_INDEX, order.getTo());
-            log.debug("Set order status: {}", order.isStatus());
             preparedStatement.setBoolean(THIRD_PARAMETER_INDEX, order.isStatus());
-            log.debug("Set order id: {}", order.getId());
             preparedStatement.setInt(FOURTH_PARAMETER_INDEX, order.getId());
             log.debug("Leaving JdbcOrders class, setFieldsInUpdateByEntityPreparedStatement() method.");
         } catch (SQLException e) {
@@ -162,15 +139,10 @@ public class JdbcOrders extends JdbcDao<Order> implements OrdersDao {
     protected PreparedStatement setFieldsInCreatePreparedStatement(PreparedStatement preparedStatement, Order order) throws DaoException {
         log.debug("Entering JdbcOrders class, setFieldsInCreatePreparedStatement() method.");
         try {
-            log.debug("Set user ID: {}", order.getUser().getId());
             preparedStatement.setInt(FIRST_PARAMETER_INDEX, order.getUser().getId());
-            log.debug("Set order type: {}", order.getOrderType().getValue());
             preparedStatement.setInt(SECOND_PARAMETER_INDEX, order.getOrderType().ordinal());
-            log.debug("Set order date: {}", order.getOrderDate());
             preparedStatement.setDate(THIRD_PARAMETER_INDEX, order.getOrderDate());
-            log.debug("Set order date getFromValue: {}", order.getFrom());
             preparedStatement.setDate(FOURTH_PARAMETER_INDEX, order.getFrom());
-            log.debug("Set order date to: {}", order.getTo());
             preparedStatement.setDate(FIFTH_PARAMETER_INDEX, order.getTo());
             log.debug("Leaving JdbcOrders class, setFieldsInCreatePreparedStatement() method.");
         } catch (SQLException e) {
