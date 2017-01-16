@@ -5,6 +5,7 @@ import com.epam.adk.web.library.exception.FormValidationException;
 import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.User;
 import com.epam.adk.web.library.service.UserService;
+import com.epam.adk.web.library.util.MD5;
 import com.epam.adk.web.library.validator.FormValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +49,7 @@ public class EditProfileAction implements Action {
 
         if (isFormInvalid(request)) return EDIT_PROFILE_PAGE_NAME;
 
-        user.setPassword(password);
+        user.setPassword(MD5.get(password));
         user.setEmail(email);
         user.setAddress(address);
         user.setMobilePhone(mobilePhone);

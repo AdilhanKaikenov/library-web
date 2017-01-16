@@ -42,9 +42,9 @@
                     <td><input type="text" name="email" value="${user.email}"></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><c:if test="${not empty requestScope.mobile_phoneIncorrect}">
+                    <td colspan="2"><c:if test="${not empty requestScope.mobile_phoneIncorrect || not empty requestScope.mobile_phoneLengthIncorrect}">
                         <li style="color: red">
-                        <ftm:message key="${requestScope.mobile_phoneIncorrect}"/></c:if></td>
+                        <ftm:message key="mobileNumber.incorrect"/></c:if></td>
                 </tr>
                 <tr>
                     <th align="right"><ftm:message key="new.phone"/></th>
@@ -69,6 +69,7 @@
                                            onclick="return confirm('<ftm:message key="warning.change"/>')"></td>
                 </tr>
             </table>
+        </form>
     </div>
 </t:page>
 
