@@ -29,7 +29,6 @@ public class BookAboutAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(BookAboutAction.class);
 
-    private static final int DEFAULT_PAGE_NUMBER = 1;
     private static final int LINE_PER_PAGE_NUMBER = 4;
     private static final String BOOK_REQUEST_ATTRIBUTE = "book";
     private static final String BOOK_ORDERED_REQUEST_ATTRIBUTE = "bookOrdered";
@@ -58,7 +57,10 @@ public class BookAboutAction implements Action {
         try {
             Book book = bookService.getBookById(bookID);
 
-            int pageNumber = getPageNumber(request, commentService, ordersBooksService, book);
+            int availableBookAmount = ordersBooksService.getAvailableBookAmount(book.getId());
+
+            Pagination pagination = new Pagination();
+            int pageNumber = pagination.getPageNumber(request, availableBookAmount, LINE_PER_PAGE_NUMBER);
 
             List<Comment> bookComments = commentService.getPaginatedComments(bookID, pageNumber, LINE_PER_PAGE_NUMBER);
             if (!bookComments.isEmpty()) {
@@ -66,6 +68,9 @@ public class BookAboutAction implements Action {
             }
 
             proceedTo(request, user, ordersBooksService, book);
+
+            request.setAttribute(BOOK_REQUEST_ATTRIBUTE, book);
+            request.setAttribute(AVAILABLE_BOOK_AMOUNT_REQUEST_ATTRIBUTE, availableBookAmount);
 
         } catch (ServiceException e) {
             throw new ActionException("Error: BookAboutAction class, execute() method. Can not give info about book:", e);
@@ -91,27 +96,6 @@ public class BookAboutAction implements Action {
                 request.setAttribute(BOOK_ADDED_TO_ORDER_REQUEST_ATTRIBUTE, BOOK_ADDED_TO_ORDER_STORED_MESSAGE);
             }
         }
-    }
-
-    private int getPageNumber(HttpServletRequest request, CommentService commentService, OrdersBooksService ordersBooksService, Book book) throws ServiceException {
-        int page = DEFAULT_PAGE_NUMBER;
-        String pageParameter = request.getParameter(PAGE_PARAMETER);
-        if (pageParameter != null) {
-            page = Integer.parseInt(pageParameter);
-            log.debug("Page #{}", page);
-        }
-
-        int availableBookAmount = ordersBooksService.getAvailableBookAmount(book.getId());
-        int commentsNumber = commentService.getCommentsNumberByBookId(book.getId());
-        log.debug("Total comments number = {}", commentsNumber);
-        Pagination pagination = new Pagination();
-        int pagesNumber = pagination.getPagesNumber(commentsNumber, LINE_PER_PAGE_NUMBER);
-        log.debug("Total pages number = {}", pagesNumber);
-
-        request.setAttribute(BOOK_REQUEST_ATTRIBUTE, book);
-        request.setAttribute(PAGES_NUMBER_REQUEST_ATTRIBUTE, pagesNumber);
-        request.setAttribute(AVAILABLE_BOOK_AMOUNT_REQUEST_ATTRIBUTE, availableBookAmount);
-        return page;
     }
 
     private OrderBook createOrderBook(User user, Book book) {

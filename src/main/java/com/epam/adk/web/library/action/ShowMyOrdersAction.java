@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-import static com.epam.adk.web.library.util.ConstantsHolder.*;
+import static com.epam.adk.web.library.util.ConstantsHolder.USER_PARAMETER;
 
 /**
  * BookAboutAction class created on 06.12.2016
@@ -25,7 +25,6 @@ public class ShowMyOrdersAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(ShowMyOrdersAction.class);
 
-    private static final int DEFAULT_PAGE_NUMBER = 1;
     private static final int LINE_PER_PAGE_NUMBER = 5;
     private static final String USER_ORDERS_PAGE_NAME = "my-orders";
     private static final String USER_ORDERS_REQUEST_ATTRIBUTE = "userOrders";
@@ -43,9 +42,12 @@ public class ShowMyOrdersAction implements Action {
         OrdersService ordersService = new OrdersService();
 
         try {
-            int page = getPageNumber(request, userID, ordersService);
+            int userOrdersNumber = ordersService.getOrdersNumberByUserID(userID);
 
-            List<Order> userOrders = ordersService.getPaginatedUserOrders(userID, page, LINE_PER_PAGE_NUMBER);
+            Pagination pagination = new Pagination();
+            int pageNumber = pagination.getPageNumber(request, userOrdersNumber, LINE_PER_PAGE_NUMBER);
+
+            List<Order> userOrders = ordersService.getPaginatedUserOrders(userID, pageNumber, LINE_PER_PAGE_NUMBER);
             if (!userOrders.isEmpty()) {
                 request.setAttribute(USER_ORDERS_REQUEST_ATTRIBUTE, userOrders);
             }
@@ -54,21 +56,5 @@ public class ShowMyOrdersAction implements Action {
             throw new ActionException("Error: ShowMyOrdersAction class, execute() method.", e);
         }
         return USER_ORDERS_PAGE_NAME;
-    }
-
-    private int getPageNumber(HttpServletRequest request, int userID, OrdersService ordersService) throws ServiceException {
-        int page = DEFAULT_PAGE_NUMBER;
-        String pageParameter = request.getParameter(PAGE_PARAMETER);
-        if (pageParameter != null) {
-            page = Integer.parseInt(pageParameter);
-            log.debug("Page #{}", page);
-        }
-        int userOrdersNumber = ordersService.getOrdersNumberByUserID(userID);
-        log.debug("Total orders number = {}", userOrdersNumber);
-        Pagination pagination = new Pagination();
-        int pagesNumber = pagination.getPagesNumber(userOrdersNumber, LINE_PER_PAGE_NUMBER);
-        log.debug("Total pages number = {}", pagesNumber);
-        request.setAttribute(PAGES_NUMBER_REQUEST_ATTRIBUTE, pagesNumber);
-        return page;
     }
 }
