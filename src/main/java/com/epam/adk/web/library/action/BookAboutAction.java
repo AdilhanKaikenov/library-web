@@ -58,9 +58,10 @@ public class BookAboutAction implements Action {
             Book book = bookService.getBookById(bookID);
 
             int availableBookAmount = ordersBooksService.getAvailableBookAmount(book.getId());
+            int commentsNumber = commentService.getCommentsNumberByBookId(book.getId());
 
             Pagination pagination = new Pagination();
-            int pageNumber = pagination.getPageNumber(request, availableBookAmount, LINE_PER_PAGE_NUMBER);
+            int pageNumber = pagination.getPageNumber(request, commentsNumber, LINE_PER_PAGE_NUMBER);
 
             List<Comment> bookComments = commentService.getPaginatedComments(bookID, pageNumber, LINE_PER_PAGE_NUMBER);
             if (!bookComments.isEmpty()) {

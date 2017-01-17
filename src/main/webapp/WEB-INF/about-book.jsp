@@ -72,18 +72,18 @@
             <ftm:message key="anon.send.comment.requirement.message"/>
         </c:if>
     </div>
-    <div class="comment-pagination-section" align="center">
-            <%--@elvariable id="pagesNumber" type="java.lang.Integer"--%>
-        <c:if test="${pagesNumber != 1}">
-            <c:forEach var="i" begin="${1}" end="${pagesNumber}">
-                <%--@elvariable id="genreID" type="java.lang.Integer"--%>
-                <a href="${base}/do/?action=about-book&bookID=${book.id}&page=${i}"
-                   class="link-style">${i}</a>
-            </c:forEach>
-        </c:if>
-    </div>
     <%--@elvariable id="bookComments" type="java.util.List"--%>
     <c:if test="${not empty bookComments}">
+        <div class="comment-pagination-section" align="center">
+                <%--@elvariable id="pagesNumber" type="java.lang.Integer"--%>
+            <c:if test="${pagesNumber != 1}">
+                <c:forEach var="i" begin="${1}" end="${pagesNumber}">
+                    <%--@elvariable id="genreID" type="java.lang.Integer"--%>
+                    <a href="${base}/do/?action=about-book&bookID=${book.id}&page=${i}"
+                       class="link-style">${i}</a>
+                </c:forEach>
+            </c:if>
+        </div>
         <div class="book-comments-section">
             <c:forEach items="${bookComments}" var="comment">
                 <%--@elvariable id="comment" type="com.epam.adk.web.library.model.Comment"--%>
