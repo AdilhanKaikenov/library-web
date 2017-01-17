@@ -54,7 +54,8 @@ public final class ConnectionPool {
             log.debug("Creating connection pool.");
             log.debug("Database driver: {}", h2Driver);
             Class.forName(h2Driver);
-            freeConnections = new ArrayBlockingQueue<>(maxPoolSize, true);
+            boolean isFair = true;
+            freeConnections = new ArrayBlockingQueue<>(maxPoolSize, isFair);
             for (int i = 0; i < defaultPoolSize; i++) {
                 Connection connection = newConnection();
                 freeConnections.add(connection);
