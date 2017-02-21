@@ -51,8 +51,7 @@
                 <tr>
                     <td><ftm:message key="short.book.info.header"/>:</td>
                     <td><textarea style="resize: none;overflow: hidden;text-overflow: ellipsis;" type="text"
-                                  name="description" cols="100" rows="4" minlength="30" maxlength="1500"
-                                  required></textarea></td>
+                                  name="description" cols="100" rows="4" maxlength="1500"></textarea></td>
                 </tr>
                 <tr>
                     <td><ftm:message key="book.amount"/></td>

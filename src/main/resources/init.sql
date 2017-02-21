@@ -39,7 +39,7 @@ CREATE TABLE PUBLIC.book
   author INT NOT NULL,
   publish_year INT NOT NULL,
   genre INT NOT NULL,
-  description VARCHAR(1500) NOT NULL,
+  description VARCHAR(1600) NOT NULL,
   total_amount INT NOT NULL,
   deleted BOOLEAN DEFAULT FALSE
 );
