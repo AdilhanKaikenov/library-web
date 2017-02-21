@@ -18,7 +18,7 @@
             <table>
                 <tr>
                     <td><ftm:message key="book.title"/></td>
-                    <td><input name="title" type="text" size="50" value="${param.title}" required></td>
+                    <td><input name="title" type="text" size="50" maxlength="95" value="${param.title}" required></td>
                 </tr>
                 <tr>
                     <td colspan="2"><c:if test="${not empty requestScope.fileSizeIncorrect}">
@@ -27,11 +27,11 @@
                 </tr>
                 <tr>
                     <td><ftm:message key="book.cover.field"/></td>
-                    <td><input name="cover" type="file" accept="image/jpeg,image/png"></td>
+                    <td><input name="cover" type="file" accept="image/jpeg,image/png" required></td>
                 </tr>
                 <tr>
                     <td><ftm:message key="book.author.field"/></td>
-                    <td><input name="author" type="text" size="50" value="${param.author}" required></td>
+                    <td><input name="author" type="text" size="50" maxlength="90" value="${param.author}" required></td>
                 </tr>
                 <tr>
                     <td><ftm:message key="book.publish.year.field"/></td>
