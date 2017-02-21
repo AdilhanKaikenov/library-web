@@ -31,6 +31,8 @@ public class BookSearchAction implements Action {
 
         String dataForSearch = request.getParameter(DATA_FOR_SEARCH_PARAMETER);
         log.debug("Data for searching = {}", dataForSearch);
+        log.debug("Request parameters valid.");
+
         BookService bookService = new BookService();
 
         try {

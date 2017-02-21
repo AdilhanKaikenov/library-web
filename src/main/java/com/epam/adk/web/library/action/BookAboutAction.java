@@ -49,6 +49,7 @@ public class BookAboutAction implements Action {
 
         int bookID = Integer.parseInt(request.getParameter(BOOK_ID_PARAMETER));
         log.debug("Book ID = {}", bookID);
+        log.debug("Request parameters valid.");
 
         BookService bookService = new BookService();
         CommentService commentService = new CommentService();

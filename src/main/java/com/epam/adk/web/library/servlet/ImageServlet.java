@@ -72,10 +72,10 @@ public final class ImageServlet extends HttpServlet {
             return;
         }
 
-        String format = image.substring(image.indexOf(DOT) + 1); // obtaining picture format getFromValue the name
+        String format = image.substring(image.indexOf(DOT) + 1); // obtaining picture format from the name
         String contentType = contentTypes.get(format);
 
-        log.trace("ImageServlet class, doGet() method: format = {}, contentType = {}", format, contentType);
+        log.debug("ImageServlet class, doGet() method: format = {}, contentType = {}", format, contentType);
 
         if (contentType != null) {
             response.setContentType(contentType);

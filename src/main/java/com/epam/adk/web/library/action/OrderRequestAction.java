@@ -76,6 +76,7 @@ public class OrderRequestAction implements Action {
         order.setUser(user);
         order.setOrderDate(orderDate);
         order.setOrderType(orderType);
+        log.debug("New Order created.");
         return order;
     }
 

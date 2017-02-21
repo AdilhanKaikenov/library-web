@@ -28,6 +28,7 @@ public class RejectOrderAction implements Action {
 
         int orderID = Integer.parseInt(request.getParameter(ORDER_ID_PARAMETER));
         log.debug("Order ID = {}", orderID);
+        log.debug("Request parameters valid.");
 
         OrdersService ordersService = new OrdersService();
 

@@ -42,6 +42,8 @@ public class CommentAction implements Action {
         User user = ((User) session.getAttribute(USER_PARAMETER));
         int bookID = Integer.parseInt(request.getParameter(BOOK_ID_PARAMETER));
         log.debug("Book ID = {}", bookID);
+        log.debug("Request parameters valid.");
+
         String text = request.getParameter(COMMENT_PARAMETER).replaceAll(REGEX_ENTER, LINE_BREAK_HTML_TAG);
 
         Comment comment = createComment(time, user, bookID, text);
@@ -50,6 +52,7 @@ public class CommentAction implements Action {
 
         try {
             commentService.writeComment(comment);
+            log.debug("New Comment added.");
         } catch (ServiceException e) {
             throw new ActionException("Error: CommentAction class, execute() method. Called CommentService class, writeComment() failed.", e);
         }
@@ -78,6 +81,7 @@ public class CommentAction implements Action {
         comment.setBook(book);
         comment.setTime(time);
         comment.setText(text);
+        log.debug("New Comment created.");
         return comment;
     }
 }

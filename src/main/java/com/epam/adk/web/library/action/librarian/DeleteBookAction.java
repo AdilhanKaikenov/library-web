@@ -34,6 +34,7 @@ public class DeleteBookAction implements Action {
         log.debug("The DeleteBookAction started execute.");
 
         int bookID = Integer.parseInt(request.getParameter(BOOK_ID_PARAMETER));
+        log.debug("Request parameters valid.");
 
         OrdersBooksService ordersBooksService = new OrdersBooksService();
         BookService bookService = new BookService();
@@ -42,6 +43,7 @@ public class DeleteBookAction implements Action {
             int bookOrderNumber = ordersBooksService.getOrdersNumberByBookID(bookID);
 
             if (bookOrderNumber != 0){ // if a book is in the orders
+                log.debug("The book is in the orders. Can not be removed.");
                 request.setAttribute(IMPOSSIBLE_TO_REMOVE_ATTRIBUTE, BOOK_DELETE_FAILED_STORED_MESSAGE);
                 return BOOK_DELETE_RESULT_PAGE_NAME;
             }
@@ -49,7 +51,7 @@ public class DeleteBookAction implements Action {
             Book book = bookService.getBookById(bookID);
             boolean isDeleted = true;
             book.setDeleted(isDeleted);
-
+            log.debug("The book {} has been removed from the catalog.", book.getTitle());
             bookService.updateBook(book);
 
             request.setAttribute(BOOK_DELETED_ATTRIBUTE, BOOK_DELETE_SUCCESS_STORED_MESSAGE);

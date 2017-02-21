@@ -6,8 +6,6 @@ import com.epam.adk.web.library.model.Order;
 import com.epam.adk.web.library.model.User;
 import com.epam.adk.web.library.service.OrdersService;
 import com.epam.adk.web.library.util.Pagination;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,15 +21,12 @@ import static com.epam.adk.web.library.util.ConstantsHolder.USER_PARAMETER;
  **/
 public class ShowMyOrdersAction implements Action {
 
-    private static final Logger log = LoggerFactory.getLogger(ShowMyOrdersAction.class);
-
     private static final int LINE_PER_PAGE_NUMBER = 5;
     private static final String USER_ORDERS_PAGE_NAME = "my-orders";
     private static final String USER_ORDERS_REQUEST_ATTRIBUTE = "userOrders";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
-        log.debug("The ShowMyOrdersAction started execute.");
 
         boolean isCreated = false;
         HttpSession session = request.getSession(isCreated);

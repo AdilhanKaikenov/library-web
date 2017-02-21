@@ -40,6 +40,7 @@ public abstract class AbstractShowOrderProcessPageAction implements Action {
 
         try {
             List<OrderBook> ordersBooks = ordersBooksService.getOrdersBooks(orderID);
+            log.debug("Amount books of order = {}", ordersBooks.size());
             Order order = ordersService.getOrderById(orderID);
 
             request.setAttribute(ORDERS_BOOKS_REQUEST_ATTRIBUTE, ordersBooks);

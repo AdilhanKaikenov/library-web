@@ -5,8 +5,6 @@ import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.Book;
 import com.epam.adk.web.library.service.BookService;
 import com.epam.adk.web.library.util.Pagination;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,14 +19,11 @@ import static com.epam.adk.web.library.util.ConstantsHolder.WELCOME_PAGE;
  */
 public class ShowWelcomeAction implements Action {
 
-    private static final Logger log = LoggerFactory.getLogger(ShowWelcomeAction.class);
-
     private static final int LINE_PER_PAGE_NUMBER = 6;
     private static final String BOOKS_REQUEST_ATTRIBUTE = "books";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
-        log.debug("The ShowWelcomeAction started execute.");
         BookService bookService = new BookService();
 
         try {

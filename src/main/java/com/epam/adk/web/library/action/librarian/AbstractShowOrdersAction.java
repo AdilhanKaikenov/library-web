@@ -33,6 +33,7 @@ public abstract class AbstractShowOrdersAction implements Action {
 
         try {
             int ordersNumber = ordersService.getOrdersNumberByStatus(getOrderStatus());
+            log.debug("Orders number = {}", ordersNumber);
 
             Pagination pagination = new Pagination();
             int pageNumber = pagination.getPageNumber(request, ordersNumber, LINE_PER_PAGE_NUMBER);
@@ -40,6 +41,7 @@ public abstract class AbstractShowOrdersAction implements Action {
             List<Order> orders = ordersService.getPaginatedByOrderStatus(getOrderStatus(), pageNumber, LINE_PER_PAGE_NUMBER);
 
             if (!orders.isEmpty()) {
+                log.debug("There is no one order.");
                 request.setAttribute(ORDERS_REQUEST_ATTRIBUTE, orders);
             }
 

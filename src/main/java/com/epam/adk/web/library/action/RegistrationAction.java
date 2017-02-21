@@ -51,6 +51,7 @@ public class RegistrationAction implements Action {
         log.debug("Address: {}", address);
         String mobilePhone = request.getParameter(MOBILE_PHONE_PARAMETER);
         log.debug("Mobile Phone: {}", mobilePhone);
+        log.debug("Request parameters valid.");
 
         if (isFormInvalid(request)) return REGISTRATION_PAGE_NAME;
 
@@ -67,6 +68,7 @@ public class RegistrationAction implements Action {
             request.setAttribute(USER_EXIST_REQUEST_ATTRIBUTE, USER_EXIST_STORED_MESSAGE);
             return REGISTRATION_PAGE_NAME;
         }
+        log.debug("RegistrationAction success.");
         return REDIRECT_PREFIX + SUCCESS_REGISTRATION_PAGE;
     }
 
@@ -99,6 +101,7 @@ public class RegistrationAction implements Action {
         user.setMobilePhone(mobilePhone);
         boolean isActive = true;
         user.setStatus(isActive);
+        log.debug("New User created.");
         return user;
     }
 }

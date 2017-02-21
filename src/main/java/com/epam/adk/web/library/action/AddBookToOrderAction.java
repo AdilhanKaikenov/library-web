@@ -35,6 +35,8 @@ public class AddBookToOrderAction implements Action {
         User user = ((User) session.getAttribute(USER_PARAMETER));
         int bookID = Integer.parseInt(request.getParameter(BOOK_ID_PARAMETER));
         log.debug("Book ID = {}", bookID);
+        log.debug("Request parameters valid.");
+
         OrderType orderType = OrderType.getFromValue(request.getParameter(ORDER_TYPE_PARAMETER));
         log.debug("Order type = {}", orderType.getValue());
 

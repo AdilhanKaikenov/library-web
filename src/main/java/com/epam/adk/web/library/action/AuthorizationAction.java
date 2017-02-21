@@ -43,6 +43,7 @@ public class AuthorizationAction implements Action {
         String login = request.getParameter(LOGIN_PARAMETER);
         String password = request.getParameter(PASSWORD_PARAMETER);
         log.debug("User login = {}", login);
+        log.debug("Request parameters valid.");
 
         if (isFormInvalid(request)) return AUTHORIZATION_ERROR_PAGE;
 

@@ -34,6 +34,7 @@ public class DeleteBookFromOrderAction implements Action {
         User user = ((User) session.getAttribute(USER_PARAMETER));
         int bookID = Integer.parseInt(request.getParameter(BOOK_ID_PARAMETER));
         log.debug("Book ID = {}", bookID);
+        log.debug("Request parameters valid.");
 
         BookService bookService = new BookService();
 
@@ -45,6 +46,7 @@ public class DeleteBookFromOrderAction implements Action {
 
             if (!readingRoomBooks.remove(book)) {
                 subscriptionBooks.remove(book);
+                log.debug("{} removed from order", book.getTitle());
             }
 
         } catch (ServiceException e) {

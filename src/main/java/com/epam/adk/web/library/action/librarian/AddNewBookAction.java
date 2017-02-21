@@ -46,7 +46,6 @@ public class AddNewBookAction implements Action {
     private static final String FILE_SIZE_INCORRECT_REQUEST_ATTRIBUTE = "fileSizeIncorrect";
     private static final String IMAGE_FILE_SIZE_INCORRECT_STORED_MESSAGE = "image.file.size.incorrect";
 
-
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
         log.debug("The AddNewBookAction started execute.");
@@ -80,6 +79,7 @@ public class AddNewBookAction implements Action {
         log.debug("New book description length: {}", description.length());
         int totalAmount = Integer.parseInt(request.getParameter(TOTAL_AMOUNT_PARAMETER));
         log.debug("New totalAmount title: {}", totalAmount);
+        log.debug("Request parameters valid.");
 
         Book book = createNewBook(cover, title, author, publishYear, genre, description, totalAmount);
 
@@ -103,6 +103,7 @@ public class AddNewBookAction implements Action {
         book.setGenre(genre);
         book.setDescription(description);
         book.setTotalAmount(totalAmount);
+        log.debug("New book created.");
         return book;
     }
 

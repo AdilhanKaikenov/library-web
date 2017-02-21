@@ -34,6 +34,7 @@ public class CategoryAction implements Action {
 
         int genreID = Integer.parseInt(request.getParameter(GENRE_PARAMETER));
         log.debug("Genre ID = {}", genreID);
+        log.debug("Request parameters valid.");
 
         BookService bookService = new BookService();
 

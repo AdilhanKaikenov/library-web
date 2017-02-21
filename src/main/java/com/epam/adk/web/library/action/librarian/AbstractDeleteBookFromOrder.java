@@ -34,6 +34,7 @@ public abstract class AbstractDeleteBookFromOrder implements Action {
         log.debug("Book ID = {}", bookID);
         int orderID = Integer.parseInt(request.getParameter(ORDER_ID_PARAMETER));
         log.debug("Order ID = {}", orderID);
+        log.debug("Request parameters valid.");
 
         OrdersService ordersService = new OrdersService();
 

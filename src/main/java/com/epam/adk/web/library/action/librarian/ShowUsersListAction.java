@@ -6,8 +6,6 @@ import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.User;
 import com.epam.adk.web.library.service.UserService;
 import com.epam.adk.web.library.util.Pagination;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +18,6 @@ import java.util.List;
  **/
 public class ShowUsersListAction implements Action {
 
-    private static final Logger log = LoggerFactory.getLogger(ShowUsersListAction.class);
 
     private static final int LINE_PER_PAGE_NUMBER = 5;
     private static final String USERS_LIST_PAGE_NAME = "users-list";
@@ -28,7 +25,6 @@ public class ShowUsersListAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
-        log.debug("The ShowUsersListAction started execute.");
 
         UserService userService = new UserService();
 
