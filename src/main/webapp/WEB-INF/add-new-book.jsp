@@ -9,16 +9,20 @@
 
 <t:page title="add.new.book">
 
-    <div align="center">
+     <div align="center">
         <h3><ftm:message key="add.new.book"/></h3>
-        <li style="background: goldenrod"><ftm:message key="add.book.requirements.message.one"/></li>
+         <li style="background: goldenrod"><ftm:message key="add.book.requirements.message.one"/></li>
         <li style="background: goldenrod"><ftm:message key="add.book.requirements.message.two"/></li>
         <form action="${base}/do/" method="post" enctype="multipart/form-data">
             <input hidden="hidden" name="action" value="add-new-book"><br>
             <table>
                 <tr>
+                    <td colspan="2"><c:if test="${not empty requestScope.titleLengthIncorrect}">
+                        <li style="color: red"><ftm:message key="${requestScope.titleLengthIncorrect}"/></c:if></td>
+                </tr>
+                <tr>
                     <td><ftm:message key="book.title"/></td>
-                    <td><input name="title" type="text" size="50" maxlength="95" value="${param.title}" required></td>
+                    <td><input name="title" type="text" size="50" value="${param.title}"></td>
                 </tr>
                 <tr>
                     <td colspan="2"><c:if test="${not empty requestScope.fileSizeIncorrect}">
@@ -30,8 +34,12 @@
                     <td><input name="cover" type="file" accept="image/jpeg,image/png" required></td>
                 </tr>
                 <tr>
+                    <td colspan="2"><c:if test="${not empty requestScope.authorLengthIncorrect}">
+                        <li style="color: red"><ftm:message key="${requestScope.authorLengthIncorrect}"/></c:if></td>
+                </tr>
+                <tr>
                     <td><ftm:message key="book.author.field"/></td>
-                    <td><input name="author" type="text" size="50" maxlength="90" value="${param.author}" required></td>
+                    <td><input name="author" type="text" size="50" value="${param.author}"></td>
                 </tr>
                 <tr>
                     <td><ftm:message key="book.publish.year.field"/></td>
@@ -47,6 +55,10 @@
                         <option value="Poetry">Poetry</option>
                         <option value="Science and education">Science and education</option>
                     </select></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><c:if test="${not empty requestScope.descriptionLengthIncorrect}">
+                        <li style="color: red"><ftm:message key="${requestScope.descriptionLengthIncorrect}"/></c:if></td>
                 </tr>
                 <tr>
                     <td><ftm:message key="short.book.info.header"/>:</td>

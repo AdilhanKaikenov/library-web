@@ -2,10 +2,12 @@ package com.epam.adk.web.library.action.librarian;
 
 import com.epam.adk.web.library.action.Action;
 import com.epam.adk.web.library.exception.ActionException;
+import com.epam.adk.web.library.exception.FormValidationException;
 import com.epam.adk.web.library.exception.ServiceException;
 import com.epam.adk.web.library.model.Book;
 import com.epam.adk.web.library.model.enums.Genre;
 import com.epam.adk.web.library.service.BookService;
+import com.epam.adk.web.library.validator.FormValidator;
 import com.epam.adk.web.library.validator.ImageFileSizeValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +42,7 @@ public class AddNewBookAction implements Action {
     private static final String FILENAME_PARAMETER = "filename";
     private static final String DESCRIPTION_PARAMETER = "description";
     private static final String ADD_NEW_BOOK_PAGE_NAME = "add-new-book";
+    private static final String ADD_NEW_BOOK_FORM_NAME = "add.new.book";
     private static final String PUBLISH_YEAR_PARAMETER = "publishYear";
     private static final String TOTAL_AMOUNT_PARAMETER = "totalAmount";
     private static final String CONTENT_DISPOSITION_HEADER = "content-disposition";
@@ -80,6 +83,8 @@ public class AddNewBookAction implements Action {
         int totalAmount = Integer.parseInt(request.getParameter(TOTAL_AMOUNT_PARAMETER));
         log.debug("New totalAmount title: {}", totalAmount);
         log.debug("Request parameters valid.");
+
+        if (isFormInvalid(request)) return ADD_NEW_BOOK_PAGE_NAME;
 
         Book book = createNewBook(cover, title, author, publishYear, genre, description, totalAmount);
 
@@ -129,5 +134,19 @@ public class AddNewBookAction implements Action {
             }
         }
         return "";
+    }
+
+    private boolean isFormInvalid(HttpServletRequest request) throws ActionException {
+        try {
+            FormValidator formValidator = new FormValidator();
+            boolean isInvalid = formValidator.isInvalid(ADD_NEW_BOOK_FORM_NAME, request);
+            log.debug("Add new book form validation, invalid = {}", isInvalid);
+            if (isInvalid) {
+                return true;
+            }
+        } catch (FormValidationException e) {
+            throw new ActionException("Error: AddNewBookAction class. Validation failed:", e);
+        }
+        return false;
     }
 }
