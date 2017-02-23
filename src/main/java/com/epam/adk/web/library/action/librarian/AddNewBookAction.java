@@ -65,7 +65,10 @@ public class AddNewBookAction implements Action {
                 request.setAttribute(FILE_SIZE_INCORRECT_REQUEST_ATTRIBUTE, IMAGE_FILE_SIZE_INCORRECT_STORED_MESSAGE);
                 return ADD_NEW_BOOK_PAGE_NAME;
             }
+            checkFile();
+            log.debug("Transfer cover of the book to a folder.");
             part.write(IMAGE_PATH + File.separator + cover);
+            log.debug("Transferring of cover of the book accomplished successfully.");
         } catch (ServletException | IOException e) {
             throw new ActionException("Error: AddNewBookAction class.", e);
         }
@@ -97,6 +100,18 @@ public class AddNewBookAction implements Action {
         }
 
         return REDIRECT_PREFIX + WELCOME_PAGE;
+    }
+
+    private void checkFile() {
+        File file = new File(IMAGE_PATH);
+        if (file.exists()) {
+            log.debug("The Directory {} exists.", IMAGE_PATH);
+        } else {
+            log.error("The Directory {} does not exists.", IMAGE_PATH);
+            log.debug("Creating the directory {}.", IMAGE_PATH);
+            file.mkdir();
+            log.debug("The directory created.");
+        }
     }
 
     private Book createNewBook(String cover, String title, String author, Year publishYear, Genre genre, String description, int totalAmount) {

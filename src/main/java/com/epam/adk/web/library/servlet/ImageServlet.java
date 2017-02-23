@@ -85,6 +85,10 @@ public final class ImageServlet extends HttpServlet {
 
         File file = new File(imagesPath, image);
 
+        if (!file.exists()){
+            file.mkdir();
+        }
+
         response.setHeader(contentTypeHeaderName, getServletContext().getMimeType(image));
         response.setHeader(contentLengthHeaderName, String.valueOf(file.length()));
         response.setHeader(contentDispositionHeaderName, "inline; filename=\"" + file.getName() + "\"");

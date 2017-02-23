@@ -46,6 +46,7 @@ public class EditProfileAction implements Action {
         log.debug("Address: {}", address);
         String mobilePhone = request.getParameter(MOBILE_PHONE_PARAMETER);
         log.debug("Mobile phone: {}", mobilePhone);
+        log.debug("Request parameters valid.");
 
         if (isFormInvalid(request)) return EDIT_PROFILE_PAGE_NAME;
 
