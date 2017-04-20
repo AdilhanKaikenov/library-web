@@ -27,19 +27,12 @@ public final class ConfigurationListener implements ServletContextListener {
         log.debug("Entering ConfigurationListener class, contextInitialized() method");
         try {
             ConnectionPool.configure();
-            log.debug("ConnectionPool configured");
             JdbcDao.configure();
-            log.debug("JdbcDao configured");
             ActionFactory.configure();
-            log.debug("ActionFactory configured");
             RoleFilter.configure();
-            log.debug("RoleFilter configured");
             FormValidator.configure();
-            log.debug("FormValidator configured");
             FrontControllerServlet.configure();
-            log.debug("FrontControllerServlet configured");
             ImageServlet.configure();
-            log.debug("ImageServlet configured");
         } catch (Exception e) {
             log.error("Error: ConfigurationListener class, called configure{} method failed.", e);
         }
